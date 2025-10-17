@@ -11,10 +11,10 @@
      position: relative;
  }
 .button:hover .button-image {
-    filter: drop-shadow(0px 0px 5px black);
+     filter: invert(0.4);
  }
 .button-image {
-     width: 50vw;
+     width: 300px;
  }
 </style>
      
