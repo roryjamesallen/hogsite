@@ -1,6 +1,10 @@
 <style>
+body {
+     margin: 0;
+ }
 .button-container {
      display: flex;
+    flex-wrap: wrap;
      gap: 10px;
      justify-content: center;
      padding: 50px;
@@ -18,7 +22,7 @@
 </style>
      
 <div class="button-container">
-     <img style="flex-basis: 100%;" src="images/hogwilduk-banner.png"></img>
+     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
      <a class="button" href="https://notoalgorithms.hogwild.uk">
      <img src="images/buttons/notoalgorithms.png" class="button-image">
