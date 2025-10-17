@@ -2,5 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/wildhog/public_html/
-    - /bin/cp index.php $DEPLOYPATH
-    - /bin/cp style.css $DEPLOYPATH
+    - /bin/cp /home/wildhog/hogsite/index.php $DEPLOYPATH
