@@ -3,7 +3,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link rel="shortcut icon" href="/favicon/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="MyWebSite" />
+<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
 <link rel="manifest" href="/favicon/site.webmanifest" />
      </head>
 
