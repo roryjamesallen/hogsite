@@ -8,9 +8,9 @@ if ($_SERVER
 	$password = '';
 	$db = 'nothingeverhappens';
 } else {
-	$user = 'allensyn_nothingeverhappens';
+	$user = 'wildhog_nothingeverhappens';
 	$password = '92*Y&B9843by8Y@(&6t@';
-	$db = 'allensyn_nothingeverhappens';
+	$db = 'wildhog_nothingeverhappens';
 }
 $conn = mysqli_connect('localhost', $user, $password, $db) or die("Couldn't connect to database");
 $page_url = $_SERVER['REQUEST_URI'];
