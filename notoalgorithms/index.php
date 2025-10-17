@@ -330,7 +330,7 @@ $buffer = ob_get_clean();
     <!DOCTYPE html> 
 <html lang="en">
 	<head>
-        <base href="https://hogwild.uk/">
+       
 		<title>no to algorithms!</title>
     <meta charset="UTF-8"> 
 		<meta name="description" content="no to algorithms! human only music recommendations">
