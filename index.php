@@ -1,2 +1,1 @@
-<h1>yehaww suckaaa</h1>
-    <p>new change</p>
+<img style="position: absolute; top: 0; left: 0; width: 100vw;height: 100vh;" src="images/smoking_hog.jpg"></img>
