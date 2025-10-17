@@ -3,4 +3,5 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/wildhog/public_html/
     - /bin/cp /home/wildhog/hogsite/index.php $DEPLOYPATH
+    - /bin/cp /home/wildhog/hogsite/.htaccess $DEPLOYPATH
     - /bin/cp -R images $DEPLOYPATH
