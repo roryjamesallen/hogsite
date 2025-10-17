@@ -7,7 +7,7 @@ body {
     flex-wrap: wrap;
      gap: 10px;
      justify-content: center;
-     padding: 50px;
+     padding: 50px 0;
  }
 .button {
      position: relative;
