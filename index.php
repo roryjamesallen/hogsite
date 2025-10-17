@@ -37,7 +37,6 @@ if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip_address = $_SERVER['REMOTE_ADDR'];  
 }
 $query = 'INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())';
-    echo $query;
 sqlQuery($conn, $query);
 ?>
 
