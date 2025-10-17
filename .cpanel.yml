@@ -7,3 +7,4 @@ deployment:
     - /bin/cp -R images $DEPLOYPATH
     - /bin/cp -R favicon $DEPLOYPATH
     - /bin/cp -R notoalgorithms $DEPLOYPATH
+    - /bin/cp -R nothingeverhappens $DEPLOYPATH
