@@ -5,14 +5,16 @@
 <style>
 .button-container {
      display: flex;
-    margin-top: 50px;
+    margin-top: 300px;
      gap: 10px;
+     justify-content: center;
  }
      .button {
-     width: 150px;
+     position: relative;
  }
 .button-image {
-     width: 100px;
+     width: 50vw;
+     filter: invert(1);
  }
 </style>
      
