@@ -79,8 +79,6 @@ body {
 		<img src="images/buttons/notoalgorithms.png" class="button-image">
 	</a>
 
-	<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
-	
 	<div class="hogspin-container">
 		<img id="hogspin1" src="images/hogspin/1.png" style="display: block">
 		<img id="hogspin2" src="images/hogspin/2.png" style="display: none">
@@ -91,6 +89,8 @@ body {
 		<img id="hogspin7" src="images/hogspin/7.png" style="display: none">
 		<img id="hogspin8" src="images/hogspin/8.png" style="display: none">
 	</div>
+
+	<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
 </div>
 
 
@@ -109,7 +109,7 @@ function increment_hogspin() {
 			document.getElementById(hogspin_image_id).style.display = 'block';
 			i++;
 			increment_hogspin();
-		}, 250);
+		}, 150);
   } else {
 		i = 1;
 		increment_hogspin();
