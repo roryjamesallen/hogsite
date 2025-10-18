@@ -112,6 +112,7 @@ function increment_hogspin() {
 		}, 250);
   } else {
 		i = 1;
+		increment_hogspin();
   }
 }
 increment_hogspin();
