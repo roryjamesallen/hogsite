@@ -73,11 +73,45 @@ body {
 </style>
      
 <div class="button-container">
-     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
+    <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
-     <a class="button" href="https://notoalgorithms.hogwild.uk">
-     <img src="images/buttons/notoalgorithms.png" class="button-image">
-     </a>
+    <a class="button" href="https://notoalgorithms.hogwild.uk">
+		<img src="images/buttons/notoalgorithms.png" class="button-image">
+	</a>
 
-<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
+	<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
+	
+	<div class="hogspin-container">
+		<img id="hogspin0" src="images/hogspin/0.png" style="display: none">
+		<img id="hogspin1" src="images/hogspin/1.png" style="display: none">
+		<img id="hogspin2" src="images/hogspin/2.png" style="display: none">
+		<img id="hogspin3" src="images/hogspin/3.png" style="display: none">
+		<img id="hogspin4" src="images/hogspin/4.png" style="display: none">
+		<img id="hogspin5" src="images/hogspin/5.png" style="display: none">
+		<img id="hogspin6" src="images/hogspin/6.png" style="display: none">
+		<img id="hogspin7" src="images/hogspin/7.png" style="display: none">
+		<img id="hogspin8" src="images/hogspin/8.png" style="display: none">
+	</div>
 </div>
+
+
+<script>
+window.onload = function() {
+	for (let i=0; i<9; i++) { 
+		hide_all_hogspin_images();
+		increment_hogspin(i); 
+	}
+}	
+function hide_all_hogspin_images(){
+	for (let i=0; i<9; i++) { 
+		var hogspin_image_id = 'hogspin' + i;
+		document.getElementById(hogspin_image_id).style.display = 'none';
+	}
+}
+function increment_hogspin(i) { 
+	setTimeout(function() { 
+		var hogspin_image_id = 'hogspin' + i;
+		document.getElementById(hogspin_image_id).style.display = 'block';
+	}, 500 * i); 
+} 
+</script>
