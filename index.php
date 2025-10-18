@@ -82,7 +82,6 @@ body {
 	<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
 	
 	<div class="hogspin-container">
-		<img id="hogspin0" src="images/hogspin/0.png" style="display: none">
 		<img id="hogspin1" src="images/hogspin/1.png" style="display: none">
 		<img id="hogspin2" src="images/hogspin/2.png" style="display: none">
 		<img id="hogspin3" src="images/hogspin/3.png" style="display: none">
@@ -97,13 +96,13 @@ body {
 
 <script>
 window.onload = function() {
-	for (let i=0; i<9; i++) { 
+	for (let i=1; i<9; i++) { 
 		hide_all_hogspin_images();
 		increment_hogspin(i); 
 	}
 }	
 function hide_all_hogspin_images(){
-	for (let i=0; i<9; i++) { 
+	for (let i=1; i<9; i++) { 
 		var hogspin_image_id = 'hogspin' + i;
 		document.getElementById(hogspin_image_id).style.display = 'none';
 	}
