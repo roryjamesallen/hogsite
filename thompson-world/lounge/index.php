@@ -1,5 +1,5 @@
-<base href="https://hogwild.uk/" target="_blank">
-<?php include 'https://hogwild.uk/html_header.php';?>
+<base href="https://hogwild.uk/hogsite" target="_blank">
+<?php include 'https://hogwild.uk/hogsite/html_header.php';?>
 
 <div class="button-container">
 	<div class="scene-container" style="width: 100%; aspect-ratio: 1333 / 1158">
