@@ -97,23 +97,30 @@ body {
 <script>
 
 
-var i = 1;
-function increment_hogspin() {
-	if(i < 9) {
-		setTimeout(function(){
-			for (let i=1; i<9; i++) { 
-				var hogspin_image_id = 'hogspin' + i;
-				document.getElementById(hogspin_image_id).style.display = 'none';
-			}
-			var hogspin_image_id = 'hogspin' + i;
-			document.getElementById(hogspin_image_id).style.display = 'block';
-			i++;
-			increment_hogspin();
-		}, 150);
-  } else {
-		i = 1;
-		increment_hogspin();
-  }
+
+function start_image_loop(image_id_prefix, limit, delay){
+	var i = 1;
+	function increment_image() {
+		if(i <= limit) {
+			setTimeout(function(){
+				for (let i=1; i<limit; i++) { 
+					var image_id = image_id_prefix + i;
+					document.getElementById(image_id).style.display = 'none';
+				}
+				var image_id = image_id_prefix + i;
+				document.getElementById(image_id).style.display = 'block';
+				i++;
+				increment_image();
+			}, delay);
+	  } else {
+			i = 1;
+			increment_image();
+	  }
+	}
+	increment_image();
 }
-increment_hogspin();
+
+start_image_loop('hogspin', 9, 150);
+
+
 </script>
