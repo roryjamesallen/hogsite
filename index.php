@@ -120,7 +120,7 @@ function start_image_loop(image_id_prefix, limit, delay){
 	increment_image();
 }
 
-start_image_loop('hogspin', 9, 150);
+start_image_loop('hogspin', 8, 150);
 
 
 </script>
