@@ -79,5 +79,5 @@ body {
      <img src="images/buttons/notoalgorithms.png" class="button-image">
      </a>
 
-<img style="flex-basis: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
+<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
 </div>
