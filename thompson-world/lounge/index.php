@@ -2,7 +2,10 @@
 <?php include '../../html_header.php';?>
 
 <div class="button-container">
-	<div class="scene-container" style="width: 100%; aspect-ratio: 1920 / 1262">
+	<div class="scene-container" style="width: 1080px; height: 710px">
 		<img class="scene-image scene-background" src="images/thompson-world/thompson-world-lounge.png">
+		<a href="https://hogwild.uk/thompson-world/entrance-hallway" class="scene-image-link" style="width: 258px; height: 180px; left: 0px; bottom: 0px">
+			<img class="scene-image" src="images/thompson-world/thompson-world-lounge-to-hallway.png">
+		</a>
 	</div>
 </div>
