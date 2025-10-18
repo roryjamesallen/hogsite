@@ -78,4 +78,6 @@ body {
      <a class="button" href="https://notoalgorithms.hogwild.uk">
      <img src="images/buttons/notoalgorithms.png" class="button-image">
      </a>
+
+<img src="images/thompson-world/thompson-world-entrance-hallway.png">
 </div>
