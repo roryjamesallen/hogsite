@@ -103,7 +103,7 @@ function start_image_loop(image_id_prefix, limit, delay){
 	function increment_image() {
 		if(i <= limit) {
 			setTimeout(function(){
-				for (let i=1; i<limit; i++) { 
+				for (let i=1; i<=limit; i++) { 
 					var image_id = image_id_prefix + i;
 					document.getElementById(image_id).style.display = 'none';
 				}
