@@ -60,9 +60,11 @@ sqlQuery($conn, $query);
 		<img id="hogspin8" src="images/hogspin/8.png" style="display: none">
 	</div>
 
-	<div class="scene-container" style="width: 100%; aspect-ratio: 1333 / 1158">
+	<div class="scene-container" style="width: 1080px; height: 938px">
 		<img class="scene-image scene-background" src="images/thompson-world/thompson-world-front-hallway.png">
-		<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link"><img class="scene-image" style="left: 712px; top: 207px" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png"></a>
+		<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link" style="width: 143px; height: 352px; left: 620px; top: 350px">
+			<img class="scene-image" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png">
+		</a>
 	</div>
 </div>
 

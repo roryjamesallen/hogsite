@@ -20,11 +20,15 @@ body {
 	position: relative;
 }
 .scene-background {
-	flex-basis: 100%;
-	max-width: 100%;
+	top: 0;
+	left: 0;
+}
+.scene-image-link {
+	position: absolute;
+	display: block;
 }
 .scene-image {
-	position: absolute;
+	position: relative;
 }
 .button:hover .button-image, .scene-image-link:hover {
 	filter: invert(0.4);
