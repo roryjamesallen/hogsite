@@ -96,8 +96,10 @@ body {
 
 <script>
 window.onload = function() {
-	for (let i=1; i<9; i++) { 
-		increment_hogspin(i); 
+	while (true){
+		for (let i=1; i<9; i++) { 
+			increment_hogspin(i); 
+		}
 	}
 }	
 function hide_all_hogspin_images(){
