@@ -82,7 +82,7 @@ body {
 	<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
 	
 	<div class="hogspin-container">
-		<img id="hogspin1" src="images/hogspin/1.png" style="display: none">
+		<img id="hogspin1" src="images/hogspin/1.png" style="display: block">
 		<img id="hogspin2" src="images/hogspin/2.png" style="display: none">
 		<img id="hogspin3" src="images/hogspin/3.png" style="display: none">
 		<img id="hogspin4" src="images/hogspin/4.png" style="display: none">
