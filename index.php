@@ -63,13 +63,24 @@ body {
 .button {
      position: relative;
  }
-.button:hover .button-image {
-     filter: invert(0.4);
- }
 .button-image {
     flex-basis: 300px;
      max-width: 300px;
  }
+ 
+.scene-container {
+	position: relative;
+}
+.scene-background {
+	flex-basis: 100%;
+	max-width: 100%;
+}
+.scene-image {
+	position: absolute;
+}
+.button:hover .button-image, .scene-image-link:hover {
+	filter: invert(0.4);
+}
 </style>
      
 <div class="button-container">
@@ -90,7 +101,10 @@ body {
 		<img id="hogspin8" src="images/hogspin/8.png" style="display: none">
 	</div>
 
-	<img style="flex-basis: 100%; max-width: 100%" src="images/thompson-world/thompson-world-front-hallway.png">
+	<div class="scene-container">
+		<img class="scene-image scene-background" src="images/thompson-world/thompson-world-front-hallway.png">
+		<a class="scene-image-link"><img class="scene-image" style="left: 100px; top: 100px" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png"></a>
+	</div>
 </div>
 
 
