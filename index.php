@@ -40,48 +40,7 @@ $query = 'INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vs
 sqlQuery($conn, $query);
 ?>
 
-<head>
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-<link rel="shortcut icon" href="/favicon/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
-<link rel="manifest" href="/favicon/site.webmanifest" />
-     </head>
-
-<style>
-body {
-     margin: 0;
- }
-.button-container {
-     display: flex;
-    flex-wrap: wrap;
-     gap: 10px;
-     justify-content: center;
-     padding: 50px 0;
- }
-.button {
-     position: relative;
- }
-.button-image {
-    flex-basis: 300px;
-     max-width: 300px;
- }
- 
-.scene-container {
-	position: relative;
-}
-.scene-background {
-	flex-basis: 100%;
-	max-width: 100%;
-}
-.scene-image {
-	position: absolute;
-}
-.button:hover .button-image, .scene-image-link:hover {
-	filter: invert(0.4);
-}
-</style>
+<?php include 'html_header.php';?>
      
 <div class="button-container">
     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
@@ -103,15 +62,11 @@ body {
 
 	<div class="scene-container" style="width: 100%; aspect-ratio: 1333 / 1158">
 		<img class="scene-image scene-background" src="images/thompson-world/thompson-world-front-hallway.png">
-		<a class="scene-image-link"><img class="scene-image" style="left: 712px; top: 207px" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png"></a>
+		<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link"><img class="scene-image" style="left: 712px; top: 207px" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png"></a>
 	</div>
 </div>
 
-
 <script>
-
-
-
 function start_image_loop(image_id_prefix, limit, delay){
 	var i = 1;
 	function increment_image() {
@@ -135,6 +90,4 @@ function start_image_loop(image_id_prefix, limit, delay){
 }
 
 start_image_loop('hogspin', 8, 150);
-
-
 </script>

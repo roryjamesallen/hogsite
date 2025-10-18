@@ -1,0 +1,31 @@
+body {
+     margin: 0;
+ }
+.button-container {
+     display: flex;
+    flex-wrap: wrap;
+     gap: 10px;
+     justify-content: center;
+     padding: 50px 0;
+ }
+.button {
+     position: relative;
+ }
+.button-image {
+    flex-basis: 300px;
+     max-width: 300px;
+ }
+ 
+.scene-container {
+	position: relative;
+}
+.scene-background {
+	flex-basis: 100%;
+	max-width: 100%;
+}
+.scene-image {
+	position: absolute;
+}
+.button:hover .button-image, .scene-image-link:hover {
+	filter: invert(0.4);
+}
