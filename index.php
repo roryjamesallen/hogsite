@@ -97,7 +97,6 @@ body {
 <script>
 window.onload = function() {
 	for (let i=1; i<9; i++) { 
-		hide_all_hogspin_images();
 		increment_hogspin(i); 
 	}
 }	
@@ -109,8 +108,9 @@ function hide_all_hogspin_images(){
 }
 function increment_hogspin(i) { 
 	setTimeout(function() { 
+		hide_all_hogspin_images();
 		var hogspin_image_id = 'hogspin' + i;
 		document.getElementById(hogspin_image_id).style.display = 'block';
-	}, 500 * i); 
+	}, 250 * i); 
 } 
 </script>
