@@ -101,9 +101,9 @@ body {
 		<img id="hogspin8" src="images/hogspin/8.png" style="display: none">
 	</div>
 
-	<div class="scene-container">
+	<div class="scene-container" style="width: 100%; aspect-ratio: 1333 / 1158">
 		<img class="scene-image scene-background" src="images/thompson-world/thompson-world-front-hallway.png">
-		<a class="scene-image-link"><img class="scene-image" style="left: 100px; top: 100px" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png"></a>
+		<a class="scene-image-link"><img class="scene-image" style="left: 712px; top: 207px" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png"></a>
 	</div>
 </div>
 
