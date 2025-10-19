@@ -11,6 +11,8 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'conservatory';
 } else if (isset($_GET['garden_x'])){
 	$thompson_room = 'garden';
+} else if (isset($_GET['pigeons_x'])){
+	$thompson_room = 'pigeons';
 } else {
 	$thompson_room = 'entrance-hallway';
 }
@@ -39,7 +41,11 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'garden'){
 	$thompson_background_height = '737';
 	$thompson_background_src = 'garden';
-	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px');
+	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px').renderImageLink('garden-to-pigeons', 'pigeons', '125', '67', 'left: 314px; top: 46px');
+} else if ($thompson_room == 'pigeons'){
+	$thompson_background_height = '744';
+	$thompson_background_src = 'pigeons';
+	$thompson_room_links = renderImageLink('pigeons-to-garden', 'garden', '185', '88', 'left: 0px; bottom: 0px');
 }
 ?>
 
