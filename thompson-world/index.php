@@ -4,7 +4,7 @@ include '../html_header.php';
 if (!isset($_GET['thompson-room'])){
 	$thompson_room = 'lounge';
 } else {
-	echo var_dump($_GET);
+	echo var_dump(get_defined_vars());
 	$thompson_room = $_GET['thompson-room'];
 }
 ?>
