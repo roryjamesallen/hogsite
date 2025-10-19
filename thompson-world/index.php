@@ -4,6 +4,7 @@ include '../html_header.php';
 if (!isset($_GET['thompson-room'])){
 	$thompson_room = 'lounge';
 } else {
+	echo var_dump($_GET);
 	$thompson_room = $_GET['thompson-room'];
 }
 ?>
@@ -21,7 +22,7 @@ if (!isset($_GET['thompson-room'])){
 			</a>';
 		$thompson_room_links = '
 			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-hallway.png" name="entrance-hallway" width="258px" height="180px" style="left: 0px; bottom: 0px">
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-kitchen.png" name="entrance-hallway" width="122px" height="208px" style="left: 544px; top: 110px">';
+			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-kitchen.png" name="kitchen" width="122px" height="208px" style="left: 544px; top: 110px">';
 	} else if($thompson_room == 'entrance-hallway'){
 		$thompson_background_height = '938';
 		$thompson_background_src = 'front-hallway';
@@ -41,7 +42,7 @@ if (!isset($_GET['thompson-room'])){
 
 <div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
 	<form action="" method="GET" class="thompson-world-form">
-		<img class="scene-image-link scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
+		<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
 		<?php echo $thompson_room_links ?>
 	</form>
 </div>
