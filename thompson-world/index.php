@@ -9,7 +9,7 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'entrance-hallway';
 } else if (isset($_GET['conservatory_x'])){
 	$thompson_room = 'conservatory';
-else if (isset($_GET['garden_x'])){
+} else if (isset($_GET['garden_x'])){
 	$thompson_room = 'garden';
 } else {
 	$thompson_room = 'entrance-hallway';
