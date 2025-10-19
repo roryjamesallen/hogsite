@@ -36,9 +36,10 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-kitchen-to-lounge.png" name="lounge" width="310px" height="211px" style="left: 0px; bottom: 0px">
 			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-kitchen-to-conservatory.png" name="conservatory" width="266px" height="484px" style="left: 389px; top: 191px">';
 	} else if ($thompson_room == 'conservatory'){
-		$thompson_background_height = '1296';
+		$thompson_background_height = '744';
 		$thompson_background_src = 'conservatory';
-		$thompson_room_links = '';
+		$thompson_room_links = '
+			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-consrvatory-to-lounge.png" name="lounge" width="169px" height="152px" style="left: 0px; bottom: 0px">';
 	}
 ?>
 
