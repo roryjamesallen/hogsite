@@ -1,8 +1,6 @@
 <?php 
 include '../html_header.php';
 
-
-
 if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
 } else if (isset($_GET['kitchen_x'])){
@@ -15,32 +13,28 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'entrance-hallway';
 }
 $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
-?>
 
-<?php 
-	if ($thompson_room == 'lounge'){
-		$thompson_background_height = '710';
-		$thompson_background_src = 'lounge';
-		$thompson_room_links = '
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-hallway.png" name="entrance-hallway" width="258px" height="180px" style="left: 0px; bottom: 0px">
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-kitchen.png" name="kitchen" width="122px" height="208px" style="left: 544px; top: 110px">';
-	} else if($thompson_room == 'entrance-hallway'){
-		$thompson_background_height = '938';
-		$thompson_background_src = 'front-hallway';
-		$thompson_room_links = '
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-front-hallway-door-to-lounge.png" name="lounge" width="143px" height="352px" style="left: 549px; top: 174px">';
-	} else if($thompson_room == 'kitchen'){
-		$thompson_background_height = '1296';
-		$thompson_background_src = 'kitchen';
-		$thompson_room_links = '
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-kitchen-to-lounge.png" name="lounge" width="310px" height="211px" style="left: 0px; bottom: 0px">
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-kitchen-to-conservatory.png" name="conservatory" width="266px" height="484px" style="left: 389px; top: 191px">';
-	} else if ($thompson_room == 'conservatory'){
-		$thompson_background_height = '744';
-		$thompson_background_src = 'conservatory';
-		$thompson_room_links = '
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-conservatory-to-lounge.png" name="kitchen" width="169px" height="152px" style="left: 0px; bottom: 0px">';
-	}
+function renderImageLink($image_name, $links_to, $width, $height, $style){
+	echo '<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
+}
+
+if ($thompson_room == 'lounge'){
+	$thompson_background_height = '710';
+	$thompson_background_src = 'lounge';
+	$thompson_room_links = renderImageLink('lounge-to-hallway', 'entrance-hallway', '258', '180', 'left: 0px; bottom: 0px').renderImageLink('lounge-to-kitchen', 'kitchen', '122', '208', 'left: 544px; top: 110px');
+} else if($thompson_room == 'entrance-hallway'){
+	$thompson_background_height = '938';
+	$thompson_background_src = 'front-hallway';
+	$thompson_room_links = renderImageLink('front-hallway-door-to-lounge', 'lounge', '143', '352', 'left: 549px; top: 174px');
+} else if($thompson_room == 'kitchen'){
+	$thompson_background_height = '1296';
+	$thompson_background_src = 'kitchen';
+	$thompson_room_links = renderImageLink('kitchen-to-lounge', 'lounge', '310', '211', 'left: 0px; bottom: 0px').renderImageLink('kitchen-to-conservatory', 'conservatory', '266', '484', 'left: 389px; top: 191px');
+} else if ($thompson_room == 'conservatory'){
+	$thompson_background_height = '744';
+	$thompson_background_src = 'conservatory';
+	$thompson_room_links = renderImageLink('front-hallway-conservatory-to-lounge', 'lounge', '169', '152', 'left: 0px; bottom: 0px');
+}
 ?>
 
 <div class="button-container">
