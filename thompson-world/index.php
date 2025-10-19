@@ -9,6 +9,8 @@ if (isset($_GET['lounge.x'])){
 	$thompson_room = 'kitchen';
 } else if (isset($_GET['entrance-hallway.x'])){
 	$thompson_room = 'entrance-hallway';
+} else {
+	$thompson_room = 'entrance-hallway';
 }
 
 ?>
