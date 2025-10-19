@@ -15,7 +15,7 @@ if (isset($_GET['lounge_x'])){
 $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 
 function renderImageLink($image_name, $links_to, $width, $height, $style){
-	echo '<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
+	return '<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
 
 if ($thompson_room == 'lounge'){
