@@ -27,9 +27,13 @@ body {
 	position: absolute;
 	display: block;
 }
-.scene-image {
+.scene-image-link {
 	position: relative;
 }
 .button:hover .button-image, .scene-image-link:hover {
 	filter: invert(0.4);
+}
+.thompson-world-form {
+	position: relative;
+	height: 100%;
 }

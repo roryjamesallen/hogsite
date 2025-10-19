@@ -40,8 +40,8 @@ if (!isset($_GET['thompson-room'])){
 ?>
 
 <div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
-	<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
-	<form action="" method="GET">
+	<form action="" method="GET" class="thompson-world-form">
+		<img class="scene-image-link scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
 		<?php echo $thompson_room_links ?>
 	</form>
 </div>
