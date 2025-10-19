@@ -7,7 +7,7 @@
 		<a href="https://hogwild.uk/thompson-world/entrance-hallway" class="scene-image-link" style="width: 258px; height: 180px; left: 0px; bottom: 0px">
 			<img class="scene-image" src="images/thompson-world/thompson-world-lounge-to-hallway.png">
 		</a>
-		<a href="https://hogwild.uk/thompson-world/kitchen" class="scene-image-link" style="width: 122px; height: 208px; left: 0px; bottom: 0px">
+		<a href="https://hogwild.uk/thompson-world/kitchen" class="scene-image-link" style="width: 122px; height: 208px; left: 544px; top: 110px">
 			<img class="scene-image" src="images/thompson-world/thompson-world-lounge-to-kitchen.png">
 		</a>
 	</div>
