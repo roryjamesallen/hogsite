@@ -30,9 +30,6 @@ body {
 	position: absolute;
 	display: block;
 }
-.scene-image-link {
-	position: relative;
-}
 .button:hover .button-image, .scene-image-link:hover {
 	filter: invert(0.4);
 }
