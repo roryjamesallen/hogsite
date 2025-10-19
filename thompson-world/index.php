@@ -39,7 +39,7 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 		$thompson_background_height = '744';
 		$thompson_background_src = 'conservatory';
 		$thompson_room_links = '
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-conservatory-to-lounge.png" name="lounge" width="169px" height="152px" style="left: 0px; bottom: 0px">';
+			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-conservatory-to-lounge.png" name="kitchen" width="169px" height="152px" style="left: 0px; bottom: 0px">';
 	}
 ?>
 
