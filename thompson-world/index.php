@@ -21,7 +21,7 @@ function renderImageLink($image_name, $links_to, $width, $height, $style){
 if ($thompson_room == 'lounge'){
 	$thompson_background_height = '710';
 	$thompson_background_src = 'lounge';
-	$thompson_room_links = renderImageLink('lounge-to-hallway', 'entrance-hallway', '258', '180', 'left: 0px; bottom: 0px').renderImageLink('lounge-to-kitchen', 'kitchen', '122', '208', 'left: 544px; top: 110px');
+	$thompson_room_links = renderImageLink('lounge-to-hallway', 'entrance-hallway', '136', '111', 'left: 0px; bottom: 0px').renderImageLink('lounge-to-kitchen', 'kitchen', '122', '208', 'left: 544px; top: 110px');
 } else if($thompson_room == 'entrance-hallway'){
 	$thompson_background_height = '938';
 	$thompson_background_src = 'front-hallway';
@@ -29,11 +29,11 @@ if ($thompson_room == 'lounge'){
 } else if($thompson_room == 'kitchen'){
 	$thompson_background_height = '1296';
 	$thompson_background_src = 'kitchen';
-	$thompson_room_links = renderImageLink('kitchen-to-lounge', 'lounge', '310', '211', 'left: 0px; bottom: 0px').renderImageLink('kitchen-to-conservatory', 'conservatory', '266', '484', 'left: 389px; top: 191px');
+	$thompson_room_links = renderImageLink('kitchen-to-lounge', 'lounge', '143', '103', 'left: 0px; bottom: 0px').renderImageLink('kitchen-to-conservatory', 'conservatory', '266', '484', 'left: 389px; top: 191px');
 } else if ($thompson_room == 'conservatory'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'conservatory';
-	$thompson_room_links = renderImageLink('conservatory-to-lounge', 'lounge', '169', '152', 'left: 0px; bottom: 0px');
+	$thompson_room_links = renderImageLink('conservatory-to-lounge', 'lounge', '156', '79', 'left: 0px; bottom: 0px');
 }
 ?>
 
