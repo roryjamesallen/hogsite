@@ -1,12 +1,16 @@
 <?php 
 include '../html_header.php';
 
-if (!isset($_GET['thompson-room'])){
+
+
+if (isset($_GET['lounge.x'])){
 	$thompson_room = 'lounge';
-} else {
-	echo var_dump(get_defined_vars());
-	$thompson_room = $_GET['thompson-room'];
+} else if (isset($_GET['kitchen.x'])){
+	$thompson_room = 'kitchen';
+} else if (isset($_GET['entrance-hallway.x'])){
+	$thompson_room = 'entrance-hallway';
 }
+
 ?>
 
 <?php 
@@ -14,29 +18,18 @@ if (!isset($_GET['thompson-room'])){
 		$thompson_background_height = '710';
 		$thompson_background_src = 'lounge';
 		$thompson_room_links = '
-			<a href="https://hogwild.uk/thompson-world/entrance-hallway" class="scene-image-link" style="width: 258px; height: 180px; left: 0px; bottom: 0px">
-				<img class="scene-image-link" src="images/thompson-world/thompson-world-lounge-to-hallway.png">
-			</a>
-			<a href="https://hogwild.uk/thompson-world/kitchen" class="scene-image-link" style="width: 122px; height: 208px; left: 544px; top: 110px">
-				<img class="scene-image-link" src="images/thompson-world/thompson-world-lounge-to-kitchen.png">
-			</a>';
-		$thompson_room_links = '
 			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-hallway.png" name="entrance-hallway" width="258px" height="180px" style="left: 0px; bottom: 0px">
 			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-lounge-to-kitchen.png" name="kitchen" width="122px" height="208px" style="left: 544px; top: 110px">';
 	} else if($thompson_room == 'entrance-hallway'){
 		$thompson_background_height = '938';
 		$thompson_background_src = 'front-hallway';
 		$thompson_room_links = '
-			<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link" style="width: 143px; height: 352px; left: 549px; top: 174px">
-				<img class="scene-image" src="../images/thompson-world/thompson-world-front-hallway-door-to-lounge.png">
-			</a>';
+			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-hallway-door-to-lounge.png" name="lounge" width="143px" height="352px" style="left: 549px; top: 174px">';
 	} else if($thompson_room == 'kitchen'){
 		$thompson_background_height = '1296';
 		$thompson_background_src = 'kitchen';
 		$thompson_room_links = '
-			<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link" style="width: 310px; height: 211px; left: 0px; bottom: 0px">
-				<img class="scene-image" src="../images/thompson-world/thompson-world-kitchen-to-lounge.png">
-			</a>';
+			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-kitchen-to-lounge.png" name="lounge" width="310px" height="211px" style="left: 0px; bottom: 0px">';
 	} 
 ?>
 
