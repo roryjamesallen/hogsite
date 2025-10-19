@@ -3,11 +3,11 @@ include '../html_header.php';
 
 
 
-if (isset($_GET['lounge.x'])){
+if (isset($_GET['lounge'])){
 	$thompson_room = 'lounge';
-} else if (isset($_GET['kitchen.x'])){
+} else if (isset($_GET['kitchen'])){
 	$thompson_room = 'kitchen';
-} else if (isset($_GET['entrance-hallway.x'])){
+} else if (isset($_GET['entrance-hallway'])){
 	$thompson_room = 'entrance-hallway';
 } else {
 	$thompson_room = 'entrance-hallway';
@@ -26,7 +26,7 @@ if (isset($_GET['lounge.x'])){
 		$thompson_background_height = '938';
 		$thompson_background_src = 'front-hallway';
 		$thompson_room_links = '
-			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-hallway-door-to-lounge.png" name="lounge" width="143px" height="352px" style="left: 549px; top: 174px">';
+			<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-front-hallway-door-to-lounge.png" name="lounge" width="143px" height="352px" style="left: 549px; top: 174px">';
 	} else if($thompson_room == 'kitchen'){
 		$thompson_background_height = '1296';
 		$thompson_background_src = 'kitchen';
