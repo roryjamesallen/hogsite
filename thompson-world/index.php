@@ -12,10 +12,7 @@ if (isset($_GET['lounge_x'])){
 } else {
 	$thompson_room = 'entrance-hallway';
 }
-
-echo '<h1>'.$thompson_room.'</h1>';
-echo '<h2>'.print_r($_GET).'</h2>';
-
+$thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 ?>
 
 <?php 
@@ -38,9 +35,12 @@ echo '<h2>'.print_r($_GET).'</h2>';
 	} 
 ?>
 
-<div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
-	<form action="" method="GET" class="thompson-world-form">
-		<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
-		<?php echo $thompson_room_links ?>
-	</form>
+<div class="button-container">
+	<h1><?php echo $thompson_room_pretty ?></h1>
+	<div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
+		<form action="" method="GET" class="thompson-world-form">
+			<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
+			<?php echo $thompson_room_links ?>
+		</form>
+	</div>
 </div>
