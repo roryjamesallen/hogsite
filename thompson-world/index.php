@@ -22,7 +22,7 @@ if (!isset($_GET['thompson-room'])){
 		$thompson_room_links = '
 			<input class="scene-image" type="image" src="../images/thompson-world/thompson-world-lounge-to-hallway.png" name="entrance-hallway" width="258px" height="180px" style="left: 0px; bottom: 0px">
 			<input class="scene-image" type="image" src="../images/thompson-world/thompson-world-lounge-to-kitchen.png" name="entrance-hallway" width="122px" height="208px" style="left: 544px; top: 110px">
-			'
+			';
 	} else if($thompson_room == 'entrance-hallway'){
 		$thompson_background_height: '938';
 		$thompson_background_src = 'front-hallway';
