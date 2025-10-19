@@ -10,7 +10,7 @@ if (!isset($_GET['thompson-room'])){
 
 <?php 
 	if ($thompson_room == 'lounge'){
-		$thompson_background_height: '710';
+		$thompson_background_height = '710';
 		$thompson_background_src = 'lounge';
 		$thompson_room_links = '
 			<a href="https://hogwild.uk/thompson-world/entrance-hallway" class="scene-image-link" style="width: 258px; height: 180px; left: 0px; bottom: 0px">
