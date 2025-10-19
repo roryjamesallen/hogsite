@@ -39,7 +39,7 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'garden'){
 	$thompson_background_height = '737';
 	$thompson_background_src = 'garden';
-	$thompson_room_links = '';
+	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 237px; top: 336px');
 }
 ?>
 
