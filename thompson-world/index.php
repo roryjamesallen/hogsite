@@ -36,7 +36,7 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 ?>
 
 <div class="button-container">
-	<h1><?php echo $thompson_room_pretty ?></h1>
+	<h1 style="width: 100%; text-align: center;"><?php echo $thompson_room_pretty ?></h1>
 	<div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
 		<form action="" method="GET" class="thompson-world-form">
 			<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
