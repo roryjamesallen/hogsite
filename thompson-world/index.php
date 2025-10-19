@@ -13,6 +13,9 @@ if (isset($_GET['lounge'])){
 	$thompson_room = 'entrance-hallway';
 }
 
+echo '<h1>'.$thompson-room.'</h1>';
+echo '<h2>'.print_r($_GET).'</h2>';
+
 ?>
 
 <?php 
