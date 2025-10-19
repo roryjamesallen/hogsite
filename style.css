@@ -10,6 +10,7 @@ body {
  }
 .button {
      position: relative;
+	 height: 0;
  }
 .button-image {
     flex-basis: 300px;
