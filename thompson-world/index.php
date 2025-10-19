@@ -9,6 +9,8 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'entrance-hallway';
 } else if (isset($_GET['conservatory_x'])){
 	$thompson_room = 'conservatory';
+else if (isset($_GET['garden_x'])){
+	$thompson_room = 'garden';
 } else {
 	$thompson_room = 'entrance-hallway';
 }
@@ -33,7 +35,11 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'conservatory'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'conservatory';
-	$thompson_room_links = renderImageLink('conservatory-to-lounge', 'lounge', '156', '79', 'left: 0px; bottom: 0px');
+	$thompson_room_links = renderImageLink('conservatory-to-lounge', 'lounge', '156', '79', 'left: 0px; bottom: 0px').renderImageLink('conservatory-to-garden', 'garden', '103', '234', 'left: 213px; top: 116px');
+} else if ($thompson_room == 'garden'){
+	$thompson_background_height = '737';
+	$thompson_background_src = 'garden';
+	$thompson_room_links = '';
 }
 ?>
 
