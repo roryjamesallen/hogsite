@@ -27,7 +27,7 @@ if ($thompson_room == 'lounge'){
 } else if($thompson_room == 'entrance-hallway'){
 	$thompson_background_height = '938';
 	$thompson_background_src = 'front-hallway';
-	$thompson_room_links = renderImageLink('front-hallway-door-to-lounge', 'lounge', '143', '352', 'left: 549px; top: 174px');
+	$thompson_room_links = renderImageLink('front-hallway-door-to-lounge', 'lounge', '143', '352', 'left: 549px; top: 174px').renderImageLink('entrance-hallway-to-garden', 'garden', '74', '226', 'left: 393px; top: 117px');
 } else if($thompson_room == 'kitchen'){
 	$thompson_background_height = '1296';
 	$thompson_background_src = 'kitchen';
