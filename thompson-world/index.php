@@ -3,11 +3,11 @@ include '../html_header.php';
 
 
 
-if (isset($_GET['lounge'])){
+if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
-} else if (isset($_GET['kitchen'])){
+} else if (isset($_GET['kitchen_x'])){
 	$thompson_room = 'kitchen';
-} else if (isset($_GET['entrance-hallway'])){
+} else if (isset($_GET['entrance-hallway_x'])){
 	$thompson_room = 'entrance-hallway';
 } else {
 	$thompson_room = 'entrance-hallway';
