@@ -2,6 +2,10 @@
 
 echo '
 <head>
+	<meta charset="utf-8">
+	<meta name="description" content="Welcome to the Hog Universe">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
 	<base href="https://hogwild.uk/">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
 	<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
