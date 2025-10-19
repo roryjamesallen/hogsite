@@ -14,10 +14,10 @@ if (!isset($_GET['thompson-room'])){
 		$thompson_background_src = 'lounge';
 		$thompson_room_links = '
 			<a href="https://hogwild.uk/thompson-world/entrance-hallway" class="scene-image-link" style="width: 258px; height: 180px; left: 0px; bottom: 0px">
-				<img class="scene-image" src="images/thompson-world/thompson-world-lounge-to-hallway.png">
+				<img class="scene-image-link" src="images/thompson-world/thompson-world-lounge-to-hallway.png">
 			</a>
 			<a href="https://hogwild.uk/thompson-world/kitchen" class="scene-image-link" style="width: 122px; height: 208px; left: 544px; top: 110px">
-				<img class="scene-image" src="images/thompson-world/thompson-world-lounge-to-kitchen.png">
+				<img class="scene-image-link" src="images/thompson-world/thompson-world-lounge-to-kitchen.png">
 			</a>';
 		$thompson_room_links = '
 			<input class="scene-image" type="image" src="../images/thompson-world/thompson-world-lounge-to-hallway.png" name="entrance-hallway" width="258px" height="180px" style="left: 0px; bottom: 0px">
