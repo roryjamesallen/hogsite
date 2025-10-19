@@ -41,7 +41,7 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'garden'){
 	$thompson_background_height = '737';
 	$thompson_background_src = 'garden';
-	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px').renderImageLink('garden-to-pigeons', 'pigeons', '125', '67', 'left: 314px; top: 46px');
+	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px').renderImageLink('garden-to-pigeons', 'pigeons', '125', '67', 'left: 320px; top: 46px');
 } else if ($thompson_room == 'pigeons'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'pigeons';
