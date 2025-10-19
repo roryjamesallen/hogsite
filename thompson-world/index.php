@@ -27,20 +27,20 @@ if (!isset($_GET['thompson-room'])){
 		$thompson_background_src = 'front-hallway';
 		$thompson_room_links = '
 			<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link" style="width: 143px; height: 352px; left: 549px; top: 174px">
-				<img class="scene-image" src="images/thompson-world/thompson-world-front-hallway-door-to-lounge.png">
+				<img class="scene-image" src="../images/thompson-world/thompson-world-front-hallway-door-to-lounge.png">
 			</a>';
 	} else if($thompson_room == 'kitchen'){
 		$thompson_background_height = '1296';
 		$thompson_background_src = 'kitchen';
 		$thompson_room_links = '
 			<a href="https://hogwild.uk/thompson-world/lounge" class="scene-image-link" style="width: 310px; height: 211px; left: 0px; bottom: 0px">
-				<img class="scene-image" src="images/thompson-world/thompson-world-kitchen-to-lounge.png">
+				<img class="scene-image" src="../images/thompson-world/thompson-world-kitchen-to-lounge.png">
 			</a>';
 	} 
 ?>
 
 <div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
-	<img class="scene-image scene-background" src="images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
+	<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
 	<form action="" method="GET">
 		<?php echo $thompson_room_links ?>
 	</form>
