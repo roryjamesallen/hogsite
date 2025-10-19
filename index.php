@@ -67,8 +67,9 @@ if (!$_POST['thompson-room']){
 	</div>
 
 
-	
-	<h1><a href="https://tw.hogwild.uk">Thompson World</a></h1>
+	<a class="button" href="https://tw.hogwild.uk">
+		<img src="images/buttons/thompson-world.png" class="button-image">
+	</a>
 	
 </div>
 
