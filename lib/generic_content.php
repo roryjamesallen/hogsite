@@ -1,4 +1,5 @@
 <?php
+
 /* Get IP Address */
 if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip_address = $_SERVER['HTTP_CLIENT_IP'];  
@@ -55,12 +56,6 @@ function openSqlConnection($database){
 	} else {
 		include '/sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
-	echo '<br>';
-	echo '/sql_login_'.$database.'.php<br>';
-	echo $user.'<br>';
-	echo $password.'<br>';
-	echo $database.'<br>';
-	die();
 	$conn = mysqli_connect('localhost', $user, $password, $database) or die("Couldn't connect to database");
 }
 
@@ -82,4 +77,4 @@ function recordUserVisit(){
 	global $ip_address;
 	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
 }
-?>_
+?>	
