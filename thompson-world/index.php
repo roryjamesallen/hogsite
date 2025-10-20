@@ -48,13 +48,32 @@ if ($thompson_room == 'lounge'){
 	$thompson_room_links = renderImageLink('pigeons-to-garden', 'garden', '185', '88', 'left: 0px; bottom: 0px');
 }
 ?>
-
-<div class="button-container">
-	<h1 style="width: 100%; text-align: center;"><?php echo $thompson_room_pretty ?></h1>
-	<div class="scene-container" style="width: 1080px; height: <?php echo $thompson_background_height ?>px">
+    
+<div class="button-container" style="padding-top: 0;">
+	<div id="scene-container" class="scene-container" style="transform-origin: top; width: 1080px; height: <?php echo $thompson_background_height ?>px">
 		<form action="" method="GET" class="thompson-world-form">
 			<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
 			<?php echo $thompson_room_links ?>
 		</form>
 	</div>
 </div>
+
+<script>
+    function resizeSceneContainer(){
+        var window_width = window.innerWidth;
+        var window_height = window.innerHeight;
+        var original_container_width = 1080;
+        var original_container_height = <?php echo $thompson_background_height ?>;
+        var width_scale = 1;
+        var height_scale = 1;
+        var width_scale = window_width / original_container_width;
+        var height_scale = window_height / original_container_height;
+        if (width_scale < height_scale){ // Use smaller scale
+            scale = width_scale;
+        } else {
+            scale = height_scale;
+        }
+        document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
+    }
+resizeSceneContainer();
+</script>
