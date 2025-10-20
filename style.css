@@ -41,7 +41,6 @@ body {
 .standard-toolbar {
     display: flex;
     justify-content: center;
-    width: 100%;
     z-index: 99;
     height: 35px;
     padding: 5px;
