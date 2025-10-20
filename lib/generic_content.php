@@ -56,6 +56,12 @@ function openSqlConnection($database){
 	} else {
 		include '/sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
+	echo '<br>';
+	echo '/sql_login_'.$database.'.php<br>';
+	echo $user.'<br>';
+	echo $password.'<br>';
+	echo $database.'<br>';
+	die();
 	$conn = mysqli_connect('localhost', $user, $password, $database) or die("Couldn't connect to database");
 }
 
