@@ -17,6 +17,6 @@ $standard_header_content = '
 
 $standard_toolbar = '
     <div class="standard-toolbar">
-    <a class="button" href="https://hogwild.uk" style="background-image: url(images/buttons/home.png)"></a>
+    <a class="button" href="https://hogwild.uk" style="background-image: url(images/buttons/hogwilduk.png)"></a>
     </div>';
 ?>
