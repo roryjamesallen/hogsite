@@ -48,15 +48,19 @@ $standard_toolbar = '
 $conn = null;
 
 function openSqlConnection($database){
+	echo 'opening with '.'sql_login_'.$database.'.php';
 	global $running_locally, $conn;
 	if ($running_locally) {
 		$user = 'root';
 		$password = '';
 	} else {
-		include 'sql_login_'.$database.'.php'; // e.g. sql_login_wildhognotoalgorithms.php
+		include 'sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
+	echo 'pre connect';
 	$db = $database;
 	$conn = mysqli_connect('localhost', $user, $password, $db) or die("Couldn't connect to database");
+	echo 'connected';
+	die();
 }
 
 function sqlQuery($query){
@@ -77,4 +81,4 @@ function recordUserVisit(){
 	global $ip_address;
 	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
 }
-?>
+?>_
