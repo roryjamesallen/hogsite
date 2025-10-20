@@ -1,6 +1,6 @@
 <?php
 include '../lib/generic_content.php';
-openSqlConnection('wildhog_notoalgorithms');
+openSqlConnection('wildhog_notoalgorithms', '../sql_login_wildhog_notoalgorithms.php');
 
 ob_start(); // Begin output buffering to allow output to be rendered after html head
 

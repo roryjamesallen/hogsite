@@ -48,20 +48,14 @@ $standard_toolbar = '
 /* SQL Functions */
 $conn = null;
 
-function openSqlConnection($database){
+function openSqlConnection($database, $login_file){
 	global $running_locally, $conn;
 	if ($running_locally) {
 		$user = 'root';
 		$password = '';
 	} else {
-		include '/sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
+		include $login_file; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
-	echo '<br>';
-	echo '/sql_login_'.$database.'.php<br>';
-	echo $user.'<br>';
-	echo $password.'<br>';
-	echo $database.'<br>';
-	die();
 	$conn = mysqli_connect('localhost', $user, $password, $database) or die("Couldn't connect to database");
 }
 

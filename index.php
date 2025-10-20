@@ -2,7 +2,7 @@
 include 'lib/generic_content.php';
 ob_start(); // Begin output buffering to allow output to be rendered after html head
 
-openSqlConnection('wildhog_analytics');
+openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
 recordUserVisit();
 ?>
 
