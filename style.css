@@ -31,10 +31,25 @@ body {
 	position: absolute;
 	display: block;
 }
-.button:hover .button-image, .scene-image-link:hover {
+.button:hover .button-image, .scene-image-link:hover, .standard-toolbar .button:hover {
 	filter: invert(0.4);
 }
 .thompson-world-form {
 	position: relative;
 	height: 100%;
+}
+.standard-toolbar {
+    display: flex;
+    position: absolute;
+    z-index: 99;
+    height: 35px;
+    padding: 5px;
+    background: rgba(0,0,0,0);
+}
+.standard-toolbar .button {
+    display: block;
+    width: 100px;
+    height: 35px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }

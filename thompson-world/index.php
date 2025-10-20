@@ -24,15 +24,16 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
     <title><?php echo $thompson_room_pretty;?></title>
 </head>
 
+        
 <?php
 function renderImageLink($image_name, $links_to, $width, $height, $style){
-	return '<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
+	return '<input class="scene-image-link" type="image" src="images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
 function renderImageOnclick($image_name, $width, $height, $style){
-    return '<img class="scene-image-link" id="'.$image_name.'" src="../images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
+    return '<img class="scene-image-link" id="'.$image_name.'" src="images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
 function renderUnderlayImage($image_name, $width, $height, $style){
-    return '<img class="scene-image" id="'.$image_name.'" src="../images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
+    return '<img class="scene-image" id="'.$image_name.'" src="images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
 
 if ($thompson_room == 'lounge'){
@@ -61,18 +62,19 @@ if ($thompson_room == 'lounge'){
 	$thompson_room_links = renderImageLink('pigeons-to-garden', 'garden', '185', '88', 'left: 0px; bottom: 0px');
 }
 ?>
-    
+
+<?php echo $standard_toolbar;?>
 <div class="button-container" style="padding-top: 0;">
 	<div id="scene-container" class="scene-container" style="transform-origin: top; width: 1080px; height: <?php echo $thompson_background_height ?>px">
 		<form action="" method="GET" class="thompson-world-form">
-			<img class="scene-image scene-background" src="../images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
+			<img class="scene-image scene-background" src="images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
             <?php echo $thompson_room_links; ?>
 		</form>
 	</div>
 </div>
 
 <script type='module'>
-import { createCookie, readCookie } from '../lib/hoglib.js';
+import { createCookie, readCookie } from './lib/hoglib.js';
 
 var thompson_room = '<?php echo $thompson_room;?>';
 
