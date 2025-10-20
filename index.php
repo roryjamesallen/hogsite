@@ -42,10 +42,6 @@ sqlQuery($conn, $query);
 
 <?php 
 include 'html_header.php';
-
-if (!$_POST['thompson-room']){
-	$_POST['thompson-room'] = 'lounge';
-}
 ?>
      
 <div class="button-container">
