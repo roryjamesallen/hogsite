@@ -45,8 +45,10 @@ $standard_toolbar = '
     </div>';
 	
 /* SQL Functions */
+$conn = null;
+
 function openSqlConnection($database){
-	global $running_locally;
+	global $running_locally, $conn;
 	if ($running_locally) {
 		$user = 'root';
 		$password = '';
@@ -72,6 +74,7 @@ function sqlQuery($query){
 }
 
 function recordUserVisit(){
+	global $ip_address;
 	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
 }
 ?>
