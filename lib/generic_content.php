@@ -22,9 +22,11 @@ if (str_contains($current_url, 'hogsite')){
 if ($running_locally){
     $base_content = '<base href="/hogsite/">';
     $home_location = 'index.php';
+	$root = '';
 } else {
     $base_content = '<base href="https://hogwild.uk">';
     $home_location = 'https://hogwild.uk';
+	$root = $_SERVER["DOCUMENT_ROOT"].'/';
 }
 
 $standard_header_content = '
@@ -53,7 +55,7 @@ function openSqlConnection($database){
 		$user = 'root';
 		$password = '';
 	} else {
-		include '/sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
+		include $root.'sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
 	echo '/sql_login_'.$database.'.php<br>';
 	echo $user.'<br>';
