@@ -1,7 +1,7 @@
-
 <?php
+include 'lib/generic_content.php';
+
 ob_start(); // Begin output buffering to allow output to be rendered after html head
-error_reporting(E_ALL);
 
 if ($_SERVER
     ['REMOTE_ADDR'] == '127.0.0.1') {
@@ -26,7 +26,7 @@ function sqlQuery($conn, $query){
 		}		
 	}
 	return json_encode($data);
-}
+    }
 
 /* Record user visit */
 if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -37,11 +37,13 @@ if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip_address = $_SERVER['REMOTE_ADDR'];  
 }
 $query = 'INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())';
-sqlQuery($conn, $query);
+if ($user != 'root'){
+    sqlQuery($conn, $query);
+    }
 ?>
 
 <head>
-    <?php include 'html_header.php';?>
+    <?php echo $standard_header_content;?>
     <title>hogwild.uk</title>
 </head>
     

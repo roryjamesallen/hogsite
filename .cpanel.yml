@@ -4,7 +4,6 @@ deployment:
     - export DEPLOYPATH=/home/wildhog/public_html/
     - /bin/cp /home/wildhog/hogsite/index.php $DEPLOYPATH
     - /bin/cp /home/wildhog/hogsite/.htaccess $DEPLOYPATH
-    - /bin/cp /home/wildhog/hogsite/html_header.php $DEPLOYPATH
     - /bin/cp /home/wildhog/hogsite/style.css $DEPLOYPATH
     - /bin/cp -R images $DEPLOYPATH
     - /bin/cp -R lib $DEPLOYPATH

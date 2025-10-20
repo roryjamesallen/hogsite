@@ -1,6 +1,6 @@
 <?php
 
-echo '
+$standard_header_content = '
 	<meta charset="utf-8">
 	<meta name="description" content="Welcome to the Hog Universe">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />

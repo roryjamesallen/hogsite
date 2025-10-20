@@ -1,4 +1,6 @@
 <?php
+include '../lib/generic_content.php';
+
 if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
 } else if (isset($_GET['kitchen_x'])){
@@ -18,7 +20,7 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 ?>
 
 <head>
-    <?php include '../html_header.php';?>
+    <?php echo $standard_header_content;?>
     <title><?php echo $thompson_room_pretty;?></title>
 </head>
 
