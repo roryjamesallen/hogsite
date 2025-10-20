@@ -48,7 +48,6 @@ $standard_toolbar = '
 $conn = null;
 
 function openSqlConnection($database){
-	echo 'opening with '.'sql_login_'.$database.'.php';
 	global $running_locally, $conn;
 	if ($running_locally) {
 		$user = 'root';
@@ -56,11 +55,8 @@ function openSqlConnection($database){
 	} else {
 		include 'sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
-	echo 'pre connect';
-	$db = $database;
-	$conn = mysqli_connect('localhost', $user, $password, $db) or die("Couldn't connect to database");
-	echo 'connected';
-	die();
+	$conn = mysqli_connect('localhost', $user, $password, $database) or die("Couldn't connect to database");
+	echo var_dump($conn);
 }
 
 function sqlQuery($query){
