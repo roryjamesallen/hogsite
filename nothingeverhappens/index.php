@@ -1,56 +1,31 @@
 <?php
+include '../lib/generic_content.php';
+openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeverhappens.php');
+
 ob_start(); // Begin output buffering to allow output to be rendered after html head
-error_reporting(E_ALL);
 
-if ($_SERVER
-    ['REMOTE_ADDR'] == '127.0.0.1') {
-	$user = 'root';
-	$password = '';
-	$db = 'nothingeverhappens';
-} else {
-	$user = 'wildhog_nothingeverhappens';
-	$password = '92*Y&B9843by8Y@(&6t@';
-	$db = 'wildhog_nothingeverhappens';
+function getUsernameById($user_id){
+	return json_decode(sqlQuery("SELECT username FROM users WHERE user_id='".$user_id."'"),true)['0']['username'];
 }
-$conn = mysqli_connect('localhost', $user, $password, $db) or die("Couldn't connect to database");
-$page_url = $_SERVER['REQUEST_URI'];
-
-// Database Functions
-function sqlQuery($conn, $query){
-	$result = mysqli_query($conn, $query);
-	$data = [];
-	if (!is_bool($result)){
-		if ($result->num_rows > 0) { 
-			while ($row = $result->fetch_assoc()) { 
-				$data[] = $row; // Add each row to the data array 
-			}
-		}		
-	}
-	return json_encode($data);
+function getUserIdByUsername($username){
+	return json_decode(sqlQuery("SELECT user_id FROM users WHERE username='".$username."'"),true)['0']['user_id'];
 }
-
-function getUsernameById($conn, $user_id){
-	return json_decode(sqlQuery($conn, "SELECT username FROM users WHERE user_id='".$user_id."'"),true)['0']['username'];
+function getGroupNameById($group_id){
+	return json_decode(sqlQuery("SELECT name FROM groups WHERE group_id='".$group_id."'"),true)['0']['name'];
 }
-function getUserIdByUsername($conn, $username){
-	return json_decode(sqlQuery($conn, "SELECT user_id FROM users WHERE username='".$username."'"),true)['0']['user_id'];
-}
-function getGroupNameById($conn, $group_id){
-	return json_decode(sqlQuery($conn, "SELECT name FROM groups WHERE group_id='".$group_id."'"),true)['0']['name'];
-}
-function getGroupUsernamesById($conn, $group_id){
+function getGroupUsernamesById($group_id){
 	$usernames = [];
 	$query = 'SELECT user_id FROM group_users WHERE group_id="'.$group_id.'"';
 	foreach (json_decode(sqlQuery($conn,$query),true) as $group_user){
-		$usernames[] = getUsernameById($conn, $group_user['user_id']);
+		$usernames[] = getUsernameById($group_user['user_id']);
 	}
 	return $usernames;
 }
-function addUserToGroup($conn, $user_id, $group_id){
-	$group_exists = !empty(json_decode(sqlQuery($conn, "SELECT * FROM groups WHERE group_id='".$group_id."'"),true));
-	$user_not_already_in_group = empty(json_decode(sqlQuery($conn, "SELECT * FROM group_users WHERE user_id='".$user_id."' AND group_id='".$group_id."'"),true));
+function addUserToGroup($user_id, $group_id){
+	$group_exists = !empty(json_decode(sqlQuery("SELECT * FROM groups WHERE group_id='".$group_id."'"),true));
+	$user_not_already_in_group = empty(json_decode(sqlQuery("SELECT * FROM group_users WHERE user_id='".$user_id."' AND group_id='".$group_id."'"),true));
 	if ($group_exists and $user_not_already_in_group){ // If user not already in group
-		sqlQuery($conn, 'INSERT INTO group_users (group_id, user_id) VALUES ("'.$group_id.'", "'.$_SESSION['user_id'].'")');
+		sqlQuery('INSERT INTO group_users (group_id, user_id) VALUES ("'.$group_id.'", "'.$_SESSION['user_id'].'")');
 		return '';
 	} else if (!$group_exists){
 		return 'Group does not exist';
@@ -58,18 +33,18 @@ function addUserToGroup($conn, $user_id, $group_id){
 		return 'User already in group';
 	}
 }
-function removeUserFromGroup($conn, $user_id, $group_id){
-	sqlQuery($conn, 'DELETE FROM group_users WHERE group_id="'.$group_id.'" AND user_id="'.$user_id.'"');
+function removeUserFromGroup($user_id, $group_id){
+	sqlQuery('DELETE FROM group_users WHERE group_id="'.$group_id.'" AND user_id="'.$user_id.'"');
 }
-function createGroup($conn, $group_id, $group_name){
-	sqlQuery($conn, 'INSERT INTO groups (group_id, name) VALUES ("'.$group_id.'", "'.$group_name.'")');
+function createGroup($group_id, $group_name){
+	sqlQuery('INSERT INTO groups (group_id, name) VALUES ("'.$group_id.'", "'.$group_name.'")');
 }
-function createUser($conn, $user_id, $username, $password, $email){
-	sqlQuery($conn, 'INSERT INTO users (user_id, username, password, email) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'")');
+function createUser($user_id, $username, $password, $email){
+	sqlQuery('INSERT INTO users (user_id, username, password, email) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'")');
 }
 // Validation Functions
-function validateUsername($conn, $username){
-	if (!empty(json_decode(sqlQuery($conn, "SELECT * FROM users WHERE username='".$username."'")))){
+function validateUsername($username){
+	if (!empty(json_decode(sqlQuery("SELECT * FROM users WHERE username='".$username."'")))){
 		return "Username Taken";
 	} elseif ('' == str_replace(' ','',$username)){
 		return "Username Can't Be Blank";
@@ -84,8 +59,8 @@ function validateEmail($email){
 		return '';
 	}
 }
-function attemptLogin($conn, $username, $guessed_password){
-	$maybe_user_password = sqlQuery($conn, "SELECT password FROM users WHERE username='".$username."'");
+function attemptLogin($username, $guessed_password){
+	$maybe_user_password = sqlQuery("SELECT password FROM users WHERE username='".$username."'");
 	if (empty(json_decode($maybe_user_password))){
 		return 'User Does Not Exist';
 	} elseif (!password_verify($guessed_password, json_decode($maybe_user_password,true)[0]['password'])){
@@ -169,7 +144,7 @@ function renderGroupsPage($conn){
 	$query = 'SELECT group_id FROM group_users WHERE user_id="'.$_SESSION['user_id'].'"';
 	foreach (json_decode(sqlQuery($conn,$query),true) as $group_user){
 		$group_id = $group_user['group_id'];
-		$group_name = getGroupNameById($conn, $group_id);
+		$group_name = getGroupNameById($group_id);
 		echo renderForm(
 			'POST',
 			'view_group',
@@ -178,11 +153,11 @@ function renderGroupsPage($conn){
 		);
 	}
 }
-function renderGroupEventsPage($conn, $group_id){
+function renderGroupEventsPage($group_id){
 	$_SESSION['group_to_leave'] = $group_id;
 	echo renderFunctionButtons();
-	$group_name = getGroupNameById($conn, $group_id);
-	$group_usernames = getGroupUsernamesById($conn, $group_id);
+	$group_name = getGroupNameById($group_id);
+	$group_usernames = getGroupUsernamesById($group_id);
 	echo 'Viewing: '.$group_name.' ('.$group_id.')<br>Members:<br>';
 	foreach ($group_usernames as $username){
 		echo $username.'<br>';
@@ -228,9 +203,9 @@ if ($page_mode == 'render_login' or $page_mode == 'logout'){
 } else if ($page_mode == 'attempt_login'){
 	$just_logged_in = false;
 	if (!$_SESSION['logged_in']){
-		$login_message = attemptLogin($conn, $_POST['username'], $_POST['password']);
+		$login_message = attemptLogin($_POST['username'], $_POST['password']);
 		if ($login_message == ''){
-			addUserDetailsToSession(getUserIdByUsername($conn, $_POST['username']), $_POST['username']);
+			addUserDetailsToSession(getUserIdByUsername($_POST['username']), $_POST['username']);
 			$just_logged_in = true;
 		} else {
 		echo $login_message;
@@ -244,9 +219,9 @@ if ($page_mode == 'render_login' or $page_mode == 'logout'){
 	echo renderCreateAccountPage();
 } else if ($page_mode == 'submit_new_account'){
 	[$user_id, $username, $password, $email] = array('usr'.uniqid(), $_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['email']);
-	[$valid_username, $valid_email] = array(validateUsername($conn, $username), validateEmail($email));
+	[$valid_username, $valid_email] = array(validateUsername($username), validateEmail($email));
 	if ($valid_username == '' and $valid_email == ''){
-		createUser($conn, $user_id, $username, $password, $email);
+		createUser($user_id, $username, $password, $email);
 		echo 'User "'.$username.'" Created';
 		echo renderLoginPage();
 	} else {
@@ -257,19 +232,19 @@ if ($page_mode == 'render_login' or $page_mode == 'logout'){
 	echo renderCreateGroupPage();
 } else if ($page_mode == 'submit_new_group'){
 	$new_group_id = 'grp'.uniqid();
-	createGroup($conn, $new_group_id, $_POST['group_name']);
-	addUserToGroup($conn, $_SESSION['user_id'], $new_group_id);
+	createGroup($new_group_id, $_POST['group_name']);
+	addUserToGroup($_SESSION['user_id'], $new_group_id);
 	echo 'Group "'.$_POST['group_name'].'" Created';
 	renderGroupListView($conn);
 } else if ($page_mode == 'view_group'){
-	renderGroupEventsPage($conn, $_POST['group_id']);
+	renderGroupEventsPage($_POST['group_id']);
 } else if ($page_mode == 'join_group'){
 	echo renderJoinGroupPage();
 } else if ($page_mode == 'attempt_join_group'){
-	$add_user_to_group_message = addUserToGroup($conn, $_SESSION['user_id'], $_POST['group_id']);
+	$add_user_to_group_message = addUserToGroup($_SESSION['user_id'], $_POST['group_id']);
 	if ($add_user_to_group_message == ''){
-		echo 'User "'.$_SESSION['username'].'" added to "'.getGroupNameById($conn, $_POST['group_id']).'"';
-		renderGroupEventsPage($conn, $_POST['group_id']);
+		echo 'User "'.$_SESSION['username'].'" added to "'.getGroupNameById($_POST['group_id']).'"';
+		renderGroupEventsPage($_POST['group_id']);
 	} else {
 		echo $add_user_to_group_message;
 		echo renderJoinGroupPage();
@@ -277,8 +252,8 @@ if ($page_mode == 'render_login' or $page_mode == 'logout'){
 } else if ($page_mode == 'leave_group'){
 	$user_id = $_SESSION['user_id'];
 	$group_id = $_SESSION['group_to_leave'];
-	removeUserFromGroup($conn, $user_id, $group_id);
-	echo getUsernameById($conn, $user_id).' removed from '.getGroupNameById($conn, $group_id);
+	removeUserFromGroup($user_id, $group_id);
+	echo getUsernameById($user_id).' removed from '.getGroupNameById($group_id);
 	renderGroupListView($conn);
 }
 ?>
