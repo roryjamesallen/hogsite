@@ -4,7 +4,7 @@
 <?php
 error_reporting(E_ALL);
 
-/*include '../html_header.php';*/
+include '../html_header.php';
 
 if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
