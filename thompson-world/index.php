@@ -1,6 +1,3 @@
-<head>
-    <link rel="stylesheet" href="../style.css">
-    </head>
 <?php
 error_reporting(E_ALL);
 
