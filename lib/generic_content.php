@@ -57,7 +57,7 @@ function openSqlConnection($database){
 	} else {
 		include $root.'sql_login_'.$database.'.php'; // e.g. sql_login_wildhog_notoalgorithms.php
 	}
-	echo '/sql_login_'.$database.'.php<br>';
+	echo $root.'sql_login_'.$database.'.php<br>';
 	echo $user.'<br>';
 	echo $password.'<br>';
 	echo $database.'<br>';
