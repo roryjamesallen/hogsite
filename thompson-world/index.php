@@ -1,7 +1,10 @@
+<head>
+    <link rel="stylesheet" href="../style.css">
+    </head>
 <?php
 error_reporting(E_ALL);
 
-include '../html_header.php';
+/*include '../html_header.php';*/
 
 if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
@@ -23,8 +26,8 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 function renderImageLink($image_name, $links_to, $width, $height, $style){
 	return '<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
-function renderImageOnclick($image_name, $onclick_function, $width, $height, $style){
-    return '<img class="scene-image-link" id="'.$image_name.'" src="../images/thompson-world/thompson-world-'.$image_name.'.png" onclick="'.$onclick_function.'()" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
+function renderImageOnclick($image_name, $width, $height, $style){
+    return '<img class="scene-image-link" id="'.$image_name.'" src="../images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
 function renderUnderlayImage($image_name, $width, $height, $style){
     return '<img class="scene-image" id="'.$image_name.'" src="../images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
@@ -45,7 +48,7 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'conservatory'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'conservatory';
-	$thompson_room_links = renderImageLink('conservatory-to-kitchen', 'kitchen', '156', '79', 'left: 0px; bottom: 0px').renderImageLink('conservatory-to-garden', 'garden', '103', '234', 'left: 213px; top: 116px').renderImageOnclick('conservatory-light-switch', 'flip_conservatory_lights', '45', '58', 'left: 695px; top: 407px').renderUnderlayImage('conservatory-lights-on', '1080', $thompson_background_height, 'top: 0; left: 0; display: none; z-index: -1;');
+	$thompson_room_links = renderImageLink('conservatory-to-kitchen', 'kitchen', '156', '79', 'left: 0px; bottom: 0px').renderImageLink('conservatory-to-garden', 'garden', '103', '234', 'left: 213px; top: 116px').renderImageOnclick('conservatory-light-switch', '45', '58', 'left: 695px; top: 407px').renderUnderlayImage('conservatory-lights-on', '1080', $thompson_background_height, 'top: 0; left: 0; display: none; z-index: -1;');
 } else if ($thompson_room == 'garden'){
 	$thompson_background_height = '737';
 	$thompson_background_src = 'garden';
@@ -66,32 +69,42 @@ if ($thompson_room == 'lounge'){
 	</div>
 </div>
 
-<script>
-    function resizeSceneContainer(){
-        var window_width = window.innerWidth;
-        var window_height = window.innerHeight;
-        var original_container_width = 1080;
-        var original_container_height = <?php echo $thompson_background_height;?>;
-        var width_scale = 1;
-        var height_scale = 1;
-        var width_scale = window_width / original_container_width;
-        var height_scale = window_height / original_container_height;
-        if (width_scale < height_scale){ // Use smaller scale
-            scale = width_scale;
-        } else {
-            scale = height_scale;
-        }
-        document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
-    }
-resizeSceneContainer();
+<script type='module'>
+import { createCookie, readCookie } from '../lib/hoglib.js';
 
-function flip_conservatory_lights(){
+function resizeSceneContainer(){
+    var window_width = window.innerWidth;
+    var window_height = window.innerHeight;
+    var original_container_width = 1080;
+    var original_container_height = <?php echo $thompson_background_height;?>;
+    var width_scale = 1;
+    var height_scale = 1;
+    var width_scale = window_width / original_container_width;
+    var height_scale = window_height / original_container_height;
+    if (width_scale < height_scale){ // Use smaller scale
+        var scale = width_scale;
+    } else {
+        var scale = height_scale;
+    }
+    document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
+}
+function initialiseConservatoryLights(){
+    document.getElementById('conservatory-light-switch').addEventListener('click', flipConservatoryLights);
+    var old_state = readCookie('conservatory-light-display');
+    if (old_state != null){
+        document.getElementById('conservatory-lights-on').style.display = old_state;
+    }
+}
+function flipConservatoryLights(){
     var current_state = document.getElementById('conservatory-lights-on').style.display;
     if (current_state == 'none'){
-        new_state = 'block';
+        var new_state = 'block';
     } else {
-        new_state = 'none';
+        var new_state = 'none';
     }
+    createCookie('conservatory-light-display', new_state, 1);
     document.getElementById('conservatory-lights-on').style.display = new_state;
 }
+resizeSceneContainer();
+initialiseConservatoryLights();
 </script>
