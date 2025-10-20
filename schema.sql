@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `group_users` (
   `group_id` CHAR(36) NOT NULL,
   `user_id` CHAR(36) NOT NULL,
   UNIQUE KEY `ux_group_user` (`group_id`,`user_id`),
-  INDEX (`user_id`),
+  INDEX (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `home_visits` (
@@ -60,5 +60,5 @@ CREATE TABLE IF NOT EXISTS `home_visits` (
   `visitor_ip` VARCHAR(45) DEFAULT NULL,
   `visit_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` CHAR(36) DEFAULT NULL,
-  INDEX (`visitor_ip`),
+  INDEX (`visitor_ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
