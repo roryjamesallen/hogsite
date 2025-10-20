@@ -55,8 +55,6 @@ function openSqlConnection($database){
 	}
 	$db = $database;
 	$conn = mysqli_connect('localhost', $user, $password, $db) or die("Couldn't connect to database");
-	echo 'connected ';
-	die();
 }
 
 function sqlQuery($query){
