@@ -1,5 +1,5 @@
 <?php
-include 'lib/generic_content.php';
+include '../lib/generic_content.php';
 
 ob_start(); // Begin output buffering to allow output to be rendered after html head
 
@@ -460,8 +460,8 @@ cursor: pointer;
 		</style>
 	</head>
             <body>
-<?php echo $buffer; ?>
-<?php echo $standard_toolbar;?>            
+<?php echo $standard_toolbar;?> 
+<?php echo $buffer; ?>           
             <script>
 			var showing_info = false;
 const info_button = document.getElementById('info-button');
