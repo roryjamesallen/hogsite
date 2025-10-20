@@ -3,8 +3,10 @@ $current_url = $_SERVER['REQUEST_URI'];
 
 if (str_contains($current_url, 'hogsite')){
     $base_content = '<base href="/hogsite/">';
+    $home_location = 'index.php';
 } else {
     $base_content = '<base href="https://hogwild.uk">';
+    $home_location = 'https://hogwild.uk';
 }
 
 $standard_header_content = '
@@ -21,6 +23,6 @@ $standard_header_content = '
 
 $standard_toolbar = '
     <div class="standard-toolbar">
-    <a class="button" href="https://hogwild.uk" style="background-image: url(images/buttons/hogwilduk.png)"></a>
+    <a class="button" href="'.$home_location.'" style="background-image: url(images/buttons/hogwilduk.png)"></a>
     </div>';
 ?>
