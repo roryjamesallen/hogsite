@@ -47,7 +47,7 @@ if ($thompson_room == 'lounge'){
 } else if($thompson_room == 'kitchen'){
 	$thompson_background_height = '1296';
 	$thompson_background_src = 'kitchen';
-	$thompson_room_links = renderImageLink('kitchen-to-lounge', 'lounge', '143', '103', 'left: 0px; bottom: 0px').renderImageLink('kitchen-to-conservatory', 'conservatory', '266', '484', 'left: 389px; top: 191px');
+	$thompson_room_links = renderImageLink('kitchen-to-lounge', 'lounge', '143', '103', 'left: 0px; bottom: 0px').renderImageLink('kitchen-to-conservatory', 'conservatory', '266', '484', 'left: 389px; top: 191px').renderUnderlayImage('kitchen-lights-on', '1080', $thompson_background_height, 'top: 0; left: 0; display: none; z-index: -1;');
 } else if ($thompson_room == 'conservatory'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'conservatory';
@@ -63,7 +63,6 @@ if ($thompson_room == 'lounge'){
 }
 ?>
 
-<?php echo $standard_toolbar;?>
 <div class="button-container" style="padding-top: 0;">
 	<div id="scene-container" class="scene-container" style="transform-origin: top; width: 1080px; height: <?php echo $thompson_background_height ?>px">
 		<form action="" method="GET" class="thompson-world-form">
@@ -72,6 +71,7 @@ if ($thompson_room == 'lounge'){
 		</form>
 	</div>
 </div>
+<?php echo $standard_toolbar;?>
 
 <script type='module'>
 import { createCookie, readCookie } from './lib/hoglib.js';
@@ -104,6 +104,8 @@ function initialiseConservatoryLights(){
 	document.getElementById('conservatory-lights-on').style.display = old_state;
     } else if (thompson_room == 'garden'){  
 	document.getElementById('garden-lights-on').style.display = old_state;
+    } else if (thompson_room == 'kitchen'){  
+	document.getElementById('kitchen-lights-on').style.display = old_state;
     }
 }
 function flipConservatoryLights(){
@@ -116,6 +118,7 @@ function flipConservatoryLights(){
     createCookie('conservatory-light-display', new_state, 1);
     document.getElementById('conservatory-lights-on').style.display = new_state;
     document.getElementById('garden-lights-on').style.display = new_state;
+    document.getElementById('kitchen-lights-on').style.display = new_state;
 }
 resizeSceneContainer();
 initialiseConservatoryLights();
