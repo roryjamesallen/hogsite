@@ -1,8 +1,4 @@
 <?php
-error_reporting(E_ALL);
-
-include '../html_header.php';
-
 if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
 } else if (isset($_GET['kitchen_x'])){
@@ -19,7 +15,14 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'entrance-hallway';
 }
 $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
+?>
 
+<head>
+    <?php include '../html_header.php';?>
+    <title><?php echo $thompson_room_pretty;?></title>
+</head>
+
+<?php
 function renderImageLink($image_name, $links_to, $width, $height, $style){
 	return '<input class="scene-image-link" type="image" src="../images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }

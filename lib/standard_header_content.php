@@ -1,7 +1,6 @@
 <?php
 
 echo '
-<head>
 	<meta charset="utf-8">
 	<meta name="description" content="Welcome to the Hog Universe">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,7 +13,6 @@ echo '
 	<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
 	<link rel="manifest" href="./favicon/site.webmanifest" />
 	<link rel="stylesheet" href="style.css">
-</head>
 ';
 
 ?>

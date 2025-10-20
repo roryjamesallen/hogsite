@@ -40,10 +40,11 @@ $query = 'INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vs
 sqlQuery($conn, $query);
 ?>
 
-<?php 
-include 'html_header.php';
-?>
-     
+<head>
+    <?php include 'html_header.php';?>
+    <title>hogwild.uk</title>
+</head>
+    
 <div class="button-container">
     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
