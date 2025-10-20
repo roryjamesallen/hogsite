@@ -1,8 +1,6 @@
-Itay-Kirsh: How do I run this project locally?
-
-Copilot (summarised):
-
-Summary — run a local PHP + MySQL server, create the databases/tables the app expects, then serve the project with PHP's built‑in webserver.
+# Running hogwild.uk Locally
+## Linux / MacOS / Windows with WSL
+Summary: Run a local PHP + MySQL server, create the databases/tables the app expects, then serve the project with PHP's built‑in webserver.
 
 1) Install PHP and MySQL/MariaDB
 2) Start MySQL and create databases + minimal tables used by the app
@@ -20,3 +18,11 @@ Summary — run a local PHP + MySQL server, create the databases/tables the app 
 Troubleshooting
 - If you get DB connection errors, confirm MySQL is running and credentials/databases exist. You can edit the credential logic in the files linked above.
 - To seed more data, insert rows into `artists`, `users`, etc. The app reads/writes these tables via the functions referenced earlier.
+
+## XAMPP (Any Platform)
+Summary: Install XAMPP, open the `htdocs` folder, clone `hogsite` into the folder, then serve the project with XAMPP running
+
+1) Install [XAMPP](https://www.apachefriends.org/)
+2) Run XAMPP and click Explorer (or go to installation folder if on MacOS)
+3) Clone `hogsite` here however you normally clone git repositories
+4) Access the pages using http://localhost/hogsite/ but you will need to add the 'index.php' for each page URL
