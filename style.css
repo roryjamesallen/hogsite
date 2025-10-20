@@ -43,6 +43,7 @@ body {
     justify-content: center;
     width: 100%;
     position: absolute;
+    bottom: 0;
     z-index: 99;
     height: 35px;
     padding: 5px;
