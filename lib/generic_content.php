@@ -1,7 +1,25 @@
 <?php
+/* Get IP Address */
+if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $ip_address = $_SERVER['HTTP_CLIENT_IP'];  
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+    $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+} else{  
+    $ip_address = $_SERVER['REMOTE_ADDR'];  
+}
+
+/* Get url of served page */
 $current_url = $_SERVER['REQUEST_URI'];
 
+/* Check if running locally */
 if (str_contains($current_url, 'hogsite')){
+	$running_locally = true;
+} else {
+	$running_locally = false;
+}
+
+/* Local vs live site differences */
+if ($running_locally){
     $base_content = '<base href="/hogsite/">';
     $home_location = 'index.php';
 } else {
@@ -25,4 +43,38 @@ $standard_toolbar = '
     <div class="standard-toolbar">
     <a class="button" href="'.$home_location.'" style="background-image: url(images/buttons/hogwilduk.png)"></a>
     </div>';
+	
+/* SQL Functions */
+function openSqlConnection($database){
+	global $running_locally;
+	if ($running_locally) {
+		$user = 'root';
+		$password = '';
+	} else {
+		include 'sql_login_'.$database.'.php'; // e.g. sql_login_wildhognotoalgorithms.php
+	}
+	$db = $database;
+	$conn = mysqli_connect('localhost', $user, $password, $db) or die("Couldn't connect to database");
+}
+
+function sqlQuery($query){
+	global $conn;
+	$result = mysqli_query($conn, $query);
+	$data = [];
+	if (!is_bool($result)){
+		if ($result->num_rows > 0) { 
+			while ($row = $result->fetch_assoc()) { 
+				$data[] = $row; // Add each row to the data array 
+			}
+		}		
+	}
+	return json_encode($data);
+}
+
+function recordUserVisit(){
+	global $running_locally;
+	if ($running_locally == false){
+		sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
+	}
+}
 ?>
