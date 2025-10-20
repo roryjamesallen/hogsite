@@ -1,2 +1,2 @@
 SetEnvIf Origin "http(s)?://(.+\.)?hogwild\.uk(:\d{1,5})?$" CORS=$0 Header set Access-Control-Allow-Origin "%{CORS}e" env=CORS Header merge Vary "Origin"
-Access-Control-Allow-Origin: *
+Header set Access-Control-Allow-Origin "*"
