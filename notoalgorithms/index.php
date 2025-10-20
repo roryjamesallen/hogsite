@@ -460,8 +460,8 @@ cursor: pointer;
 		</style>
 	</head>
             <body>
-<?php echo $standard_toolbar;?>
 <?php echo $buffer; ?>
+<?php echo $standard_toolbar;?>            
             <script>
 			var showing_info = false;
 const info_button = document.getElementById('info-button');
