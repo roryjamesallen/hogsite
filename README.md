@@ -30,3 +30,36 @@ Summary: Install XAMPP, open the `htdocs` folder, clone `hogsite` into the folde
 5) Run `./mysql -u root < /Applications/XAMPP/xamppfiles/htdocs/hogsite/schema.sql` **NOTE:** correct the path to `schema.sql` if not correct
 6) The database should now be set up
 8) Access the pages using http://localhost/hogsite/ but you will need to add the 'index.php' for each page URL
+
+# Generic library
+# PHP
+By including the following line in your PHP code at the top of a page file, you can access the standard functions for database querying as well as useful runtime variables such as `$ip_address`.
+```
+include '../lib/generic_content.php';
+```
+# JavaScript
+By including the following line in your `<script>` block before any other scripting, you can access useful client side functions like `start_image_loop`.
+```
+import { function1, function2 } from './lib/hoglib.js';
+```
+Where `function1` and `function2` are the names of the functions you want to import.
+# Accessing a database
+The database must be set up in phpMyAdmin including creating an `sql_login` file which should contain the following:
+```
+<?php
+$user = [username];
+$password = [password];
+?>
+```
+Where `[username]` and `[password]` are the login details for the database user.
+The database connection can then be initialised by including the generic library and then opening the connection:
+```
+include '../lib/generic_content.php';
+openSqlConnection('wildhog_database', '../sql_login_wildhog_database.php');
+```
+Where `wildhog_database` is the name of the database and the path is the correct relative path to the login file.
+After setup, any query (SQL query in string format) can be processed using `sqlQuery(query)`, optionally saving the returned data as a variable.
+e.g.
+```
+$result = sqlQuery("SELECT * from users")
+```
