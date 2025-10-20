@@ -1,4 +1,6 @@
 <?php
+include 'lib/generic_content.php';
+
 ob_start(); // Begin output buffering to allow output to be rendered after html head
 
 error_reporting(E_ALL);
@@ -458,6 +460,7 @@ cursor: pointer;
 		</style>
 	</head>
             <body>
+<?php echo $standard_toolbar;?>
 <?php echo $buffer; ?>
             <script>
 			var showing_info = false;
