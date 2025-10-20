@@ -72,9 +72,6 @@ function sqlQuery($query){
 }
 
 function recordUserVisit(){
-	global $running_locally;
-	if ($running_locally == false){
-		sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
-	}
+	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
 }
 ?>
