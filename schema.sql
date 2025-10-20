@@ -53,8 +53,6 @@ CREATE TABLE IF NOT EXISTS `group_users` (
   `user_id` CHAR(36) NOT NULL,
   UNIQUE KEY `ux_group_user` (`group_id`,`user_id`),
   INDEX (`user_id`),
-  CONSTRAINT `fk_group` FOREIGN KEY (`group_id`) REFERENCES `groups`(`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `home_visits` (
@@ -63,5 +61,4 @@ CREATE TABLE IF NOT EXISTS `home_visits` (
   `visit_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` CHAR(36) DEFAULT NULL,
   INDEX (`visitor_ip`),
-  CONSTRAINT `fk_visit_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
