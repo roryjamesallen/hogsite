@@ -52,7 +52,7 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'garden'){
 	$thompson_background_height = '737';
 	$thompson_background_src = 'garden';
-	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px').renderImageLink('garden-to-pigeons', 'pigeons', '125', '67', 'left: 320px; top: 46px');
+	$thompson_room_links = renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px').renderImageLink('garden-to-pigeons', 'pigeons', '125', '67', 'left: 320px; top: 46px').renderUnderlayImage('garden-lights-on', '1080', $thompson_background_height, 'top: 0; left: 0; display: none; z-index: -1;');
 } else if ($thompson_room == 'pigeons'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'pigeons';
@@ -72,6 +72,8 @@ if ($thompson_room == 'lounge'){
 <script type='module'>
 import { createCookie, readCookie } from '../lib/hoglib.js';
 
+var thompson_room = '<?php echo $thompson_room;?>';
+
 function resizeSceneContainer(){
     var window_width = window.innerWidth;
     var window_height = window.innerHeight;
@@ -89,10 +91,15 @@ function resizeSceneContainer(){
     document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
 }
 function initialiseConservatoryLights(){
-    document.getElementById('conservatory-light-switch').addEventListener('click', flipConservatoryLights);
     var old_state = readCookie('conservatory-light-display');
-    if (old_state != null){
-        document.getElementById('conservatory-lights-on').style.display = old_state;
+    if (old_state == null){
+	old_state = 'none';
+    }
+    if (thompson_room == 'conservatory'){
+	document.getElementById('conservatory-light-switch').addEventListener('click', flipConservatoryLights);
+	document.getElementById('conservatory-lights-on').style.display = old_state;
+    } else if (thompson_room == 'garden'){  
+	document.getElementById('garden-lights-on').style.display = old_state;
     }
 }
 function flipConservatoryLights(){
@@ -104,6 +111,7 @@ function flipConservatoryLights(){
     }
     createCookie('conservatory-light-display', new_state, 1);
     document.getElementById('conservatory-lights-on').style.display = new_state;
+    document.getElementById('garden-lights-on').style.display = new_state;
 }
 resizeSceneContainer();
 initialiseConservatoryLights();
