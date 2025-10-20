@@ -1,7 +1,11 @@
 <?php
 $current_url = $_SERVER['REQUEST_URI'];
 
-$base_content = '<base href="/hogsite/">';
+if (str_contains($current_url, 'hogsite')){
+    $base_content = '<base href="/hogsite/">';
+} else {
+    $base_content = '<base href="https://hogwild.uk">';
+}
 
 $standard_header_content = '
 	<meta charset="utf-8">
