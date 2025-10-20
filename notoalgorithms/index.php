@@ -1,35 +1,13 @@
 <?php
 include '../lib/generic_content.php';
-
 ob_start(); // Begin output buffering to allow output to be rendered after html head
 
-error_reporting(E_ALL);
-
-if ($_SERVER
-    ['REMOTE_ADDR'] == '127.0.0.1') {
-	$user = 'root';
-	$password = '';
-	$db = 'testdb';
-} else {
-	$user = 'wildhog_notoalgorithms';
-	$password = 'zmG=I]-xuEqc7@=Y';
-	$db = 'wildhog_notoalgorithms';
-}
-
-$conn = new mysqli('localhost', $user, $password, $db) or die("Couldn't connect to database");
-
-if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
-    $ip_address = $_SERVER['HTTP_CLIENT_IP'];  
-} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
-    $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];  
-} else{  
-    $ip_address = $_SERVER['REMOTE_ADDR'];  
-}
+openSqlConnection('wildhog_notoalgorithms');
 
 if (!isset($_GET['submit_confident'])) {
 	echo "<h1 class='page-title'><a href=".$_SERVER['PHP_SELF'].">no to algorithms!</a></h1>";
 	echo "<div id='info-button' class='info-button'>?</div>";
-	echo "<div id='user-count' class='info-button submitter-count'>".strval(count(getArtistsFromDatabase($conn))/2)." submissions and counting</div>";
+	echo "<div id='user-count' class='info-button submitter-count'>".strval(count(getArtistsFromDatabase())/2)." submissions and counting</div>";
 	if (isset($_GET['artist'])) {
 		$issue_artist = urlencode($_GET['artist']);
 	} else {
@@ -58,24 +36,19 @@ function renderSearchbar() {
 	echo "</form>";
 }
 
-function getArtistsFromDatabase($conn) {
+function getArtistsFromDatabase() {
 	$artists = [];
-	$sql = "SELECT * FROM artists"; // Get all artists from the database
-	$result = $conn->query($sql); // Query the database
-	while($row = $result->fetch_assoc()) { // For row in the database
+	foreach (json_decode(sqlQuery("SELECT * FROM artists"),true) as $row){ // For row in the database
 		foreach (['artist','related'] as $artist) { // For the two columns in the database row
 			array_push($artists, urldecode($row[$artist]));
 		}
 	}
-	$result->data_seek(0);
 	return $artists;
 }
 
-function getSubmissionsByUser($conn, $ip) {
+function getSubmissionsByUser($ip) {
     $submissions = [];
-    $sql = "SELECT * FROM artists WHERE ip='".$ip."'";
-    $result = $conn->query($sql); // Query the database
-    while($row = $result->fetch_assoc()) { // For row in the database
+    foreach (json_decode(sqlQuery("SELECT * FROM artists WHERE ip='".$ip."'"),true) as $row){ // For row in the database
 		array_push($submissions, [$row['artist'],$row['related']]);
 		array_push($submissions, [$row['related'],$row['artist']]); // Both ways round to allow for easy searching
     }
@@ -108,8 +81,8 @@ function renderArtistList($relations) { // Relations in format [artist: number o
 	echo "</div>";
 }
 
-function renderHomeArtists($conn) {
-	$all_artists = getArtistsFromDatabase($conn);
+function renderHomeArtists() {
+	$all_artists = getArtistsFromDatabase();
 	$artist_relations = [];
 	foreach ($all_artists as $artist) {
 		if (array_key_exists($artist, $artist_relations)) {
@@ -121,23 +94,19 @@ function renderHomeArtists($conn) {
 	renderArtistList($artist_relations);
 }
 
-function getUniqueUsers($conn) {
+function getUniqueUsers() {
 	$unique_users = 0;
-	$sql = "SELECT DISTINCT ip FROM artists";
-	$result = $conn->query($sql); // Query the database
-	while($row = $result->fetch_assoc()) {
+	foreach (json_decode(sqlQuery("SELECT DISTINCT ip FROM artists"),true) as $row){ // For row in the database
 		$unique_users++;
 	}
 	return $unique_users;
 }
 
-function renderSuggestedSpellings($conn, $entered_artists = ['first_artist','second_artist']) {
-	$sql = "SELECT * FROM artists"; // Get all artists from the database
-	$result = $conn->query($sql); // Query the database
+function renderSuggestedSpellings($entered_artists = ['first_artist','second_artist']) {
 	$already_asked = [];
 	$questions_asked = 0;
 	foreach ($entered_artists as $entered_artist) { // For the two submitted artists
-		while($row = $result->fetch_assoc()) { // For row in the database
+		foreach (json_decode(sqlQuery("SELECT * FROM artists"),true) as $row){ // For row in the database
 			foreach (['artist','related'] as $possible_real_artist) { // For the two columns in the database row
 				if (levenshtein(urldecode($row[$possible_real_artist]), urldecode($_GET[$entered_artist])) < 4 && !in_array($row[$possible_real_artist], $already_asked) && urldecode($row[$possible_real_artist]) != urldecode($_GET[$entered_artist])) { // If similar and not already asked about this artist and the artist hasn't been spelled correctly anyway
 					if ($questions_asked == 0) {
@@ -157,21 +126,21 @@ function renderSuggestedSpellings($conn, $entered_artists = ['first_artist','sec
 	return $questions_asked;
 }
 
-function writeToDatabase($conn, $ip_address='') {
+function writeToDatabase($ip_address='') {
 	$sql = "INSERT INTO artists (artist, related, ip, time) VALUES ('".urlencode(trim($_GET['first_artist']))."', '".urlencode(trim($_GET['second_artist']))."', '".urlencode($ip_address)."', '".time()."')"; // Save the submitter's IP just in case
-	$conn->query($sql); // Write the artists to the database
+	sqlQuery($sql); // Write the artists to the database
     return true;
 }
 
-function writeIssue($conn) {
+function writeIssue() {
 	$sql = "
 		INSERT INTO issues (artist, type, info, ip)
 		VALUES ('".urlencode($_GET['issue_artist'])."', '".urlencode($_GET['issue_type'])."', '".urlencode($_GET['issue_info'])."', '".$_GET['issue_ip']."')"; // Save the submitter's IP just in case
-	$conn->query($sql); // Write the issue to the database
-	$to = "rory.james.allen1@gmail.com";
-	$subject = "nta issue with ".$_GET['issue_artist'];
-	$message = $_GET['issue_ip']." thinks ".$_GET['issue_type']." with ".$_GET['issue_artist']."<br><br>extra info: ".$_GET['issue_info'];
-	$headers = "From: webmaster@allensynthesis.co.uk" . "\r\n";
+	sqlQuery($sql); // Write the issue to the database
+	//$to = "rory.james.allen1@gmail.com";
+	//$subject = "nta issue with ".$_GET['issue_artist'];
+	//$message = $_GET['issue_ip']." thinks ".$_GET['issue_type']." with ".$_GET['issue_artist']."<br><br>extra info: ".$_GET['issue_info'];
+	//$headers = "From: webmaster@allensynthesis.co.uk" . "\r\n";
 	//mail($to, $subject, $message, $headers); // add later
 }
 
@@ -201,7 +170,7 @@ function renderSubmission($confident = False) { // Render the boxes to submit a 
 	echo "</form>";
 }
 
-function getRelatedArtists($conn, $artist) {
+function getRelatedArtists($artist) {
 	$artist = urlencode(substr($artist, 1, (strlen($artist) - 2)));
 	$relations = [];
 	$mode_parameters = []; // Allow different sql and column selection for the same code
@@ -212,9 +181,8 @@ function getRelatedArtists($conn, $artist) {
 	
 	foreach (['artist','related'] as $mode) { // Find related for artist and artist for related (use different sql etc as above)
 		$sql = $mode_parameters[$mode]['sql']; // Get the sql query
-		$result = $conn->query($sql); // Query the database
-		if ($result->num_rows > 0) { // If the table isn't empty
-		  while($row = $result->fetch_assoc()) { // Get each whole row
+		$result = json_decode(sqlQuery($sql),true); // Query the database
+		  foreach ($result as $row){ // For row in the database
 			$related = $row[$mode_parameters[$mode]['opposite']]; // Related artist for this row
 			if (array_key_exists($related, $relations)) {
 				$relations[$related] = $relations[$related] + 1; // One *more* instance of the related artist
@@ -223,10 +191,6 @@ function getRelatedArtists($conn, $artist) {
 				$relations[$related] = 1; // One instance of the related artist
 			}		
 		  }
-		  $result->data_seek(0);
-		} else {
-			// No related artist
-		}
 	}
 	return $relations;
 }
@@ -236,7 +200,7 @@ if (isset($_GET['new_submission'])) {
 	echo "<div class='heading warning'>artist names only, capitalised correctly please!</div>";
 	//render write boxes
 } elseif (isset($_GET['submit']) && isset($_GET['issue_ip'])) { // ip always sent with issue
-	writeIssue($conn);
+	writeIssue();
 	header('Location: '.$_SERVER['PHP_SELF'].'?message=issue submitted, thanks :)');
 } elseif (isset($_GET['submit']) && isset($_GET['first_artist'])) { // Receiving a submission, write to database (after spelling checks)
 	if ($_GET['first_artist'] == "" or $_GET['second_artist'] == "") {
@@ -245,18 +209,18 @@ if (isset($_GET['new_submission'])) {
 	} elseif ($_GET['first_artist'] == $_GET['second_artist']) {
 		renderSubmission();
 		echo "<div class='heading warning'>the artist can't be related to themselves!</div>";
-    } elseif (in_array([$_GET['first_artist'],$_GET['second_artist']], getSubmissionsByUser($conn, $ip_address))) { // If user has previously submitted this combo
+    } elseif (in_array([$_GET['first_artist'],$_GET['second_artist']], getSubmissionsByUser($ip_address))) { // If user has previously submitted this combo
         renderSubmission();
 		echo "<div class='heading warning'>you've submitted that combo before!</div>";
 	} else {
 		renderSubmission(True); // Confident submission box (changes submit button function)
-		$questions_asked = renderSuggestedSpellings($conn);
+		$questions_asked = renderSuggestedSpellings();
 		echo "<div class='heading'>";
 		echo "&#x2022; please double check both artists before submitting<br>";
 		echo "&#x2022; search for them first to check spellings<br>";
 		echo "&#x2022; capitalise according to their streaming/socials!<br>";
 		foreach (['first_artist', 'second_artist'] as $artist) {
-			if (!in_array($_GET[$artist], getArtistsFromDatabase($conn))) {
+			if (!in_array($_GET[$artist], getArtistsFromDatabase())) {
 				echo "&#x2022 you'll be creating the artist: ".$_GET[$artist]."<br>";
 			}
 		}
@@ -292,7 +256,7 @@ if (isset($_GET['new_submission'])) {
 		echo "</form>";
 	}
 } elseif (isset($_GET['submit_confident'])) { // User specifically confirmed they think their spelling etc is correct so just write to database
-	if (writeToDatabase($conn, $ip_address)) {
+	if (writeToDatabase($ip_address)) {
         header('Location: '.$_SERVER['PHP_SELF'].'?message=recommendation submitted, thanks :)');
     }
 } elseif(isset($_GET['artist'])) {
@@ -303,11 +267,11 @@ if (isset($_GET['new_submission'])) {
 	if ($artist == '""') {
 		echo "<div class='heading warning'>type in the artist before searching</div>";
 	} else {	
-		$relations = getRelatedArtists($conn, $artist);
+		$relations = getRelatedArtists($artist);
 		// $relations is in the format [related_artist: number_of_times_relation_submitted] 
 		if (count($relations) == 0) {
 			echo "<div class='heading warning'>nobody has submitted any related artists for ".urldecode($_GET['artist']). " yet :(</div>";
-			renderSuggestedSpellings($conn, ['artist']);
+			renderSuggestedSpellings(['artist']);
 		} else {
 			if (count($relations) == 1) {
 				$extra_text = "";
@@ -323,10 +287,9 @@ if (isset($_GET['new_submission'])) {
 	if (isset($_GET['message'])) {
 		echo "<div class='heading happy'>".$_GET['message']."</div>";
 	}
-	renderHomeArtists($conn);
+	renderHomeArtists();
 }
 	
-$conn->close();
 $buffer = ob_get_clean();
 ?>
     <!DOCTYPE html> 
