@@ -1,8 +1,8 @@
 <?php
 include '../lib/generic_content.php';
-ob_start(); // Begin output buffering to allow output to be rendered after html head
-
 openSqlConnection('wildhog_notoalgorithms');
+
+ob_start(); // Begin output buffering to allow output to be rendered after html head
 
 if (!isset($_GET['submit_confident'])) {
 	echo "<h1 class='page-title'><a href=".$_SERVER['PHP_SELF'].">no to algorithms!</a></h1>";
