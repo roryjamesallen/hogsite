@@ -4,6 +4,21 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
 
 openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
 recordUserVisit();
+
+$visits = sqlQuery("SELECT * from home_visits");
+function getUniqueVisitors($visits){
+	$visitors = [];
+	foreach($visits as $visit){
+		$visitor_ip = $visit['visitor_ip'];
+		if (array_key_exists($visitor_ip, $visitors)){
+			$visitors[$visitor_ip] += 1;
+		} else {
+			$visitors[$visitor_ip] = 1;
+		}
+	}
+	return $visitors;
+}
+echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors';
 ?>
 
 <head>
