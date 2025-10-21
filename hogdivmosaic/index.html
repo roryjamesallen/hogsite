@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+  <style>
+#container {
+    position: relative;
+    resize: both;
+    overflow: hidden;
+    min-width: 10px;
+    min-height: 10px;
+    width: 80vw;
+    height: 80vh;
+}
+#container::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-image: url(../images/buttons/resizer.png);
+}
+::-webkit-resizer {
+    border: rgba(0,0,0,0);
+    background: rgba(0,0,0,0);
+    box-shadow: none;
+    outline: none;
+}
+
+#no1 {
+	position: absolute;
+	width: 29px;
+	height: 117px;
+  right: 448px;
+  top: 338px;
+	background-color: #2f2019;
+}
+#no2 {
+	position: absolute;
+	width: 19px;
+	height: 13px;
+  left: 137px;
+  top: 417px;
+	background-color: #332219;
+}
+#no3 {
+	position: absolute;
+	width: 28px;
+	height: 87px;
+  right: 359px;
+  bottom: 73px;
+	background-color: #332219;
+}
+#no4 {
+	position: absolute;
+	width: 36px;
+	height: 128px;
+  left: 225px;
+  bottom: 39px;
+	background-color: #262525;
+}
+#no5 {
+	position: absolute;
+	width: 31px;
+	height: 105px;
+  right: 188px;
+  top: 330px;
+	background-color: #352820;
+}
+#no6 {
+	position: absolute;
+	width: 59px;
+	height: 84px;
+  left: 43px;
+  top: 124px;
+	background-color: #c87935;
+}
+#no7 {
+	position: absolute;
+	width: 79px;
+	height: 185px;
+  right: 175px;
+  bottom: 165px;
+	background-color: #af6533;
+}
+#no8 {
+	position: absolute;
+	width: 76px;
+	height: 37px;
+  left: 303px;
+  bottom: 369px;
+	background-color: #ea953c;
+}
+#no9 {
+	position: absolute;
+	width: 166px;
+	height: 175px;
+  right: 249px;
+  top: 146px;
+	background-color: #985221;
+}
+#no10	{
+	position: absolute;
+	width: 161px;
+	height: 38px;
+  left: 105px;
+  top: 313px;
+	background-color: #a3642f;
+}
+#no11	{
+	position: absolute;
+	width: 224px;
+	height: 57px;
+  right: 180px;
+  bottom: 346px;
+	background-color: #e59c55;
+}
+#no12	{
+	position: absolute;
+	width: 195px;
+	height: 12px;
+  right: 195px;
+  bottom: 403px;
+	background-color: #dddedf;
+}
+#no13	{
+	position: absolute;
+	width: 62px;
+	height: 145px;
+  left: 23px;
+  bottom: 153px;
+	background-color: #c57932;
+}
+#no14	{
+	position: absolute;
+	width: 56px;
+	height: 52px;
+  right: 130px;
+  top: 265px;
+	background-color: #603721;
+}
+#no15	{
+	position: absolute;
+	width: 10px;
+	height: 12px;
+  left: 115px;
+  top: 426px;
+	background-color: #7c7164;
+}
+#no16	{
+	position: absolute;
+	width: 23px;
+	height: 10px;
+  right: 349px;
+  bottom: 67px;
+	background-color: #7c7164;
+}
+#no17	{
+	position: absolute;
+	width: 16px;
+	height: 13px;
+  left: 35px;
+  bottom: 44px;
+	background-color: #7c7164;
+}
+#no18	{
+	position: absolute;
+	width: 14px;
+	height: 13px;
+  right: 441px;
+  top: 439px;
+	background-color: #7c7164;
+}
+#no19	{
+	position: absolute;
+	width: 22px;
+	height: 14px;
+  left: 233px;
+  top: 461px;
+	background-color: #9e9d98;
+}
+#no20	{
+	position: absolute;
+	width: 8px;
+	height: 16px;
+  right: 271px;
+  bottom: 37px;
+	background-color: #948f86;
+}
+#no21	{
+	position: absolute;
+	width: 15px;
+	height: 8px;
+  left: 257px;
+  bottom: 32px;
+	background-color: #9e9d98;
+}
+#no22	{
+	position: absolute;
+	width: 28px;
+	height: 14px;
+  right: 186px;
+  top: 434px;
+	background-color: #635d59;
+}
+#no23	{
+	position: absolute;
+	width: 9px;
+	height: 12px;
+  left: 273px;
+  top: 414px;
+	background-color: #7c7164;
+}
+#no24	{
+	position: absolute;
+	width: 15px;
+	height: 14px;
+  right: 176px;
+  bottom: 57px;
+	background-color: #635d59;
+}
+#no25	{
+	position: absolute;
+	width: 124px;
+	height: 139px;
+  left: 324px;
+  bottom: 233px;
+	background-color: #5e5150;
+}
+#no26	{
+	position: absolute;
+	width: 62px;
+	height: 53px;
+  right: 83px;
+  top: 117px;
+	background-color: #4b3e3e;
+}
+#no27	{
+	position: absolute;
+	width: 97px;
+	height: 97px;
+  left: 368px;
+  top: 192px;
+	background-color: #3f3735;
+}
+#no28	{
+	position: absolute;
+	width: 92px;
+	height: 94px;
+  right: 9px;
+  bottom: 192px;
+	background-color: #514d4d;
+}
+#no29	{
+	position: absolute;
+	width: 21px;
+	height: 38px;
+  left: 429px;
+  bottom: 302px;
+	background-color: #453f47;
+}
+#no30	{
+	position: absolute;
+	width: 39px;
+	height: 43px;
+  right: 165px;
+  top: 124px;
+	background-color: #ad784e;
+}
+#no31	{
+	position: absolute;
+	width: 77px;
+	height: 13px;
+  left: 222px;
+  top: 127px;
+	background-color: #4b3a38;
+}
+#no32	{
+	position: absolute;
+	width: 13px;
+	height: 64px;
+  right: 273px;
+  bottom: 298px;
+	background-color: #4b3a38;
+}
+#no33	{
+	position: absolute;
+	width: 32px;
+	height: 44px;
+  left: 280px;
+  bottom: 320px;
+	background-color: #443837;
+}
+#no34	{
+	position: absolute;
+	width: 73px;
+	height: 44px;
+  right: 65px;
+  top: 167px;
+	background-color: #dcd0c5;
+}
+#no35	{
+	position: absolute;
+	width: 50px;
+	height: 20px;
+  left: 342px;
+  top: 208px;
+	background-color: #bf9d7e;
+}
+#no36	{
+	position: absolute;
+	width: 66px;
+	height: 23px;
+  right: 159px;
+  bottom: 226px;
+	background-color: #ddc0a6;
+}
+#no37	{
+	position: absolute;
+	width: 46px;
+	height: 11px;
+  left: 376px;
+  bottom: 395px;
+	background-color: #4b3a38;
+}
+#no38	{
+	position: absolute;
+	width: 30px;
+	height: 41px;
+  right: 71px;
+  top: 156px;
+	background-color: #bc8454;
+}
+#no39	{
+	position: absolute;
+	width: 23px;
+	height: 48px;
+  left: 407px;
+  top: 102px;
+	background-color: #9a6a4e;
+}
+#no40	{
+	position: absolute;
+	width: 41px;
+	height: 51px;
+  right: 111px;
+  bottom: 289px;
+	background-color: #5d5560;
+}
+#no41	{
+	position: absolute;
+	width: 27px;
+	height: 22px;
+  left: 355px;
+  bottom: 306px;
+	background-color: #3e3939;
+}
+#no42	{
+	position: absolute;
+	width: 12px;
+	height: 8px;
+  right: 127px;
+  top: 185px;
+	background-color: #7c5343;
+}
+#no43	{
+	position: absolute;
+	width: 8px;
+	height: 6px;
+  left: 364px;
+  top: 186px;
+	background-color: #000000;
+}
+#no44	{
+	position: absolute;
+	width: 58px;
+	height: 31px;
+  right: 7px;
+  bottom: 197px;
+	background-color: #dbcaba;
+}
+#no45	{
+	position: absolute;
+	width: 51px;
+	height: 31px;
+  left: 441px;
+  bottom: 182px;
+	background-color: #4a3d32;
+}
+#no46	{
+	position: absolute;
+	width: 12px;
+	height: 7px;
+  right: 39px;
+  top: 300px;
+	background-color: #1a1512;
+}
+#no47	{
+	position: absolute;
+	width: 11px;
+	height: 8px;
+  left: 476px;
+  top: 295px;
+	background-color: #1a1512;
+}
+#no48	{
+	position: absolute;
+	width: 14px;
+	height: 31px;
+  right: 80px;
+  bottom: 211px;
+	background-color: #e9bf98;
+}
+#no49	{
+	position: absolute;
+	width: 25px;
+	height: 14px;
+  left: 373px;
+  bottom: 363px;
+	background-color: #b67144;
+}
+/*
+*/
+
+</style>
+
+<body>
+
+<!--
+DIV NO1 is at the BACK of the image BEHIND everything else
+DIV NO50 is at the FRONT of the image ON TOP of everything else
+  -->
+<div id="container">
+<div id="no1"></div>
+<div id="no2"></div>
+<div id="no3"></div>
+<div id="no4"></div>
+<div id="no5"></div>
+<div id="no6"></div>
+<div id="no7"></div>
+<div id="no8"></div>
+<div id="no9"></div>
+<div id="no10"></div>
+<div id="no11"></div>
+<div id="no12"></div>
+<div id="no13"></div>
+<div id="no14"></div>
+<div id="no15"></div>
+<div id="no16"></div>
+<div id="no17"></div>
+<div id="no18"></div>
+<div id="no19"></div>
+<div id="no20"></div>
+<div id="no21"></div>
+<div id="no22"></div>
+<div id="no23"></div>
+<div id="no24"></div>
+<div id="no25"></div>
+<div id="no26"></div>
+<div id="no27"></div>
+<div id="no28"></div>
+<div id="no29"></div>
+<div id="no30"></div>
+<div id="no31"></div>
+<div id="no32"></div>
+<div id="no33"></div>
+<div id="no34"></div>
+<div id="no35"></div>
+<div id="no36"></div>
+<div id="no37"></div>
+<div id="no38"></div>
+<div id="no39"></div>
+<div id="no40"></div>
+<div id="no41"></div>
+<div id="no42"></div>
+<div id="no43"></div>
+<div id="no44"></div>
+<div id="no45"></div>
+<div id="no46"></div>
+<div id="no47"></div>
+<div id="no48"></div>
+<div id="no49"></div>
+<div id="no50"></div>
+</div>
+<!--
+-->
+</body>
+
+</html>
