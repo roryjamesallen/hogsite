@@ -44,6 +44,7 @@ import { function1, function2 } from './lib/hoglib.js';
 ```
 Where `function1` and `function2` are the names of the functions you want to import.
 # Accessing a database
+## Database setup
 The database must be set up in phpMyAdmin including creating an `sql_login` file which should contain the following:
 ```
 <?php
@@ -52,14 +53,24 @@ $password = [password];
 ?>
 ```
 Where `[username]` and `[password]` are the login details for the database user.
+## Creating the connection in your PHP file
 The database connection can then be initialised by including the generic library and then opening the connection:
 ```
 include '../lib/generic_content.php';
 openSqlConnection('wildhog_database', '../sql_login_wildhog_database.php');
 ```
 Where `wildhog_database` is the name of the database and the path is the correct relative path to the login file.
+## Querying the database
 After setup, any query (SQL query in string format) can be processed using `sqlQuery(query)`, optionally saving the returned data as a variable.
 e.g.
 ```
 $result = sqlQuery("SELECT * from users")
+```
+The result of the query above is iterable or indexable as shown:
+```
+foreach (sqlQuery($result) as $row){
+	echo $row['user_id'];
+}
+
+$first_user = $result[0]['user_id'];
 ```
