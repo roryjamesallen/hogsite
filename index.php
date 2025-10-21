@@ -90,6 +90,10 @@ if ($response['status'] == 'success'){
 	<a class="button" href="https://tw.hogwild.uk">
 		<img src="images/buttons/thompson-world.png" class="button-image">
 	</a>
+
+    <a class="button" href="https://mosaic.hogwild.uk">
+		<img src="images/buttons/hogmosaic.png" class="button-image">
+	</a>
 	
 </div>
 </body>
