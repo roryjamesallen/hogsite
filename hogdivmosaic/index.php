@@ -1,5 +1,11 @@
-<!DOCTYPE html>
+<?php
+include '../lib/generic_content.php';
+?>
+
 <html>
+    <head>
+    <title>Hog Mosaic</title>
+<?php echo $standard_header_content;?>
   <style>
 #container {
     position: relative;
@@ -17,7 +23,7 @@
     right: 0;
     width: 50px;
     height: 50px;
-    background-image: url(../images/buttons/resizer.png);
+    background-image: url(images/buttons/resizer.png);
 }
 ::-webkit-resizer {
     border: rgba(0,0,0,0);
@@ -422,7 +428,7 @@
 */
 
 </style>
-
+</head>
 <body>
 
 <!--
