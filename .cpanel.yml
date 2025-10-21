@@ -11,3 +11,4 @@ deployment:
     - /bin/cp -R notoalgorithms $DEPLOYPATH
     - /bin/cp -R nothingeverhappens $DEPLOYPATH
     - /bin/cp -R thompson-world $DEPLOYPATH
+    - /bin/cp -R hogdivmosaic $DEPLOYPATH
