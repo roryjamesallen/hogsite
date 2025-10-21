@@ -53,3 +53,6 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
 }
+.page-banner {
+    text-align: center;
+}

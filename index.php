@@ -5,7 +5,6 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
 openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
 recordUserVisit();
 
-$visits = sqlQuery("SELECT * from home_visits");
 function getUniqueVisitors($visits){
 	$visitors = [];
 	foreach($visits as $visit){
@@ -18,16 +17,59 @@ function getUniqueVisitors($visits){
 	}
 	return $visitors;
 }
+function apiCall($api_url){
+    return json_decode(file_get_contents($api_url),true);
+}
+function getTemperatureComment($temperature){
+    if ($temperature < 0) {
+        $temperature_comment = 'What\'s cooler than being cool? ICE COLD!';
+    } else if ($temperature < 10) {
+        $temperature_comment = 'Wear a jumper...';
+    } else if ($temperature < 25) {
+        $temperature_comment = 'That\'s a normal temperature...';
+    } else if ($temperature < 35) {
+        $temperature_comment = 'Don\'t forget sun cream!';
+    } else if ($temperature < 40) {
+        $temperature_comment = 'Hot one today!! Be careful...';
+    } else {
+        $temperature_comment = 'You are dead.';
+    }
+    return $temperature_comment;
+}
+
+$visits = sqlQuery("SELECT * from home_visits");
+$unique_visitors = getUniqueVisitors($visits);
+$client_visit_number = $unique_visitors[$ip_address];
+
+$ip_api_url = 'http://ip-api.com/json/'.$ip_address;
+$response = apiCall($ip_api_url);
+if ($response['status'] == 'success'){
+    $country_code = $response['countryCode'];
+    $country_emoji = mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[0] ) ) . ';', 'UTF-8', 'HTML-ENTITIES').mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[1] ) ) . ';', 'UTF-8', 'HTML-ENTITIES');
+    $city = $response['city'];
+    $latitude = $response['lat'];
+    $longitude = $response['lon'];
+    $weather_api_url = 'https://api.open-meteo.com/v1/forecast?latitude='.$latitude.'&longitude='.$longitude.'&hourly=apparent_temperature&forecast_days=1';
+    $weather_response = apiCall($weather_api_url);
+    $temperature = round($weather_response['hourly']['apparent_temperature'][1]);
+    $temperature_comment = getTemperatureComment($temperature);
+    $temperature_sentence = ' it\'s about '.$temperature.'°C near '.$city.' '.$country_emoji.' '.$temperature_comment;
+} else {
+    $temperature_sentence = '';
+}
 ?>
 
 <html>
 <head>
     <?php echo $standard_header_content;?>
-    <title>hogwild.uk</title>
+    <title>hogwild.uk <?php echo $country_emoji ?></title>
 </head>
 
 <body>
-<?php echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors';?>
+<div class="page-banner">
+<?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.'.$temperature_sentence?>
+</div>
+    
 <div class="button-container">
     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
