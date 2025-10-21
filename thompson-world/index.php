@@ -5,8 +5,12 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'lounge';
 } else if (isset($_GET['kitchen_x'])){
 	$thompson_room = 'kitchen';
+} else if (isset($_GET['front-door_x'])){
+	$thompson_room = 'front-door';
 } else if (isset($_GET['entrance-hallway_x'])){
 	$thompson_room = 'entrance-hallway';
+} else if (isset($_GET['naughty-step_x'])){
+	$thompson_room = 'naughty-step';
 } else if (isset($_GET['conservatory_x'])){
 	$thompson_room = 'conservatory';
 } else if (isset($_GET['garden_x'])){
@@ -39,11 +43,19 @@ function renderUnderlayImage($image_name, $width, $height, $style){
 if ($thompson_room == 'lounge'){
 	$thompson_background_height = '710';
 	$thompson_background_src = 'lounge';
-	$thompson_room_links = renderImageLink('lounge-to-hallway', 'entrance-hallway', '136', '111', 'left: 0px; bottom: 0px').renderImageLink('lounge-to-kitchen', 'kitchen', '122', '208', 'left: 544px; top: 110px');
+	$thompson_room_links = renderImageLink('lounge-to-naughty-step', 'naughty-step', '136', '111', 'left: 0px; bottom: 0px').renderImageLink('lounge-to-kitchen', 'kitchen', '122', '208', 'left: 544px; top: 110px');
+} else if ($thompson_room == 'front-door'){
+	$thompson_background_height = '1699';
+	$thompson_background_src = 'front-door';
+	$thompson_room_links = renderImageLink('front-door-to-entrance-hallway', 'entrance-hallway', '253', '499', 'left: 236px; top: 866px');
+} else if ($thompson_room == 'naughty-step'){
+	$thompson_background_height = '1441';
+	$thompson_background_src = 'naughty-step';
+	$thompson_room_links = renderImageLink('naughty-step-to-lounge', 'lounge', '277', '942', 'left: 0px; top: 379px').renderImageLink('naughty-step-to-entrance-hallway', 'entrance-hallway', '130', '228', 'left: 406px; bottom: 0px');
 } else if($thompson_room == 'entrance-hallway'){
 	$thompson_background_height = '938';
 	$thompson_background_src = 'front-hallway';
-	$thompson_room_links = renderImageLink('front-hallway-door-to-lounge', 'lounge', '143', '352', 'left: 549px; top: 174px').renderImageLink('entrance-hallway-to-garden', 'garden', '74', '226', 'left: 393px; top: 117px');
+	$thompson_room_links = renderImageLink('front-hallway-door-to-naughty-step', 'naughty-step', '143', '352', 'left: 549px; top: 174px').renderImageLink('entrance-hallway-to-garden', 'garden', '74', '226', 'left: 393px; top: 117px').renderImageLink('entrance-hallway-to-front-door', 'front-door', '97', '167', 'left: 413px; top: 722px');
 } else if($thompson_room == 'kitchen'){
 	$thompson_background_height = '1296';
 	$thompson_background_src = 'kitchen';
