@@ -18,7 +18,6 @@ function getUniqueVisitors($visits){
 	}
 	return $visitors;
 }
-echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors';
 ?>
 
 <html>
@@ -28,6 +27,7 @@ echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors
 </head>
 
 <body>
+<?php echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors';?>
 <div class="button-container">
     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
