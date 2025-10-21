@@ -63,6 +63,7 @@ if ($response['status'] == 'success'){
 </head>
 
 <body>
+<div style="display: none"><?php echo $ip_address;?></div>
 <div class="page-banner">
 <?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.'.$temperature_sentence?>
 </div>
