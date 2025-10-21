@@ -33,11 +33,14 @@ function getTemperatureComment($temperature){
     }
     return $temperature_comment;
 }
-
+function getEmojiFromCountryCode($country_code){
+    return mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[0] ) ) . ';', 'UTF-8', 'HTML-ENTITIES').mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[1] ) ) . ';', 'UTF-8', 'HTML-ENTITIES');
+}
 $visits = sqlQuery("SELECT * from home_visits");
 $unique_visitors = getUniqueVisitors($visits);
 $client_visit_number = $unique_visitors[$ip_address];
 
+/*
 $ip_api_url = 'http://ip-api.com/json/'.$ip_address;
 $response = apiCall($ip_api_url);
 if ($response['status'] == 'success'){
@@ -53,6 +56,16 @@ if ($response['status'] == 'success'){
     $temperature_sentence = ' it\'s about '.$temperature.'°C near '.$city.' '.$country_emoji.' '.$temperature_comment;
 } else {
     $temperature_sentence = '';
+    }*/
+
+$latitude = (random_int(0, 900) - 900) / 10;
+$longitude = (random_int(0, 1800) - 1800) / 10;
+$location_info = apiCall('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='.$latitude.'&longitude='.$longitude.'&localityLanguage=en');
+$country_code = $location_info['countryCode'];
+if ($country_code == ""){
+    $location_message = ' this time you landed in the '.$location_info['localityInfo']['informative'][0]['name']. ' bozo 🌊';
+} else {
+    $location_message = ' this time you landed in '.$location_info['countryName'].' '.getEmojiFromCountryCode($country_code).'!';
 }
 ?>
 
@@ -65,7 +78,7 @@ if ($response['status'] == 'success'){
 <body>
 <div style="display: none"><?php echo $ip_address;?></div>
 <div class="page-banner">
-<?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.'.$temperature_sentence?>
+<?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.'.$location_message;?>
 </div>
     
 <div class="button-container">
