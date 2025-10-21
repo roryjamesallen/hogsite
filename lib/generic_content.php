@@ -28,6 +28,12 @@ if ($running_locally){
     $home_location = 'https://hogwild.uk';
 }
 
+/* Helper functions */
+function apiCall($api_url){
+    return json_decode(file_get_contents($api_url),true);
+}
+
+/* Renderable content */
 $standard_header_content = '
 	<meta charset="utf-8">
 	<meta name="description" content="Welcome to the Hog Universe">

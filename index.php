@@ -17,9 +17,6 @@ function getUniqueVisitors($visits){
 	}
 	return $visitors;
 }
-function apiCall($api_url){
-    return json_decode(file_get_contents($api_url),true);
-}
 function getTemperatureComment($temperature){
     if ($temperature < 0) {
         $temperature_comment = 'What\'s cooler than being cool? ICE COLD!';
