@@ -21,11 +21,13 @@ function getUniqueVisitors($visits){
 echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors';
 ?>
 
+<html>
 <head>
     <?php echo $standard_header_content;?>
     <title>hogwild.uk</title>
 </head>
-    
+
+<body>
 <div class="button-container">
     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
@@ -50,8 +52,10 @@ echo count($visits).' visits from '.count(getUniqueVisitors($visits)).' visitors
 	</a>
 	
 </div>
+</body>
 
 <script type="module">
     import { start_image_loop } from './lib/hoglib.js';
     start_image_loop('hogspin', 8, 150);
 </script>
+</html>
