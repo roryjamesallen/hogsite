@@ -70,7 +70,7 @@ function sqlQuery($query){
 			}
 		}		
 	}
-	return json_encode($data);
+	return $data;
 }
 
 function recordUserVisit(){

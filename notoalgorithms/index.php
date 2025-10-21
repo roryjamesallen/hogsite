@@ -38,7 +38,7 @@ function renderSearchbar() {
 
 function getArtistsFromDatabase() {
 	$artists = [];
-	foreach (json_decode(sqlQuery("SELECT * FROM artists"),true) as $row){ // For row in the database
+	foreach (sqlQuery("SELECT * FROM artists") as $row){ // For row in the database
 		foreach (['artist','related'] as $artist) { // For the two columns in the database row
 			array_push($artists, urldecode($row[$artist]));
 		}
@@ -48,7 +48,7 @@ function getArtistsFromDatabase() {
 
 function getSubmissionsByUser($ip) {
     $submissions = [];
-    foreach (json_decode(sqlQuery("SELECT * FROM artists WHERE ip='".$ip."'"),true) as $row){ // For row in the database
+    foreach (sqlQuery("SELECT * FROM artists WHERE ip='".$ip."'") as $row){ // For row in the database
 		array_push($submissions, [$row['artist'],$row['related']]);
 		array_push($submissions, [$row['related'],$row['artist']]); // Both ways round to allow for easy searching
     }
@@ -96,7 +96,7 @@ function renderHomeArtists() {
 
 function getUniqueUsers() {
 	$unique_users = 0;
-	foreach (json_decode(sqlQuery("SELECT DISTINCT ip FROM artists"),true) as $row){ // For row in the database
+	foreach (sqlQuery("SELECT DISTINCT ip FROM artists") as $row){ // For row in the database
 		$unique_users++;
 	}
 	return $unique_users;
@@ -106,7 +106,7 @@ function renderSuggestedSpellings($entered_artists = ['first_artist','second_art
 	$already_asked = [];
 	$questions_asked = 0;
 	foreach ($entered_artists as $entered_artist) { // For the two submitted artists
-		foreach (json_decode(sqlQuery("SELECT * FROM artists"),true) as $row){ // For row in the database
+		foreach (sqlQuery("SELECT * FROM artists") as $row){ // For row in the database
 			foreach (['artist','related'] as $possible_real_artist) { // For the two columns in the database row
 				if (levenshtein(urldecode($row[$possible_real_artist]), urldecode($_GET[$entered_artist])) < 4 && !in_array($row[$possible_real_artist], $already_asked) && urldecode($row[$possible_real_artist]) != urldecode($_GET[$entered_artist])) { // If similar and not already asked about this artist and the artist hasn't been spelled correctly anyway
 					if ($questions_asked == 0) {
@@ -181,7 +181,7 @@ function getRelatedArtists($artist) {
 	
 	foreach (['artist','related'] as $mode) { // Find related for artist and artist for related (use different sql etc as above)
 		$sql = $mode_parameters[$mode]['sql']; // Get the sql query
-		$result = json_decode(sqlQuery($sql),true); // Query the database
+		$result = sqlQuery($sql); // Query the database
 		  foreach ($result as $row){ // For row in the database
 			$related = $row[$mode_parameters[$mode]['opposite']]; // Related artist for this row
 			if (array_key_exists($related, $relations)) {
