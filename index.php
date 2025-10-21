@@ -91,7 +91,7 @@ if ($response['status'] == 'success'){
 		<img src="images/buttons/thompson-world.png" class="button-image">
 	</a>
 
-    <a class="button" href="https://mosaic.hogwild.uk">
+    <a class="button" href="https://hogwild.uk/hogdivmosaic">
 		<img src="images/buttons/hogmosaic.png" class="button-image">
 	</a>
 	
