@@ -1,13 +1,13 @@
 {
-    "home": {
+"home": {
 	"title": "The Wild Hogs",
 	"category": "Concepts",
-	"image": "images/wiki/people/the-wild-hogs.png",
+	"image": "images/wiki/concepts/the-wild-hogs.png",
 	"sections": {
             "Overview": "'The Wild Hogs' is a universe, a way of thinking, and a collection of characters, places, and events. Key characters include [the-wrangler] and The Reverend (Of Tinsel Town)."
         }
     },
-    "the-wrangler": {
+"the-wrangler": {
 	"title": "The Wrangler",
 	"category": "People",
 	"image": "images/wiki/people/the-wrangler.png",
@@ -19,9 +19,57 @@
 "tinsel-town": {
 	"title": "Tinsel Town",
 	"category": "Places",
-	"image": "images/wiki/people/tinsel-town.png",
+	"image": "images/wiki/places/tinsel-town.png",
 	"sections": {
-            "Overview": "Tinsel Town is a settlement in Kansas, USA."
+            "Overview": "Tinsel Town is a settlement in Kansas, USA. It is north east of Great Bend and Hoisington, south of [russel] and [bunker-hill]."
+        }
+    },
+"bunker-hill": {
+	"title": "Bunker Hill",
+	"category": "Places",
+	"image": "images/wiki/places/bunker-hill.png",
+	"sections": {
+            "Overview": "City north of [tinsel-town] in which [bunker-brew] is made, the most popular drink in [tinsel-town], sold exclusively in the [tinsel-town-tavern]."
+        }
+    },
+"russel": {
+	"title": "Russel",
+	"category": "Places",
+	"image": "images/wiki/places/russel.png",
+	"sections": {
+            "Overview": "City north of [tinsel-town] where many old folks retire."
+        }
+    },
+"the-281-highway": {
+	"title": "The 281 Highway",
+	"category": "Places",
+	"image": "images/wiki/places/the-281-highway.png",
+	"sections": {
+            "Overview": "Highway connecting Great Bend and Hoisington with [russel]. Passes by [tinsel-town]."
+        }
+    },
+"the-ranch": {
+	"title": "The Ranch",
+	"category": "Places",
+	"image": "images/wiki/places/the-ranch.png",
+	"sections": {
+            "Overview": "Home of [the-wrangler], located 2 miles west of [tinsel-town]."
+        }
+    },
+"tinsel-town-tavern": {
+	"title": "Tinsel Town Tavern",
+	"category": "Places",
+	"image": "images/wiki/places/tinsel-town-tavern.png",
+	"sections": {
+            "Overview": "The Tinsel Town Tavern (or 'Triple T') is the sole pub of [tinsel-town]."
+        }
+    },
+"bunker-brew": {
+	"title": "Bunker Brew",
+	"category": "Drinks",
+	"image": "images/wiki/drinks/bunker-brew.png",
+	"sections": {
+            "Overview": "The most popular drink in [tinsel-town]. Brewed in [bunker-hill]."
         }
     }
 }

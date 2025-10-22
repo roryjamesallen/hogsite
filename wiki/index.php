@@ -16,11 +16,13 @@ function getTitleFromHandle($handle){
             return $page['title'];
         }
     }
+    return $handle; // Fallback if title not found
 }
 function resolveLinks($section){
-	preg_match("/\[([^\]]*)\]/", $section, $matches);
-	foreach ($matches as $match){
-		$section = str_replace('['.$match.']','<button class="button-as-link" type="submit" name="page" value="'.$match.'">'.getTitleFromHandle($match).'</button>', $section);
+	preg_match_all("/\[(.*?)\]/", $section, $matches);
+	foreach ($matches[0] as $match){
+        $match_without_brackets = substr($match, 1, -1);
+		$section = str_replace($match,'<button class="button-as-link" type="submit" name="page" value="'.$match_without_brackets.'">'.getTitleFromHandle($match_without_brackets).'</button>', $section);
 	}
 	return $section;
 }
