@@ -4,8 +4,8 @@
 	"category": "People",
 	"image": "images/wiki/people/the-wrangler.png",
 	"sections": {
-            "Overview": "The Wrangler is a resident of [[Tinsel Town]].",
-            "Early Life": "The Wrangler was born in [[Tinsel Town]] in 1955."
+            "Overview": "The Wrangler is a resident of [tinsel-town].",
+            "Early Life": "The Wrangler was born in [tinsel-town] in 1955."
         }
     }
 }

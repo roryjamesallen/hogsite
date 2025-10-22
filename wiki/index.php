@@ -2,7 +2,11 @@
 include '../lib/generic_content.php';
 
 function resolveLinks($json){
-	return str_replace('[[','<input type="submit" name="',str_replace(']]','">',$json));	
+	preg_match("/\[([^\]]*)\]/", $json, $matches);
+	foreach ($matches as $match){
+		$json = str_replace('['.$match.']','<input type="submit" name="page" value="'.$match.'">', $json);
+	}
+	return $json;	
 }
 function renderWikiPage($schema){
     echo '<h1>'.$schema['title'].'</h1>';
