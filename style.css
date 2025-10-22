@@ -23,6 +23,7 @@ body {
     left: 0;
     width: 100px;
     padding: 0.5rem;
+    z-index: 999;
 }
 .toolbar-home img {
     width: 100%;
