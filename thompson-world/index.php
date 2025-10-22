@@ -26,7 +26,7 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 <!DOCTYPE html>
 <head>
     <?php echo $standard_header_content;?>
-    link rel="canonical" href="https://tw.hogwild.uk" />
+    <link rel="canonical" href="https://tw.hogwild.uk" />
     <title><?php echo $thompson_room_pretty;?></title>
 </head>
 
