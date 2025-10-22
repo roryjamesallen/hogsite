@@ -12,3 +12,4 @@ deployment:
     - /bin/cp -R nothingeverhappens $DEPLOYPATH
     - /bin/cp -R thompson-world $DEPLOYPATH
     - /bin/cp -R hogdivmosaic $DEPLOYPATH
+    - /bin/cp -R wiki $DEPLOYPATH
