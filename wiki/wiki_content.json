@@ -21,7 +21,6 @@
 	"image": "images/wiki/people/the-wrangler.png",
 	"sections": {
             "Overview": "The Wrangler is a resident of [tinsel-town] and a member of [the-boys].",
-            "Early Life": "The Wrangler was born in [tinsel-town] in 1955.",
 	    "Hobbies": "The Wrangler alternates between his two favourite modes of transport: his steeds and [the-rig]. He spends most of his time on [the-ranch]. He is an aspiring rodeo rider and one year even came second place in the bull riding event at the [hickory-doo-barbecue], thanks to the encouragement from his high school sweetheart [sweet-scarlett-jean]."
         }
 },
@@ -138,7 +137,7 @@
 	"image": "images/wiki/people/revvin-trev.png",
 	"sections": {
             "Overview": "The local mechanic of [tinsel-town].",
-	    "Workmanship": "Trev hates to leave the town so always cobbles together the automobile parts he needs from the pieces lying in the grease pool behind his workshop, resulting in customers needing to fix his work themselves once he's finished.",
+	    "Workmanship": "Trev hates to leave the town so always cobbles together the automobile parts he needs from the pieces lying in the grease pool behind his workshop, resulting in customers needing to fix his work themselves once he's finished. Notably [lawrence-david] brought [ol-dusty] into the shop once, but left in a huff when he found that the part that had been fitted was the same part he had discarded behind the [tinsel-town-tavern] when he was having engine trouble.",
 	    "Vehicles": "Trev' owns 3 Jeep Cherokees, each in progressively worse states of disrepair. He does not own a driveable vehicle other than his less than faithful tow truck, [aunt-bessie]."
         }
 	    },
@@ -169,6 +168,7 @@
 	"sections": {
             "Overview": "Tinsel Town is a settlement in Kansas, USA. Home to [hoops-mccann], [the-wrangler] and [the-reverend-of-tinsel-town].",
 	    "Location": "Tinsel Town is north east of Great Bend and Hoisington, south of [russel] and [bunker-hill]",
+	    "Annual Events": "<ul><li>[annual-turkey-shoot]</li><li>[hickory-doo-barbecue]</li></ul>",
 	    "Lack of Funding": "Tinsel Town is missing from all national records due to a mistake in reporting during the [fury-of-god] in which the government was informed the town had been wiped out entirely. As a result, the residents are now unable to claim any national funding for education or other public services, and the numeracy and literacy skills among the townfolk are very poor.",
 	    "Notable Residents": "<ul><li>[hoops-mccann]</li><li>[the-wrangler]</li><li>[the-reverend-of-tinsel-town]</li><li>[sheriff-stevens]</li><li>[momma]</li><li>[pa]</li></ul>"
         }
@@ -210,7 +210,7 @@
 	"category": "Places",
 	"image": "images/wiki/places/tinsel-town-tavern.png",
 	"sections": {
-            "Overview": "The Tinsel Town Tavern (or 'Triple T') is the sole pub of [tinsel-town]."
+            "Overview": "The Tinsel Town Tavern (or 'Triple T') is the sole pub of [tinsel-town]. The only drink reliably on tap is [bunker-brew]."
         }
 },
     "lady-garden-lake": {
@@ -250,7 +250,7 @@
 	"category": "Vehicles",
 	"image": "images/wiki/vehicles/the-rig.png",
 	"sections": {
-            "Overview": "A 1991 Volvo 940 GL Estate, Silver, 2.0L naturally aspirated. Manual transmission. Belongs to [the-wrangler]."
+            "Overview": "A 1991 Volvo 940 GL Estate, Silver, 2.0L naturally aspirated. Manual transmission. Belongs to [the-wrangler]. Proudly never taken to [revvin-trev]'s workshop except for its annual roadworthiness checkup which it consistently fails."
         }
     },
     "ol-dusty": {
@@ -258,7 +258,7 @@
 	"category": "Vehicles",
 	"image": "images/wiki/vehicles/ol-dusty.png",
 	"sections": {
-            "Overview": "The big rig of [lawrence-david], which has seen better days. A pair of Texas Longhorns is always in the grill to let the Kansas folk know who's steed it is."
+            "Overview": "The big rig of [lawrence-david], which has seen better days. A pair of Texas Longhorns is always in the grill to let the Kansas folk know who's steed it is. Taken to [revvin-trev] only once, an event since which David has decided to perform his own repairs."
         }
     },
     "aunt-bessie": {
@@ -282,7 +282,7 @@
 	"category": "Events",
 	"image": "images/wiki/events/hickory-doo-barbecue.png",
 	"sections": {
-            "Overview": "An annual BBQ, barn dance, and bull riding competition Primarily organised by [sweet-scarlett-jean]."
+            "Overview": "An annual BBQ, barn dance, and bull riding competition held in [tinsel-town]. Primarily organised by [sweet-scarlett-jean]."
         }
     },
     "annual-turkey-shoot": {
