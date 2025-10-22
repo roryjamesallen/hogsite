@@ -10,7 +10,7 @@ body {
  }
 .button {
      position: relative;
-	 height: 0;
+     height: fit-content;
  }
 .button-image {
     flex-basis: 300px;
