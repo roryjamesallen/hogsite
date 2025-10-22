@@ -7,6 +7,15 @@
             "Overview": "'The Wild Hogs' is a universe, a way of thinking, and a collection of characters, places, and events. Key characters include [hoops-mccann], [the-wrangler] and [the-reverend-of-tinsel-town], and the majority of events occur in or around [tinsel-town]."
         }
 },
+     "hog-fm": {
+	"title": "Hog FM",
+	"category": "Concepts",
+	"image": "images/wiki/concepts/hog-fm.png",
+	"sections": {
+            "Overview": "The only radio station in receiver range for [tinsel-town]. The majority of shows are hosted by [ricky-ronaldo] but many residents of the town have had made appearances on air in the past.",
+	    "FCC Altercations": "Due to Ronaldo's disregard for federal radio transmission legislation, Hog FM has landed itself in hot water over 10 times, but has yet to be successfully taken off the air thanks to the fact that it is broadcast on every FM, AM, and even CB wavelength in the local area. The technology for achieving this was a joint effort between Ronaldo and [revvin-trev]."
+        }
+    },
     "the-boys": {
 	"title": "The Boys",
 	"category": "Concepts",
@@ -120,7 +129,7 @@
 	"category": "People",
 	"image": "images/wiki/people/hickey-bill.png",
 	"sections": {
-            "Overview": "A local once shot by[pa] but survived with minimal injuries. Now often seen wearing a bright orange bodywarmer."
+            "Overview": "A local once shot by [pa] but survived with minimal injuries. Often seen wearing a bright orange bodywarmer."
         }
     },
     "ricky-ronaldo": {
@@ -128,7 +137,7 @@
 	"category": "People",
 	"image": "images/wiki/people/ricky-ronaldo.png",
 	"sections": {
-            "Overview": "Host of [hogfm], [tinsel-town]'s only radio station. Warns of a second [fury-of-god] in the imminent future."
+            "Overview": "Host of [hog-fm], [tinsel-town]'s only radio station. Warns of a second [fury-of-god] in the imminent future."
         }
     },
     "revvin-trev": {

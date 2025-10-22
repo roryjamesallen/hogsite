@@ -60,7 +60,7 @@ function renderWikiPage($page){
 <?php renderWikiPage($json[$page_handle]);
         if ($page_handle == 'home'){
             echo '<form method="GET">';
-            $categories = ['People','Places','Vehicles'];
+            $categories = ['People','Places','Vehicles','Events'];
             foreach ($categories as $category){
                 renderCategoryList($category);
             }
