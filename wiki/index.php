@@ -39,8 +39,10 @@ function renderWikiPage($page){
 }
 ?>
 
+<!DOCTYPE html>
 <html>
     <head>
+    <link rel="canonical" href="https://wiki.hogwild.uk" />
 <?php echo $standard_header_content;?>
     </head>
     <body class="wiki-page">

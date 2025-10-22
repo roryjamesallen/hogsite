@@ -1,11 +1,12 @@
 <?php
 include '../lib/generic_content.php';
 ?>
-
+<!DOCTYPE html> 
 <html>
     <head>
     <title>Hog Mosaic</title>
 <?php echo $standard_header_content;?>
+    <link rel="canonical" href="https://mosaic.hogwild.uk">
   <style>
 #container {
     position: relative;

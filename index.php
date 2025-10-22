@@ -69,9 +69,11 @@ if ($country_code == ""){
 }
 ?>
 
+<!DOCTYPE html>
 <html>
 <head>
     <?php echo $standard_header_content;?>
+    <link rel="canonical" href="https://hogwild.uk" />
     <title>hogwild.uk <?php echo $country_emoji ?></title>
 </head>
 
