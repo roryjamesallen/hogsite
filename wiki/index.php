@@ -27,11 +27,12 @@ function resolveLinks($section){
 	return $section;
 }
 function renderWikiPage($page){
+    echo '<p>hogipedia - the free hogipedia</p>';
     echo '<h1>'.$page['title'].'</h1>';
 	echo '<form method="GET">';
-    echo '<h2>'.$page['category'].'</h2>';
+    /*echo '<p>'.$page['category'].'</p>';*/
     foreach ($page['sections'] as $heading => $section){
-        echo '<h3>'.$heading.'</h3>';
+        echo '<h2>'.$heading.'</h2>';
         echo resolveLinks($section).'<br>';
     }
 	echo '</form>';

@@ -70,4 +70,22 @@ body {
 .wiki-page {
     font-family: Arial;
     font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    margin: auto;
+    max-width: 750px;
+    padding: 1rem;
+}
+.wiki-page * {
+    flex-basis: 100%;
+}
+.wiki-page h1, .wiki-page h2 {
+    font-family: Georgia;
+    font-weight: normal;
+    margin: 1rem 0 0 0;
+    border-bottom: 1px solid rgb(162, 169, 177);
+}
+.wiki-page h2 {
+    margin-bottom: 0.5rem;
 }
