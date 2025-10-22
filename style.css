@@ -22,6 +22,7 @@ body {
     top: 0;
     left: 0;
     width: 100px;
+    padding: 0.5rem;
 }
 .toolbar-home img {
     width: 100%;

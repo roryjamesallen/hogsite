@@ -430,7 +430,7 @@ include '../lib/generic_content.php';
 </style>
 </head>
 <body>
-
+<?php echo $standard_toolbar;?>
 <!--
 DIV NO1 is at the BACK of the image BEHIND everything else
 DIV NO50 is at the FRONT of the image ON TOP of everything else
