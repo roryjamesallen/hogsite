@@ -27,7 +27,7 @@ function resolveLinks($section){
 	return $section;
 }
 function renderWikiPage($page){
-    echo '<p>hogipedia - the free hogipedia</p>';
+    echo '<p><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> presents hogipedia - the free hogipedia</p>';
     echo '<h1>'.$page['title'].'</h1>';
 	echo '<form method="GET">';
     /*echo '<p>'.$page['category'].'</p>';*/

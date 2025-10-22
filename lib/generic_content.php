@@ -40,10 +40,7 @@ $standard_header_content = '
 	<link rel="manifest" href="favicon/site.webmanifest" />
 	<link rel="stylesheet" href="style.css">';
 
-$standard_toolbar = '
-    <div class="standard-toolbar">
-    <a class="button" href="'.$home_location.'" style="background-image: url(images/buttons/hogwilduk.png)"></a>
-    </div>';
+$standard_toolbar = '<a class="button toolbar-home" href="'.$home_location.'"><img class="button-image" src="images/buttons/home.png"></a>';
 	
 /* SQL Functions */
 $conn = null;

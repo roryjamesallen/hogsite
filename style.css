@@ -15,7 +15,17 @@ body {
 .button-image {
     flex-basis: 300px;
      max-width: 300px;
- }
+}
+.toolbar-home {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100px;
+}
+.toolbar-home img {
+    width: 100%;
+}
  
 .scene-container {
 	position: relative;
@@ -63,6 +73,7 @@ body {
     font-size: unset;
     color: #069;
     cursor: pointer;
+    text-decoration: none;
 }
 .button-as-link:hover {
     text-decoration: underline;
