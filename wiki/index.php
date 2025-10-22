@@ -4,7 +4,7 @@ include '../lib/generic_content.php';
 function resolveLinks($json){
 	preg_match("/\[([^\]]*)\]/", $json, $matches);
 	foreach ($matches as $match){
-		$json = str_replace('['.$match.']','<input type="submit" name="page" value="'.$match.'">', $json);
+		$json = str_replace('['.$match.']','<input class="button-as-link" type="submit" name="page" value="'.$match.'">', $json);
 	}
 	return $json;	
 }
@@ -21,6 +21,13 @@ function renderWikiPage($schema){
 
 $string = file_get_contents('wiki_content.json');
 $json = json_decode($string,true);
-
-renderWikiPage($json['the-wrangler']);
 ?>
+
+<html>
+    <head>
+<?php echo $standard_header_content;?>
+    </head>
+    <body class="wiki-page">
+<?php renderWikiPage($json['the-wrangler']);;?>
+    </body>
+</html>
