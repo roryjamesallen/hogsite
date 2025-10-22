@@ -1,4 +1,12 @@
 {
+    "home": {
+	"title": "The Wild Hogs",
+	"category": "Concepts",
+	"image": "images/wiki/people/the-wild-hogs.png",
+	"sections": {
+            "Overview": "'The Wild Hogs' is a universe, a way of thinking, and a collection of characters, places, and events. Key characters include [the-wrangler] and The Reverend (Of Tinsel Town)."
+        }
+    },
     "the-wrangler": {
 	"title": "The Wrangler",
 	"category": "People",
@@ -6,6 +14,14 @@
 	"sections": {
             "Overview": "The Wrangler is a resident of [tinsel-town].",
             "Early Life": "The Wrangler was born in [tinsel-town] in 1955."
+        }
+    },
+"tinsel-town": {
+	"title": "Tinsel Town",
+	"category": "Places",
+	"image": "images/wiki/people/tinsel-town.png",
+	"sections": {
+            "Overview": "Tinsel Town is a settlement in Kansas, USA."
         }
     }
 }
