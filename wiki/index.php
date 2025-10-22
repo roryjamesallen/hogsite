@@ -26,6 +26,17 @@ function resolveLinks($section){
 	}
 	return $section;
 }
+function renderCategoryList($category){
+    global $json;
+    echo '<h2>'.$category.'</h2>';
+    echo '<ul>';
+    foreach ($json as $page_handle => $page){
+        if ($page['category'] == $category){
+            echo '<li><button class="button-as-link" type="submit" name="page" value="'.$page_handle.'">'.getTitleFromHandle($page_handle).'</button></li>';
+        }
+    }
+    echo '</ul>';
+}
 function renderWikiPage($page){
     echo '<p><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> presents <a class="button-as-link" href="https://wiki.hogwild.uk">hogipedia</a> - the free hogipedia</p>';
     echo '<h1>'.$page['title'].'</h1>';
@@ -46,6 +57,15 @@ function renderWikiPage($page){
 <?php echo $standard_header_content;?>
     </head>
     <body class="wiki-page">
-<?php renderWikiPage($json[$page_handle]);;?>
+<?php renderWikiPage($json[$page_handle]);
+        if ($page_handle == 'home'){
+            echo '<form method="GET">';
+            $categories = ['People','Places','Vehicles'];
+            foreach ($categories as $category){
+                renderCategoryList($category);
+            }
+            echo '</form>';
+        }
+        ?>
     </body>
 </html>
