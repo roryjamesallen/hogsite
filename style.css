@@ -16,6 +16,9 @@ body {
     flex-basis: 300px;
      max-width: 300px;
 }
+.hidden-heading {
+    display: none;
+}
 .toolbar-home {
     position: absolute;
     display: block;

@@ -84,9 +84,11 @@ if ($country_code == ""){
 </div>
     
 <div class="button-container">
+    <h1 class="hidden-heading">hogwild.uk</h1>
     <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
      
     <a class="button" href="https://wiki.hogwild.uk">
+        <h2 class="hidden-heading">Hogipedia</h2>
 		<img src="images/buttons/hogipedia.png" class="button-image">
 	</a>
 
@@ -103,16 +105,19 @@ if ($country_code == ""){
 
 
 	<a class="button" href="https://tw.hogwild.uk">
+        <h2 class="hidden-heading">Thompson World</h2>
 		<img src="images/buttons/thompson-world.png" class="button-image">
 	</a>
 
     <a class="button" href="https://mosaic.hogwild.uk">
+        <h2 class="hidden-heading">Hog Mosaic</h2>
 		<img src="images/buttons/hogmosaic.png" class="button-image">
 	</a>
 
     
 
     <a class="button" href="https://notoalgorithms.hogwild.uk">
+        <h2 class="hidden-heading">No To Algorithms!</h2>
 		<img src="images/buttons/notoalgorithms.png" class="button-image">
 	</a>
 	
