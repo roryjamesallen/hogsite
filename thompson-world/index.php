@@ -1,16 +1,16 @@
 <?php
 include '../lib/generic_content.php';
 
-$rooms = ["lounge",
-          "kitchen",
-          "conservatory",
+$rooms = ["front-door",
           "entrance-hallway",
           "naughty-step",
+          "lounge",
+          "kitchen",
+          "conservatory",
           "garden",
-          "pigeons",
-          "first-floor-landing",
-          "rorys-room",
-          "under-construction"
+          "pigeons", 
+          "first-floor-landing",                   
+          "under-construction",
 ];
 $thompson_room = 'front-door'; // Default
 foreach ($rooms as $room){
