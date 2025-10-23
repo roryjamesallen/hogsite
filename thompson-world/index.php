@@ -97,7 +97,7 @@ if ($thompson_room == 'lounge'){
 	$thompson_background_height = '500';
 	$thompson_background_src = 'under-construction';
 	$thompson_room_links =
-        renderImageLink('pigeons-to-garden', 'entrance-hallway', '185', '88', 'left: 0px; bottom: 0px');
+        renderImageLink('pigeons-to-garden', 'front-door', '185', '88', 'left: 0px; bottom: 0px');
 }
 ?>
 
