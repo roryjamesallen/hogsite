@@ -70,11 +70,11 @@ if ($country_code == ""){
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <?php echo $standard_header_content;?>
     <link rel="canonical" href="https://hogwild.uk" />
-    <title>hogwild.uk <?php echo $country_emoji ?></title>
+    <title>Home of The Wild Hogs</title>
 </head>
 
 <body>
@@ -84,41 +84,41 @@ if ($country_code == ""){
 </div>
     
 <div class="button-container">
-    <h1 class="hidden-heading">hogwild.uk</h1>
-    <img style="width: 100%;" src="images/hogwilduk-banner.png"></img>
+    <h1 class="hidden-heading">hogwild.uk - Home of The Wild Hogs</h1>
+    <img style="width: 100%;" src="images/hogwilduk-banner.png" alt="Hand drawn banner image that spells out the domain name hogwild.uk"></img>
      
-    <a class="button" href="https://wiki.hogwild.uk">
+    <a class="button" href="https://hogwild.uk/wiki">
         <h2 class="hidden-heading">Hogipedia</h2>
-		<img src="images/buttons/hogipedia.png" class="button-image">
+		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
 	</a>
 
 	<div class="hogspin-container">
-		<img id="hogspin1" src="images/hogspin/1.png" style="display: block">
-		<img id="hogspin2" src="images/hogspin/2.png" style="display: none">
-		<img id="hogspin3" src="images/hogspin/3.png" style="display: none">
-		<img id="hogspin4" src="images/hogspin/4.png" style="display: none">
-		<img id="hogspin5" src="images/hogspin/5.png" style="display: none">
-		<img id="hogspin6" src="images/hogspin/6.png" style="display: none">
-		<img id="hogspin7" src="images/hogspin/7.png" style="display: none">
-		<img id="hogspin8" src="images/hogspin/8.png" style="display: none">
+		<img id="hogspin1" src="images/hogspin/1.png" style="display: block" alt="Hand drawn frame 1 of an animation of a rotating hog">
+		<img id="hogspin2" src="images/hogspin/2.png" style="display: none" alt="Hand drawn frame 2 of an animation of a rotating hog">
+		<img id="hogspin3" src="images/hogspin/3.png" style="display: none" alt="Hand drawn frame 3 of an animation of a rotating hog">
+		<img id="hogspin4" src="images/hogspin/4.png" style="display: none" alt="Hand drawn frame 4 of an animation of a rotating hog">
+		<img id="hogspin5" src="images/hogspin/5.png" style="display: none" alt="Hand drawn frame 5 of an animation of a rotating hog">
+		<img id="hogspin6" src="images/hogspin/6.png" style="display: none" alt="Hand drawn frame 6 of an animation of a rotating hog">
+		<img id="hogspin7" src="images/hogspin/7.png" style="display: none" alt="Hand drawn frame 7 of an animation of a rotating hog">
+		<img id="hogspin8" src="images/hogspin/8.png" style="display: none" alt="Hand drawn frame 8 of an animation of a rotating hog">
 	</div>
 
 
-	<a class="button" href="https://tw.hogwild.uk">
+	<a class="button" href="https://hogwild.uk/thompson-world">
         <h2 class="hidden-heading">Thompson World</h2>
-		<img src="images/buttons/thompson-world.png" class="button-image">
+		<img src="images/buttons/thompson-world.png" class="button-image" alt="Hand drawn button for Thompson World page">
 	</a>
 
-    <a class="button" href="https://mosaic.hogwild.uk">
+    <a class="button" href="https://hogwild.uk/hogdivmosaic">
         <h2 class="hidden-heading">Hog Mosaic</h2>
-		<img src="images/buttons/hogmosaic.png" class="button-image">
+		<img src="images/buttons/hogmosaic.png" class="button-image" alt="Hand drawn button for Hog Mosaic page">
 	</a>
 
     
 
-    <a class="button" href="https://notoalgorithms.hogwild.uk">
+    <a class="button" href="https://hogwild.uk/notoalgorithms">
         <h2 class="hidden-heading">No To Algorithms!</h2>
-		<img src="images/buttons/notoalgorithms.png" class="button-image">
+		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
 	</a>
 	
 </div>
