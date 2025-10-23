@@ -17,6 +17,8 @@ if (isset($_GET['lounge_x'])){
 	$thompson_room = 'garden';
 } else if (isset($_GET['pigeons_x'])){
 	$thompson_room = 'pigeons';
+} else if (isset($_GET['first-floor-landing_x'])){
+	$thompson_room = 'first-floor-landing';
 } else {
 	$thompson_room = 'entrance-hallway';
 }
@@ -53,7 +55,7 @@ if ($thompson_room == 'lounge'){
 } else if ($thompson_room == 'naughty-step'){
 	$thompson_background_height = '1441';
 	$thompson_background_src = 'naughty-step';
-	$thompson_room_links = renderImageLink('naughty-step-to-lounge', 'lounge', '277', '942', 'left: 0px; top: 379px').renderImageLink('naughty-step-to-entrance-hallway', 'entrance-hallway', '130', '228', 'left: 406px; bottom: 0px');
+	$thompson_room_links = renderImageLink('naughty-step-to-lounge', 'lounge', '277', '942', 'left: 0px; top: 379px').renderImageLink('naughty-step-to-entrance-hallway', 'entrance-hallway', '130', '228', 'left: 406px; bottom: 0px').renderImageLink('naughty-step-to-first-floor-landing', 'first-floor-landing', '472', '816', 'left: 316px; top: 204px');
 } else if($thompson_room == 'entrance-hallway'){
 	$thompson_background_height = '938';
 	$thompson_background_src = 'front-hallway';
@@ -74,6 +76,10 @@ if ($thompson_room == 'lounge'){
 	$thompson_background_height = '744';
 	$thompson_background_src = 'pigeons';
 	$thompson_room_links = renderImageLink('pigeons-to-garden', 'garden', '185', '88', 'left: 0px; bottom: 0px');
+} else if ($thompson_room == 'first-floor-landing'){
+	$thompson_background_height = '810';
+	$thompson_background_src = 'first-floor-landing';
+	$thompson_room_links = renderImageLink('first-floor-landing-to-naughty-step', 'naughty-step', '208', '152', 'left: 253px; top: 538px');
 }
 ?>
 
