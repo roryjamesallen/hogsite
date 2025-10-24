@@ -110,323 +110,322 @@ include '../lib/generic_content.php';
 	position: absolute;
 	width: calc(81px + 16vw);
 	height: calc(3px + 7vh);
-  left: 105px;
-  top: 313px;
+  left: calc(15px + 18vw);
+  top: calc(103px + 42vh);
 	background-color: #a3642f;
 }
 #no11	{
 	position: absolute;
-	width: 224px;
-	height: 57px;
-  right: 180px;
-  bottom: 346px;
+	width: calc(104px + 24vw);
+	height: calc(7px + 10vh);
+  right: calc(100px + 16vh);
+  bottom: calc(206px + 28vw);
 	background-color: #e59c55;
 }
 #no12	{
 	position: absolute;
-	width: 195px;
-	height: 12px;
-  right: 195px;
-  bottom: 403px;
+	width: calc(105px + 18vw);
+	height: calc(7px + 1vh);
+  right: calc(295px - 20vw);
+  bottom: calc(603px - 40vh);
 	background-color: #dddedf;
 }
 #no13	{
 	position: absolute;
-	width: 62px;
-	height: 145px;
-  left: 23px;
-  bottom: 153px;
+	width: calc(32px + 6vw);
+	height: calc(105px + 8vh);
+  left: calc(3px + 4vw);
+  bottom: calc(3px + 30vh);
 	background-color: #c57932;
 }
 #no14	{
 	position: absolute;
-	width: 56px;
-	height: 52px;
-  right: 130px;
-  top: 265px;
+	width: calc(1px + 11vw);
+	height: calc(2px + 10vh);
+  right: calc(160px - 6vw);
+  top: calc(300px - 7vh);
 	background-color: #603721;
 }
 #no15	{
 	position: absolute;
-	width: 10px;
-	height: 12px;
-  left: 115px;
-  top: 426px;
+	width: 2vw;
+	height: calc(2px + 2vh);
+  left: calc(150px - 7vw);
+  top: calc(226px + 40vh);
 	background-color: #7c7164;
 }
 #no16	{
 	position: absolute;
-	width: 23px;
-	height: 10px;
-  right: 349px;
-  bottom: 67px;
+	width: calc(3px + 4vw);
+	height: calc(5px + 1vh);
+  right: calc(309px + 8vh);
+  bottom: calc(7px + 12vw);
 	background-color: #7c7164;
 }
 #no17	{
 	position: absolute;
-	width: 16px;
-	height: 13px;
-  left: 35px;
-  bottom: 44px;
+	width: calc(1px + 3vw);
+	height: calc(3px + 2vh);
+  left: calc(5px + 6vh);
+  bottom: calc(4px + 8vw);
 	background-color: #7c7164;
 }
 #no18	{
 	position: absolute;
-	width: 14px;
-	height: 13px;
-  right: 441px;
-  top: 439px;
+	width: calc(9px + 1vw);
+	height: calc(8px + 1vh);
+  right: calc(341px + 20vh);
+  top: calc(239px + 40vw);
 	background-color: #7c7164;
 }
 #no19	{
 	position: absolute;
-	width: 22px;
-	height: 14px;
-  left: 233px;
-  top: 461px;
+	width: calc(7px + 3vw);
+	height: calc(4px + 2vh);
+  left: calc(33px + 40vw);
+  top: calc(211px + 50vh);
 	background-color: #9e9d98;
 }
 #no20	{
 	position: absolute;
-	width: 8px;
-	height: 16px;
-  right: 271px;
-  bottom: 37px;
+	width: calc(3px + 1vw);
+	height: calc(1px + 3vh);
+  right: calc(201px + 14vw);
+  bottom: calc(2px + 7vh);
 	background-color: #948f86;
 }
 #no21	{
 	position: absolute;
-	width: 15px;
-	height: 8px;
-  left: 257px;
-  bottom: 32px;
+	width: calc(5px + 2vw);
+	height: calc(3px + 1vh);
+  left: calc(307px - 10vh);
+  bottom: calc(102px - 14vw);
 	background-color: #9e9d98;
 }
 #no22	{
 	position: absolute;
-	width: 28px;
-	height: 14px;
-  right: 186px;
-  top: 434px;
+	width: calc(3px + 5vh);
+	height: calc(4px + 2vw);
+  right: calc(136px + 10vh);
+  top: calc(234px + 40vw);
 	background-color: #635d59;
 }
 #no23	{
 	position: absolute;
-	width: 9px;
-	height: 12px;
-  left: 273px;
-  top: 414px;
+	width: calc(4px + 1vh);
+	height: calc(2px + 2vw);
+  left: calc(123px + 30vw);
+  top: calc(304px + 22vw);
 	background-color: #7c7164;
 }
 #no24	{
 	position: absolute;
-	width: 15px;
-	height: 14px;
-  right: 176px;
-  bottom: 57px;
+	width: calc(5px + 2vw);
+	height: calc(4px + 2vh);
+  right: calc(206px - 6vw);
+  bottom: calc(97px - 8vh);
 	background-color: #635d59;
 }
 #no25	{
 	position: absolute;
-	width: 124px;
-	height: 139px;
-  left: 324px;
-  bottom: 233px;
+	width: calc(24px + 20vw);
+	height: calc(29px + 22vh);
+  left: calc(204px + 22vh);
+  bottom: calc(203px + 6vw);
 	background-color: #5e5150;
 }
 #no26	{
 	position: absolute;
-	width: 62px;
-	height: 53px;
-  right: 83px;
-  top: 117px;
+	width: calc(22px + 8vh);
+	height: calc(8px + 9vw);
+  right: calc(103px - 4vw);
+  top: calc(17px + 20vh);
 	background-color: #4b3e3e;
 }
 #no27	{
 	position: absolute;
-	width: 97px;
-	height: 97px;
-  left: 368px;
-  top: 192px;
+	width: calc(57px + 8vw);
+	height: calc(37px + 12vh);
+  left: calc(158px + 42vh);
+  top: calc(242px - 10vw);
 	background-color: #3f3735;
 }
 #no28	{
 	position: absolute;
-	width: 92px;
-	height: 94px;
-  right: 9px;
-  bottom: 192px;
+	width: calc(42px + 10vh);
+	height: calc(44px + 10vw);
+  right: calc(109px - 20vw);
+  bottom: calc(92px + 20vh);
 	background-color: #514d4d;
 }
 #no29	{
 	position: absolute;
-	width: 21px;
-	height: 38px;
-  left: 429px;
-  bottom: 302px;
+	width: calc(1px + 4vh);
+	height: calc(3px + 7vw);
+  left: calc(329px + 20vh);
+  bottom: calc(152px + 30vw);
 	background-color: #453f47;
 }
 #no30	{
 	position: absolute;
-	width: 39px;
-	height: 43px;
-  right: 165px;
-  top: 124px;
+	width: calc(9px + 6vw);
+	height: calc(3px + 8vh);
+  right: calc(200px - 7vw);
+  top: calc(199px - 15vh);
 	background-color: #ad784e;
 }
 #no31	{
 	position: absolute;
-	width: 77px;
-	height: 13px;
-  left: 222px;
-  top: 127px;
+	width: calc(7px + 14vh);
+	height: calc(3px + 2vw);
+  left: calc(22px + 40vh);
+  top: calc(27px + 20vw);
 	background-color: #4b3a38;
 }
 #no32	{
 	position: absolute;
-	width: 13px;
-	height: 64px;
-  right: 273px;
-  bottom: 298px;
+	width: calc(3px + 2vw);
+	height: calc(4px + 12vh);
+  right: calc(23px + 50vh);
+  bottom: calc(208px + 18vw);
 	background-color: #4b3a38;
 }
 #no33	{
 	position: absolute;
-	width: 32px;
-	height: 44px;
-  left: 280px;
-  bottom: 320px;
+	width: calc(7px + 5vw);
+	height: calc(4px + 8vh);
+  left: calc(300px - 4vw);
+  bottom: calc(350px - 6vh);
 	background-color: #443837;
 }
 #no34	{
 	position: absolute;
-	width: 73px;
-	height: 44px;
-  right: 65px;
-  top: 167px;
+	width: calc(38px + 7vw);
+	height: calc(4px + 8vh);
+  right: calc(5px + 12vw);
+  top: calc(207px - 8vh);
 	background-color: #dcd0c5;
 }
 #no35	{
 	position: absolute;
-	width: 50px;
-	height: 20px;
-  left: 342px;
-  top: 208px;
+	width: calc(5px + 9vh);
+	height: calc(5px + 3vw);
+  left: calc(242px + 20vh);
+  top: calc(108px + 20vw);
 	background-color: #bf9d7e;
 }
 #no36	{
 	position: absolute;
-	width: 66px;
-	height: 23px;
-  right: 159px;
-  bottom: 226px;
+	width: calc(6px + 12vh);
+	height: calc(3px + 4vw);
+  right: calc(109px + 10vw);
+  bottom: calc(156px + 14vh);
 	background-color: #ddc0a6;
 }
 #no37	{
 	position: absolute;
-	width: 46px;
-	height: 11px;
-  left: 376px;
-  bottom: 395px;
+	width: calc(6px + 8vh);
+	height: calc(1px + 2vw);
+  left: calc(456px - 16vw);
+  bottom: calc(500px - 21vh);
 	background-color: #4b3a38;
 }
 #no38	{
 	position: absolute;
-	width: 30px;
-	height: 41px;
-  right: 71px;
-  top: 156px;
+	width: calc(5px + 5vw);
+	height: calc(1px + 8vh);
+  right: calc(1px + 14vw);
+  top: calc(46px + 22vh);
 	background-color: #bc8454;
 }
 #no39	{
 	position: absolute;
-	width: 23px;
-	height: 48px;
-  left: 407px;
-  top: 102px;
+	width: calc(3px + 4vw);
+	height: calc(3px + 9vh);
+  left: calc(502px - 19vh);
+  top: calc(202px - 20vw);
 	background-color: #9a6a4e;
 }
 #no40	{
 	position: absolute;
-	width: 41px;
-	height: 51px;
-  right: 111px;
-  bottom: 289px;
+	width: calc(1px + 8vh);
+	height: calc(1px + 10vw);
+  right: calc(51px + 12vh);
+  bottom: calc(209px + 16vw);
 	background-color: #5d5560;
 }
 #no41	{
 	position: absolute;
-	width: 27px;
-	height: 22px;
-  left: 355px;
-  bottom: 306px;
+	width: calc(2px + 5vw);
+	height: calc(2px + 4vh);
+  left: calc(300px + 11vh);
+  bottom: calc(201px + 21vw);
 	background-color: #3e3939;
 }
 #no42	{
 	position: absolute;
-	width: 12px;
-	height: 8px;
-  right: 127px;
-  top: 185px;
+	width: calc(2px + 2vw);
+	height: calc(3px + 1vh);
+  right: calc(207px - 16vw);
+  top: calc(285px - 20vh);
 	background-color: #7c5343;
 }
 #no43	{
 	position: absolute;
-	width: 8px;
-	height: 6px;
-  left: 364px;
-  top: 186px;
+	width: calc(3px + 1vw);
+	height: calc(1px + 1vh);
+  left: calc(264px + 20vh);
+  top: calc(106px + 16vw);
 	background-color: #000000;
 }
 #no44	{
 	position: absolute;
-	width: 58px;
-	height: 31px;
-  right: 7px;
-  bottom: 197px;
+	width: calc(3px + 11vh);
+	height: calc(1px + 6vw);
+  right: calc(107px - 20vw);
+  bottom: calc(47 + 30vh);
 	background-color: #dbcaba;
 }
 #no45	{
 	position: absolute;
-	width: 51px;
-	height: 31px;
-  left: 441px;
-  bottom: 182px;
+	width: calc(6px + 9vh);
+	height: calc(6px + 5vw);
+  left: calc(401px + 8vw);
+  bottom: calc(102px + 16vh);
 	background-color: #4a3d32;
 }
 #no46	{
 	position: absolute;
-	width: 12px;
-	height: 7px;
-  right: 39px;
-  top: 300px;
+	width: calc(2px + 2vh);
+	height: calc(2px + 1vw);
+  right: calc(4px + 7vw);
+  top: calc(150px + 30vh);
 	background-color: #1a1512;
 }
 #no47	{
 	position: absolute;
-	width: 11px;
-	height: 8px;
-  left: 476px;
-  top: 295px;
+	width: calc(1px + 2vh);
+	height: calc(3px + 5vw);
+  left: calc(421px + 11vh);
+  top: calc(200px + 19vw);
 	background-color: #1a1512;
 }
 #no48	{
 	position: absolute;
-	width: 14px;
-	height: 31px;
-  right: 80px;
-  bottom: 211px;
+	width: calc(4px + 2vh);
+	height: calc(1px + 6vw);
+  right: calc(280px - 40vw);
+  bottom: calc(11px + 40vh);
 	background-color: #e9bf98;
 }
 #no49	{
 	position: absolute;
-	width: 25px;
-	height: 14px;
-  left: 373px;
-  bottom: 363px;
+	width: calc(5px + 4vw);
+	height: calc(4px + 2vh);
+  left: calc(303px + 14vh);
+  bottom: calc(303px + 12vw);
 	background-color: #b67144;
 }
-
 
 </style>
 </head>
@@ -436,7 +435,7 @@ include '../lib/generic_content.php';
 DIV NO1 is at the BACK of the image BEHIND everything else
 DIV NO50 is at the FRONT of the image ON TOP of everything else
 Made by Johnny H : )
-  -->
+-->
 <!--<div id="container">-->
 <div id="no1"></div>
 <div id="no2"></div>
