@@ -37,16 +37,19 @@ function renderCategoryList($category){
     }
     echo '</ul>';
 }
+function renderImage($page, $page_handle){
+    $image_src = 'images/wiki/'.$page_handle.'.png';
+    echo '<div class="wiki-image-container">'.
+            '<img src="'.$image_src.'" class="wiki-image">'.
+            '<div class="wiki-image-caption">'.resolveLinks($page['image-caption']).'</div>'.
+            '</div>';
+}
 function renderWikiPage($page, $page_handle){
     echo '<p><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> presents <a class="button-as-link" href="https://wiki.hogwild.uk">hogipedia</a> - the free hogipedia</p>';
     echo '<h1>'.$page['title'].'</h1>';
 	echo '<form method="GET">';
     if (isset($page['image-caption'])){
-        $image_src = 'images/wiki/'.$page_handle.'.png';
-        echo '<div class="wiki-image-container">'.
-            '<img src="'.$image_src.'" class="wiki-image">'.
-            '<div class="wiki-image-caption">'.$page['image-caption'].'</div>'.
-            '</div>';
+        renderImage($page, $page_handle);
     }
     /*echo '<p>'.$page['category'].'</p>';*/
     foreach ($page['sections'] as $heading => $section){

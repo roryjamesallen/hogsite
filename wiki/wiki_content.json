@@ -68,7 +68,7 @@
     "deputy-daniels": {
 	"title": "Deputy Daniels",
 	"category": "People",
-	"image-caption": "Daniels [left] pictured with <a class='button-as-link' href='https://wiki.hogwild.uk/?page=the-reverend-of-tinsel-town'>The Reverend</a> [right]",
+	"image-caption": "Daniels (left) pictured with [the-reverend-of-tinsel-town] (right)",
 	"sections": {
             "Overview": "An eager gun-toting young buck who grew up with [the-boys] at the church school. He is in line to become the sheriff one day, but only once he learns to control the temper that comes out when he plays blackjack. He often plans to oust [sheriff-stevens] but never has the heart to follow through after he remembers the debt he owes to Stevens following the delivery of his own son."
         }
@@ -244,6 +244,7 @@
     "aunt-bessie": {
 	"title": "Aunt Bessie",
 	"category": "Vehicles",
+	"image-caption": "Aunt Bessie photographed by a resident after breaking down in the [firehouse] carpark", 
 	"sections": {
             "Overview": "A tow truck belonging to [revvin-trev]. Less than reliable, consisting of fewer than 10 original parts."
         }
