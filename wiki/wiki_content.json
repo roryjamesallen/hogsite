@@ -68,6 +68,7 @@
     "deputy-daniels": {
 	"title": "Deputy Daniels",
 	"category": "People",
+	"image-caption": "Daniels [left] pictured with <a class='button-as-link' href='https://wiki.hogwild.uk/?page=the-reverend-of-tinsel-town'>The Reverend</a> [right]",
 	"sections": {
             "Overview": "An eager gun-toting young buck who grew up with [the-boys] at the church school. He is in line to become the sheriff one day, but only once he learns to control the temper that comes out when he plays blackjack. He often plans to oust [sheriff-stevens] but never has the heart to follow through after he remembers the debt he owes to Stevens following the delivery of his own son."
         }
@@ -98,7 +99,6 @@
     "diddlin-daniel": {
 	"title": "Diddlin' Daniel",
 	"category": "People",
-	"image-caption": "Daniel [left] pictured with <a class='button-as-link' href='https://wiki.hogwild.uk/?page=the-reverend-of-tinsel-town'>The Reverend</a> [right]",
 	"sections": {
             "Overview": "A fiddle player who often performs at the [tinsel-town-tavern].",
 	    "Heritage": "Daniel is half Irish"
