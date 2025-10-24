@@ -34,80 +34,82 @@ include '../lib/generic_content.php';
 
 #no1 {
 	position: absolute;
-	width: 29px;
-	height: 117px;
-  right: 448px;
-  top: 338px;
+	/*width: calc(5*35vw - 6px);*/
+	width: calc(9px + 4vw);
+	height: calc(17px + 20vh);
+  right: calc(548px - 20vh);
+  top: calc(438px - 20vw);
 	background-color: #2f2019;
 }
 #no2 {
 	position: absolute;
-	width: 19px;
-	height: 13px;
-  left: 137px;
-  top: 417px;
+	width: calc(9px + 2vh);
+	height: calc(3px + 2vw);
+  left: calc(87px + 10vh);
+  top: calc(317px + 20vw);
 	background-color: #332219;
 }
 #no3 {
 	position: absolute;
-	width: 28px;
-	height: 87px;
-  right: 359px;
-  bottom: 73px;
+	width: calc(3px + 5vw);
+	height: calc(37px + 10vh);
+  right: calc(209px + 30vh);
+  bottom: calc(23px + 10vw);
 	background-color: #332219;
 }
 #no4 {
 	position: absolute;
-	width: 36px;
-	height: 128px;
-  left: 225px;
-  bottom: 39px;
+	width: calc(6px + 6vh);
+	height: calc(78px + 10vw);
+  left: calc(325px - 20vh);
+  bottom: calc(89px - 10vw);
 	background-color: #262525;
 }
 #no5 {
 	position: absolute;
-	width: 31px;
-	height: 105px;
-  right: 188px;
-  top: 330px;
+	width: calc(16px + 3vh);
+	height: calc(50px + 11vw);
+  right: calc(88px + 20vh);
+  top: calc(280px + 10vw);
 	background-color: #352820;
 }
+
 #no6 {
 	position: absolute;
-	width: 59px;
-	height: 84px;
-  left: 43px;
-  top: 124px;
+	width: calc(29px + 6vw);
+	height: calc(34px + 10vh);
+  left: calc(23px + 4vw);
+  top: calc(24px + 20vh);
 	background-color: #c87935;
 }
 #no7 {
 	position: absolute;
-	width: 79px;
-	height: 185px;
-  right: 175px;
-  bottom: 165px;
+	width: calc(29px + 10vh);
+	height: calc(85px + 20vw);
+  right: calc(225px - 10vh);
+  bottom: calc(205px - 8vw);
 	background-color: #af6533;
 }
 #no8 {
 	position: absolute;
-	width: 76px;
-	height: 37px;
-  left: 303px;
-  bottom: 369px;
+	width: calc(26px + 10vw);
+	height: calc(7px + 6vh);
+  left: calc(253px + 10vw);
+  bottom: calc(269px + 20vh);
 	background-color: #ea953c;
 }
 #no9 {
 	position: absolute;
-	width: 166px;
-	height: 175px;
-  right: 249px;
-  top: 146px;
+	width: calc(66px + 20vh);
+	height: calc(25px + 30vw);
+  right: calc(349px - 20vh);
+  top: calc(346px - 40vw);
 	background-color: #985221;
 }
 #no10	{
 	position: absolute;
-	width: 161px;
-	height: 38px;
+	width: calc(81px + 16vw);
+	height: calc(3px + 7vh);
   left: 105px;
   top: 313px;
 	background-color: #a3642f;
@@ -424,8 +426,7 @@ include '../lib/generic_content.php';
   bottom: 363px;
 	background-color: #b67144;
 }
-/*
-*/
+
 
 </style>
 </head>
@@ -436,7 +437,7 @@ DIV NO1 is at the BACK of the image BEHIND everything else
 DIV NO50 is at the FRONT of the image ON TOP of everything else
 Made by Johnny H : )
   -->
-<div id="container">
+<!--<div id="container">-->
 <div id="no1"></div>
 <div id="no2"></div>
 <div id="no3"></div>
@@ -487,9 +488,8 @@ Made by Johnny H : )
 <div id="no48"></div>
 <div id="no49"></div>
 <div id="no50"></div>
-</div>
-<!--
--->
+<!--</div>-->
+
 </body>
 
 </html>
