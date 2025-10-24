@@ -5,6 +5,7 @@ deployment:
     - /bin/cp /home/wildhog/hogsite/index.php $DEPLOYPATH
     - /bin/cp /home/wildhog/hogsite/.htaccess $DEPLOYPATH
     - /bin/cp /home/wildhog/hogsite/style.css $DEPLOYPATH
+    - /bin/cp /home/wildhog/hogsite/sitemap.xml $DEPLOYPATH
     - /bin/cp -R images $DEPLOYPATH
     - /bin/cp -R lib $DEPLOYPATH
     - /bin/cp -R favicon $DEPLOYPATH

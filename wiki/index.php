@@ -26,10 +26,31 @@ function resolveLinks($section){
 	}
 	return $section;
 }
-function renderWikiPage($page){
+function renderCategoryList($category){
+    global $json;
+    echo '<h2>'.$category.'</h2>';
+    echo '<ul>';
+    foreach ($json as $page_handle => $page){
+        if ($page['category'] == $category){
+            echo '<li><button class="button-as-link" type="submit" name="page" value="'.$page_handle.'">'.getTitleFromHandle($page_handle).'</button></li>';
+        }
+    }
+    echo '</ul>';
+}
+function renderImage($page, $page_handle){
+    $image_src = 'images/wiki/'.$page_handle.'.png';
+    echo '<div class="wiki-image-container">'.
+            '<img src="'.$image_src.'" class="wiki-image">'.
+            '<div class="wiki-image-caption">'.resolveLinks($page['image-caption']).'</div>'.
+            '</div>';
+}
+function renderWikiPage($page, $page_handle){
     echo '<p><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> presents <a class="button-as-link" href="https://wiki.hogwild.uk">hogipedia</a> - the free hogipedia</p>';
     echo '<h1>'.$page['title'].'</h1>';
 	echo '<form method="GET">';
+    if (isset($page['image-caption'])){
+        renderImage($page, $page_handle);
+    }
     /*echo '<p>'.$page['category'].'</p>';*/
     foreach ($page['sections'] as $heading => $section){
         echo '<h2>'.$heading.'</h2>';
@@ -39,11 +60,22 @@ function renderWikiPage($page){
 }
 ?>
 
+<!DOCTYPE html>
 <html>
     <head>
+    <link rel="canonical" href="https://wiki.hogwild.uk" />
 <?php echo $standard_header_content;?>
     </head>
     <body class="wiki-page">
-<?php renderWikiPage($json[$page_handle]);;?>
+<?php renderWikiPage($json[$page_handle], $page_handle);
+        if ($page_handle == 'home'){
+            echo '<form method="GET">';
+            $categories = ['People','Places','Vehicles','Events'];
+            foreach ($categories as $category){
+                renderCategoryList($category);
+            }
+            echo '</form>';
+        }
+        ?>
     </body>
 </html>
