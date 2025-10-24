@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `issues` (
 
 
 -- ========== nothingeverhappens ==========
-USE `nothingeverhappens`;
+USE `wildhog_nothingeverhappens`;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` CHAR(36) NOT NULL PRIMARY KEY,   -- UUID-friendly
