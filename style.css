@@ -124,3 +124,15 @@ body {
 .wiki-image-caption {
     text-align: center;
 }
+.lisboa-big-container {
+	display: flex;
+	gap: 5px;
+	height: fit-content;
+	padding: 5px;
+	border: 2px solid black;
+}
+.lisboa-status {
+	border-radius: 50%;
+	border: 2px solid black;
+	padding: 5px;
+}

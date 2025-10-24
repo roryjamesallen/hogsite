@@ -121,6 +121,34 @@ if ($country_code == ""){
 		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
 	</a>
 	
+	<?php 
+		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
+		$amarela = $lisboa['amarela'];
+		$azul = $lisboa['azul'];
+		$verde = $lisboa['verde'];
+		$vermelha = $lisboa['vermelha'];
+	?>
+	<style>
+		.lisboa-big-container {
+			display: flex;
+			gap: 5px;
+			height: fit-content;
+			padding: 5px;
+			border: 2px solid black;
+		}
+		.lisboa-status {
+			border-radius: 50%;
+			border: 2px solid black;
+			padding: 5px;
+		}
+	</style>
+	<div class="lisboa-big-container">
+		Lisboa Metro Status:
+		<div class="lisboa-container"><div class="lisboa-status" style="background-color: yellow"><?php echo $amarela;?></div></div>
+		<div class="lisboa-container"><div class="lisboa-status" style="background-color: blue"><?php echo $azul;?></div></div>
+		<div class="lisboa-container"><div class="lisboa-status" style="background-color: green"><?php echo $verde;?></div></div>
+		<div class="lisboa-container"><div class="lisboa-status" style="background-color: red"><?php echo $vermelha;?></div></div>
+	</div>
 </div>
 </body>
 
