@@ -383,7 +383,7 @@ include '../lib/generic_content.php';
 	width: calc(3px + 11vh);
 	height: calc(1px + 6vw);
   right: calc(107px - 20vw);
-  bottom: calc(47 + 30vh);
+  bottom: calc(47px + 30vh);
 	background-color: #dbcaba;
 }
 #no45	{
@@ -405,7 +405,7 @@ include '../lib/generic_content.php';
 #no47	{
 	position: absolute;
 	width: calc(1px + 2vh);
-	height: calc(3px + 5vw);
+	height: calc(3px + 1vw);
   left: calc(421px + 11vh);
   top: calc(200px + 19vw);
 	background-color: #1a1512;
