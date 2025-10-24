@@ -11,7 +11,7 @@ Each page in the hogipedia is stored in one big JSON file:
     }
 }
 ```
-- Other pages can be linked to using square brackets and their 'page handle'. The link will be rendered as the page title when viewed.
+- Other pages can be linked to using square brackets and their 'page handle'. The page-handle of the example page above is `example-person`. The link will be rendered as the page title when viewed.
 - Pages can have up to one image. If `image-caption` is set, the image at `images/thompson-world/thompson-world-page-handle.png` is rendered with the caption beneath. Leave out `image-caption` entirely if the image doesn't exist.
 - Any number of sections is allowed but only use a whole new section if there's enough to say about that one topic.
 - Category should only be one of the existing ones, or if you really think a new one is needed then let Rory know.
