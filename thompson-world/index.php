@@ -50,7 +50,7 @@ if ($thompson_room == 'lounge'){
         renderImageLink('naughty-step-to-lounge', 'lounge', '277', '942', 'left: 0px; top: 379px').
         renderImageLink('naughty-step-to-entrance-hallway', 'entrance-hallway', '130', '228', 'left: 406px; bottom: 0px').
         renderImageLink('naughty-step-to-first-floor-landing', 'first-floor-landing', '472', '816', 'left: 316px; top: 204px').
-        renderImageLink('naughty-step-to-alexs-room', 'under-construction', '279', '977', 'right: 0px; top: 345px');
+        renderImageLink('naughty-step-to-alexs-room', 'under-construction', '279', '977', 'left: 800px; top: 345px');
 } else if($thompson_room == 'entrance-hallway'){
 	$thompson_background_height = '938';
 	$thompson_background_src = 'front-hallway';
@@ -78,7 +78,7 @@ if ($thompson_room == 'lounge'){
 	$thompson_background_src = 'garden';
 	$thompson_room_links =
         renderImageLink('garden-to-conservatory', 'conservatory', '129', '212', 'left: 288px; top: 336px').
-        renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'right: 0px; bottom: 0px').
+        renderImageLink('garden-to-entrance-hallway', 'entrance-hallway', '124', '68', 'left: 930px; bottom: 0px').
         renderImageLink('garden-to-pigeons', 'pigeons', '125', '67', 'left: 320px; top: 46px').
         renderUnderlayImage('garden-lights-on', '1080', $thompson_background_height, 'top: 0; left: 0; display: none; z-index: -1;');
 } else if ($thompson_room == 'pigeons'){
@@ -94,7 +94,7 @@ if ($thompson_room == 'lounge'){
         renderImageLink('first-floor-landing-to-rorys-room', 'under-construction', '176', '575', 'left:0px; bottom: 0px').
         renderImageLink('first-floor-landing-to-itays-room', 'under-construction', '149', '446', 'left:673px; top: 239px').
         renderImageLink('first-floor-landing-to-second-floor-landing', 'under-construction', '95', '236', 'left:448px; top: 143px').
-        renderImageLink('first-floor-landing-to-bathroom', 'bathroom', '181', '227', 'right:0px; bottom: 0px');
+        renderImageLink('first-floor-landing-to-bathroom', 'bathroom', '181', '227', 'left: 870px; bottom: 0px');
 } else if ($thompson_room == 'bathroom'){
 	$thompson_background_height = '810';
 	$thompson_background_src = 'bathroom';
@@ -169,8 +169,8 @@ function initialiseBathroomTap(){
 	flipBathroomTap);
 }
 
-resizeSceneContainer();
-
 initialiseConservatoryLights();
 initialiseBathroomTap();
+
+window.onload = resizeSceneContainer();
 </script>
