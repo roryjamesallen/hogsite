@@ -37,10 +37,17 @@ function renderCategoryList($category){
     }
     echo '</ul>';
 }
-function renderWikiPage($page){
+function renderWikiPage($page, $page_handle){
     echo '<p><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> presents <a class="button-as-link" href="https://wiki.hogwild.uk">hogipedia</a> - the free hogipedia</p>';
     echo '<h1>'.$page['title'].'</h1>';
 	echo '<form method="GET">';
+    if (isset($page['image-caption'])){
+        $image_src = 'images/wiki/'.$page_handle.'.png';
+        echo '<div class="wiki-image-container">'.
+            '<img src="'.$image_src.'" class="wiki-image">'.
+            '<div class="wiki-image-caption">'.$page['image-caption'].'</div>'.
+            '</div>';
+    }
     /*echo '<p>'.$page['category'].'</p>';*/
     foreach ($page['sections'] as $heading => $section){
         echo '<h2>'.$heading.'</h2>';
@@ -57,7 +64,7 @@ function renderWikiPage($page){
 <?php echo $standard_header_content;?>
     </head>
     <body class="wiki-page">
-<?php renderWikiPage($json[$page_handle]);
+<?php renderWikiPage($json[$page_handle], $page_handle);
         if ($page_handle == 'home'){
             echo '<form method="GET">';
             $categories = ['People','Places','Vehicles','Events'];

@@ -1,3 +1,6 @@
+:root {
+    --wiki-grey: rgb(162, 169, 177);
+}
 body {
      margin: 0;
  }
@@ -100,8 +103,24 @@ body {
     font-family: Georgia;
     font-weight: normal;
     margin: 1rem 0 0 0;
-    border-bottom: 1px solid rgb(162, 169, 177);
+    border-bottom: 1px solid var(--wiki-grey);
 }
 .wiki-page h2 {
     margin-bottom: 0.5rem;
+}
+.wiki-image-container {
+    display: inline-block;
+    float: right;
+    width: calc(350px - 2rem);
+    background: white;
+    padding: 1rem 0 1rem 1rem;
+}
+.wiki-image {
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    background: #f8f9fa;
+    border: 1px solid var(--wiki-grey);
+}
+.wiki-image-caption {
+    text-align: center;
 }
