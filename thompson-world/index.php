@@ -1,16 +1,18 @@
 <?php
 include '../lib/generic_content.php';
 
-$rooms = ["front-door",
-          "entrance-hallway",
-          "naughty-step",
-          "lounge",
-          "kitchen",
-          "conservatory",
-          "garden",
-          "pigeons", 
-          "first-floor-landing",                   
-          "under-construction",
+$rooms = [
+		"front-door",
+		"entrance-hallway",
+		"naughty-step",
+		"lounge",
+		"kitchen",
+		"conservatory",
+		"garden",
+		"pigeons", 
+		"first-floor-landing",
+		"bathroom",
+		"under-construction",
 ];
 $thompson_room = 'front-door'; // Default
 foreach ($rooms as $room){
@@ -92,7 +94,12 @@ if ($thompson_room == 'lounge'){
         renderImageLink('first-floor-landing-to-rorys-room', 'under-construction', '176', '575', 'left:0px; bottom: 0px').
         renderImageLink('first-floor-landing-to-itays-room', 'under-construction', '149', '446', 'left:673px; top: 239px').
         renderImageLink('first-floor-landing-to-second-floor-landing', 'under-construction', '95', '236', 'left:448px; top: 143px').
-        renderImageLink('first-floor-landing-to-bathroom', 'under-construction', '181', '227', 'right:0px; bottom: 0px');
+        renderImageLink('first-floor-landing-to-bathroom', 'bathroom', '181', '227', 'right:0px; bottom: 0px');
+} else if ($thompson_room == 'bathroom'){
+	$thompson_background_height = '810';
+	$thompson_background_src = 'bathroom';
+	$thompson_room_links =
+        renderImageLink('bathroom-to-first-floor-landing', 'first-floor-landing', '194', '96', 'left: 0px; bottom: 0px');
 } else if ($thompson_room == 'under-construction'){
 	$thompson_background_height = '500';
 	$thompson_background_src = 'under-construction';
@@ -140,32 +147,53 @@ function resizeSceneContainer(){
     }
     document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
 }
-function initialiseConservatoryLights(){
-    var old_state = readCookie('conservatory-light-display');
+function setFlipperOnclicks(flipper_ids, flip_function){
+	for (let element_id of flipper_ids){
+		var element = document.getElementById(element_id);
+		if (element != null){
+			element.addEventListener('click', flip_function);
+		}
+	}
+}
+function initialiseFlippableElements(element_ids, flipper_ids, flip_function){
+	var main_id = element_ids[0];
+    var old_state = readCookie(main_id+'-display');
     if (old_state == null){
 	old_state = 'none';
     }
-    if (thompson_room == 'conservatory'){
-	document.getElementById('conservatory-light-switch').addEventListener('click', flipConservatoryLights);
-	document.getElementById('conservatory-lights-on').style.display = old_state;
-    } else if (thompson_room == 'garden'){  
-	document.getElementById('garden-lights-on').style.display = old_state;
-    } else if (thompson_room == 'kitchen'){  
-	document.getElementById('kitchen-lights-on').style.display = old_state;
-    }
+	setDisplayOfElements(element_ids, old_state);
+	setFlipperOnclicks(flipper_ids, flip_function)
 }
-function flipConservatoryLights(){
-    var current_state = document.getElementById('conservatory-lights-on').style.display;
+function setDisplayOfElements(element_ids, state){
+	for (let element_id of element_ids){
+		var element = document.getElementById(element_id);
+		if (element != null){
+			element.style.display = state;
+		}
+	}
+}
+function flipDisplayOfElements(element_ids){
+	var main_id = element_ids[0];
+    var current_state = document.getElementById(main_id).style.display;
     if (current_state == 'none'){
         var new_state = 'block';
     } else {
         var new_state = 'none';
     }
-    createCookie('conservatory-light-display', new_state, 1);
-    document.getElementById('conservatory-lights-on').style.display = new_state;
-    document.getElementById('garden-lights-on').style.display = new_state;
-    document.getElementById('kitchen-lights-on').style.display = new_state;
+	createCookie(main_id+'-display', new_state, 1);
+	setDisplayOfElements(element_ids, new_state);
 }
+
+function flipConservatoryLights(){
+    flipDisplayOfElements(['conservatory-lights-on','garden-lights-on','kitchen-lights-on']);
+}
+function initialiseConservatoryLights(){
+	initialiseFlippableElements(
+	['conservatory-lights-on','garden-lights-on','kitchen-lights-on'],
+	['conservatory-light-switch'],
+	flipConservatoryLights);
+}
+
 resizeSceneContainer();
 initialiseConservatoryLights();
 </script>
