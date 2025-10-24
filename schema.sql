@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `home_visits` (
   `visitor_ip` VARCHAR(64) NOT NULL,
   `visit_time` TIMESTAMP NOT NULL,
   INDEX (`visit_id`),
-  INDEX (`visitor_ip`)
+  INDEX (`visitor_ip`),
   INDEX (`visit_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
