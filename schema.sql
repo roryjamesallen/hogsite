@@ -2,9 +2,19 @@
 -- Create databases
 CREATE DATABASE IF NOT EXISTS `testdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS `nothingeverhappens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `wildhog_analytics` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- ========== testdb ==========
 USE `testdb`;
+
+CREATE TABLE IF NOT EXISTS `home_visits` (
+  `visit_id` VARCHAR(16) NOT NULL,
+  `visitor_ip` VARCHAR(64) NOT NULL,
+  `visit_time` TIMESTAMP NOT NULL,
+  INDEX (`visit_id`),
+  INDEX (`visitor_ip`)
+  INDEX (`visit_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `artists` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
