@@ -127,7 +127,7 @@ if ($thompson_room == 'lounge'){
 </body>
 
 <script type='module'>
-import { createCookie, readCookie } from './lib/hoglib.js';
+import { createCookie, readCookie, flipDisplayOfElements, initialiseFlippableElements } from './lib/hoglib.js';
 
 var thompson_room = '<?php echo $thompson_room;?>';
 
@@ -146,42 +146,6 @@ function resizeSceneContainer(){
         var scale = height_scale;
     }
     document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
-}
-function setFlipperOnclicks(flipper_ids, flip_function){
-	for (let element_id of flipper_ids){
-		var element = document.getElementById(element_id);
-		if (element != null){
-			element.addEventListener('click', flip_function);
-		}
-	}
-}
-function initialiseFlippableElements(element_ids, flipper_ids, flip_function){
-	var main_id = element_ids[0];
-    var old_state = readCookie(main_id+'-display');
-    if (old_state == null){
-	old_state = 'none';
-    }
-	setDisplayOfElements(element_ids, old_state);
-	setFlipperOnclicks(flipper_ids, flip_function)
-}
-function setDisplayOfElements(element_ids, state){
-	for (let element_id of element_ids){
-		var element = document.getElementById(element_id);
-		if (element != null){
-			element.style.display = state;
-		}
-	}
-}
-function flipDisplayOfElements(element_ids){
-	var main_id = element_ids[0];
-    var current_state = document.getElementById(main_id).style.display;
-    if (current_state == 'none'){
-        var new_state = 'block';
-    } else {
-        var new_state = 'none';
-    }
-	createCookie(main_id+'-display', new_state, 1);
-	setDisplayOfElements(element_ids, new_state);
 }
 
 function flipConservatoryLights(){
