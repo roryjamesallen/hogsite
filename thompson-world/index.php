@@ -99,7 +99,9 @@ if ($thompson_room == 'lounge'){
 	$thompson_background_height = '810';
 	$thompson_background_src = 'bathroom';
 	$thompson_room_links =
-        renderImageLink('bathroom-to-first-floor-landing', 'first-floor-landing', '194', '96', 'left: 0px; bottom: 0px');
+        renderImageLink('bathroom-to-first-floor-landing', 'first-floor-landing', '194', '96', 'left: 0px; bottom: 0px').
+		renderUnderlayImage('bathroom-tap-on', '61', '60', 'top: 342px; left: 776px; display: none; z-index: -1;').
+		renderImageOnclick('bathroom-tap', '48', '42', 'left: 790px; top: 315px');
 } else if ($thompson_room == 'under-construction'){
 	$thompson_background_height = '500';
 	$thompson_background_src = 'under-construction';
@@ -157,7 +159,18 @@ function initialiseConservatoryLights(){
 	['conservatory-light-switch'],
 	flipConservatoryLights);
 }
+function flipBathroomTap(){
+    flipDisplayOfElements(['bathroom-tap-on']);
+}
+function initialiseBathroomTap(){
+	initialiseFlippableElements(
+	['bathroom-tap-on'],
+	['bathroom-tap'],
+	flipBathroomTap);
+}
 
 resizeSceneContainer();
+
 initialiseConservatoryLights();
+initialiseBathroomTap();
 </script>
