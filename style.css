@@ -1,9 +1,17 @@
 :root {
     --wiki-grey: rgb(162, 169, 177);
 }
+@font-face {
+    font-family: 'Jokerman';
+    src: url('fonts/Jokerman.otf');
+}
 body {
      margin: 0;
  }
+.random-joke {
+	font-family: Jokerman;
+	font-size: 2rem;
+}
 .button-container {
      display: flex;
     flex-wrap: wrap;
@@ -86,6 +94,8 @@ body {
 .button-as-link:hover {
     text-decoration: underline;
 }
+
+/* Wiki */
 .wiki-page {
     font-family: Arial;
     font-size: 1rem;

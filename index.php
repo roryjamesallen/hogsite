@@ -128,20 +128,6 @@ if ($country_code == ""){
 		$verde = $lisboa['verde'];
 		$vermelha = $lisboa['vermelha'];
 	?>
-	<style>
-		.lisboa-big-container {
-			display: flex;
-			gap: 5px;
-			height: fit-content;
-			padding: 5px;
-			border: 2px solid black;
-		}
-		.lisboa-status {
-			border-radius: 50%;
-			border: 2px solid black;
-			padding: 5px;
-		}
-	</style>
 	<div class="lisboa-big-container">
 		Lisboa Metro Status:
 		<div class="lisboa-container"><div class="lisboa-status" style="background-color: yellow"><?php echo $amarela;?></div></div>
@@ -149,6 +135,8 @@ if ($country_code == ""){
 		<div class="lisboa-container"><div class="lisboa-status" style="background-color: green"><?php echo $verde;?></div></div>
 		<div class="lisboa-container"><div class="lisboa-status" style="background-color: red"><?php echo $vermelha;?></div></div>
 	</div>
+	
+	<div class="random-joke">Today's Hog Joke: <?php echo apiCall('https://official-joke-api.appspot.com/random_joke')['setup'].' '.apiCall('https://official-joke-api.appspot.com/random_joke')['punchline'];?></div>
 </div>
 </body>
 
