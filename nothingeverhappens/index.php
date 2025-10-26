@@ -1,8 +1,36 @@
+<style>
+	.neh-function-buttons {
+		display: flex;
+		gap: 0.5rem;
+	}
+	.neh-input {
+		padding: 0.5rem;
+		outline: 2px solid black;
+		border: none;
+		background: white;
+	}
+	.neh-input:hover {
+		background: #f4f4f4;
+	}
+	.neh-message {
+		
+	}
+</style>
+
 <?php
 include '../lib/generic_content.php';
 openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeverhappens.php');
 
 ob_start(); // Begin output buffering to allow output to be rendered after html head
+
+$button_modes = json_decode('{
+	"Logout": "render_login",
+	"View Groups": "attempt_login",
+	"Join Group": "join_group",
+	"Create Group": "create_group",
+	"Leave Group": "leave_group",
+	"Create Event": "create_event"
+}',true);
 
 function getUsernameById($user_id){
 	return sqlQuery("SELECT username FROM users WHERE user_id='".$user_id."'")['0']['username'];
@@ -20,6 +48,9 @@ function getGroupUsernamesById($group_id){
 		$usernames[] = getUsernameById($group_user['user_id']);
 	}
 	return $usernames;
+}
+function getGroupEventsById($group_id){
+	return sqlQuery("SELECT * FROM events where group_id='".$group_id."'");
 }
 function addUserToGroup($user_id, $group_id){
 	$group_exists = !empty(sqlQuery("SELECT * FROM groups WHERE group_id='".$group_id."'"));
@@ -69,6 +100,15 @@ function attemptLogin($username, $guessed_password){
 		return '';
 	}
 }
+function createEvent($event_id, $group_id, $user_id, $question, $deadline){
+	if (strtotime($deadline) < time()){
+		return 'Date cannot have already passed';
+	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
+		return '';
+	} else {
+		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "")');	
+	}
+}
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
 	$_SESSION['user_id'] = $user_id;
@@ -82,28 +122,27 @@ function removeUserDetailsFromSession(){
 }
 // Rendering Functions
 function renderForm($method, $new_page_mode, $submit_text, $content){
-	return '<form action="" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input type="submit" value="'.$submit_text.'"></form>';
+	return '<form action="" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
 }
 function renderLabel($for, $label){
 	return '<label for="'.$for.'">'.$label.'</label>';
 }
 function renderInput($name, $type, $label, $value=''){
-	return renderLabel($name, $label).'<input name="'.$name.'" type="'.$type.'" value="'.$value.'">';
+	return renderLabel($name, $label).'<input class="neh-input" name="'.$name.'" type="'.$type.'" value="'.$value.'">';
 }
 function renderButton($text, $mode){
 	return renderForm('POST',$mode,$text,'');
 }
-function renderFunctionButtons(){
-	$function_buttons = renderButton('Logout', 'logout');
-	$function_buttons .= renderButton('View Groups', 'attempt_login');
-	$function_buttons .= renderButton('Join Group', 'join_group');
-	$function_buttons .= renderButton('Create Group', 'create_group');
-	if (isset($_POST['page_mode'])){
-		if ($_POST['page_mode'] == 'view_group'){
-			$function_buttons .= renderButton('Leave Group', 'leave_group');
-		}
+function renderFunctionButtons($button_destinations=[]){
+	global $button_modes;
+	$function_buttons = '<div class="neh-function-buttons">';
+	foreach ($button_destinations as $destination){
+		$function_buttons .= renderButton($destination, $button_modes[$destination]);
 	}
-	return $function_buttons;
+	return $function_buttons.'</div>';
+}
+function renderMessage($message){
+	echo '<div class="neh-message">'.$message.'</div>';
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -132,7 +171,8 @@ function renderCreateAccountPage(){
 	);
 }
 function renderCreateGroupPage(){
-	return renderForm(
+	return renderFunctionButtons(['View Groups']).
+	renderForm(
 		'POST',
 		'submit_new_group',
 		'Create New Group',
@@ -155,16 +195,22 @@ function renderGroupsPage(){
 }
 function renderGroupEventsPage($group_id){
 	$_SESSION['group_to_leave'] = $group_id;
-	echo renderFunctionButtons();
+	echo renderFunctionButtons(['View Groups','Leave Group','Create Event']);
 	$group_name = getGroupNameById($group_id);
 	$group_usernames = getGroupUsernamesById($group_id);
 	echo 'Viewing: '.$group_name.' ('.$group_id.')<br>Members:<br>';
 	foreach ($group_usernames as $username){
 		echo $username.'<br>';
 	}
+	$group_events = getGroupEventsById($group_id);
+	echo '<br>Events:<br>';
+	foreach ($group_events as $event){
+		echo $event['question'].' by '.$event['deadline'].'<br>';
+	}
 }
 function renderJoinGroupPage(){
-	return renderForm(
+	return renderFunctionButtons(['View Groups']).
+	renderForm(
 		'POST',
 		'attempt_join_group',
 		'Join',
@@ -173,8 +219,18 @@ function renderJoinGroupPage(){
 }
 function renderGroupListView(){
 	echo 'Hello '.$_SESSION['username'];
-	echo renderFunctionButtons();
+	echo renderFunctionButtons(['Logout','Join Group','Create Group']);
 	echo renderGroupsPage();
+}
+function renderCreateEventPage($group_id){
+	echo  renderForm(
+		'POST',
+		'attempt_create_event',
+		'Create Event',
+		renderInput('question','text','Question').
+		renderInput('deadline','datetime-local','Deadline').
+		renderInput('group_id','hidden','',$group_id)
+	);
 }
 
 
@@ -196,10 +252,11 @@ if (!isset($_SESSION['logged_in'])){
 }
 echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
 
-// Login
-if ($page_mode == 'render_login' or $page_mode == 'logout'){
+// User isn't logged in and hasn't tried to yet
+if ($page_mode == 'render_login'){
 	$_SESSION['logged_in'] = false;
 	echo renderLoginPage();
+// User has typed in login details and pressed enter
 } else if ($page_mode == 'attempt_login'){
 	$just_logged_in = false;
 	if (!$_SESSION['logged_in']){
@@ -208,52 +265,84 @@ if ($page_mode == 'render_login' or $page_mode == 'logout'){
 			addUserDetailsToSession(getUserIdByUsername($_POST['username']), $_POST['username']);
 			$just_logged_in = true;
 		} else {
-		echo $login_message;
+// User's login details were rejected
+		renderMessage($login_message);
 		echo renderLoginPage();
 		}
 	}
+// User's login details were accepted
 	if ($_SESSION['logged_in']){
 		renderGroupListView();
 	}
+// User has clicked create new account but hasn't tried to submit one yet
 } else if ($page_mode == 'create_account'){
 	echo renderCreateAccountPage();
+// User has entered new account details and pressed create account
 } else if ($page_mode == 'submit_new_account'){
 	[$user_id, $username, $password, $email] = array('usr'.uniqid(), $_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['email']);
 	[$valid_username, $valid_email] = array(validateUsername($username), validateEmail($email));
+// User's new account details were accepted
 	if ($valid_username == '' and $valid_email == ''){
 		createUser($user_id, $username, $password, $email);
-		echo 'User "'.$username.'" Created';
+		renderMessage('User "'.$username.'" Created');
 		echo renderLoginPage();
+// User's new account details were rejected
 	} else {
-		echo $valid_username.'<br>'.$valid_email;
+		renderMessage($valid_username.'<br>'.$valid_email);
 		echo renderCreateAccountPage();
 	}
+// User has clicked create new group but hasn't tried to submit one yet
 } else if ($page_mode == 'create_group'){
 	echo renderCreateGroupPage();
+// User has entered new group details and clicked create new group
 } else if ($page_mode == 'submit_new_group'){
 	$new_group_id = 'grp'.uniqid();
 	createGroup($new_group_id, $_POST['group_name']);
 	addUserToGroup($_SESSION['user_id'], $new_group_id);
-	echo 'Group "'.$_POST['group_name'].'" Created';
+	renderMessage('Group "'.$_POST['group_name'].'" Created');
 	renderGroupListView();
+// User has clicked a group in their group list
 } else if ($page_mode == 'view_group'){
 	renderGroupEventsPage($_POST['group_id']);
+// User has clicked join group but hasn't entered the group's id yet
 } else if ($page_mode == 'join_group'){
 	echo renderJoinGroupPage();
+// User has entered the id of a group to join and pressed enter
 } else if ($page_mode == 'attempt_join_group'){
 	$add_user_to_group_message = addUserToGroup($_SESSION['user_id'], $_POST['group_id']);
+// User corrrectly entered the group id and gets added to the group
 	if ($add_user_to_group_message == ''){
-		echo 'User "'.$_SESSION['username'].'" added to "'.getGroupNameById($_POST['group_id']).'"';
+		renderMessage('User "'.$_SESSION['username'].'" added to "'.getGroupNameById($_POST['group_id']).'"');
 		renderGroupEventsPage($_POST['group_id']);
+// User entered an incorrect group id to join
 	} else {
-		echo $add_user_to_group_message;
+		renderMessage($add_user_to_group_message);
 		echo renderJoinGroupPage();
 	}
+// User clicked leave group
 } else if ($page_mode == 'leave_group'){
 	$user_id = $_SESSION['user_id'];
 	$group_id = $_SESSION['group_to_leave'];
 	removeUserFromGroup($user_id, $group_id);
 	echo getUsernameById($user_id).' removed from '.getGroupNameById($group_id);
 	renderGroupListView();
+// User clicked create event but hasn't entered event details yet
+} else if ($page_mode == 'create_event'){
+	$group_id = $_SESSION['group_to_leave'];
+	echo renderCreateEventPage($group_id);
+// User has clicked to submit their new event details
+} else if ($page_mode == 'attempt_create_event'){
+	$group_id = $_SESSION['group_to_leave'];
+	$event_id = 'evt'.uniqid();
+	$create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline']);
+// User's new event details were accepted and it was submitted
+	if ($create_event_message == ''){
+		renderMessage('Event submitted');
+		renderGroupEventsPage($group_id);
+// User's event was rejected
+	} else {
+		renderMessage($create_event_message);
+		echo renderCreateEventPage($group_id);
+	}
 }
 ?>
