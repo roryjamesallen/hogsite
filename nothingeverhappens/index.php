@@ -136,15 +136,56 @@ function attemptLogin($username, $guessed_password){
 }
 function createEvent($event_id, $group_id, $user_id, $question, $deadline){
     $submit_options_message = submitNewEventOptions($event_id);
-	if (strtotime($deadline) < time()){
+    $deadline = intval(strtotime($deadline));
+	if ($deadline < time()){
 		return 'Date cannot have already passed';
 	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
 		return '';
 	} else if ($submit_options_message != '') {
         return $submit_options_message;
     } else {
-		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "null")');	
+		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.strtotime($deadline).'", "0", "null")');	
 	}
+}
+function checkIfDeadlineHasPassed($event_id){
+    $event_deadline = sqlQuery('SELECT deadline FROM events WHERE event_id="'.$event_id.'"')[0]['deadline'];
+    if (intval($event_deadline) < time()){
+        return true;
+    } else {
+        return false;
+    }
+}
+function checkIfEventIsCancelled($event_id){
+    $event_cancelled = sqlQuery('SELECT cancelled FROM events WHERE event_id="'.$event_id.'"')[0]['cancelled'];
+    if ($event_cancelled == '1'){
+        return true;
+    } else {
+        return false;
+    }
+}
+function getCreatorByEventId($event_id){
+    return sqlQuery('SELECT user_id FROM events WHERE event_id="'.$event_id.'"')[0]['user_id'];
+}
+function getEventOutcome($event_id){
+    return sqlQuery('SELECT option_id FROM events WHERE event_id="'.$event_id.'"')[0]['option_id'];
+}
+function getFirstOption($event_id){
+    return sqlQuery('SELECT option_id FROM options WHERE event_id="'.$event_id.'"')[0]['option_id'];
+}
+function getUsersCall($event_id){
+    $users_call = sqlQuery('SELECT option_id FROM user_calls WHERE event_id="'.$event_id.'" AND user_id="'.$_SESSION['user_id'].'"');
+    if ($users_call == []){
+        return null;
+    } else {
+        return $users_call[0]['option_id'];
+    }
+}
+function submitUserCall($event_id, $option_id){
+    $user_id = $_SESSION['user_id'];
+    sqlQuery('INSERT INTO user_calls (event_id, user_id, option_id) VALUES ("'.$event_id.'", "'.$user_id.'", "'.$option_id.'")');
+}
+function getOptionTextFromId($option_id){
+    return sqlQuery('SELECT option_text FROM options WHERE option_id="'.$option_id.'"')[0]['option_text'];
 }
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
@@ -199,11 +240,18 @@ function renderDefaultOptions(){
         renderInput('add_option','button','','Add Option');
 }
 function renderViewEventOptions($event_id){
-    $option_selector = '<select name="option-selector">';
+    $option_selector = '<label for="option_selector">Your call</label><select id="option_selector" name="option_selector">';
     foreach (sqlQuery('SELECT * from options WHERE event_id="'.$event_id.'"') as $option){
         $option_selector .= '<option value="'.$option['option_id'].'">'.$option['option_text'].'</option>';
     }
-    return $option_selector.'</select>';
+    $option_selector .= '</select>';
+    return renderForm(
+		'POST',
+		'make_call',
+		'Make Call',
+	    $option_selector.
+        renderInput('event_id','hidden','',$event_id)
+	);
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -302,8 +350,36 @@ function renderCreateEventPage($group_id){
 function renderEventPage($event_id){
 	echo renderFunctionButtons(['View Groups']);
 	$event = getEventFromId($event_id);
-	echo $event['question'].' by '.$event['deadline'].'?<br>';
-    echo renderViewEventOptions($event_id);
+	echo $event['question'].' by '.gmdate('d-m-Y', $event['deadline']).'?<br>';
+    $deadline_passed = checkIfDeadlineHasPassed($event_id);
+    $event_creator = getCreatorByEventId($event_id);
+    $event_outcome = getEventOutcome($event_id);
+    $event_cancelled = checkIfEventIsCancelled($event_id);
+    $users_call = getUsersCall($event_id);
+
+    if ($deadline_passed){
+        if ($users_call != null){
+            echo 'You called '.getOptionTextFromId($users_call);
+        } else {
+            echo 'You did not make a call';
+        }
+        if ($event_outcome != 'null'){
+            // the event result was event_outcome,
+            // you lost/gained calculatePoints() points
+        } else if ($event_cancelled){
+            // the event was cancelled.
+            //you didn't lose or gain any points
+        } else if ($_SESSION['user_id'] == $event_creator){
+            // points won't be calculated until the you resolve the event
+            // render event resolution form
+        } else {
+            // points won't be calculated until the event_creator resolves the event
+        }
+    } else if ($users_call == null) {
+        echo renderViewEventOptions($event_id); // Show selector to make call
+    } else {
+        echo 'You have called '.getOptionTextFromId($users_call);
+    }
 }
 
 
@@ -421,6 +497,11 @@ if ($page_mode == 'render_login'){
 	$event_id = $_POST['event_id'];
 	renderMessage('Viewing event '.$event_id);
 	renderEventPage($event_id);
+} else if ($page_mode == 'make_call'){
+    $event_id = $_POST['event_id'];
+    $option_id = $_POST['option_selector'];
+    submitUserCall($event_id, $option_id);
+    renderEventPage($event_id);
 }
 ?>
 
