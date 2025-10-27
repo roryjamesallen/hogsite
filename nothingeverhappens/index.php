@@ -109,7 +109,7 @@ function createEvent($event_id, $group_id, $user_id, $question, $deadline){
 	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
 		return '';
 	} else {
-		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "")');	
+		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "null")');	
 	}
 }
 // Session Functions
@@ -128,10 +128,10 @@ function renderForm($method, $new_page_mode, $submit_text, $content){
 	return '<form action="" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
 }
 function renderLabel($for, $label){
-	return '<label for="'.$for.'">'.$label.'</label>';
+	return '<label id="label_'.$for.'" for="'.$for.'">'.$label.'</label>';
 }
 function renderInput($name, $type, $label, $value=''){
-	return renderLabel($name, $label).'<input class="neh-input" name="'.$name.'" type="'.$type.'" value="'.$value.'">';
+	return renderLabel($name, $label).'<input class="neh-input" id="'.$name.'"name="'.$name.'" type="'.$type.'" value="'.$value.'">';
 }
 function renderButton($text, $mode){
 	return renderForm('POST',$mode,$text,'');
@@ -146,6 +146,16 @@ function renderFunctionButtons($button_destinations=[]){
 }
 function renderMessage($message){
 	echo '<div class="neh-message">'.$message.'</div>';
+}
+function renderDefaultOptions(){
+    return '<div id="create-options-list">'.
+    renderInput('option_0','hidden','').
+    renderInput('option_1','text','Option 1').
+    renderInput('delete_option_1','button','Delete').
+    renderInput('option_2','text','Option2').
+    renderInput('delete_option_2','button','Delete').
+    renderInput('add_option','button','Add Option').
+    '</div>';
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -236,6 +246,7 @@ function renderCreateEventPage($group_id){
 		'Create Event',
 		renderInput('question','text','Question').
 		renderInput('deadline','datetime-local','Deadline').
+        renderDefaultOptions().
 		renderInput('group_id','hidden','',$group_id)
 	);
 }
@@ -362,3 +373,42 @@ if ($page_mode == 'render_login'){
 	renderEventPage($event_id);
 }
 ?>
+
+<script>
+    var page_mode = '<?php echo $page_mode?>'
+
+    function deleteOption(event){
+        var delete_button_id = event.target.id;
+        var delete_label_id = 'label_'+delete_button_id;
+        var option_id = delete_button_id.replace('delete_','');
+        var option_label_id = 'label_'+option_id;
+        document.getElementById(option_id).remove();
+        document.getElementById(delete_button_id).remove();
+        document.getElementById(option_label_id).remove();
+        document.getElementById(delete_label_id).remove();
+        // reorderOptions()
+    }
+
+    function addOption(){
+        var template_option = document.getElementById('option-0');
+        // duplicate hidden default option
+        // reorderOptions()
+    }
+    
+    function initialiseCreateOptionsList(){
+        var container = document.getElementById('create-options-list');
+        var inputs = container.getElementsByTagName('input');
+        for (var i = 0; i < inputs.length; i++) {
+            input = inputs[i];
+            if (input.id.includes('delete_')){
+                input.addEventListener('click', deleteOption);
+            } else if (input.id == ('add_option')){
+                input.addEventListener('click', addOption);
+            }
+        }
+    }
+
+if (document.getElementById('create-options-list') != null){
+    initialiseCreateOptionsList();
+}
+</script>
