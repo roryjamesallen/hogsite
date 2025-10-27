@@ -147,15 +147,22 @@ function renderFunctionButtons($button_destinations=[]){
 function renderMessage($message){
 	echo '<div class="neh-message">'.$message.'</div>';
 }
+function renderOption($number, $hidden=false){
+    if ($hidden){
+        $style = 'display: none;';
+    }
+    $option = '<div class="option-container" id="option_'.$number.'" style="'.$style.'">';
+    $option .= renderInput('option_input_'.$number,'text','Option '.$number);
+    $option .= renderInput('delete_option_'.$number,'button','Delete');
+    return $option.'</div>';
+}
 function renderDefaultOptions(){
     return '<div id="create-options-list">'.
-    renderInput('option_0','hidden','').
-    renderInput('option_1','text','Option 1').
-    renderInput('delete_option_1','button','Delete').
-    renderInput('option_2','text','Option2').
-    renderInput('delete_option_2','button','Delete').
-    renderInput('add_option','button','Add Option').
-    '</div>';
+        renderOption('0', true).
+        renderOption('1').
+        renderOption('2').
+        '</div>'.
+        renderInput('add_option','button','Add Option');
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -379,20 +386,20 @@ if ($page_mode == 'render_login'){
 
     function deleteOption(event){
         var delete_button_id = event.target.id;
-        var delete_label_id = 'label_'+delete_button_id;
         var option_id = delete_button_id.replace('delete_','');
-        var option_label_id = 'label_'+option_id;
         document.getElementById(option_id).remove();
-        document.getElementById(delete_button_id).remove();
-        document.getElementById(option_label_id).remove();
-        document.getElementById(delete_label_id).remove();
         // reorderOptions()
     }
 
     function addOption(){
-        var template_option = document.getElementById('option-0');
-        // duplicate hidden default option
-        // reorderOptions()
+        var container = document.getElementById('create-options-list');
+        var template_option = document.getElementById('option_0');
+        var new_option = template_option.cloneNode(true);
+        new_option.id = 'option_99'; // Will get reordered later
+        new_option.removeAttribute('style'); // Remove display: none
+        // setOptionNumber('99');
+        container.append(new_option);
+        // reorderOptions();
     }
     
     function initialiseCreateOptionsList(){
@@ -402,10 +409,9 @@ if ($page_mode == 'render_login'){
             input = inputs[i];
             if (input.id.includes('delete_')){
                 input.addEventListener('click', deleteOption);
-            } else if (input.id == ('add_option')){
-                input.addEventListener('click', addOption);
             }
         }
+        document.getElementById('add_option').addEventListener('click', addOption);
     }
 
 if (document.getElementById('create-options-list') != null){
