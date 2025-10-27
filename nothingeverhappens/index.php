@@ -153,7 +153,7 @@ function renderOption($number, $hidden=false){
     }
     $option = '<div class="option-container" id="option_'.$number.'" style="'.$style.'">';
     $option .= renderInput('option_input_'.$number,'text','Option '.$number);
-    $option .= renderInput('delete_option_'.$number,'button','Delete');
+    $option .= renderInput('delete_option_'.$number,'button','','Delete');
     return $option.'</div>';
 }
 function renderDefaultOptions(){
@@ -384,11 +384,51 @@ if ($page_mode == 'render_login'){
 <script>
     var page_mode = '<?php echo $page_mode?>'
 
+    function replaceNumber(original_field, new_number){
+        if (original_field != ''){
+            if (original_field.includes(' ')){
+                var separator = ' ';
+            } else {
+                var separator = '_';
+            }
+            var split = original_field.split(separator);
+            return original_field.replace(split[split.length - 1],'') + new_number;
+        } else {
+            return original_field;
+        }
+    }
+    
+    function reorderOptions(){
+        //var container = document.getElementById('create-options-list');
+        var options = document.getElementsByClassName('option-container');
+        for (var i = 0; i < options.length; i++) {
+            options[i].id = replaceNumber(options[i].id, i);
+            var option_elements = options[i].querySelectorAll('input, label');
+            for (var j = 0; j < option_elements.length; j++) {
+                var element = option_elements[j];
+                var element_tag = element.tagName.toLowerCase();
+                if (element_tag == 'label'){
+                    element.htmlFor = replaceNumber(element.getAttribute('for'), i);
+                }
+                if (element_tag == 'input'){
+                    element.name = replaceNumber(element.getAttribute('name'), i);
+                    if (element.id.includes('delete')){
+                        element.addEventListener('click', deleteOption);
+                    }
+                }
+                if (element.innerHTML.includes('Option')){
+                    element.innerHTML = replaceNumber(element.innerHTML, i);
+                }
+                element.id = replaceNumber(element.id, i);
+            }
+        }
+    }
+    
     function deleteOption(event){
         var delete_button_id = event.target.id;
         var option_id = delete_button_id.replace('delete_','');
         document.getElementById(option_id).remove();
-        // reorderOptions()
+        reorderOptions();
     }
 
     function addOption(){
@@ -397,9 +437,8 @@ if ($page_mode == 'render_login'){
         var new_option = template_option.cloneNode(true);
         new_option.id = 'option_99'; // Will get reordered later
         new_option.removeAttribute('style'); // Remove display: none
-        // setOptionNumber('99');
         container.append(new_option);
-        // reorderOptions();
+        reorderOptions();
     }
     
     function initialiseCreateOptionsList(){
