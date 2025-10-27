@@ -73,6 +73,9 @@ function createGroup($group_id, $group_name){
 function createUser($user_id, $username, $password, $email){
 	sqlQuery('INSERT INTO users (user_id, username, password, email) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'")');
 }
+function getEventFromId($event_id){
+	return sqlQuery('SELECT * FROM events WHERE event_id="'.$event_id.'"')[0];
+}
 // Validation Functions
 function validateUsername($username){
 	if (!empty(sqlQuery("SELECT * FROM users WHERE username='".$username."'"))){
@@ -194,7 +197,7 @@ function renderGroupsPage(){
 	}
 }
 function renderGroupEventsPage($group_id){
-	$_SESSION['group_to_leave'] = $group_id;
+	$_SESSION['active_group'] = $group_id;
 	echo renderFunctionButtons(['View Groups','Leave Group','Create Event']);
 	$group_name = getGroupNameById($group_id);
 	$group_usernames = getGroupUsernamesById($group_id);
@@ -205,7 +208,12 @@ function renderGroupEventsPage($group_id){
 	$group_events = getGroupEventsById($group_id);
 	echo '<br>Events:<br>';
 	foreach ($group_events as $event){
-		echo $event['question'].' by '.$event['deadline'].'<br>';
+		echo renderForm(
+			'POST',
+			'view_event',
+			$event['question'],
+			renderInput('event_id','hidden','',$event['event_id'])
+		);
 	}
 }
 function renderJoinGroupPage(){
@@ -218,7 +226,6 @@ function renderJoinGroupPage(){
 	);
 }
 function renderGroupListView(){
-	echo 'Hello '.$_SESSION['username'];
 	echo renderFunctionButtons(['Logout','Join Group','Create Group']);
 	echo renderGroupsPage();
 }
@@ -231,6 +238,11 @@ function renderCreateEventPage($group_id){
 		renderInput('deadline','datetime-local','Deadline').
 		renderInput('group_id','hidden','',$group_id)
 	);
+}
+function renderEventPage($event_id){
+	echo renderFunctionButtons(['View Groups']);
+	$event = getEventFromId($event_id);
+	echo $event['question'].' by '.$event['deadline'].'?';
 }
 
 
@@ -322,17 +334,17 @@ if ($page_mode == 'render_login'){
 // User clicked leave group
 } else if ($page_mode == 'leave_group'){
 	$user_id = $_SESSION['user_id'];
-	$group_id = $_SESSION['group_to_leave'];
+	$group_id = $_SESSION['active_group'];
 	removeUserFromGroup($user_id, $group_id);
 	echo getUsernameById($user_id).' removed from '.getGroupNameById($group_id);
 	renderGroupListView();
 // User clicked create event but hasn't entered event details yet
 } else if ($page_mode == 'create_event'){
-	$group_id = $_SESSION['group_to_leave'];
+	$group_id = $_SESSION['active_group'];
 	echo renderCreateEventPage($group_id);
 // User has clicked to submit their new event details
 } else if ($page_mode == 'attempt_create_event'){
-	$group_id = $_SESSION['group_to_leave'];
+	$group_id = $_SESSION['active_group'];
 	$event_id = 'evt'.uniqid();
 	$create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline']);
 // User's new event details were accepted and it was submitted
@@ -344,5 +356,9 @@ if ($page_mode == 'render_login'){
 		renderMessage($create_event_message);
 		echo renderCreateEventPage($group_id);
 	}
+} else if ($page_mode == 'view_event'){
+	$event_id = $_POST['event_id'];
+	renderMessage('Viewing event '.$event_id);
+	renderEventPage($event_id);
 }
 ?>
