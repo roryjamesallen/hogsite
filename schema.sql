@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `group_id` VARCHAR(16) NOT NULL,
   `user_id` VARCHAR(16) NOT NULL,
   `question` VARCHAR(64) NOT NULL,
-  `deadline` TIMESTAMP NOT NULL,
+  `deadline` INT(11) NOT NULL,
   `cancelled` VARCHAR(1) NOT NULL,
   `option_id` VARCHAR(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -77,6 +77,11 @@ CREATE TABLE IF NOT EXISTS `options` (
   `option_text` VARCHAR(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `user_calls` (
+  `event_id` VARCHAR(16) NOT NULL,		
+  `user_id` VARCHAR(16) NOT NULL,
+  `option_id` VARCHAR(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE IF NOT EXISTS `home_visits` (
