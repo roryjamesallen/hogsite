@@ -6,7 +6,7 @@
 		display: flex;
 		gap: 0.5rem;
 	}
-	.neh-input {
+.neh-input, select {
 		padding: 0.5rem;
 		outline: 2px solid black;
 		border: none;
@@ -86,6 +86,27 @@ function createUser($user_id, $username, $password, $email){
 function getEventFromId($event_id){
 	return sqlQuery('SELECT * FROM events WHERE event_id="'.$event_id.'"')[0];
 }
+function createOption($event_id, $option_string){
+    sqlQuery('INSERT INTO options (option_id, event_id, option_text) VALUES ("opt'.uniqid().'", "'.$event_id.'", "'.$option_string.'")');
+}
+function submitNewEventOptions($event_id){
+    $option_strings = [];
+    for ($option_index = 1; $option_index <= 100; $option_index++) {
+        if (isset($_POST['option_input_'.$option_index])){
+            $option_strings[] = $_POST['option_input_'.$option_index];
+        } else {
+            break; // Reached the end of the posted options
+        }
+    }
+    if (count($option_strings) < 2){
+        return 'You must have at least 2 options';
+    } else {
+        foreach ($option_strings as $option_string){
+            createOption($event_id, $option_string);
+        }
+        return '';
+    }
+}
 // Validation Functions
 function validateUsername($username){
 	if (!empty(sqlQuery("SELECT * FROM users WHERE username='".$username."'"))){
@@ -114,11 +135,14 @@ function attemptLogin($username, $guessed_password){
 	}
 }
 function createEvent($event_id, $group_id, $user_id, $question, $deadline){
+    $submit_options_message = submitNewEventOptions($event_id);
 	if (strtotime($deadline) < time()){
 		return 'Date cannot have already passed';
 	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
 		return '';
-	} else {
+	} else if ($submit_options_message != '') {
+        return $submit_options_message;
+    } else {
 		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "null")');	
 	}
 }
@@ -173,6 +197,13 @@ function renderDefaultOptions(){
         renderOption('2', 'No').
         '</div>'.
         renderInput('add_option','button','','Add Option');
+}
+function renderViewEventOptions($event_id){
+    $option_selector = '<select name="option-selector">';
+    foreach (sqlQuery('SELECT * from options WHERE event_id="'.$event_id.'"') as $option){
+        $option_selector .= '<option value="'.$option['option_id'].'">'.$option['option_text'].'</option>';
+    }
+    return $option_selector.'</select>';
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -271,7 +302,8 @@ function renderCreateEventPage($group_id){
 function renderEventPage($event_id){
 	echo renderFunctionButtons(['View Groups']);
 	$event = getEventFromId($event_id);
-	echo $event['question'].' by '.$event['deadline'].'?';
+	echo $event['question'].' by '.$event['deadline'].'?<br>';
+    echo renderViewEventOptions($event_id);
 }
 
 
