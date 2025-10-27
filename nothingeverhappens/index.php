@@ -1,4 +1,7 @@
 <style>
+    body {
+    font-family: Arial;
+ }
 	.neh-function-buttons {
 		display: flex;
 		gap: 0.5rem;
@@ -15,6 +18,13 @@
 	.neh-message {
 		
 	}
+label {
+    display: block;
+    margin: 0.5rem 0;
+}
+label:empty {
+     display: none;
+ }
 </style>
 
 <?php
@@ -147,22 +157,22 @@ function renderFunctionButtons($button_destinations=[]){
 function renderMessage($message){
 	echo '<div class="neh-message">'.$message.'</div>';
 }
-function renderOption($number, $hidden=false){
+function renderOption($number, $text='', $hidden=false){
     if ($hidden){
         $style = 'display: none;';
     }
     $option = '<div class="option-container" id="option_'.$number.'" style="'.$style.'">';
-    $option .= renderInput('option_input_'.$number,'text','Option '.$number);
-    $option .= renderInput('delete_option_'.$number,'button','','Delete');
+    $option .= renderInput('option_input_'.$number,'text','Option '.$number, $text);
+    $option .= renderInput('delete_option_'.$number,'button','','Delete', $text);
     return $option.'</div>';
 }
 function renderDefaultOptions(){
     return '<div id="create-options-list">'.
-        renderOption('0', true).
-        renderOption('1').
-        renderOption('2').
+        renderOption('0', '', true).
+        renderOption('1', 'Yes').
+        renderOption('2', 'No').
         '</div>'.
-        renderInput('add_option','button','Add Option');
+        renderInput('add_option','button','','Add Option');
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -247,7 +257,8 @@ function renderGroupListView(){
 	echo renderGroupsPage();
 }
 function renderCreateEventPage($group_id){
-	echo  renderForm(
+	echo  renderFunctionButtons(['View Groups']).
+        renderForm(
 		'POST',
 		'attempt_create_event',
 		'Create Event',
