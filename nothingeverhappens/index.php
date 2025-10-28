@@ -24,6 +24,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 		border: 1px solid black;
 		background: white;
         font-size: 1.5rem;
+        text-wrap-mode: wrap;
 	}
 	.neh-input:hover {
 		background: #f4f4f4;
@@ -116,6 +117,7 @@ $button_modes = json_decode('{
     "Login": "render_login",
 	"Logout": "render_login",
     "Create Account": "create_account",
+    "View Events": "view_group",
 	"View Groups": "attempt_login",
 	"Join Group": "join_group",
 	"Create Group": "create_group",
@@ -400,7 +402,7 @@ function renderAllCallsForEvent($event_id){
 }
 function renderOutcomeExclamation($event_id){
     if (checkIfDeadlineHasPassed($event_id) and $_SESSION['user_id'] == getCreatorByEventId($event_id) and !checkIfEventIsResolved($event_id)){
-        return '⚠ ';
+        return '⚠ Resolve Now: ';
     }
 }
 function unixToDate($unix){
@@ -473,9 +475,21 @@ function renderGroupEventsPage($group_id){
 	}
 	renderMessage('Viewing: '.$group_name.' ('.$members.') - '.$group_id);
 	$group_events = getGroupEventsById($group_id);
-	renderHeading('Future Events');
+	renderHeading('Make A Call');
 	foreach ($group_events as $event){
-        if (!checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id'])){
+        if (!checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id']) and getUsersCall($event['event_id']) == null){
+            echo renderForm(
+                'POST',
+                'view_event',
+                $event['question'],
+                renderInput('event_id','hidden','',$event['event_id'])
+            );
+        }
+    }
+    renderBlock('');
+    renderHeading('Called Events');
+	foreach ($group_events as $event){
+        if (!checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id']) and getUsersCall($event['event_id']) != null){
             echo renderForm(
                 'POST',
                 'view_event',
@@ -535,7 +549,7 @@ function renderCreateEventPage($group_id){
 	);
 }
 function renderEventPage($event_id){
-	echo renderFunctionButtons(['View Groups']);
+	echo renderFunctionButtons(['View Groups','View Events']);
 	$event = getEventFromId($event_id);
     renderHeading($event['question'].' by '.unixToDate($event['deadline']).'?<br>');
     $deadline_passed = checkIfDeadlineHasPassed($event_id);
@@ -671,7 +685,13 @@ if ($page_mode == 'render_login'){
     renderGroupListView();
 // User has clicked a group in their group list
 } else if ($page_mode == 'view_group'){
-	renderGroupEventsPage($_POST['group_id']);
+    if (isset($_POST['group_id'])){
+        $group_id = $_POST['group_id'];
+        $_SESSION['active_group'] = $group_id;
+    } else {
+        $group_id = $_SESSION['active_group'];
+    }
+	renderGroupEventsPage($group_id);
 // User has clicked join group but hasn't entered the group's id yet
 } else if ($page_mode == 'join_group'){
 	echo renderJoinGroupPage();
@@ -728,7 +748,7 @@ if ($page_mode == 'render_login'){
     } else {
         $event_id = $_SESSION['active_event'];
     }
-	renderMessage('Viewing event '.$event_id);
+	//renderMessage('Viewing event '.$event_id);
 	renderEventPage($event_id);
 // User clicked make call after selecting from the dropdown
 } else if ($page_mode == 'make_call'){
