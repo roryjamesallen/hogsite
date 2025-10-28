@@ -1,4 +1,9 @@
 <style>
+:root {
+	--pale-grey: #f4f4f4;
+	--medium-grey: #888888;
+	--border-radius: 0.5rem;
+}
     body {
     font-family: Arial;
  }
@@ -16,7 +21,7 @@
 		background: #f4f4f4;
 	}
 	.neh-message {
-		
+	  margin: 0.5rem 0;
 	}
 label {
     display: block;
@@ -135,16 +140,17 @@ function attemptLogin($username, $guessed_password){
 	}
 }
 function createEvent($event_id, $group_id, $user_id, $question, $deadline){
-    $submit_options_message = submitNewEventOptions($event_id);
     $deadline = intval(strtotime($deadline));
 	if ($deadline < time()){
 		return 'Date cannot have already passed';
 	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
 		return '';
-	} else if ($submit_options_message != '') {
+	}
+	$submit_options_message = submitNewEventOptions($event_id);
+	if ($submit_options_message != '') {
         return $submit_options_message;
     } else {
-		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.strtotime($deadline).'", "0", "null")');	
+		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "null")');	
 	}
 }
 function checkIfDeadlineHasPassed($event_id){
@@ -225,7 +231,9 @@ function renderMessage($message){
 function renderOption($number, $text='', $hidden=false){
     if ($hidden){
         $style = 'display: none;';
-    }
+    } else {
+		$style = '';
+	}
     $option = '<div class="option-container" id="option_'.$number.'" style="'.$style.'">';
     $option .= renderInput('option_input_'.$number,'text','Option '.$number, $text);
     $option .= renderInput('delete_option_'.$number,'button','','Delete', $text);
@@ -252,6 +260,17 @@ function renderViewEventOptions($event_id){
 	    $option_selector.
         renderInput('event_id','hidden','',$event_id)
 	);
+}
+function unixToDate($unix){
+	return gmdate('d M Y', $unix);
+}
+function unixToHours($unix){
+	return $unix / 3600;
+}
+function hoursToHoursMins($hours){
+	$whole_hours = floor($hours);
+	$mins = floor(($hours - $whole_hours) * 60);
+	return [$whole_hours, $mins];
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -289,7 +308,7 @@ function renderCreateGroupPage(){
 	);
 }
 function renderGroupsPage(){
-	echo 'Groups:';
+	renderMessage('Groups');
 	$query = 'SELECT group_id FROM group_users WHERE user_id="'.$_SESSION['user_id'].'"';
 	foreach (sqlQuery($query) as $group_user){
 		$group_id = $group_user['group_id'];
@@ -307,12 +326,16 @@ function renderGroupEventsPage($group_id){
 	echo renderFunctionButtons(['View Groups','Leave Group','Create Event']);
 	$group_name = getGroupNameById($group_id);
 	$group_usernames = getGroupUsernamesById($group_id);
-	echo 'Viewing: '.$group_name.' ('.$group_id.')<br>Members:<br>';
-	foreach ($group_usernames as $username){
-		echo $username.'<br>';
+	$members = '';
+	foreach ($group_usernames as $key => $username){
+		$members .= $username;
+		if ($key != array_key_last($group_usernames)){
+			$members .= ', ';
+		}
 	}
+	renderMessage('Viewing: '.$group_name.' ('.$members.')');
 	$group_events = getGroupEventsById($group_id);
-	echo '<br>Events:<br>';
+	renderMessage('Events');
 	foreach ($group_events as $event){
 		echo renderForm(
 			'POST',
@@ -350,7 +373,7 @@ function renderCreateEventPage($group_id){
 function renderEventPage($event_id){
 	echo renderFunctionButtons(['View Groups']);
 	$event = getEventFromId($event_id);
-	echo $event['question'].' by '.gmdate('d-m-Y', $event['deadline']).'?<br>';
+	echo $event['question'].' by '.unixToDate($event['deadline']).'?<br>';
     $deadline_passed = checkIfDeadlineHasPassed($event_id);
     $event_creator = getCreatorByEventId($event_id);
     $event_outcome = getEventOutcome($event_id);
@@ -358,6 +381,7 @@ function renderEventPage($event_id){
     $users_call = getUsersCall($event_id);
 
     if ($deadline_passed){
+		renderMessage('Betting ended on '.unixToDate($event['deadline']));
         if ($users_call != null){
             echo 'You called '.getOptionTextFromId($users_call);
         } else {
@@ -372,14 +396,38 @@ function renderEventPage($event_id){
         } else if ($_SESSION['user_id'] == $event_creator){
             // points won't be calculated until the you resolve the event
             // render event resolution form
+			renderMessage('Points will be calculated once you set the outcome');
+			echo renderForm(
+				'POST',
+				'resolve_event',
+				'Set Outcome',
+				renderInput('event_id','hidden','',$event_id)
+			);
+			echo renderButton('Cancel Event', 'cancel_event');
         } else {
-            // points won't be calculated until the event_creator resolves the event
+            renderMessage('Points will be calculated once '.getUsernameById($user_id).' sets the outcome');
         }
-    } else if ($users_call == null) {
-        echo renderViewEventOptions($event_id); // Show selector to make call
     } else {
-        echo 'You have called '.getOptionTextFromId($users_call);
+		[$hours, $mins] = hoursToHoursMins(unixToHours($event['deadline'] - time()));
+		if ($users_call == null) {
+			renderMessage('You have '.$hours.' hours and '.$mins.' minutes left to make a call');
+			echo renderViewEventOptions($event_id); // Show selector to make call
+		} else {
+			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
+			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
+		}
     }
+}
+function renderResolveEventPage($event_id){
+	echo  renderFunctionButtons(['View Groups']).
+        renderForm(
+		'POST',
+		'attempt_resolve_event',
+		'Set Outcome',
+        renderViewEventOptions($event_id).
+		renderInput('event_id','hidden','',$event_id)
+	);
+	echo renderButton('Cancel Event', 'cancel_event');
 }
 
 
@@ -502,6 +550,10 @@ if ($page_mode == 'render_login'){
     $option_id = $_POST['option_selector'];
     submitUserCall($event_id, $option_id);
     renderEventPage($event_id);
+} else if ($page_mode == 'resolve_event'){
+	$event_id = $_POST['event_id'];
+	renderMessage('Setting outcome of event '.$event_id);
+	renderResolveEventPage($event_id);
 }
 ?>
 
