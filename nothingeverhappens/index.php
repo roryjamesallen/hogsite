@@ -354,7 +354,7 @@ function renderGroupEventsPage($group_id){
 			$members .= ', ';
 		}
 	}
-	renderMessage('Viewing: '.$group_name.' ('.$members.')');
+	renderMessage('Viewing: '.$group_name.' ('.$members.') - '.$group_id);
 	$group_events = getGroupEventsById($group_id);
 	renderMessage('Events');
 	foreach ($group_events as $event){
