@@ -721,6 +721,7 @@ if ($page_mode == 'render_login'){
     }
 // User clicked an event
 } else if ($page_mode == 'view_event'){
+    $_SESSION['call_already_submitted'] = false;
     if (isset($_POST['event_id'])){
         $event_id = $_POST['event_id'];
         $_SESSION['active_event'] = $event_id;
