@@ -1,3 +1,9 @@
+<?php
+session_start(['cookie_lifetime' => 86400,]);
+include '../lib/generic_content.php';
+openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeverhappens.php');
+?>
+
 <style>
 :root {
 	--pale-grey: #f4f4f4;
@@ -33,12 +39,6 @@ label:empty {
 </style>
 
 <?php
-include '../lib/generic_content.php';
-session_start(['cookie_lifetime' => 86400,]);
-openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeverhappens.php');
-
-ob_start(); // Begin output buffering to allow output to be rendered after html head
-
 $button_modes = json_decode('{
 	"Logout": "render_login",
 	"View Groups": "attempt_login",
@@ -460,8 +460,9 @@ if (isset($_GET['page_mode'])){
 }
 
 // Start Session
-if (!isset($_SESSION['logged_in'])){
+if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){
 	$_SESSION['logged_in'] = false;
+    removeUserDetailsFromSession();
 } else if ($_SESSION['logged_in'] and $page_mode == 'render_login'){
 	$page_mode = 'attempt_login';
 }
@@ -469,7 +470,6 @@ echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
 
 // User isn't logged in and hasn't tried to yet
 if ($page_mode == 'render_login'){
-	$_SESSION['logged_in'] = false;
 	echo renderLoginPage();
 // User has typed in login details and pressed enter
 } else if ($page_mode == 'attempt_login'){
