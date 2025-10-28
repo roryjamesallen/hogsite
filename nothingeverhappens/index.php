@@ -293,6 +293,32 @@ function setEventOutcome($event_id, $option_id){
 function cancelEvent($event_id){
     sqlQuery('UPDATE events SET cancelled=1 WHERE event_id="'.$event_id.'"');
 }
+function calculateUserPoints($event_id, $user_id){
+    if (checkIfEventIsResolved($event_id)){
+        $user_call = getUsersCall($event_id);
+        $outcome = getEventOutcome($event_id);
+        $points = 0;
+        if ($user_call == $outcome){
+            foreach (getCallsForEvent($event_id) as $call){
+                if ($call['option_id'] != $outcome){ // User who predicted a wrong outcome when you were right
+                    $points += 1;
+                }
+            }
+            return renderPoints($points);
+        } else if ($user_call != $outcome and $user_call != null){
+            foreach (getCallsForEvent($event_id) as $call){
+                if ($call['option_id'] == $user_call){ // User who predicted the same wrong outcome as you
+                    $points -= 1;
+                }
+            }
+            return renderPoints($points);
+        } else if ($user_call == null){
+            return '';
+        }
+    } else {
+        return '';
+    }
+}
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
 	$_SESSION['user_id'] = $user_id;
@@ -306,6 +332,15 @@ function removeUserDetailsFromSession(){
     $_SESSION['active_event'] = null;
 }
 // Rendering Functions
+function renderPoints($points){
+    $prefix = '';
+    if ($points > 0){
+        $prefix = '+';
+    } else if ($points < 0){
+        $prefix = '-';
+    }
+    return ' ('.$prefix.$points.')';
+}
 function renderForm($method, $new_page_mode, $submit_text, $content){
 	return '<form action="" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
 }
@@ -391,7 +426,7 @@ function renderAllCallsForEvent($event_id){
         renderHeading($option['option_text']);
         foreach ($calls as $call){
             if ($call['option_id'] == $option['option_id']){
-                renderBlock(getUsernameById($call['user_id']));
+                renderBlock(getUsernameById($call['user_id']).calculateUserPoints($event_id, $call['user_id']));
                 $zero_calls = false;
             }
         }
@@ -566,13 +601,9 @@ function renderEventPage($event_id){
         }
         if ($event_cancelled){
             renderMessage('The event was cancelled');
-            // you lost/gained calculatePoints() points
         } else if ($event_outcome != 'null'){
             renderMessage('The outcome was '.getOptionTextFromId($event_outcome));
-            //you didn't lose or gain any points
         } else if ($_SESSION['user_id'] == $event_creator){
-            // points won't be calculated until the you resolve the event
-            // render event resolution form
 			renderMessage('Points will be calculated once you set the outcome');
 			echo renderForm(
 				'POST',
@@ -584,7 +615,7 @@ function renderEventPage($event_id){
 			echo renderButton('Cancel Event', 'cancel_event');
             renderBlock('');
         } else {
-            renderMessage('Points will be calculated once '.getUsernameById($user_id).' sets the outcome');
+            renderMessage('Points will be calculated once '.getUsernameById($event_creator).' sets the outcome');
         }
     } else {
 		[$hours, $mins] = hoursToHoursMins(unixToHours($event['deadline'] - time()));
