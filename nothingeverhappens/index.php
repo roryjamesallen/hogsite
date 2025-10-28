@@ -562,7 +562,11 @@ if ($page_mode == 'render_login'){
 	}
 // User clicked an event
 } else if ($page_mode == 'view_event'){
-	$event_id = $_POST['event_id'];
+    if (isset($_SESSION['active_event'])){
+        $event_id = $_SESSION['active_event'];
+    } else {
+        $event_id = $_POST['event_id'];
+    }
     $_SESSION['active_event'] = $event_id;
 	renderMessage('Viewing event '.$event_id);
 	renderEventPage($event_id);
