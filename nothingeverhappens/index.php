@@ -8,7 +8,9 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 :root {
 	--pale-grey: #f4f4f4;
 	--medium-grey: #888888;
+    --dark-grey: #333333;
 	--border-radius: 0.5rem;
+    --page-width: 300px;
 }
     body {
     font-family: Arial;
@@ -19,8 +21,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 	}
 .neh-input, select {
 		padding: 0.5rem;
-		outline: 2px solid black;
-		border: none;
+		border: 1px solid black;
 		background: white;
 	}
 	.neh-input:hover {
@@ -36,11 +37,76 @@ label {
 label:empty {
      display: none;
  }
+h1 {
+    text-decoration: underline;
+    margin: 1rem auto 2rem;
+    width: fit-content;
+}
+.neh-message {
+    max-width: var(--page-width);
+    margin: 0 auto 1rem;
+    background: var(--pale-grey);
+    padding: 0.5rem;
+    color: var(--medium-grey);
+    box-sizing: border-box;
+}
+form, .option-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: var(--page-width);
+    margin: 0 auto;
+}
+#create-options-list {
+    width: 100%;
+margin-bottom: 1rem;
+}
+form input, label, select {
+    flex-basis: 70%;
+    flex-grow: 1;
+}
+.full-width {
+    flex-basis: 100% !important;
+}
+.neh-input[type="submit"], .neh-input[type="button"]{
+    flex-basis: 30%;
+    flex-grow: 1;
+    background: black;
+    color: white;
+}
+.neh-input[type="submit"]:hover, .neh-input[type="button"]:hover{
+    background: var(--dark-grey);
+}
+.neh-input:focus-visible, select:focus-visible {
+    outline: none;
+    border: 1px solid var(--medium-grey);
+    background: var(--pale-grey);
+}
+.neh-input[type="submit"]:focus-visible, .neh-input[type="button"]:focus-visible{
+    background: var(--dark-grey);
+    border: none;
+}
+.neh-function-buttons {
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.neh-function-buttons form {
+    margin: 0;
+}
+.neh-heading {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    border: 1px solid black;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    text-align: center;
+}
 </style>
 
 <?php
 $button_modes = json_decode('{
+    "Login": "render_login",
 	"Logout": "render_login",
+    "Create Account": "create_account",
 	"View Groups": "attempt_login",
 	"Join Group": "join_group",
 	"Create Group": "create_group",
@@ -84,10 +150,10 @@ function removeUserFromGroup($user_id, $group_id){
 	sqlQuery('DELETE FROM group_users WHERE group_id="'.$group_id.'" AND user_id="'.$user_id.'"');
 }
 function createGroup($group_id, $group_name){
-	sqlQuery('INSERT INTO groups (group_id, name) VALUES ("'.$group_id.'", "'.$group_name.'")');
+	sqlQuery('INSERT INTO groups (group_id, name, created_at) VALUES ("'.$group_id.'", "'.$group_name.'", "'.time().'")');
 }
 function createUser($user_id, $username, $password, $email){
-	sqlQuery('INSERT INTO users (user_id, username, password, email) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'")');
+	sqlQuery('INSERT INTO users (user_id, username, password, email, created_at) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'", "'.time().'")');
 }
 function getEventFromId($event_id){
 	return sqlQuery('SELECT * FROM events WHERE event_id="'.$event_id.'"')[0];
@@ -210,6 +276,7 @@ function removeUserDetailsFromSession(){
 	$_SESSION['user_id'] = '';
 	$_SESSION['username'] = '';
 	$_SESSION['logged_in'] = false;
+    $_SESSION['active_event'] = null;
 }
 // Rendering Functions
 function renderForm($method, $new_page_mode, $submit_text, $content){
@@ -235,6 +302,9 @@ function renderFunctionButtons($button_destinations=[]){
 function renderMessage($message){
 	echo '<div class="neh-message">'.$message.'</div>';
 }
+function renderHeading($message){
+	echo '<div class="neh-heading">'.$message.'</div>';
+}
 function renderOption($number, $text='', $hidden=false){
     if ($hidden){
         $style = 'display: none;';
@@ -252,7 +322,8 @@ function renderDefaultOptions(){
         renderOption('1', 'Yes').
         renderOption('2', 'No').
         '</div>'.
-        renderInput('add_option','button','','Add Option');
+        renderInput('add_option','button','','Add Option').
+        renderInput('placeholder','hidden','','');
 }
 function renderViewEventOptions($event_id){
     $option_selector = '<label for="option_selector">Your call</label><select id="option_selector" name="option_selector">';
@@ -295,25 +366,21 @@ function hoursToHoursMins($hours){
 }
 // Rendering Pages
 function renderLoginPage(){
-	return renderForm(
-		'POST',
+	return renderFunctionButtons(['Create Account']).
+        renderForm(
+            'POST',
 		'attempt_login',
 		'Enter',
 		renderInput('username','text','Name').
 		renderInput('password','password','Password')
-	).
-	renderForm(
-		'POST',
-		'create_account',
-		'Create Account',
-		''
-	);
+        );
 }
 function renderCreateAccountPage(){
-	return renderForm(
+	return renderFunctionButtons(['Login']).
+        renderForm(
 		'POST',
 		'submit_new_account',
-		'Create Account',
+		'Submit',
 		renderInput('username','text','Username').
 		renderInput('password','password','Password').
 		renderInput('email','text','Email Address')
@@ -324,12 +391,12 @@ function renderCreateGroupPage(){
 	renderForm(
 		'POST',
 		'submit_new_group',
-		'Create New Group',
+		'Create',
 		renderInput('group_name','text','Group Name')
 	);
 }
 function renderGroupsPage(){
-	renderMessage('Groups');
+	renderHeading('Groups');
 	$query = 'SELECT group_id FROM group_users WHERE user_id="'.$_SESSION['user_id'].'"';
 	foreach (sqlQuery($query) as $group_user){
 		$group_id = $group_user['group_id'];
@@ -356,7 +423,7 @@ function renderGroupEventsPage($group_id){
 	}
 	renderMessage('Viewing: '.$group_name.' ('.$members.') - '.$group_id);
 	$group_events = getGroupEventsById($group_id);
-	renderMessage('Events');
+	renderHeading('Events');
 	foreach ($group_events as $event){
 		echo renderForm(
 			'POST',
@@ -384,7 +451,7 @@ function renderCreateEventPage($group_id){
         renderForm(
 		'POST',
 		'attempt_create_event',
-		'Create Event',
+		'Create',
 		renderInput('question','text','Question').
 		renderInput('deadline','datetime-local','Deadline').
         renderDefaultOptions().
@@ -394,7 +461,7 @@ function renderCreateEventPage($group_id){
 function renderEventPage($event_id){
 	echo renderFunctionButtons(['View Groups']);
 	$event = getEventFromId($event_id);
-	echo $event['question'].' by '.unixToDate($event['deadline']).'?<br>';
+    renderHeading($event['question'].' by '.unixToDate($event['deadline']).'?<br>');
     $deadline_passed = checkIfDeadlineHasPassed($event_id);
     $event_creator = getCreatorByEventId($event_id);
     $event_outcome = getEventOutcome($event_id);
@@ -466,7 +533,11 @@ if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){
 } else if ($_SESSION['logged_in'] and $page_mode == 'render_login'){
 	$page_mode = 'attempt_login';
 }
-echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
+$_SESSION['group_already_created'] = false;
+
+//echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
+echo '<h1>nothing ever happens</h1>';
+echo '<p style="display: none">'.$page_mode.'</p>';
 
 // User isn't logged in and hasn't tried to yet
 if ($page_mode == 'render_login'){
@@ -511,11 +582,14 @@ if ($page_mode == 'render_login'){
 	echo renderCreateGroupPage();
 // User has entered new group details and clicked create new group
 } else if ($page_mode == 'submit_new_group'){
-	$new_group_id = 'grp'.uniqid();
-	createGroup($new_group_id, $_POST['group_name']);
-	addUserToGroup($_SESSION['user_id'], $new_group_id);
-	renderMessage('Group "'.$_POST['group_name'].'" Created');
-	renderGroupListView();
+    if ($_SESSION['group_already_created'] != true){
+        $new_group_id = 'grp'.uniqid();
+        createGroup($new_group_id, $_POST['group_name']);
+        addUserToGroup($_SESSION['user_id'], $new_group_id);
+        renderMessage('Group "'.$_POST['group_name'].'" Created');
+        $_SESSION['group_already_created'] = true;
+    }
+    renderGroupListView();
 // User has clicked a group in their group list
 } else if ($page_mode == 'view_group'){
 	renderGroupEventsPage($_POST['group_id']);
@@ -566,8 +640,8 @@ if ($page_mode == 'render_login'){
         $event_id = $_SESSION['active_event'];
     } else {
         $event_id = $_POST['event_id'];
+        $_SESSION['active_event'] = $event_id;
     }
-    $_SESSION['active_event'] = $event_id;
 	renderMessage('Viewing event '.$event_id);
 	renderEventPage($event_id);
 // User clicked make call after selecting from the dropdown
