@@ -141,7 +141,7 @@ function attemptLogin($username, $guessed_password){
 }
 function createEvent($event_id, $group_id, $user_id, $question, $deadline){
     $deadline = intval(strtotime($deadline));
-	if ($deadline < time()){
+	if ($deadline < time() and false){ // temporarily disabled for testing
 		return 'Date cannot have already passed';
 	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
 		return '';
@@ -192,6 +192,12 @@ function submitUserCall($event_id, $option_id){
 }
 function getOptionTextFromId($option_id){
     return sqlQuery('SELECT option_text FROM options WHERE option_id="'.$option_id.'"')[0]['option_text'];
+}
+function setEventOutcome($event_id, $option_id){
+    sqlQuery('UPDATE events SET option_id="'.$option_id.'" WHERE event_id="'.$event_id.'"');
+}
+function cancelEvent($event_id){
+    sqlQuery('UPDATE events SET cancelled=1 WHERE event_id="'.$event_id.'"');
 }
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
@@ -257,6 +263,20 @@ function renderViewEventOptions($event_id){
 		'POST',
 		'make_call',
 		'Make Call',
+	    $option_selector.
+        renderInput('event_id','hidden','',$event_id)
+	);
+}
+function renderResolveEventOptions($event_id){
+    $option_selector = '<label for="option_selector">The actual outcome</label><select id="option_selector" name="option_selector">';
+    foreach (sqlQuery('SELECT * from options WHERE event_id="'.$event_id.'"') as $option){
+        $option_selector .= '<option value="'.$option['option_id'].'">'.$option['option_text'].'</option>';
+    }
+    $option_selector .= '</select>';
+    return renderForm(
+		'POST',
+		'attempt_resolve_event',
+		'Set Outcome',
 	    $option_selector.
         renderInput('event_id','hidden','',$event_id)
 	);
@@ -381,17 +401,16 @@ function renderEventPage($event_id){
     $users_call = getUsersCall($event_id);
 
     if ($deadline_passed){
-		renderMessage('Betting ended on '.unixToDate($event['deadline']));
         if ($users_call != null){
-            echo 'You called '.getOptionTextFromId($users_call);
+            renderMessage('You called '.getOptionTextFromId($users_call));
         } else {
-            echo 'You did not make a call';
+            renderMessage('You did not make a call');
         }
-        if ($event_outcome != 'null'){
-            // the event result was event_outcome,
+        if ($event_cancelled){
+            renderMessage('The event was cancelled');
             // you lost/gained calculatePoints() points
-        } else if ($event_cancelled){
-            // the event was cancelled.
+        } else if ($event_outcome != 'null'){
+            renderMessage('The outcome was '.getOptionTextFromId($event_outcome));
             //you didn't lose or gain any points
         } else if ($_SESSION['user_id'] == $event_creator){
             // points won't be calculated until the you resolve the event
@@ -401,7 +420,7 @@ function renderEventPage($event_id){
 				'POST',
 				'resolve_event',
 				'Set Outcome',
-				renderInput('event_id','hidden','',$event_id)
+                ''
 			);
 			echo renderButton('Cancel Event', 'cancel_event');
         } else {
@@ -419,15 +438,14 @@ function renderEventPage($event_id){
     }
 }
 function renderResolveEventPage($event_id){
-	echo  renderFunctionButtons(['View Groups']).
-        renderForm(
-		'POST',
-		'attempt_resolve_event',
-		'Set Outcome',
-        renderViewEventOptions($event_id).
-		renderInput('event_id','hidden','',$event_id)
-	);
+	echo renderFunctionButtons(['View Groups']);
+    echo renderResolveEventOptions($event_id);
 	echo renderButton('Cancel Event', 'cancel_event');
+}
+function renderCancelEventPage($event_id){
+    echo renderFunctionButtons(['View Groups']);
+    echo renderButton('Back to Event', 'view_event');
+    echo renderButton('Seriously Cancel Event', 'attempt_cancel_event');
 }
 
 
@@ -535,25 +553,47 @@ if ($page_mode == 'render_login'){
 // User's new event details were accepted and it was submitted
 	if ($create_event_message == ''){
 		renderMessage('Event submitted');
-		renderGroupEventsPage($group_id);
+        $_SESSION['active_event'] = $event_id;
+		renderEventPage($event_id);
 // User's event was rejected
 	} else {
 		renderMessage($create_event_message);
 		echo renderCreateEventPage($group_id);
 	}
+// User clicked an event
 } else if ($page_mode == 'view_event'){
 	$event_id = $_POST['event_id'];
+    $_SESSION['active_event'] = $event_id;
 	renderMessage('Viewing event '.$event_id);
 	renderEventPage($event_id);
+// User clicked make call after selecting from the dropdown
 } else if ($page_mode == 'make_call'){
-    $event_id = $_POST['event_id'];
+    $event_id = $_SESSION['active_event'];
     $option_id = $_POST['option_selector'];
     submitUserCall($event_id, $option_id);
     renderEventPage($event_id);
+// User clicked Set Outcome from the event page
 } else if ($page_mode == 'resolve_event'){
-	$event_id = $_POST['event_id'];
+	$event_id = $_SESSION['active_event'];
 	renderMessage('Setting outcome of event '.$event_id);
 	renderResolveEventPage($event_id);
+// User set the outcome with the dropdown and clicked Set Outcome
+} else if ($page_mode == 'attempt_resolve_event'){
+    $event_id = $_SESSION['active_event'];
+    setEventOutcome($event_id, $_POST['option_selector']);
+    renderMessage('Event outcome set');
+    renderEventPage($event_id);
+// User clicked cancel event from the event page
+} else if ($page_mode == 'cancel_event'){
+    $event_id = $_SESSION['active_event'];
+    renderMessage('Do you really want to cancel this event?');
+    renderCancelEventPage($event_id);
+// User confirmed to cancel event
+} else if ($page_mode == 'attempt_cancel_event'){
+    $event_id = $_SESSION['active_event'];
+    cancelEvent($event_id);
+    renderMessage('Event cancelled');
+    renderEventPage($event_id);
 }
 ?>
 
