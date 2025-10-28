@@ -34,6 +34,7 @@ label:empty {
 
 <?php
 include '../lib/generic_content.php';
+session_start(['cookie_lifetime' => 86400,]);
 openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeverhappens.php');
 
 ob_start(); // Begin output buffering to allow output to be rendered after html head
@@ -459,7 +460,6 @@ if (isset($_GET['page_mode'])){
 }
 
 // Start Session
-session_start(['cookie_lifetime' => 86400,]);
 if (!isset($_SESSION['logged_in'])){
 	$_SESSION['logged_in'] = false;
 } else if ($_SESSION['logged_in'] and $page_mode == 'render_login'){
@@ -539,7 +539,7 @@ if ($page_mode == 'render_login'){
 	$user_id = $_SESSION['user_id'];
 	$group_id = $_SESSION['active_group'];
 	removeUserFromGroup($user_id, $group_id);
-	echo getUsernameById($user_id).' removed from '.getGroupNameById($group_id);
+	renderMessage(getUsernameById($user_id).' removed from '.getGroupNameById($group_id));
 	renderGroupListView();
 // User clicked create event but hasn't entered event details yet
 } else if ($page_mode == 'create_event'){
