@@ -10,7 +10,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 	--medium-grey: #888888;
     --dark-grey: #333333;
 	--border-radius: 0.5rem;
-    --page-width: 300px;
+    --page-width: 500px;
 }
     body {
     font-family: Arial;
@@ -23,6 +23,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 		padding: 0.5rem;
 		border: 1px solid black;
 		background: white;
+        font-size: 1.5rem;
 	}
 	.neh-input:hover {
 		background: #f4f4f4;
@@ -41,6 +42,7 @@ h1 {
     text-decoration: underline;
     margin: 1rem auto 2rem;
     width: fit-content;
+    font-size: 3rem;
 }
 .neh-message {
     max-width: var(--page-width);
@@ -49,6 +51,7 @@ h1 {
     padding: 0.5rem;
     color: var(--medium-grey);
     box-sizing: border-box;
+    font-size: 1.5rem;
 }
 form, .option-container {
     display: flex;
@@ -63,6 +66,7 @@ margin-bottom: 1rem;
 form input, label, select {
     flex-basis: 70%;
     flex-grow: 1;
+    font-size: 1.5rem;
 }
 .full-width {
     flex-basis: 100% !important;
@@ -99,6 +103,7 @@ form input, label, select {
     box-sizing: border-box;
     padding: 0.5rem;
     text-align: center;
+    font-size: 1.5rem;
 }
 .neh-block {
     text-align: left;
@@ -239,6 +244,13 @@ function checkIfEventIsCancelled($event_id){
     } else {
         return false;
     }
+}
+function checkIfEventIsResolved($event_id){
+    if (sqlQuery('SELECT option_id FROM events WHERE event_id="'.$event_id.'"')[0]['option_id'] != 'null'){
+        return true;
+    } else {
+        return false;
+    };
 }
 function getEventQuestionById($event_id){
     return sqlQuery('SELECT question FROM events WHERE event_id="'.$event_id.'"')[0]['question'];
@@ -386,6 +398,11 @@ function renderAllCallsForEvent($event_id){
         }
     }
 }
+function renderOutcomeExclamation($event_id){
+    if (checkIfDeadlineHasPassed($event_id) and $_SESSION['user_id'] == getCreatorByEventId($event_id) and !checkIfEventIsResolved($event_id)){
+        return '⚠ ';
+    }
+}
 function unixToDate($unix){
 	return gmdate('d M Y', $unix);
 }
@@ -474,7 +491,7 @@ function renderGroupEventsPage($group_id){
             echo renderForm(
                 'POST',
                 'view_event',
-                $event['question'],
+                renderOutcomeExclamation($event['event_id']).$event['question'],
                 renderInput('event_id','hidden','',$event['event_id'])
             );
         }
@@ -565,6 +582,7 @@ function renderEventPage($event_id){
 			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
 		}
     }
+    renderBlock('');
     renderAllCallsForEvent($event_id);
 }
 function renderResolveEventPage($event_id){
@@ -579,10 +597,9 @@ function renderCancelEventPage($event_id){
     echo renderButton('Seriously Cancel Event', 'attempt_cancel_event');
 }
 
-
 // Get Page Mode
 if (isset($_GET['page_mode'])){
-	$page_mode = $_GET['page_mode'];
+	$page_mode = $_POST['page_mode'];
 } else if (isset($_POST['page_mode'])){
 	$page_mode = $_POST['page_mode'];
 } else {
@@ -596,7 +613,6 @@ if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){
 } else if ($_SESSION['logged_in'] and $page_mode == 'render_login'){
 	$page_mode = 'attempt_login';
 }
-$_SESSION['group_already_created'] = false;
 
 //echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
 echo '<h1>nothing ever happens</h1>';
@@ -680,23 +696,29 @@ if ($page_mode == 'render_login'){
 	renderGroupListView();
 // User clicked create event but hasn't entered event details yet
 } else if ($page_mode == 'create_event'){
+    $_SESSION['event_already_created'] = false;
 	$group_id = $_SESSION['active_group'];
 	echo renderCreateEventPage($group_id);
 // User has clicked to submit their new event details
 } else if ($page_mode == 'attempt_create_event'){
 	$group_id = $_SESSION['active_group'];
-	$event_id = 'evt'.uniqid();
-	$create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline']);
+    if ($_SESSION['event_already_created'] != true){
+        $event_id = 'evt'.uniqid();
+        $create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline']);
 // User's new event details were accepted and it was submitted
-	if ($create_event_message == ''){
-		renderMessage('Event submitted');
-        $_SESSION['active_event'] = $event_id;
-		renderEventPage($event_id);
+        if ($create_event_message == ''){
+            $_SESSION['event_already_created'] = true;
+            $_SESSION['active_event'] = $event_id;
+            renderMessage('Event submitted');
+            renderEventPage($event_id);
 // User's event was rejected
-	} else {
-		renderMessage($create_event_message);
-		echo renderCreateEventPage($group_id);
-	}
+        } else {
+            renderMessage($create_event_message);
+            echo renderCreateEventPage($group_id);
+        }
+    } else {
+        renderEventPage($_SESSION['active_event']);
+    }
 // User clicked an event
 } else if ($page_mode == 'view_event'){
     if (isset($_POST['event_id'])){
@@ -710,8 +732,11 @@ if ($page_mode == 'render_login'){
 // User clicked make call after selecting from the dropdown
 } else if ($page_mode == 'make_call'){
     $event_id = $_SESSION['active_event'];
-    $option_id = $_POST['option_selector'];
-    submitUserCall($event_id, $option_id);
+    if ($_SESSION['call_already_submitted'] != true){
+        $option_id = $_POST['option_selector'];
+        submitUserCall($event_id, $option_id);
+        $_SESSION['call_already_submitted'] = true;
+    }
     renderEventPage($event_id);
 // User clicked Set Outcome from the event page
 } else if ($page_mode == 'resolve_event'){
