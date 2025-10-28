@@ -92,13 +92,17 @@ form input, label, select {
 .neh-function-buttons form {
     margin: 0;
 }
-.neh-heading {
+.neh-heading, .neh-block {
     max-width: var(--page-width);
     margin: 0 auto;
     border: 1px solid black;
     box-sizing: border-box;
     padding: 0.5rem;
     text-align: center;
+}
+.neh-block {
+    text-align: left;
+    border: none;
 }
 </style>
 
@@ -236,11 +240,20 @@ function checkIfEventIsCancelled($event_id){
         return false;
     }
 }
+function getEventQuestionById($event_id){
+    return sqlQuery('SELECT question FROM events WHERE event_id="'.$event_id.'"')[0]['question'];
+}
 function getCreatorByEventId($event_id){
     return sqlQuery('SELECT user_id FROM events WHERE event_id="'.$event_id.'"')[0]['user_id'];
 }
 function getEventOutcome($event_id){
     return sqlQuery('SELECT option_id FROM events WHERE event_id="'.$event_id.'"')[0]['option_id'];
+}
+function getOptionsForEvent($event_id){
+    return sqlQuery('SELECT * FROM options WHERE event_id="'.$event_id.'"');
+}
+function getCallsForEvent($event_id){
+    return sqlQuery('SELECT * FROM user_calls WHERE event_id="'.$event_id.'"');
 }
 function getFirstOption($event_id){
     return sqlQuery('SELECT option_id FROM options WHERE event_id="'.$event_id.'"')[0]['option_id'];
@@ -305,6 +318,9 @@ function renderMessage($message){
 function renderHeading($message){
 	echo '<div class="neh-heading">'.$message.'</div>';
 }
+function renderBlock($message){
+	echo '<div class="neh-block">'.$message.'</div>';
+}
 function renderOption($number, $text='', $hidden=false){
     if ($hidden){
         $style = 'display: none;';
@@ -348,10 +364,27 @@ function renderResolveEventOptions($event_id){
     return renderForm(
 		'POST',
 		'attempt_resolve_event',
-		'Set Outcome',
+		'Set',
 	    $option_selector.
         renderInput('event_id','hidden','',$event_id)
 	);
+}
+function renderAllCallsForEvent($event_id){
+    $calls = getCallsForEvent($event_id);
+    $options = getOptionsForEvent($event_id);
+    foreach ($options as $option){
+        $zero_calls = true;
+        renderHeading($option['option_text']);
+        foreach ($calls as $call){
+            if ($call['option_id'] == $option['option_id']){
+                renderBlock(getUsernameById($call['user_id']));
+                $zero_calls = false;
+            }
+        }
+        if ($zero_calls){
+            renderBlock('Zero calls');
+        }
+    }
 }
 function unixToDate($unix){
 	return gmdate('d M Y', $unix);
@@ -423,15 +456,41 @@ function renderGroupEventsPage($group_id){
 	}
 	renderMessage('Viewing: '.$group_name.' ('.$members.') - '.$group_id);
 	$group_events = getGroupEventsById($group_id);
-	renderHeading('Events');
+	renderHeading('Future Events');
 	foreach ($group_events as $event){
-		echo renderForm(
-			'POST',
-			'view_event',
-			$event['question'],
-			renderInput('event_id','hidden','',$event['event_id'])
-		);
-	}
+        if (!checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id'])){
+            echo renderForm(
+                'POST',
+                'view_event',
+                $event['question'],
+                renderInput('event_id','hidden','',$event['event_id'])
+            );
+        }
+    }
+    renderBlock('');
+    renderHeading('Past Events');
+    foreach ($group_events as $event){
+        if (checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id'])){
+            echo renderForm(
+                'POST',
+                'view_event',
+                $event['question'],
+                renderInput('event_id','hidden','',$event['event_id'])
+            );
+        }
+    }
+    renderBlock('');
+    renderHeading('Cancelled Events');
+    foreach ($group_events as $event){
+        if (checkIfEventIsCancelled($event['event_id'])){
+            echo renderForm(
+                'POST',
+                'view_event',
+                $event['question'],
+                renderInput('event_id','hidden','',$event['event_id'])
+            );
+        }
+    }
 }
 function renderJoinGroupPage(){
 	return renderFunctionButtons(['View Groups']).
@@ -490,7 +549,9 @@ function renderEventPage($event_id){
 				'Set Outcome',
                 ''
 			);
+            renderBlock('');
 			echo renderButton('Cancel Event', 'cancel_event');
+            renderBlock('');
         } else {
             renderMessage('Points will be calculated once '.getUsernameById($user_id).' sets the outcome');
         }
@@ -504,10 +565,12 @@ function renderEventPage($event_id){
 			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
 		}
     }
+    renderAllCallsForEvent($event_id);
 }
 function renderResolveEventPage($event_id){
 	echo renderFunctionButtons(['View Groups']);
     echo renderResolveEventOptions($event_id);
+    renderBlock('');
 	echo renderButton('Cancel Event', 'cancel_event');
 }
 function renderCancelEventPage($event_id){
@@ -636,11 +699,11 @@ if ($page_mode == 'render_login'){
 	}
 // User clicked an event
 } else if ($page_mode == 'view_event'){
-    if (isset($_SESSION['active_event'])){
-        $event_id = $_SESSION['active_event'];
-    } else {
+    if (isset($_POST['event_id'])){
         $event_id = $_POST['event_id'];
         $_SESSION['active_event'] = $event_id;
+    } else {
+        $event_id = $_SESSION['active_event'];
     }
 	renderMessage('Viewing event '.$event_id);
 	renderEventPage($event_id);
@@ -653,7 +716,7 @@ if ($page_mode == 'render_login'){
 // User clicked Set Outcome from the event page
 } else if ($page_mode == 'resolve_event'){
 	$event_id = $_SESSION['active_event'];
-	renderMessage('Setting outcome of event '.$event_id);
+	renderMessage('Setting outcome of event "'.getEventQuestionById($event_id).'"');
 	renderResolveEventPage($event_id);
 // User set the outcome with the dropdown and clicked Set Outcome
 } else if ($page_mode == 'attempt_resolve_event'){
