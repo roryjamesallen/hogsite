@@ -410,7 +410,7 @@ function sendForgotPasswordEmail($email){
     $headers = 'From: accounts@hogwild.uk'       . "\r\n" .
                  'Reply-To: accounts@hogwild.uk' . "\r\n" .
                  'X-Mailer: PHP/' . phpversion();
-    mail($email, $subject, $message, $headers);
+    mail($email, $subject, $message, $headers,'-f accounts@hogwild.uk');
     return $code;
 }
 function renderSetNewPasswordPage($email){
