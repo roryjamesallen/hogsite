@@ -833,7 +833,7 @@ if ($page_mode == 'render_login'){
     }
 // User has clicked set new password
 } else if ($page_mode == 'change_user_password'){
-    if ($_POST['password'] != ''){
+    if ($_POST['new_password'] != ''){
         renderMessage('Password updated');
         sqlQuery('UPDATE users SET password="'.password_hash($_POST['new_password'], PASSWORD_BCRYPT).'" WHERE user_id="'.$_POST['user_id'].'"');
         echo renderLoginPage();
