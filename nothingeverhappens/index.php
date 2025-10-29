@@ -46,7 +46,8 @@ label {
 label:empty {
      display: none;
  }
-h1 {
+h1, h1 a {
+    color: black;
     text-decoration: underline;
     text-decoration-color: white;
     margin: 1rem auto 2rem;
@@ -772,23 +773,19 @@ function renderForgotPasswordCodeForm($code, $email){
 }
 
 // Get Page Mode
-if (isset($_GET['page_mode'])){
+if (isset($_POST['page_mode'])){ // Coming from an internal page
 	$page_mode = $_POST['page_mode'];
-} else if (isset($_POST['page_mode'])){
-	$page_mode = $_POST['page_mode'];
+    if ($page_mode == 'render_login'){ // Deliberate logout
+        $_SESSION['logged_in'] = false;
+        removeUserDetailsFromSession();
+    }
+} else if (isset($_SESSION['logged_in'])){
+    $page_mode = 'attempt_login';
 } else {
 	$page_mode = 'render_login';
 }
 
-// Start Session
-if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){ // user's session has ended or user specifically wants to logout
-	$_SESSION['logged_in'] = false;
-    removeUserDetailsFromSession();
-    $page_mode = 'render_login';
-}
-
-//echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
-echo '<h1>nothing ever happens</h1>';
+echo '<h1><a href="">nothing ever happens</a></h1>';
 echo '<p style="display: none">'.$page_mode.'</p>';
 
 // User isn't logged in and hasn't tried to yet
