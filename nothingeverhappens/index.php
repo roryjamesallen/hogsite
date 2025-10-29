@@ -406,7 +406,7 @@ function checkIfAccountExistsForEmail($email){
 function sendForgotPasswordEmail($email){
     $code = str_pad(strval(rand(0, 999999)), 6, '0', STR_PAD_LEFT);
     $subject = 'Nothing Ever Happens - Password Reset';
-    $message = 'Enter the below code to reset your password. If you did not request this code please change your password as soon as possible.<br><br>'.$code;
+    $message = 'Enter the code: '.$code.' to reset your password. If you did not request this code please change your password as soon as possible.';
     $headers = 'From: accounts@hogwild.uk'       . "\r\n" .
                  'Reply-To: accounts@hogwild.uk' . "\r\n" .
                  'X-Mailer: PHP/' . phpversion();
