@@ -11,7 +11,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 	--medium-grey: #dddddd;
     --dark-grey: #888;
 	--border-radius: 0.5rem;
-    --page-width: 500px;
+    --page-width: 750px;
 }
 @media screen and (max-width: 900px) {
     :root {
@@ -94,12 +94,17 @@ form, .option-container {
 }
 .neh-event-tab-note {
     flex-basis: 20%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: var(--medium-grey);
     text-align: center;
     line-height: 40px;
     font-size: 1.5rem;
     border: 1px solid black;
     border-left: none;
+    padding: 0 0.5rem;
 }
 #create-options-list {
     width: 100%;
