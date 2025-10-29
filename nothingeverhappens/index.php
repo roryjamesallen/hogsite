@@ -1,5 +1,6 @@
 <?php
-session_start(['cookie_lifetime' => 86400,]);
+session_start(['cookie_lifetime' => 86400,
+               'gc_maxlifetime' => 86400]);
 include '../lib/generic_content.php';
 openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeverhappens.php');
 ?>
@@ -7,13 +8,19 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 <style>
 :root {
 	--pale-grey: #f4f4f4;
-	--medium-grey: #888888;
-    --dark-grey: #333333;
+	--medium-grey: #dddddd;
+    --dark-grey: #888;
 	--border-radius: 0.5rem;
     --page-width: 500px;
 }
+@media screen and (max-width: 900px) {
+    :root {
+        --page-width: 90vw;
+    }
+}
     body {
     font-family: Arial;
+        background: var(--medium-grey);
  }
 	.neh-function-buttons {
 		display: flex;
@@ -41,16 +48,19 @@ label:empty {
  }
 h1 {
     text-decoration: underline;
+    text-decoration-color: white;
     margin: 1rem auto 2rem;
     width: fit-content;
     font-size: 3rem;
 }
 .neh-message {
+    display: flex;
+    gap: 1rem;
     max-width: var(--page-width);
     margin: 0 auto 1rem;
     background: var(--pale-grey);
     padding: 0.5rem;
-    color: var(--medium-grey);
+    color: var(--dark-grey);
     box-sizing: border-box;
     font-size: 1.5rem;
 }
@@ -59,6 +69,37 @@ form, .option-container {
     flex-wrap: wrap;
     max-width: var(--page-width);
     margin: 0 auto;
+}
+.neh-event-tab-list {
+    background: var(--pale-grey);
+    display: flex;
+    flex-wrap: wrap;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+.neh-event-tab-list .neh-block {
+    background: white;
+    border: 1px solid black;
+    width: calc(100% - 2rem);
+}
+.neh-event-tab-container {
+    display: flex;
+    width: calc(100% - 2rem);
+    margin: 0 auto;
+}
+.neh-event-tab-container form {
+    flex-grow: 1;
+}
+.neh-event-tab-note {
+    flex-basis: 20%;
+    background: var(--medium-grey);
+    text-align: center;
+    line-height: 40px;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    border-left: none;
 }
 #create-options-list {
     width: 100%;
@@ -75,11 +116,10 @@ form input, label, select {
 .neh-input[type="submit"], .neh-input[type="button"]{
     flex-basis: 30%;
     flex-grow: 1;
-    background: black;
-    color: white;
 }
 .neh-input[type="submit"]:hover, .neh-input[type="button"]:hover{
-    background: var(--dark-grey);
+    text-decoration: underline;
+    cursor: pointer;
 }
 .neh-input:focus-visible, select:focus-visible {
     outline: none;
@@ -100,15 +140,30 @@ form input, label, select {
 .neh-heading, .neh-block {
     max-width: var(--page-width);
     margin: 0 auto;
-    border: 1px solid black;
     box-sizing: border-box;
     padding: 0.5rem;
     text-align: center;
     font-size: 1.5rem;
+    background: var(--pale-grey);
 }
 .neh-block {
     text-align: left;
     border: none;
+    background: none;
+}
+.neh-copy-text-button {
+    display: inline-block;
+    font-size: 1rem;
+    padding: 0.25rem;
+    background: var(--dark-grey);
+    color: white;
+    cursor: pointer;
+}
+.neh-points-positive {
+    color: green;
+}
+.neh-points-negative {
+    color: red;
 }
 </style>
 
@@ -304,20 +359,31 @@ function calculateUserPoints($event_id, $user_id){
                     $points += 1;
                 }
             }
-            return renderPoints($points);
+            return $points;
         } else if ($user_call != $outcome and $user_call != null){
             foreach (getCallsForEvent($event_id) as $call){
                 if ($call['option_id'] == $user_call){ // User who predicted the same wrong outcome as you
                     $points -= 1;
                 }
             }
-            return renderPoints($points);
+            return $points;
         } else if ($user_call == null){
             return '';
         }
     } else {
         return '';
     }
+}
+function unixToDate($unix){
+	return gmdate('d M Y', $unix);
+}
+function unixToHours($unix){
+	return $unix / 3600;
+}
+function hoursToHoursMins($hours){
+	$whole_hours = floor($hours);
+	$mins = floor(($hours - $whole_hours) * 60);
+	return [$whole_hours, $mins];
 }
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
@@ -333,13 +399,15 @@ function removeUserDetailsFromSession(){
 }
 // Rendering Functions
 function renderPoints($points){
-    $prefix = '';
+    $prefix = '<span class="';
     if ($points > 0){
-        $prefix = '+';
+        $prefix .= 'neh-points-positive">+';
     } else if ($points < 0){
-        $prefix = '-';
+        $prefix .= 'neh-points-negative">-';
+    } else {
+        $prefix .= '">';
     }
-    return ' ('.$prefix.$points.')';
+    return $prefix.$points.'</span>';
 }
 function renderForm($method, $new_page_mode, $submit_text, $content){
 	return '<form action="" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
@@ -390,33 +458,25 @@ function renderDefaultOptions(){
         renderInput('add_option','button','','Add Option').
         renderInput('placeholder','hidden','','');
 }
-function renderViewEventOptions($event_id){
-    $option_selector = '<label for="option_selector">Your call</label><select id="option_selector" name="option_selector">';
+function renderOptions($event_id, $label_text, $submit_button_text, $page_mode){
+    $option_selector = '<label for="option_selector">'.$label_text.'</label><select id="option_selector" name="option_selector">';
     foreach (sqlQuery('SELECT * from options WHERE event_id="'.$event_id.'"') as $option){
         $option_selector .= '<option value="'.$option['option_id'].'">'.$option['option_text'].'</option>';
     }
     $option_selector .= '</select>';
     return renderForm(
 		'POST',
-		'make_call',
-		'Make Call',
+	    $page_mode,
+		$submit_button_text,
 	    $option_selector.
         renderInput('event_id','hidden','',$event_id)
 	);
 }
+function renderViewEventOptions($event_id){
+    return renderOptions($event_id, 'Your Call', 'Call', 'make_call');
+}
 function renderResolveEventOptions($event_id){
-    $option_selector = '<label for="option_selector">The actual outcome</label><select id="option_selector" name="option_selector">';
-    foreach (sqlQuery('SELECT * from options WHERE event_id="'.$event_id.'"') as $option){
-        $option_selector .= '<option value="'.$option['option_id'].'">'.$option['option_text'].'</option>';
-    }
-    $option_selector .= '</select>';
-    return renderForm(
-		'POST',
-		'attempt_resolve_event',
-		'Set',
-	    $option_selector.
-        renderInput('event_id','hidden','',$event_id)
-	);
+    return renderOptions($event_id, 'The Actual Outcome', 'Submit', 'attempt_resolve_event');
 }
 function renderAllCallsForEvent($event_id){
     $calls = getCallsForEvent($event_id);
@@ -424,6 +484,7 @@ function renderAllCallsForEvent($event_id){
     foreach ($options as $option){
         $zero_calls = true;
         renderHeading($option['option_text']);
+        echo '<div class="neh-event-tab-list">';
         foreach ($calls as $call){
             if ($call['option_id'] == $option['option_id']){
                 renderBlock(getUsernameById($call['user_id']).calculateUserPoints($event_id, $call['user_id']));
@@ -431,25 +492,43 @@ function renderAllCallsForEvent($event_id){
             }
         }
         if ($zero_calls){
-            renderBlock('Zero calls');
+            echo renderBlock('Zero calls');
+        }
+        echo '</div>';
+    }
+}
+function renderEventTabNote($event_id){
+    if (checkIfEventIsCancelled($event_id)){ // Cancelled
+        return 'X';
+    } else if (checkIfEventIsResolved($event_id)){ //  Resolved
+        if (getUsersCall($event_id) != null){
+            return renderPoints(calculateUserPoints($event_id, $_SESSION['user_id'])); // User called resolved event, show points
+        } else {
+            return '0'; // User didn't place a call and event is now resolved
+        }
+    } else { // Still live
+        if (checkIfDeadlineHasPassed($event_id) and getCreatorByEventId($event_id) == $_SESSION['user_id']){ // Unresolved, deadline passed and user is creator
+            return '⚠';
+        } else if (getUsersCall($event_id) != null){ // Unresolved and user has placed bet
+            return getOptionTextFromId(getUsersCall($event_id));
+        } else { // Unresolved and user hasn't bet yet
+            return '?';
         }
     }
 }
-function renderOutcomeExclamation($event_id){
-    if (checkIfDeadlineHasPassed($event_id) and $_SESSION['user_id'] == getCreatorByEventId($event_id) and !checkIfEventIsResolved($event_id)){
-        return '⚠ Resolve Now: ';
-    }
+function renderEventTab($event_id){
+    $event_tab = '<div class="neh-event-tab-container">'.
+        renderForm(
+        'POST',
+        'view_event',
+        getEventQuestionById($event_id),
+        renderInput('event_id','hidden','',$event_id)).
+        '<div class="neh-event-tab-note">'.renderEventTabNote($event_id).'</div>'.
+        '</div>';
+    return $event_tab;
 }
-function unixToDate($unix){
-	return gmdate('d M Y', $unix);
-}
-function unixToHours($unix){
-	return $unix / 3600;
-}
-function hoursToHoursMins($hours){
-	$whole_hours = floor($hours);
-	$mins = floor(($hours - $whole_hours) * 60);
-	return [$whole_hours, $mins];
+function renderCopyTextButton($group_id, $button_text){
+    return '<div id="'.$group_id.'" class="neh-copy-text-button" onclick="copyText(this.id)">'.$button_text.'</div>';
 }
 // Rendering Pages
 function renderLoginPage(){
@@ -485,16 +564,19 @@ function renderCreateGroupPage(){
 function renderGroupsPage(){
 	renderHeading('Groups');
 	$query = 'SELECT group_id FROM group_users WHERE user_id="'.$_SESSION['user_id'].'"';
+    echo '<div class="neh-event-tab-list">';
 	foreach (sqlQuery($query) as $group_user){
 		$group_id = $group_user['group_id'];
 		$group_name = getGroupNameById($group_id);
-		echo renderForm(
+		echo '<div class="neh-event-tab-container">'.
+            renderForm(
 			'POST',
 			'view_group',
 			$group_name,
 			renderInput('group_id','hidden','',$group_id)
-		);
+		).'</div>';
 	}
+    echo '</div>';
 }
 function renderGroupEventsPage($group_id){
 	$_SESSION['active_group'] = $group_id;
@@ -508,53 +590,45 @@ function renderGroupEventsPage($group_id){
 			$members .= ', ';
 		}
 	}
-	renderMessage('Viewing: '.$group_name.' ('.$members.') - '.$group_id);
+	renderMessage(renderCopyTextButton($group_id, "Copy ID").$group_name.' ('.$members.')');
 	$group_events = getGroupEventsById($group_id);
 	renderHeading('Make A Call');
+    echo '<div class="neh-event-tab-list">';
 	foreach ($group_events as $event){
-        if (!checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id']) and getUsersCall($event['event_id']) == null){
-            echo renderForm(
-                'POST',
-                'view_event',
-                $event['question'],
-                renderInput('event_id','hidden','',$event['event_id'])
-            );
+        $event_id = $event['event_id'];
+        if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) == null){
+            echo renderEventTab($event_id);
         }
     }
+    echo '</div>';
     renderBlock('');
     renderHeading('Called Events');
+    echo '<div class="neh-event-tab-list">';
 	foreach ($group_events as $event){
-        if (!checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id']) and getUsersCall($event['event_id']) != null){
-            echo renderForm(
-                'POST',
-                'view_event',
-                $event['question'],
-                renderInput('event_id','hidden','',$event['event_id'])
-            );
+        $event_id = $event['event_id'];
+        if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) != null){
+            echo renderEventTab($event_id);
         }
+        
     }
+    echo '</div>';
     renderBlock('');
     renderHeading('Past Events');
+    echo '<div class="neh-event-tab-list">';
     foreach ($group_events as $event){
-        if (checkIfDeadlineHasPassed($event['event_id']) and !checkIfEventIsCancelled($event['event_id'])){
-            echo renderForm(
-                'POST',
-                'view_event',
-                renderOutcomeExclamation($event['event_id']).$event['question'],
-                renderInput('event_id','hidden','',$event['event_id'])
-            );
+        $event_id = $event['event_id'];
+        if (checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id)){
+            echo renderEventTab($event_id);
         }
     }
+    echo '</div>';
     renderBlock('');
     renderHeading('Cancelled Events');
+    echo '<div class="neh-event-tab-list">';
     foreach ($group_events as $event){
-        if (checkIfEventIsCancelled($event['event_id'])){
-            echo renderForm(
-                'POST',
-                'view_event',
-                $event['question'],
-                renderInput('event_id','hidden','',$event['event_id'])
-            );
+        $event_id = $event['event_id'];
+        if (checkIfEventIsCancelled($event_id)){
+            echo renderEventTab($event_id);
         }
     }
 }
@@ -622,12 +696,12 @@ function renderEventPage($event_id){
 		if ($users_call == null) {
 			renderMessage('You have '.$hours.' hours and '.$mins.' minutes left to make a call');
 			echo renderViewEventOptions($event_id); // Show selector to make call
+            renderBlock('');
 		} else {
 			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
 			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
 		}
     }
-    renderBlock('');
     renderAllCallsForEvent($event_id);
 }
 function renderResolveEventPage($event_id){
@@ -652,11 +726,10 @@ if (isset($_GET['page_mode'])){
 }
 
 // Start Session
-if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){
+if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){ // user's session has ended or user specifically wants to logout
 	$_SESSION['logged_in'] = false;
     removeUserDetailsFromSession();
-} else if ($_SESSION['logged_in'] and $page_mode == 'render_login'){
-	$page_mode = 'attempt_login';
+    $page_mode = 'attempt_login';
 }
 
 //echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
@@ -887,6 +960,10 @@ if ($page_mode == 'render_login'){
         document.getElementById('add_option').addEventListener('click', addOption);
     }
 
+function copyText(element_id){
+    navigator.clipboard.writeText(element_id);
+    document.getElementById(element_id).innerHTML = 'Copied';
+}
 if (document.getElementById('create-options-list') != null){
     initialiseCreateOptionsList();
 }
