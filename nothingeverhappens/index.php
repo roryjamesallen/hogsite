@@ -177,6 +177,7 @@ $button_modes = json_decode('{
     "Login": "render_login",
 	"Logout": "render_login",
     "Create Account": "create_account",
+    "Forgot Password": "forgot_password",
     "View Events": "view_group",
 	"View Groups": "attempt_login",
 	"Join Group": "join_group",
@@ -190,6 +191,9 @@ function getUsernameById($user_id){
 }
 function getUserIdByUsername($username){
 	return sqlQuery("SELECT user_id FROM users WHERE username='".$username."'")['0']['user_id'];
+}
+function getUserIdByEmail($email){
+	return sqlQuery("SELECT user_id FROM users WHERE email='".$email."'")['0']['user_id'];
 }
 function getGroupNameById($group_id){
 	return sqlQuery("SELECT name FROM groups WHERE group_id='".$group_id."'")['0']['name'];
@@ -390,6 +394,34 @@ function hoursToHoursMins($hours){
 	$mins = floor(($hours - $whole_hours) * 60);
 	return [$whole_hours, $mins];
 }
+function checkIfAccountExistsForEmail($email){
+    $users_with_email = sqlQuery('SELECT user_id FROM users WHERE email="'.$email.'"');
+    if ($users_with_email == []){
+        return false;
+    } else {
+        return true;
+    }
+}
+function sendForgotPasswordEmail($email){
+    $code = str_pad(strval(rand(0, 999999)), 6, '0', STR_PAD_LEFT);
+    $subject = 'Nothing Ever Happens - Password Reset';
+    $message = 'Enter the below code to reset your password. If you did not request this code please change your password as soon as possible.<br><br>'.$code;
+    $headers = 'From: webmaster@hogwild.uk'       . "\r\n" .
+                 'Reply-To: webmaster@hogwild.uk' . "\r\n" .
+                 'X-Mailer: PHP/' . phpversion();
+    mail($email, $subject, $message, $headers);
+    return $code;
+}
+function renderSetNewPasswordPage($email){
+    $user_id = getUserIdByEmail($email);
+    echo renderForm(
+        'POST',
+        'change_user_password',
+        'Set',
+        renderInput('new_password','password','New Password').
+            renderInput('user_id','hidden','',$user_id)
+    );
+}
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
 	$_SESSION['user_id'] = $user_id;
@@ -537,7 +569,7 @@ function renderCopyTextButton($group_id, $button_text){
 }
 // Rendering Pages
 function renderLoginPage(){
-	return renderFunctionButtons(['Create Account']).
+	return renderFunctionButtons(['Create Account','Forgot Password']).
         renderForm(
             'POST',
 		'attempt_login',
@@ -720,6 +752,24 @@ function renderCancelEventPage($event_id){
     echo renderButton('Back to Event', 'view_event');
     echo renderButton('Seriously Cancel Event', 'attempt_cancel_event');
 }
+function renderForgotPasswordPage(){
+    echo renderFunctionButtons(['Login']);
+    echo renderForm(
+        'POST',
+        'attempt_forgot_password',
+        'Send Email',
+        renderInput('email','text','Your Email Address')
+    );
+}
+function renderForgotPasswordCodeForm($code, $email){
+    echo renderForm(
+        'POST',
+        'enter_password_reset_code',
+        'Reset',
+        renderInput('code','text','Password Reset Code').
+            renderInput('email','hidden','',$email)
+    );
+}
 
 // Get Page Mode
 if (isset($_GET['page_mode'])){
@@ -734,7 +784,7 @@ if (isset($_GET['page_mode'])){
 if (!isset($_SESSION['logged_in']) or $page_mode == 'render_login'){ // user's session has ended or user specifically wants to logout
 	$_SESSION['logged_in'] = false;
     removeUserDetailsFromSession();
-    $page_mode = 'attempt_login';
+    $page_mode = 'render_login';
 }
 
 //echo '<h1><a href="">home<br></a>'.$page_mode.'</h1>';
@@ -762,6 +812,38 @@ if ($page_mode == 'render_login'){
 	if ($_SESSION['logged_in']){
 		renderGroupListView();
 	}
+// User clicked forgot password but hasn't entered email yet
+} else if ($page_mode == 'forgot_password'){
+    echo renderForgotPasswordPage();
+// User clicked forgot password and pressed Send Email
+} else if ($page_mode == 'attempt_forgot_password'){
+    if (checkIfAccountExistsForEmail($_POST['email'])){
+        $code = sendForgotPasswordEmail($_POST['email']);
+        $_SESSION['real_code'] = $code;
+        renderForgotPasswordCodeForm($code, $_POST['email']);
+    } else {
+        renderMessage('Email address not associated with an account');
+        echo renderForgotPasswordPage();
+    }
+// User entered password reset code and clicked go
+} else if ($page_mode == 'enter_password_reset_code'){
+    if ($_POST['code'] == $_SESSION['real_code']){
+        $_SESSION['real_code'] = '';
+        echo renderSetNewPasswordPage($_POST['email']);
+    } else {
+        renderMessage('Wrong password reset code');
+        echo renderForgotPasswordPage();
+    }
+// User has clicked set new password
+} else if ($page_mode == 'change_user_password'){
+    if ($_POST['password'] != ''){
+        renderMessage('Password updated');
+        sqlQuery('UPDATE users SET password="'.password_hash($_POST['new_password'], PASSWORD_BCRYPT).'" WHERE user_id="'.$_POST['user_id'].'"');
+        echo renderLoginPage();
+    } else {
+        renderMessage('New password cannot be blank');
+        echo renderForgotPasswordPage();
+    }
 // User has clicked create new account but hasn't tried to submit one yet
 } else if ($page_mode == 'create_account'){
 	echo renderCreateAccountPage();
