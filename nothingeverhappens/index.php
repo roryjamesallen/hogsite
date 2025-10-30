@@ -335,6 +335,9 @@ function getOptionsForEvent($event_id){
 function getCallsForEvent($event_id){
     return sqlQuery('SELECT * FROM user_calls WHERE event_id="'.$event_id.'"');
 }
+function getCallsByUser($user_id){
+    return sqlQuery('SELECT * FROM user_calls WHERE user_id="'.$user_id.'"');
+}
 function getFirstOption($event_id){
     return sqlQuery('SELECT option_id FROM options WHERE event_id="'.$event_id.'"')[0]['option_id'];
 }
@@ -396,13 +399,24 @@ function hoursToHoursMins($hours){
 	$mins = floor(($hours - $whole_hours) * 60);
 	return [$whole_hours, $mins];
 }
-function checkIfAccountExistsForEmail($email){
-    $users_with_email = sqlQuery('SELECT user_id FROM users WHERE email="'.$email.'"');
-    if ($users_with_email == []){
+function removeGETParameters($url){
+    return strtok($url, '?');
+}
+$current_url_without_parameters = removeGetParameters($current_url);
+    
+function checkIfAccountExists($field, $field_value){
+    $users_with_field = sqlQuery('SELECT user_id FROM users WHERE '.$field.'="'.$field_value.'"');
+    if ($users_with_field == []){
         return false;
     } else {
         return true;
     }
+}
+function checkIfAccountExistsByUsername($username){
+    return checkIfAccountExists('username', $username);
+}
+function checkIfAccountExistsForEmail($email){
+    return checkIfAccountExists('email', $email);
 }
 function sendForgotPasswordEmail($email){
     $code = str_pad(strval(rand(0, 999999)), 6, '0', STR_PAD_LEFT);
@@ -447,7 +461,8 @@ function renderPoints($points){
     return $prefix.$points.'</span>';
 }
 function renderForm($method, $new_page_mode, $submit_text, $content){
-	return '<form action="" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
+    global $current_url_without_parameters;
+	return '<form action="'.$current_url_without_parameters.'" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
 }
 function renderLabel($for, $label){
 	return '<label id="label_'.$for.'" for="'.$for.'">'.$label.'</label>';
@@ -780,20 +795,29 @@ function renderAddUserPage($group_id){
             renderInput('group_id','hidden','',$group_id)
     );
 }
+function renderUserPage($username){
+    echo renderFunctionButtons(['Login','Create Account']);
+    $user_id = getUserIdByUsername($username);
+    renderMessage($username.' has made '.count(getCallsByUser($user_id)).' calls');
+}
 
 // Get Page Mode
-if (isset($_POST['page_mode'])){ // Coming from an internal page
+// Public page modes (GET)
+if (isset($_GET['usr'])){ // Anyone can view a user (as long as they exist)
+    $page_mode = 'view_user';
+// Private page modes (POST)
+} else if (isset($_POST['page_mode'])){ // Coming from an internal page
 	$page_mode = $_POST['page_mode'];
     if ($page_mode == 'render_login'){ // Deliberate logout
         removeUserDetailsFromSession();
     }
-} else if (isset($_SESSION['user_id'])){
+} else if (isset($_SESSION['user_id'])){ // Coming from internal or external but logged in
     $page_mode = 'attempt_login';
 } else {
 	$page_mode = 'render_login';
 }
 
-echo '<h1><a href="">nothing ever happens</a></h1>';
+echo '<h1><a href="'.$current_url_without_parameters.'">nothing ever happens</a></h1>';
 echo '<p style="display: none">'.$page_mode.'</p>';
 
 // User isn't logged in and hasn't tried to yet
@@ -992,6 +1016,12 @@ if ($page_mode == 'render_login'){
     cancelEvent($event_id);
     renderMessage('Event cancelled');
     renderEventPage($event_id);
+} else if ($page_mode == 'view_user'){
+    if (checkIfAccountExistsByUsername($_GET['usr'])){
+        renderUserPage($_GET['usr']);
+    } else {
+        renderMessage('User "'.urldecode($_GET['usr']).'" doesn\'t exist');
+    }
 }
 ?>
 
