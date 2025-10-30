@@ -47,13 +47,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` VARCHAR(32) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) DEFAULT NULL,
-  `created_at` TIMESTAMP NOT NULL
+  `created_at` INT(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `groups` (
   `group_id` VARCHAR(16) NOT NULL,
   `name` VARCHAR(32) NOT NULL,
-  `created_at` TIMESTAMP NOT NULL
+  `created_at` INT(11) NOT NULL,
+  `user_id` VARCHAR(16) NOT NULL,
+  `public` VARCHAR(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `group_users` (
