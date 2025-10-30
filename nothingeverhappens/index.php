@@ -195,6 +195,7 @@ $button_modes = json_decode('{
 	"Create Group": "create_group",
 	"Leave Group": "leave_group",
 	"Add User": "add_user",
+    "Kick User": "kick_user",
 	"Create Event": "create_event"
 }',true);
 
@@ -687,6 +688,7 @@ function renderGroupEventsPage($group_id){
     if ($group_admin == $_SESSION['user_id']){
         $_SESSION['admin'] = true;
         $function_buttons[] = 'Add User';
+        $function_buttons[] = 'Kick User';
     } else {
         $_SESSION['admin'] = false;
     }
@@ -856,6 +858,16 @@ function renderAddUserPage($group_id){
             renderInput('group_id','hidden','',$group_id)
     );
 }
+function renderKickUserPage($group_id){
+	echo renderFunctionButtons(['View Events']);
+	echo renderForm(
+        'POST',
+        'attempt_kick_user',
+        'Kick',
+        renderInput('username','text','Username').
+            renderInput('group_id','hidden','',$group_id)
+    );
+}
 function renderUserPage($username){
     echo renderFunctionButtons(['Login','Create Account']);
     $user_id = getUserIdByUsername($username);
@@ -1021,12 +1033,28 @@ if ($page_mode == 'render_login'){
 } else if ($page_mode == 'add_user'){
 	$group_id = $_SESSION['active_group'];
 	renderAddUserPage($group_id);
+// User clicked kick user (from group)
+} else if ($page_mode == 'kick_user'){
+	$group_id = $_SESSION['active_group'];
+	renderKickUserPage($group_id);
 } else if ($page_mode == 'attempt_add_user'){
 	$group_id = $_POST['group_id'];
 	$username = $_POST['username'];
 	$user_id = getUserIdByUsername($username);
 	if ($user_id != null){
 		addUserToGroup($user_id, $group_id);
+		renderGroupEventsPage($group_id);
+	} else {
+		renderMessage('User does not exist');
+		renderAddUserPage($group_id);
+	}
+} else if ($page_mode == 'attempt_kick_user'){
+	$group_id = $_POST['group_id'];
+	$username = $_POST['username'];
+	$user_id = getUserIdByUsername($username);
+	if ($user_id != null){
+		removeUserFromGroup($user_id, $group_id);
+        renderMessage($username.' kicked out of '.getGroupNameById($group_id));
 		renderGroupEventsPage($group_id);
 	} else {
 		renderMessage('User does not exist');
