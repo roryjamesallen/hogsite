@@ -184,6 +184,7 @@ $button_modes = json_decode('{
 	"Join Group": "join_group",
 	"Create Group": "create_group",
 	"Leave Group": "leave_group",
+	"Add User": "add_user",
 	"Create Event": "create_event"
 }',true);
 
@@ -427,12 +428,10 @@ function renderSetNewPasswordPage($email){
 function addUserDetailsToSession($user_id, $username){
 	$_SESSION['user_id'] = $user_id;
 	$_SESSION['username'] = $username;
-	$_SESSION['logged_in'] = true;
 }
 function removeUserDetailsFromSession(){
 	$_SESSION['user_id'] = '';
 	$_SESSION['username'] = '';
-	$_SESSION['logged_in'] = false;
     $_SESSION['active_event'] = null;
 }
 // Rendering Functions
@@ -618,7 +617,7 @@ function renderGroupsPage(){
 }
 function renderGroupEventsPage($group_id){
 	$_SESSION['active_group'] = $group_id;
-	echo renderFunctionButtons(['View Groups','Leave Group','Create Event']);
+	echo renderFunctionButtons(['View Groups','Leave Group','Create Event','Add User']);
 	$group_name = getGroupNameById($group_id);
 	$group_usernames = getGroupUsernamesById($group_id);
 	$members = '';
@@ -771,15 +770,24 @@ function renderForgotPasswordCodeForm($code, $email){
             renderInput('email','hidden','',$email)
     );
 }
+function renderAddUserPage($group_id){
+	echo renderFunctionButtons(['View Events']);
+	echo renderForm(
+        'POST',
+        'attempt_add_user',
+        'Add',
+        renderInput('username','text','Username').
+            renderInput('group_id','hidden','',$group_id)
+    );
+}
 
 // Get Page Mode
 if (isset($_POST['page_mode'])){ // Coming from an internal page
 	$page_mode = $_POST['page_mode'];
     if ($page_mode == 'render_login'){ // Deliberate logout
-        $_SESSION['logged_in'] = false;
         removeUserDetailsFromSession();
     }
-} else if (isset($_SESSION['logged_in'])){
+} else if (isset($_SESSION['user_id'])){
     $page_mode = 'attempt_login';
 } else {
 	$page_mode = 'render_login';
@@ -794,7 +802,7 @@ if ($page_mode == 'render_login'){
 // User has typed in login details and pressed enter
 } else if ($page_mode == 'attempt_login'){
 	$just_logged_in = false;
-	if (!$_SESSION['logged_in']){
+	if (!$_SESSION['user_id']){
 		$login_message = attemptLogin($_POST['username'], $_POST['password']);
 		if ($login_message == ''){
 			addUserDetailsToSession(getUserIdByUsername($_POST['username']), $_POST['username']);
@@ -806,7 +814,7 @@ if ($page_mode == 'render_login'){
 		}
 	}
 // User's login details were accepted
-	if ($_SESSION['logged_in']){
+	if ($_SESSION['user_id']){
 		renderGroupListView();
 	}
 // User clicked forgot password but hasn't entered email yet
@@ -902,6 +910,21 @@ if ($page_mode == 'render_login'){
 	removeUserFromGroup($user_id, $group_id);
 	renderMessage(getUsernameById($user_id).' removed from '.getGroupNameById($group_id));
 	renderGroupListView();
+// User clicked add user (to group)
+} else if ($page_mode == 'add_user'){
+	$group_id = $_SESSION['active_group'];
+	renderAddUserPage($group_id);
+} else if ($page_mode == 'attempt_add_user'){
+	$group_id = $_POST['group_id'];
+	$username = $_POST['username'];
+	$user_id = getUserIdByUsername($username);
+	if ($user_id != null){
+		addUserToGroup($user_id, $group_id);
+		renderGroupEventsPage($group_id);
+	} else {
+		renderMessage('User does not exist');
+		renderAddUserPage($group_id);
+	}
 // User clicked create event but hasn't entered event details yet
 } else if ($page_mode == 'create_event'){
     $_SESSION['event_already_created'] = false;
