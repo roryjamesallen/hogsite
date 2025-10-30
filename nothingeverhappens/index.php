@@ -342,7 +342,10 @@ function getFirstOption($event_id){
     return sqlQuery('SELECT option_id FROM options WHERE event_id="'.$event_id.'"')[0]['option_id'];
 }
 function getUsersCall($event_id){
-    $users_call = sqlQuery('SELECT option_id FROM user_calls WHERE event_id="'.$event_id.'" AND user_id="'.$_SESSION['user_id'].'"');
+    return getUsersCallById($event_id, $_SESSION['user_id']);
+}
+function getUsersCallById($event_id, $user_id){
+    $users_call = sqlQuery('SELECT option_id FROM user_calls WHERE event_id="'.$event_id.'" AND user_id="'.$user_id.'"');
     if ($users_call == []){
         return null;
     } else {
@@ -364,7 +367,7 @@ function cancelEvent($event_id){
 }
 function calculateUserPoints($event_id, $user_id){
     if (checkIfEventIsResolved($event_id)){
-        $user_call = getUsersCall($event_id);
+        $user_call = getUsersCallById($event_id, $user_id);
         $outcome = getEventOutcome($event_id);
         $points = 0;
         if ($user_call == $outcome){
@@ -460,9 +463,9 @@ function renderPoints($points){
     }
     return $prefix.$points.'</span>';
 }
-function renderForm($method, $new_page_mode, $submit_text, $content){
+function renderForm($method, $new_page_mode, $submit_text, $content, $name='page_mode'){
     global $current_url_without_parameters;
-	return '<form action="'.$current_url_without_parameters.'" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="page_mode"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
+	return '<form action="'.$current_url_without_parameters.'" method="'.$method.'">'.$content.'<input type="hidden" value="'.$new_page_mode.'" name="'.$name.'"><input class="neh-input" type="submit" value="'.$submit_text.'"></form>';
 }
 function renderLabel($for, $label){
 	return '<label id="label_'.$for.'" for="'.$for.'">'.$label.'</label>';
@@ -548,7 +551,8 @@ function renderAllCallsForEvent($event_id){
         echo '<div class="neh-event-tab-list">';
         foreach ($calls as $call){
             if ($call['option_id'] == $option['option_id']){
-                renderBlock(getUsernameById($call['user_id']).' '.renderPoints(calculateUserPoints($event_id, $call['user_id'])));
+                echo renderUserTab($call['user_id'], renderPoints(calculateUserPoints($event_id, $call['user_id'])));
+                //renderBlock(getUsernameById($call['user_id']).' '.renderPoints(calculateUserPoints($event_id, $call['user_id'])));
                 $zero_calls = false;
             }
         }
@@ -578,7 +582,7 @@ function renderEventTabNote($event_id){
     }
 }
 function renderEventTab($event_id){
-    $event_tab = '<div class="neh-event-tab-container">'.
+    $tab = '<div class="neh-event-tab-container">'.
         renderForm(
         'POST',
         'view_event',
@@ -586,7 +590,19 @@ function renderEventTab($event_id){
         renderInput('event_id','hidden','',$event_id)).
         '<div class="neh-event-tab-note">'.renderEventTabNote($event_id).'</div>'.
         '</div>';
-    return $event_tab;
+    return $tab;
+}
+function renderUserTab($user_id, $note){
+    $tab = '<div class="neh-event-tab-container">'.
+        renderForm(
+        'GET',
+        getUsernameById($user_id),
+        getUsernameById($user_id),
+        '',
+        'usr').
+        '<div class="neh-event-tab-note">'.$note.'</div>'.
+            '</div>';
+    return $tab;
 }
 function renderCopyTextButton($group_id, $button_text){
     return '<div id="'.$group_id.'" class="neh-copy-text-button" onclick="copyText(this.id)">'.$button_text.'</div>';
@@ -913,10 +929,14 @@ if ($page_mode == 'render_login'){
     if (isset($_POST['group_id'])){
         $group_id = $_POST['group_id'];
         $_SESSION['active_group'] = $group_id;
-    } else {
+        renderGroupEventsPage($group_id);
+    } else if (isset($_SESSION['user_id'])){
         $group_id = $_SESSION['active_group'];
+        renderGroupEventsPage($group_id);
+    } else {
+        echo renderLoginPage();
     }
-	renderGroupEventsPage($group_id);
+	
 // User has clicked join group but hasn't entered the group's id yet
 } else if ($page_mode == 'join_group'){
 	echo renderJoinGroupPage();
@@ -1108,5 +1128,9 @@ function copyText(element_id){
 }
 if (document.getElementById('create-options-list') != null){
     initialiseCreateOptionsList();
+}
+
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
 }
 </script>
