@@ -461,6 +461,9 @@ function renderPoints($points){
     } else {
         $prefix .= '">';
     }
+    if ($points == ''){
+        $points = '🕑';
+    }
     return $prefix.$points.'</span>';
 }
 function renderForm($method, $new_page_mode, $submit_text, $content, $name='page_mode'){
@@ -562,22 +565,28 @@ function renderAllCallsForEvent($event_id){
         echo '</div>';
     }
 }
+function renderKey(){
+    return '⏳: It\'s time to make a call!<br>'.
+        '🐌: You didn\'t make a call before the deadline<br>'.
+        '⚠️✎: You need to set the outcome now the deadline has passed<br>'.
+        '✖️: Event cancelled<br>';
+}
 function renderEventTabNote($event_id){
     if (checkIfEventIsCancelled($event_id)){ // Cancelled
-        return 'X';
+        return '✖️';
     } else if (checkIfEventIsResolved($event_id)){ //  Resolved
         if (getUsersCall($event_id) != null){
             return renderPoints(calculateUserPoints($event_id, $_SESSION['user_id'])); // User called resolved event, show points
         } else {
-            return '0'; // User didn't place a call and event is now resolved
+            return '🐌'; // User didn't place a call and event is now resolved
         }
     } else { // Still live
         if (checkIfDeadlineHasPassed($event_id) and getCreatorByEventId($event_id) == $_SESSION['user_id']){ // Unresolved, deadline passed and user is creator
-            return '⚠';
+            return '⚠️✎';
         } else if (getUsersCall($event_id) != null){ // Unresolved and user has placed bet
             return getOptionTextFromId(getUsersCall($event_id));
         } else { // Unresolved and user hasn't bet yet
-            return '?';
+            return '⏳';
         }
     }
 }
@@ -708,6 +717,9 @@ function renderGroupEventsPage($group_id){
             echo renderEventTab($event_id);
         }
     }
+    echo '</div>';
+    renderBlock('');
+    renderBlock(renderKey());
 }
 function renderJoinGroupPage(){
 	return renderFunctionButtons(['View Groups']).
@@ -819,7 +831,7 @@ function renderAddUserPage($group_id){
 function renderUserPage($username){
     echo renderFunctionButtons(['Login','Create Account']);
     $user_id = getUserIdByUsername($username);
-    renderMessage($username.' has made '.count(getCallsByUser($user_id)).' calls');
+    renderMessage(renderCopyTextButton($user_id, 'Copy ID').$username.' has made '.count(getCallsByUser($user_id)).' calls');
 }
 
 // Get Page Mode
