@@ -748,6 +748,7 @@ function renderEventPage($event_id){
 		if ($users_call == null) {
 			renderMessage('You have '.$hours.' hours and '.$mins.' minutes left to make a call');
 			echo renderViewEventOptions($event_id); // Show selector to make call
+            renderBlock('');
 		} else {
 			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
 			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
