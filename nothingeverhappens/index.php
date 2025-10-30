@@ -171,6 +171,13 @@ form input, label, select {
 .neh-points-negative {
     color: red;
 }
+.neh-unstyled-link {
+    color: var(--dark-grey);
+    text-decoration: none;
+}
+.neh-unstyled-link:hover {
+    text-decoration: underline;
+}
 .neh-admin {
     font-weight: bold;
 }
@@ -688,11 +695,11 @@ function renderGroupEventsPage($group_id){
 	$group_usernames = getGroupUsernamesById($group_id);
 	$members = '';
 	foreach ($group_usernames as $key => $username){
+        $admin_class = '';
         if ($username == getUsernameById($group_admin)){
-            $members .= '<span class="neh-admin">'.$username.'</span>';
-        } else {
-            $members .= $username;
+            $admin_class = 'neh-admin';
         }
+        $members .= '<a class="neh-unstyled-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'</a>';
 		if ($key != array_key_last($group_usernames)){
 			$members .= ', ';
 		}
