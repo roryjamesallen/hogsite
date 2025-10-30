@@ -740,7 +740,6 @@ function renderEventPage($event_id){
             renderMessage('The outcome was '.getOptionTextFromId($event_outcome));
         } else if ($_SESSION['user_id'] == $event_creator){
 			renderMessage('Points will be calculated once you set the outcome');
-			renderResolveEventButtons();
         } else {
             renderMessage('Points will be calculated once '.getUsernameById($event_creator).' sets the outcome');
         }
@@ -749,19 +748,16 @@ function renderEventPage($event_id){
 		if ($users_call == null) {
 			renderMessage('You have '.$hours.' hours and '.$mins.' minutes left to make a call');
 			echo renderViewEventOptions($event_id); // Show selector to make call
-            renderBlock('');
-            if ($_SESSION['user_id'] == $event_creator){
-                renderResolveEventButtons();
-            }
 		} else {
 			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
 			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
-            if ($_SESSION['user_id'] == $event_creator){
-                renderResolveEventButtons();
-            }
 		}
     }
     renderAllCallsForEvent($event_id);
+    if ($_SESSION['user_id'] == $event_creator and !$event_cancelled and !checkIfEventIsResolved($event_id)){
+        renderBlock('');
+        renderResolveEventButtons();
+    }
 }
 function renderResolveEventPage($event_id){
 	echo renderFunctionButtons(['View Groups','View Events']);
