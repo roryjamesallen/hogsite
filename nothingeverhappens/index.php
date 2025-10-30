@@ -849,6 +849,7 @@ function renderUserPage($username){
         $total_points += $points_from_event;
     }
     renderMessage(renderCopyTextButton($user_id, 'Copy ID').'Viewing stats for: '.$username);
+    renderMessage(count($users_calls). ' calls made');
     renderMessage(renderPoints($total_points). 'total points');
     renderMessage(renderPoints($total_correct_calls, true). ' correct calls');
     renderMessage(renderPoints($total_wrong_calls, true). ' incorrect calls');
