@@ -171,6 +171,9 @@ form input, label, select {
 .neh-points-negative {
     color: red;
 }
+.neh-admin {
+    font-weight: bold;
+}
 </style>
 
 <?php
@@ -226,8 +229,8 @@ function addUserToGroup($user_id, $group_id){
 function removeUserFromGroup($user_id, $group_id){
 	sqlQuery('DELETE FROM group_users WHERE group_id="'.$group_id.'" AND user_id="'.$user_id.'"');
 }
-function createGroup($group_id, $group_name){
-	sqlQuery('INSERT INTO groups (group_id, name, created_at) VALUES ("'.$group_id.'", "'.$group_name.'", "'.time().'")');
+function createGroup($group_id, $group_name, $user_id){
+	sqlQuery('INSERT INTO groups (group_id, name, created_at, user_id) VALUES ("'.$group_id.'", "'.$group_name.'", "'.time().'", "'.$user_id.'")');
 }
 function createUser($user_id, $username, $password, $email){
 	sqlQuery('INSERT INTO users (user_id, username, password, email, created_at) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'", "'.time().'")');
@@ -343,6 +346,9 @@ function getFirstOption($event_id){
 }
 function getUsersCall($event_id){
     return getUsersCallById($event_id, $_SESSION['user_id']);
+}
+function getGroupAdmin($group_id){
+    return sqlQuery('SELECT user_id FROM groups WHERE group_id="'.$group_id.'"')[0]['user_id'];
 }
 function getUsersCallById($event_id, $user_id){
     $users_call = sqlQuery('SELECT option_id FROM user_calls WHERE event_id="'.$event_id.'" AND user_id="'.$user_id.'"');
@@ -669,17 +675,29 @@ function renderGroupsPage(){
 }
 function renderGroupEventsPage($group_id){
 	$_SESSION['active_group'] = $group_id;
-	echo renderFunctionButtons(['View Groups','Leave Group','Create Event','Add User']);
+    $group_admin = getGroupAdmin($group_id);
+    $function_buttons = ['View Groups','Leave Group','Create Event'];
+    if ($group_admin == $_SESSION['user_id']){
+        $_SESSION['admin'] = true;
+        $function_buttons[] = 'Add User';
+    } else {
+        $_SESSION['admin'] = false;
+    }
+	echo renderFunctionButtons($function_buttons);
 	$group_name = getGroupNameById($group_id);
 	$group_usernames = getGroupUsernamesById($group_id);
 	$members = '';
 	foreach ($group_usernames as $key => $username){
-		$members .= $username;
+        if ($username == getUsernameById($group_admin)){
+            $members .= '<span class="neh-admin">'.$username.'</span>';
+        } else {
+            $members .= $username;
+        }
 		if ($key != array_key_last($group_usernames)){
 			$members .= ', ';
 		}
 	}
-	renderMessage(renderCopyTextButton($group_id, "Copy ID").$group_name.' ('.$members.')');
+	renderMessage(renderCopyTextButton($group_id, "Copy ID").'<span>'.$group_name.' ('.$members.')</span>');
 	$group_events = getGroupEventsById($group_id);
 	renderHeading('Make A Call');
     echo '<div class="neh-event-tab-list">';
@@ -951,7 +969,7 @@ if ($page_mode == 'render_login'){
 } else if ($page_mode == 'submit_new_group'){
     if ($_SESSION['group_already_created'] != true){
         $new_group_id = 'grp'.uniqid();
-        createGroup($new_group_id, $_POST['group_name']);
+        createGroup($new_group_id, $_POST['group_name'], $_SESSION['user_id']);
         addUserToGroup($_SESSION['user_id'], $new_group_id);
         renderMessage('Group "'.$_POST['group_name'].'" Created');
         $_SESSION['group_already_created'] = true;
@@ -959,17 +977,17 @@ if ($page_mode == 'render_login'){
     renderGroupListView();
 // User has clicked a group in their group list
 } else if ($page_mode == 'view_group'){
-    if (isset($_POST['group_id'])){
-        $group_id = $_POST['group_id'];
-        $_SESSION['active_group'] = $group_id;
-        renderGroupEventsPage($group_id);
-    } else if (isset($_SESSION['user_id'])){
-        $group_id = $_SESSION['active_group'];
-        renderGroupEventsPage($group_id);
-    } else {
+    if (!isset($_POST['group_id']) and !isset($_SESSION['active_group'])){
         echo renderLoginPage();
+    } else {
+        if (isset($_POST['group_id'])){
+            $group_id = $_POST['group_id'];
+            $_SESSION['active_group'] = $group_id;
+        } else if (isset($_SESSION['active_group'])){
+            $group_id = $_SESSION['active_group'];
+        }
+        renderGroupEventsPage($group_id);
     }
-	
 // User has clicked join group but hasn't entered the group's id yet
 } else if ($page_mode == 'join_group'){
 	echo renderJoinGroupPage();
