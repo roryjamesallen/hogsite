@@ -194,11 +194,27 @@ $button_modes = json_decode('{
 	"Join Group": "join_group",
 	"Create Group": "create_group",
 	"Leave Group": "leave_group",
+    "Admin Settings": "admin_settings",
 	"Add User": "add_user",
     "Kick User": "kick_user",
+    "Make Group Private": "make_group_private",
+    "Make Group Public": "make_group_public",
 	"Create Event": "create_event"
 }',true);
 
+function setGroupPrivate($group_id){
+    sqlQuery("UPDATE groups SET public='0' WHERE group_id='".$group_id."'");
+}
+function setGroupPublic($group_id){
+	sqlQuery("UPDATE groups SET public='1' WHERE group_id='".$group_id."'");
+}
+function isGroupPublic($group_id){
+    if (sqlQuery('SELECT public FROM groups WHERE group_id="'.$group_id.'"')[0]['public'] == '1'){
+        return true;
+    } else {
+        return false;
+    };
+}
 function getUsernameById($user_id){
 	return sqlQuery("SELECT username FROM users WHERE user_id='".$user_id."'")['0']['username'];
 }
@@ -225,11 +241,13 @@ function getGroupEventsById($group_id){
 function addUserToGroup($user_id, $group_id){
 	$group_exists = !empty(sqlQuery("SELECT * FROM groups WHERE group_id='".$group_id."'"));
 	$user_not_already_in_group = empty(sqlQuery("SELECT * FROM group_users WHERE user_id='".$user_id."' AND group_id='".$group_id."'"));
-	if ($group_exists and $user_not_already_in_group){ // If user not already in group
+	if ($group_exists and $user_not_already_in_group and (isGroupPublic($group_id) or $_SESSION['admin'])){ // If group exists, user not already in group, and group is public or admin is logged in
 		sqlQuery('INSERT INTO group_users (group_id, user_id) VALUES ("'.$group_id.'", "'.$user_id.'")');
 		return '';
 	} else if (!$group_exists){
 		return 'Group does not exist';
+    } else if (!isGroupPublic($group_id)){
+        return 'Group is private. Ask the admin to add you';
 	} else {
 		return 'User already in group';
 	}
@@ -687,8 +705,7 @@ function renderGroupEventsPage($group_id){
     $function_buttons = ['View Groups','Leave Group','Create Event'];
     if ($group_admin == $_SESSION['user_id']){
         $_SESSION['admin'] = true;
-        $function_buttons[] = 'Add User';
-        $function_buttons[] = 'Kick User';
+        $function_buttons[] = 'Admin Settings';
     } else {
         $_SESSION['admin'] = false;
     }
@@ -891,6 +908,16 @@ function renderUserPage($username){
     renderMessage(renderPoints($total_correct_calls, true). ' correct calls');
     renderMessage(renderPoints($total_wrong_calls, true). ' incorrect calls');
 }
+function renderAdminSettingsPage(){
+    $group_id = $_SESSION['active_group'];
+    $function_buttons = ['View Events','Add User','Kick User'];
+    if (isGroupPublic($group_id)){
+        $function_buttons[] = 'Make Group Private';
+    } else {
+        $function_buttons[] = 'Make Group Public';
+    }
+    echo renderFunctionButtons($function_buttons);
+}
 
 // Get Page Mode
 // Public page modes (GET)
@@ -1007,6 +1034,17 @@ if ($page_mode == 'render_login'){
         }
         renderGroupEventsPage($group_id);
     }
+// User has clicked Admin Settings
+} else if ($page_mode == 'admin_settings'){
+    renderAdminSettingsPage();
+// User has clicked make private
+} else if ($page_mode == 'make_group_private'){
+    setGroupPrivate($_SESSION['active_group']);
+    renderAdminSettingsPage();
+// User has clicked make public
+} else if ($page_mode == 'make_group_public'){
+    setGroupPublic($_SESSION['active_group']);
+    renderAdminSettingsPage();
 // User has clicked join group but hasn't entered the group's id yet
 } else if ($page_mode == 'join_group'){
 	echo renderJoinGroupPage();
@@ -1043,6 +1081,7 @@ if ($page_mode == 'render_login'){
 	$user_id = getUserIdByUsername($username);
 	if ($user_id != null){
 		addUserToGroup($user_id, $group_id);
+        renderMessage($username.' added to '.getGroupNameById($group_id));
 		renderGroupEventsPage($group_id);
 	} else {
 		renderMessage('User does not exist');
