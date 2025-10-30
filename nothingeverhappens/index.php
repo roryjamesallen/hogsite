@@ -215,7 +215,7 @@ function addUserToGroup($user_id, $group_id){
 	$group_exists = !empty(sqlQuery("SELECT * FROM groups WHERE group_id='".$group_id."'"));
 	$user_not_already_in_group = empty(sqlQuery("SELECT * FROM group_users WHERE user_id='".$user_id."' AND group_id='".$group_id."'"));
 	if ($group_exists and $user_not_already_in_group){ // If user not already in group
-		sqlQuery('INSERT INTO group_users (group_id, user_id) VALUES ("'.$group_id.'", "'.$_SESSION['user_id'].'")');
+		sqlQuery('INSERT INTO group_users (group_id, user_id) VALUES ("'.$group_id.'", "'.$user_id.'")');
 		return '';
 	} else if (!$group_exists){
 		return 'Group does not exist';
