@@ -11,41 +11,36 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 	--medium-grey: #dddddd;
     --dark-grey: #888;
 	--border-radius: 0.5rem;
-    --page-width: 750px;
-}
-@media screen and (max-width: 900px) {
-    :root {
-        --page-width: 90vw;
-    }
-}
-    body {
-    font-family: Arial;
-        background: var(--medium-grey);
+    --page-width: 950px;
  }
-	.neh-function-buttons {
-		display: flex;
-		gap: 0.5rem;
-	}
+body {
+    font-family: Arial;
+    background: var(--medium-grey);
+}
+.neh-function-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
 .neh-input, select {
-		padding: 0.5rem;
-		border: 1px solid black;
-		background: white;
-        font-size: 1.5rem;
-        text-wrap-mode: wrap;
-	}
-	.neh-input:hover {
-		background: #f4f4f4;
-	}
-	.neh-message {
-	  margin: 0.5rem 0;
-	}
+    padding: 0.5rem;
+    border: 1px solid black;
+    background: white;
+    font-size: 1.5rem;
+    text-wrap-mode: wrap;
+}
+.neh-input:hover {
+    background: #f4f4f4;
+}
+.neh-message {
+    margin: 0.5rem 0;
+}
 label {
     display: block;
     margin: 0.5rem 0;
 }
 label:empty {
-     display: none;
- }
+    display: none;
+}
 h1, h1 a {
     color: black;
     text-decoration: underline;
@@ -56,11 +51,13 @@ h1, h1 a {
 }
 .neh-message {
     display: flex;
+    align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
     max-width: var(--page-width);
     margin: 0 auto 1rem;
     background: var(--pale-grey);
-    padding: 0.5rem;
+    padding: 1rem;
     color: var(--dark-grey);
     box-sizing: border-box;
     font-size: 1.5rem;
@@ -108,7 +105,7 @@ form, .option-container {
     padding: 0 0.5rem;
 }
 #create-options-list {
-    width: 100%;
+width: 100%;
 margin-bottom: 1rem;
 }
 form input, label, select {
@@ -158,9 +155,9 @@ form input, label, select {
     background: none;
 }
 .neh-copy-text-button {
-    display: inline-block;
-    font-size: 1rem;
-    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
     background: var(--dark-grey);
     color: white;
     cursor: pointer;
@@ -171,12 +168,14 @@ form input, label, select {
 .neh-points-negative {
     color: red;
 }
-.neh-unstyled-link {
+.neh-username-link {
     color: var(--dark-grey);
     text-decoration: none;
+    border: 1px solid black;
+    padding: 0.5rem;
 }
-.neh-unstyled-link:hover {
-    text-decoration: underline;
+.neh-username-link:hover {
+    background: var(--medium-grey);
 }
 .neh-admin {
     font-weight: bold;
@@ -718,12 +717,9 @@ function renderGroupEventsPage($group_id){
         if ($username == getUsernameById($group_admin)){
             $admin_class = 'neh-admin';
         }
-        $members .= '<a class="neh-unstyled-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'</a>';
-		if ($key != array_key_last($group_usernames)){
-			$members .= ', ';
-		}
+        $members .= '<a class="neh-username-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'</a>';
 	}
-	renderMessage(renderCopyTextButton($group_id, "Copy ID").'<span>'.$group_name.' ('.$members.')</span>');
+	renderMessage(renderCopyTextButton($group_id, "Copy ID").$group_name.$members);
 	$group_events = getGroupEventsById($group_id);
 	renderHeading('Make A Call');
     echo '<div class="neh-event-tab-list">';
@@ -902,7 +898,7 @@ function renderUserPage($username){
         }
         $total_points += $points_from_event;
     }
-    renderMessage(renderCopyTextButton($user_id, 'Copy ID').'Viewing stats for: '.$username);
+    renderMessage(renderCopyTextButton($user_id, 'Copy ID').'Viewing stats for '.$username);
     renderMessage(count($users_calls). ' calls made');
     renderMessage(renderPoints($total_points). 'total points');
     renderMessage(renderPoints($total_correct_calls, true). ' correct calls');
