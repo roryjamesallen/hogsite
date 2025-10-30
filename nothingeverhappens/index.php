@@ -454,7 +454,7 @@ function renderPoints($points){
     if ($points > 0){
         $prefix .= 'neh-points-positive">+';
     } else if ($points < 0){
-        $prefix .= 'neh-points-negative">-';
+        $prefix .= 'neh-points-negative">';
     } else {
         $prefix .= '">';
     }
@@ -530,6 +530,15 @@ function renderViewEventOptions($event_id){
 function renderResolveEventOptions($event_id){
     return renderOptions($event_id, 'The Actual Outcome', 'Submit', 'attempt_resolve_event');
 }
+function renderSetOutcomeForm(){
+    return renderForm('POST','resolve_event','Set Outcome','');
+}
+function renderResolveEventButtons(){
+    echo renderSetOutcomeForm();
+    renderBlock('');
+    echo renderButton('Cancel Event', 'cancel_event');
+    renderBlock('');
+}
 function renderAllCallsForEvent($event_id){
     $calls = getCallsForEvent($event_id);
     $options = getOptionsForEvent($event_id);
@@ -539,7 +548,7 @@ function renderAllCallsForEvent($event_id){
         echo '<div class="neh-event-tab-list">';
         foreach ($calls as $call){
             if ($call['option_id'] == $option['option_id']){
-                renderBlock(getUsernameById($call['user_id']).calculateUserPoints($event_id, $call['user_id']));
+                renderBlock(getUsernameById($call['user_id']).' '.renderPoints(calculateUserPoints($event_id, $call['user_id'])));
                 $zero_calls = false;
             }
         }
@@ -719,7 +728,7 @@ function renderEventPage($event_id){
     $event_cancelled = checkIfEventIsCancelled($event_id);
     $users_call = getUsersCall($event_id);
 
-    if ($deadline_passed){
+    if ($deadline_passed or $event_outcome != 'null' or $event_cancelled){
         if ($users_call != null){
             renderMessage('You called '.getOptionTextFromId($users_call));
         } else {
@@ -731,15 +740,7 @@ function renderEventPage($event_id){
             renderMessage('The outcome was '.getOptionTextFromId($event_outcome));
         } else if ($_SESSION['user_id'] == $event_creator){
 			renderMessage('Points will be calculated once you set the outcome');
-			echo renderForm(
-				'POST',
-				'resolve_event',
-				'Set Outcome',
-                ''
-			);
-            renderBlock('');
-			echo renderButton('Cancel Event', 'cancel_event');
-            renderBlock('');
+			renderResolveEventButtons();
         } else {
             renderMessage('Points will be calculated once '.getUsernameById($event_creator).' sets the outcome');
         }
@@ -749,15 +750,21 @@ function renderEventPage($event_id){
 			renderMessage('You have '.$hours.' hours and '.$mins.' minutes left to make a call');
 			echo renderViewEventOptions($event_id); // Show selector to make call
             renderBlock('');
+            if ($_SESSION['user_id'] == $event_creator){
+                renderResolveEventButtons();
+            }
 		} else {
 			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
 			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
+            if ($_SESSION['user_id'] == $event_creator){
+                renderResolveEventButtons();
+            }
 		}
     }
     renderAllCallsForEvent($event_id);
 }
 function renderResolveEventPage($event_id){
-	echo renderFunctionButtons(['View Groups']);
+	echo renderFunctionButtons(['View Groups','View Events']);
     echo renderResolveEventOptions($event_id);
     renderBlock('');
 	echo renderButton('Cancel Event', 'cancel_event');
@@ -765,6 +772,7 @@ function renderResolveEventPage($event_id){
 function renderCancelEventPage($event_id){
     echo renderFunctionButtons(['View Groups']);
     echo renderButton('Back to Event', 'view_event');
+    renderBlock('');
     echo renderButton('Seriously Cancel Event', 'attempt_cancel_event');
 }
 function renderForgotPasswordPage(){
