@@ -385,10 +385,10 @@ function calculateUserPoints($event_id, $user_id){
             }
             return $points;
         } else if ($user_call == null){
-            return '';
+            return 0;
         }
     } else {
-        return '';
+        return 0;
     }
 }
 function unixToDate($unix){
@@ -452,10 +452,13 @@ function removeUserDetailsFromSession(){
     $_SESSION['active_event'] = null;
 }
 // Rendering Functions
-function renderPoints($points){
+function renderPoints($points, $hide_prefix=false){
     $prefix = '<span class="';
     if ($points > 0){
-        $prefix .= 'neh-points-positive">+';
+        $prefix .= 'neh-points-positive">';
+        if ($hide_prefix != true){
+            $prefix .= '+';
+        }
     } else if ($points < 0){
         $prefix .= 'neh-points-negative">';
     } else {
@@ -831,7 +834,24 @@ function renderAddUserPage($group_id){
 function renderUserPage($username){
     echo renderFunctionButtons(['Login','Create Account']);
     $user_id = getUserIdByUsername($username);
-    renderMessage(renderCopyTextButton($user_id, 'Copy ID').$username.' has made '.count(getCallsByUser($user_id)).' calls');
+    $users_calls = getCallsByUser($user_id);
+    $total_points = 0;
+    $total_correct_calls = 0;
+    $total_wrong_calls = 0;
+    foreach ($users_calls as $call){
+        $event_id = $call['event_id'];
+        $points_from_event = calculateUserPoints($event_id, $user_id);
+        if ($points_from_event > 0){
+            $total_correct_calls += 1;
+        } else if ($points_from_event < 0){
+            $total_wrong_calls += 1;
+        }
+        $total_points += $points_from_event;
+    }
+    renderMessage(renderCopyTextButton($user_id, 'Copy ID').'Viewing stats for: '.$username);
+    renderMessage(renderPoints($total_points). 'total points');
+    renderMessage(renderPoints($total_correct_calls, true). ' correct calls');
+    renderMessage(renderPoints($total_wrong_calls, true). ' incorrect calls');
 }
 
 // Get Page Mode
