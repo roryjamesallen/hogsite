@@ -266,6 +266,9 @@ function isGroupPublic($group_id){
 function getUsernameById($user_id){
 	return sqlQuery("SELECT username FROM users WHERE user_id='".$user_id."'")['0']['username'];
 }
+function getEmailByUserId($user_id){
+	return sqlQuery("SELECT email FROM users WHERE user_id='".$user_id."'")['0']['email'];
+}
 function getUserIdByUsername($username){
 	return sqlQuery("SELECT user_id FROM users WHERE username='".$username."'")['0']['user_id'];
 }
