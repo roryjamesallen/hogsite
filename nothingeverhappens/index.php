@@ -169,16 +169,26 @@ form input, label, select {
     color: red;
 }
 .neh-username-link {
+    display: flex;
+    align-items: center;
     color: var(--dark-grey);
     text-decoration: none;
     border: 1px solid black;
+    padding: 0 0 0 0.5rem;
+}
+.neh-username-link:not(.neh-admin){
     padding: 0.5rem;
 }
 .neh-username-link:hover {
     background: var(--medium-grey);
 }
-.neh-admin {
-    font-weight: bold;
+.neh-admin:after {
+    vertical-align: middle;
+    background: var(--dark-grey);
+    content: "admin";
+    color: white;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
 }
 </style>
 
@@ -255,7 +265,7 @@ function removeUserFromGroup($user_id, $group_id){
 	sqlQuery('DELETE FROM group_users WHERE group_id="'.$group_id.'" AND user_id="'.$user_id.'"');
 }
 function createGroup($group_id, $group_name, $user_id){
-	sqlQuery('INSERT INTO groups (group_id, name, created_at, user_id) VALUES ("'.$group_id.'", "'.$group_name.'", "'.time().'", "'.$user_id.'")');
+	sqlQuery('INSERT INTO groups (group_id, name, created_at, user_id, public) VALUES ("'.$group_id.'", "'.$group_name.'", "'.time().'", "'.$user_id.'", "0")');
 }
 function createUser($user_id, $username, $password, $email){
 	sqlQuery('INSERT INTO users (user_id, username, password, email, created_at) VALUES ("'.$user_id.'", "'.$username.'", "'.$password.'", "'.$email.'", "'.time().'")');
@@ -309,6 +319,13 @@ function validatePassword($password){
 	} else {
 		return '';
 	}
+}
+function validateGroupName($group_name){
+    if ($group_name == ''){
+        return 'Group name cannot be blank';
+    } else {
+        return '';
+    }
 }
 function attemptLogin($username, $guessed_password){
 	$maybe_user_password = sqlQuery("SELECT password FROM users WHERE username='".$username."'");
@@ -532,8 +549,8 @@ function renderForm($method, $new_page_mode, $submit_text, $content, $name='page
 function renderLabel($for, $label){
 	return '<label id="label_'.$for.'" for="'.$for.'">'.$label.'</label>';
 }
-function renderInput($name, $type, $label, $value=''){
-	return renderLabel($name, $label).'<input class="neh-input" id="'.$name.'"name="'.$name.'" type="'.$type.'" value="'.$value.'">';
+function renderInput($name, $type, $label, $value='', $maxlength=''){
+	return renderLabel($name, $label).'<input class="neh-input" id="'.$name.'"name="'.$name.'" type="'.$type.'" value="'.$value.'" maxlength="'.$maxlength.'">';
 }
 function renderButton($text, $mode){
 	return renderForm('POST',$mode,$text,'');
@@ -959,91 +976,87 @@ if (isset($_GET['usr'])){ // Anyone can view a user (as long as they exist)
 echo '<h1><a href="'.$current_url_without_parameters.'">nothing ever happens</a></h1>';
 echo '<p style="display: none">'.$page_mode.'</p>';
 
-// User isn't logged in and hasn't tried to yet
-if ($page_mode == 'render_login'){
+if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to yet
 	echo renderLoginPage();
-// User has typed in login details and pressed enter
-} else if ($page_mode == 'attempt_login'){
-	$just_logged_in = false;
-	if (!$_SESSION['user_id']){
-		$login_message = attemptLogin($_POST['username'], $_POST['password']);
+} else if ($page_mode == 'attempt_login'){ // User has typed in login details and pressed enter
+	$just_logged_in = false; // Default login status is failure
+	if (!$_SESSION['user_id']){ // User isn't already logged in
+		$login_message = attemptLogin($_POST['username'], $_POST['password']); // Potential error message, blank if no error
 		if ($login_message == ''){
-			addUserDetailsToSession(getUserIdByUsername($_POST['username']), $_POST['username']);
+			addUserDetailsToSession(getUserIdByUsername($_POST['username']), $_POST['username']); // Log in and save details to session
 			$just_logged_in = true;
-		} else {
-// User's login details were rejected
-		renderMessage($login_message);
-		echo renderLoginPage();
+		} else { // User's login details were rejected
+            renderMessage($login_message); // Error message regarding login
+            echo renderLoginPage(); // Allow retry login
 		}
 	}
-// User's login details were accepted
-	if ($_SESSION['user_id']){
-		renderGroupListView();
+	if ($_SESSION['user_id']){ // User's login details were accepted
+		renderGroupListView(); // Show all groups user is a member of
 	}
-// User clicked forgot password but hasn't entered email yet
-} else if ($page_mode == 'forgot_password'){
-    echo renderForgotPasswordPage();
-// User clicked forgot password and pressed Send Email
-} else if ($page_mode == 'attempt_forgot_password'){
-    if (checkIfAccountExistsForEmail($_POST['email'])){
-        $code = sendForgotPasswordEmail($_POST['email']);
-        $_SESSION['real_code'] = $code;
-        renderForgotPasswordCodeForm($code, $_POST['email']);
+} else if ($page_mode == 'forgot_password'){ // User clicked forgot password but hasn't entered email yet
+    echo renderForgotPasswordPage(); // Form to send forgot password email
+} else if ($page_mode == 'attempt_forgot_password'){ // User clicked forgot password and pressed Send Email
+    if (checkIfAccountExistsForEmail($_POST['email'])){ // If the email actually relates to an account
+        $code = sendForgotPasswordEmail($_POST['email']); // Random 6 digit code
+        $_SESSION['real_code'] = $code; // Set session variable to allow real code to be compared with user entered code
+        renderForgotPasswordCodeForm($code, $_POST['email']); // Form to allow user to enter code that should match real code
     } else {
         renderMessage('Email address not associated with an account');
         echo renderForgotPasswordPage();
     }
-// User entered password reset code and clicked go
-} else if ($page_mode == 'enter_password_reset_code'){
-    if ($_POST['code'] == $_SESSION['real_code']){
-        $_SESSION['real_code'] = '';
-        echo renderSetNewPasswordPage($_POST['email']);
+} else if ($page_mode == 'enter_password_reset_code'){ // User entered password reset code and clicked go
+    if ($_POST['code'] == $_SESSION['real_code']){ // If the user entered the same code that was actually emailed
+        $_SESSION['real_code'] = ''; // Reset the real code session variable for security
+        echo renderSetNewPasswordPage($_POST['email']); // Allow user to set new password (nothing updated for user's account yet)
     } else {
         renderMessage('Wrong password reset code');
-        echo renderForgotPasswordPage();
+        echo renderForgotPasswordPage(); // User has to resend email to prevent spam attempts at guessing code
     }
-// User has clicked set new password
-} else if ($page_mode == 'change_user_password'){
-    if ($_POST['new_password'] != ''){
+} else if ($page_mode == 'change_user_password'){ // User has clicked set new password
+    $valid_password = validatePassword($_POST['new_password']); // Potential error message, blank if password is valid
+    if ($valid_password == ''){
         renderMessage('Password updated');
-        sqlQuery('UPDATE users SET password="'.password_hash($_POST['new_password'], PASSWORD_BCRYPT).'" WHERE user_id="'.$_POST['user_id'].'"');
-        echo renderLoginPage();
+        sqlQuery('UPDATE users SET password="'.password_hash($_POST['new_password'], PASSWORD_BCRYPT).'" WHERE user_id="'.$_POST['user_id'].'"'); // Update the database with the new password hash
+        echo renderLoginPage(); // Allow user to log in with their new password
     } else {
-        renderMessage('New password cannot be blank');
-        echo renderForgotPasswordPage();
+        renderMessage($valid_password); // Error message
+        echo renderForgotPasswordPage(); // User has to resend email to prevent spam attempts at guessing code
     }
-// User has clicked create new account but hasn't tried to submit one yet
-} else if ($page_mode == 'create_account'){
+} else if ($page_mode == 'create_account'){ // User has clicked create new account but hasn't tried to submit one yet
 	echo renderCreateAccountPage();
-// User has entered new account details and pressed create account
-} else if ($page_mode == 'submit_new_account'){
+} else if ($page_mode == 'submit_new_account'){ // User has entered new account details and pressed create account
 	[$user_id, $username, $password, $email] = array('usr'.uniqid(), $_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['email']);
 	[$valid_username, $valid_email, $valid_password] = array(validateUsername($username), validateEmail($email), validatePassword($_POST['password']));
-// User's new account details were accepted
-	if ($valid_username == '' and $valid_email == '' and $valid_password == ''){
-		createUser($user_id, $username, $password, $email);
+	if ($valid_username == '' and $valid_email == '' and $valid_password == ''){ // User's new account details were accepted
+		createUser($user_id, $username, $password, $email); // Add the user's details to the database
 		renderMessage('User "'.$username.'" Created');
-		echo renderLoginPage();
-// User's new account details were rejected
-	} else {
+		echo renderLoginPage(); // Allow the user to login with their new details
+	} else { // User's new account details were rejected
 		renderMessage($valid_username.$valid_email.$valid_password);
-		echo renderCreateAccountPage();
+		echo renderCreateAccountPage(); // Allow retry of account creation
 	}
-// User has clicked create new group but hasn't tried to submit one yet
-} else if ($page_mode == 'create_group'){
+} else if ($page_mode == 'create_group'){ // User has clicked create new group but hasn't tried to submit one ye
 	echo renderCreateGroupPage();
-// User has entered new group details and clicked create new group
-} else if ($page_mode == 'submit_new_group'){
+} else if ($page_mode == 'submit_new_group'){ // User has entered new group details and clicked create new group
     if ($_SESSION['group_already_created'] != true){
-        $new_group_id = 'grp'.uniqid();
-        createGroup($new_group_id, $_POST['group_name'], $_SESSION['user_id']);
-        addUserToGroup($_SESSION['user_id'], $new_group_id);
-        renderMessage('Group "'.$_POST['group_name'].'" Created');
-        $_SESSION['group_already_created'] = true;
+        $group_name_message = validateGroupName($_POST['group_name']);
+        if ($group_name_message == ''){
+            $new_group_id = 'grp'.uniqid();
+            $_SESSION['admin'] = true; // Allows the creator to be added to the new group despite default private
+            $_SESSION['group_already_created'] = true; // Set to prevent double submission of group
+            $_SESSION['active_group'] = $new_group_id; // Set to allow page redirecting to the new group without form resubmission
+            createGroup($new_group_id, $_POST['group_name'], $_SESSION['user_id']); // Create the actual group
+            addUserToGroup($_SESSION['user_id'], $new_group_id); // Add the creator to the group
+            renderMessage('Group "'.$_POST['group_name'].'" Created');
+            renderGroupEventsPage($new_group_id); // Render function buttons and all events (none yet) for the group
+        } else {
+            renderMessage($group_name_message); // Error message regarding group name
+            echo renderCreateGroupPage(); // Allow user to retry creating group with a valid name
+        }
+    } else {
+        renderGroupEventsPage($_SESSION['active_group']); // Already submitted the group so just show it
     }
-    renderGroupListView();
-// User has clicked a group in their group list
-} else if ($page_mode == 'view_group'){
+} else if ($page_mode == 'view_group'){ // User has clicked a group in their group list
     if (!isset($_POST['group_id']) and !isset($_SESSION['active_group'])){
         echo renderLoginPage();
     } else {
@@ -1055,143 +1068,123 @@ if ($page_mode == 'render_login'){
         }
         renderGroupEventsPage($group_id);
     }
-// User has clicked Admin Settings
-} else if ($page_mode == 'admin_settings'){
+} else if ($page_mode == 'admin_settings'){ // User has clicked Admin Settings
     renderAdminSettingsPage();
-// User has clicked make private
-} else if ($page_mode == 'make_group_private'){
+} else if ($page_mode == 'make_group_private'){ // User has clicked make private
     setGroupPrivate($_SESSION['active_group']);
     renderAdminSettingsPage();
-// User has clicked make public
-} else if ($page_mode == 'make_group_public'){
+} else if ($page_mode == 'make_group_public'){ // User has clicked make public
     setGroupPublic($_SESSION['active_group']);
     renderAdminSettingsPage();
-// User has clicked join group but hasn't entered the group's id yet
-} else if ($page_mode == 'join_group'){
+} else if ($page_mode == 'join_group'){ // User has clicked join group but hasn't entered the group's id yet
 	echo renderJoinGroupPage();
-// User has entered the id of a group to join and pressed enter
-} else if ($page_mode == 'attempt_join_group'){
-	$add_user_to_group_message = addUserToGroup($_SESSION['user_id'], $_POST['group_id']);
-// User corrrectly entered the group id and gets added to the group
-	if ($add_user_to_group_message == ''){
+} else if ($page_mode == 'attempt_join_group'){ // User has entered the id of a group to join and pressed enter
+	$add_user_to_group_message = addUserToGroup($_SESSION['user_id'], $_POST['group_id']); // Potential error message
+	if ($add_user_to_group_message == ''){ // User corrrectly entered the group id and group is public
 		renderMessage('User "'.$_SESSION['username'].'" added to "'.getGroupNameById($_POST['group_id']).'"');
-		renderGroupEventsPage($_POST['group_id']);
-// User entered an incorrect group id to join
-	} else {
+		renderGroupEventsPage($_POST['group_id']); // Show all events for the group they just joined
+	} else { // User entered an incorrect group id to join or the group is private
 		renderMessage($add_user_to_group_message);
 		echo renderJoinGroupPage();
 	}
-// User clicked leave group
-} else if ($page_mode == 'leave_group'){
+} else if ($page_mode == 'leave_group'){ // User clicked leave group
 	$user_id = $_SESSION['user_id'];
 	$group_id = $_SESSION['active_group'];
-	removeUserFromGroup($user_id, $group_id);
+	removeUserFromGroup($user_id, $group_id); // Remove the user from the group
 	renderMessage(getUsernameById($user_id).' removed from '.getGroupNameById($group_id));
-	renderGroupListView();
-// User clicked add user (to group)
-} else if ($page_mode == 'add_user'){
+	renderGroupListView(); // Show all remaining groups the user is a member of
+} else if ($page_mode == 'add_user'){ // User clicked add user (to group)
 	$group_id = $_SESSION['active_group'];
 	renderAddUserPage($group_id);
-// User clicked kick user (from group)
-} else if ($page_mode == 'kick_user'){
+} else if ($page_mode == 'kick_user'){ // User clicked kick user (from group)
 	$group_id = $_SESSION['active_group'];
 	renderKickUserPage($group_id);
-} else if ($page_mode == 'attempt_add_user'){
+} else if ($page_mode == 'attempt_add_user'){ // User clicked add user and entered their username and pressed Add
 	$group_id = $_POST['group_id'];
 	$username = $_POST['username'];
 	$user_id = getUserIdByUsername($username);
-	if ($user_id != null){
-		addUserToGroup($user_id, $group_id);
+	if ($user_id != null){ // If the user actually exists
+		addUserToGroup($user_id, $group_id); // Add them to the group
         renderMessage($username.' added to '.getGroupNameById($group_id));
-		renderGroupEventsPage($group_id);
-	} else {
+		renderGroupEventsPage($group_id); // Show all the events for the group
+	} else { // User doesn't exist
 		renderMessage('User does not exist');
-		renderAddUserPage($group_id);
+		renderAddUserPage($group_id); // Allow retry of user add
 	}
-} else if ($page_mode == 'attempt_kick_user'){
+} else if ($page_mode == 'attempt_kick_user'){ // User clicked kick user, entered their username and clicked Kick
 	$group_id = $_POST['group_id'];
 	$username = $_POST['username'];
 	$user_id = getUserIdByUsername($username);
-	if ($user_id != null){
-		removeUserFromGroup($user_id, $group_id);
+	if ($user_id != null){ // If the user exists
+		removeUserFromGroup($user_id, $group_id); // Remove them from the group
         renderMessage($username.' kicked out of '.getGroupNameById($group_id));
 		renderGroupEventsPage($group_id);
-	} else {
+	} else { // User doesn't exist
 		renderMessage('User does not exist');
 		renderAddUserPage($group_id);
 	}
-// User clicked create event but hasn't entered event details yet
-} else if ($page_mode == 'create_event'){
-    $_SESSION['event_already_created'] = false;
+} else if ($page_mode == 'create_event'){ // User clicked create event but hasn't entered event details yet
+    $_SESSION['event_already_created'] = false; // Reset session variable to allow submission of the new event
 	$group_id = $_SESSION['active_group'];
 	echo renderCreateEventPage($group_id);
-// User has clicked to submit their new event details
-} else if ($page_mode == 'attempt_create_event'){
+} else if ($page_mode == 'attempt_create_event'){ // User has clicked to submit their new event details
 	$group_id = $_SESSION['active_group'];
-    if ($_SESSION['event_already_created'] != true){
+    if ($_SESSION['event_already_created'] != true){ // Check this isn't a form resubmission with the same values
         $event_id = 'evt'.uniqid();
         $create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline']);
-// User's new event details were accepted and it was submitted
-        if ($create_event_message == ''){
+        if ($create_event_message == ''){ // User's new event details were accepted and it was submitted
             $_SESSION['event_already_created'] = true;
             $_SESSION['active_event'] = $event_id;
             renderMessage('Event submitted');
             renderEventPage($event_id);
-// User's event was rejected
-        } else {
+        } else { // User's event was rejected
             renderMessage($create_event_message);
             echo renderCreateEventPage($group_id);
         }
-    } else {
+    } else { // Form resubmission detected so just show the event last submitted
         renderEventPage($_SESSION['active_event']);
     }
-// User clicked an event
-} else if ($page_mode == 'view_event'){
-    $_SESSION['call_already_submitted'] = false;
-    if (isset($_POST['event_id'])){
+} else if ($page_mode == 'view_event'){ // User clicked an event
+    $_SESSION['call_already_submitted'] = false; // Reset session variable to allow submission of new call
+    if (isset($_POST['event_id'])){ // If redirected via form
         $event_id = $_POST['event_id'];
-        $_SESSION['active_event'] = $event_id;
+        $_SESSION['active_event'] = $event_id; // Set session variable to allow returning to event page
     } else {
-        $event_id = $_SESSION['active_event'];
+        $event_id = $_SESSION['active_event']; // If not redirected via form then event id must be stored in session
     }
-	//renderMessage('Viewing event '.$event_id);
-	renderEventPage($event_id);
-// User clicked make call after selecting from the dropdown
-} else if ($page_mode == 'make_call'){
-    $event_id = $_SESSION['active_event'];
-    if ($_SESSION['call_already_submitted'] != true){
-        $option_id = $_POST['option_selector'];
-        submitUserCall($event_id, $option_id);
-        $_SESSION['call_already_submitted'] = true;
+	renderEventPage($event_id); // Render calls etc for event
+} else if ($page_mode == 'make_call'){ // User clicked make call after selecting from the dropdown
+    $event_id = $_SESSION['active_event']; // Save active event to allow returning without form resubmission
+    if ($_SESSION['call_already_submitted'] != true){ // As long as not resubmitting the same values
+        $option_id = $_POST['option_selector']; // The option the user called
+        submitUserCall($event_id, $option_id); // Save call to database
+        $_SESSION['call_already_submitted'] = true; // Set to prevent form resubmission
     }
-    renderEventPage($event_id);
-// User clicked Set Outcome from the event page
-} else if ($page_mode == 'resolve_event'){
+    renderEventPage($event_id); // Render other calls
+} else if ($page_mode == 'resolve_event'){ // User clicked Set Outcome from the event page
 	$event_id = $_SESSION['active_event'];
 	renderMessage('Setting outcome of event "'.getEventQuestionById($event_id).'"');
-	renderResolveEventPage($event_id);
-// User set the outcome with the dropdown and clicked Set Outcome
-} else if ($page_mode == 'attempt_resolve_event'){
+	renderResolveEventPage($event_id); // Show form to allow real outcome to be set
+} else if ($page_mode == 'attempt_resolve_event'){ // User set the outcome with the dropdown and clicked Set Outcome
     $event_id = $_SESSION['active_event'];
-    setEventOutcome($event_id, $_POST['option_selector']);
+    setEventOutcome($event_id, $_POST['option_selector']); // Set the event's recorded outcome
     renderMessage('Event outcome set');
-    renderEventPage($event_id);
-// User clicked cancel event from the event page
-} else if ($page_mode == 'cancel_event'){
+    renderEventPage($event_id); // Render the now resolved event
+} else if ($page_mode == 'cancel_event'){ // User clicked cancel event from the event page
     $event_id = $_SESSION['active_event'];
     renderMessage('Do you really want to cancel this event?');
-    renderCancelEventPage($event_id);
-// User confirmed to cancel event
-} else if ($page_mode == 'attempt_cancel_event'){
+    renderCancelEventPage($event_id); // Confirmation form
+} else if ($page_mode == 'attempt_cancel_event'){ // User confirmed to cancel event
     $event_id = $_SESSION['active_event'];
-    cancelEvent($event_id);
+    cancelEvent($event_id); // Mark event as cancelled
     renderMessage('Event cancelled');
-    renderEventPage($event_id);
-} else if ($page_mode == 'view_user'){
-    if (checkIfAccountExistsByUsername($_GET['usr'])){
+    renderEventPage($event_id); // Show the event page
+} else if ($page_mode == 'view_user'){ // User profile being viewed using GET
+    if (checkIfAccountExistsByUsername($_GET['usr'])){ // If the user with that username exists
         renderUserPage($_GET['usr']);
-    } else {
+    } else { // User doesn't exist
         renderMessage('User "'.urldecode($_GET['usr']).'" doesn\'t exist');
+        renderLogin(); // Try to get the viewer to make an account or login
     }
 }
 ?>
