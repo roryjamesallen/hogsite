@@ -588,7 +588,7 @@ function checkEmailNotificationSetting($group_id, $user_id, $email_setting){
     }
 }
 function sendNotificationEmails($group_id, $email_setting){
-    $email_setting_pretty = ucwords(str_replace($email_setting, '_', ' '));
+    $email_setting_pretty = ucwords(str_replace('_', ' ', $email_setting));
     $group_name = getGroupNameById($group_id);
     foreach (getGroupUsernamesById($group_id) as $username){
         $user_id = getUserIdByUsername($username);
