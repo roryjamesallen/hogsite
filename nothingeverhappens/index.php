@@ -716,7 +716,7 @@ function renderUserTab($user_id, $note){
         getUsernameById($user_id),
         '',
         'usr').
-        '<div class="neh-event-tab-note">'.$note.'</div>'.
+        '<div class="neh-event-tab-note neh-note-before neh-point-change">'.$note.'</div>'.
             '</div>';
     return $tab;
 }
