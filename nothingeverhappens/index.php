@@ -194,10 +194,14 @@ form input, label, select {
 .neh-username-link {
     display: flex;
     align-items: center;
-    color: var(--dark-grey);
+    background: var(--medium-grey);
+    color: black;
     text-decoration: none;
     border: 1px solid black;
     padding: 0 0 0 0.5rem;
+}
+.neh-username-link:hover {
+    text-decoration: underline;
 }
 .neh-username-link:not(.neh-admin){
     padding: 0.5rem;
@@ -212,6 +216,7 @@ form input, label, select {
     color: white;
     padding: 0.5rem;
     margin-left: 0.5rem;
+    text-decoration: none !important;
 }
 </style>
 
@@ -792,7 +797,13 @@ function renderGroupEventsPage($group_id){
         }
         $members .= '<a class="neh-username-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'</a>';
 	}
-	renderMessage(renderCopyTextButton($group_id, "Copy ID").$group_name.$members);
+    renderHeading($group_name);
+    if (isGroupPublic($group_id)){
+        $button = renderCopyTextButton($group_id, "Copy Group ID");
+    } else {
+        $button = '';
+    }
+	renderMessage($button.$members);
 	$group_events = getGroupEventsById($group_id);
 	renderHeading('Make A Call');
     echo '<div class="neh-event-tab-list">';
@@ -971,7 +982,7 @@ function renderUserPage($username){
         }
         $total_points += $points_from_event;
     }
-    renderMessage(renderCopyTextButton($user_id, 'Copy ID').'Viewing stats for '.$username);
+    renderMessage(renderCopyTextButton($user_id, 'Copy User ID').'Viewing '.$username.'\'s stats');
     renderMessage(count($users_calls). ' calls made');
     renderMessage(renderPoints($total_points). 'total points');
     renderMessage(renderPoints($total_correct_calls, true). ' correct calls');
