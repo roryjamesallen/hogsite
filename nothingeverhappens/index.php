@@ -425,8 +425,24 @@ function calculateUserPoints($event_id, $user_id){
 function unixToDate($unix){
 	return gmdate('d M Y', $unix);
 }
+function unixToMinutes($unix){
+	return $unix / 60;
+}
 function unixToHours($unix){
 	return $unix / 3600;
+}
+function unixToDays($unix){
+	return $unix / 86400;
+}
+function unixToWeeks($unix){
+	return $unix / 604800;
+}
+function unixToUsefulText($unix){
+    $weeks = floor(unixToWeeks($unix));
+    $days = floor(unixToDays($unix) - ($weeks * 7));
+    $hours = floor(unixToHours($unix) - ($days * 24));
+    $minutes = floor(unixToMinutes($unix) - ($hours * 60));
+    return $weeks.' weeks, '.$days.' days, '.$hours.' hours, and '.$minutes.' minutes';
 }
 function hoursToHoursMins($hours){
 	$whole_hours = floor($hours);
@@ -815,14 +831,14 @@ function renderEventPage($event_id){
             renderMessage('Points will be calculated once '.getUsernameById($event_creator).' sets the outcome');
         }
     } else {
-		[$hours, $mins] = hoursToHoursMins(unixToHours($event['deadline'] - time()));
+        $remaining_time = unixToUsefulText($event['deadline'] - time());
 		if ($users_call == null) {
-			renderMessage('You have '.$hours.' hours and '.$mins.' minutes left to make a call');
+			renderMessage('Betting ends in '.$remaining_time);
 			echo renderViewEventOptions($event_id); // Show selector to make call
             renderBlock('');
 		} else {
 			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
-			renderMessage('Betting ends in '.$hours.' hours and '.$mins.' minutes.');
+            renderMessage('Betting ends in '.$remaining_time);
 		}
     }
     renderAllCallsForEvent($event_id);
