@@ -1093,7 +1093,7 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
 	echo renderLoginPage();
 } else if ($page_mode == 'attempt_login'){ // User has typed in login details and pressed enter
 	$just_logged_in = false; // Default login status is failure
-	if (!$_SESSION['user_id']){ // User isn't already logged in
+	if (!isset($_SESSION['user_id'])){ // User isn't already logged in
 		$login_message = attemptLogin($_POST['username'], $_POST['password']); // Potential error message, blank if no error
 		if ($login_message == ''){
 			addUserDetailsToSession(getUserIdByUsername($_POST['username']), $_POST['username']); // Log in and save details to session
@@ -1103,7 +1103,7 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
             echo renderLoginPage(); // Allow retry login
 		}
 	}
-	if ($_SESSION['user_id']){ // User's login details were accepted
+	if (isset($_SESSION['user_id'])){ // User's login details were accepted
 		renderGroupListView(); // Show all groups user is a member of
 	}
 } else if ($page_mode == 'forgot_password'){ // User clicked forgot password but hasn't entered email yet
