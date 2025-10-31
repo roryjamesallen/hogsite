@@ -103,6 +103,7 @@ form, .option-container {
     flex-basis: 20%;
     flex-shrink: 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     background: var(--medium-grey);
@@ -112,6 +113,19 @@ form, .option-container {
     border: 1px solid black;
     border-left: none;
     padding: 0 0.5rem;
+}
+.neh-note-before:before {
+    line-height: 1.25rem;
+    font-size: 0.75rem;
+    flex-basis: 100%;
+    padding: 0;
+    margin-bottom: -0.5rem;
+}
+.neh-you-voted:before {
+    content: "YOU VOTED";
+}
+.neh-point-change:before {
+    content: "POINTS WON";
 }
 #create-options-list {
 width: 100%;
@@ -657,23 +671,31 @@ function renderKey(){
         '✖️: Event cancelled<br>';
 }
 function renderEventTabNote($event_id){
+    $note = '<div class="neh-event-tab-note ';
     if (checkIfEventIsCancelled($event_id)){ // Cancelled
-        return '✖️';
+        $note .= '">';
+        $note .= '✖️';
     } else if (checkIfEventIsResolved($event_id)){ //  Resolved
         if (getUsersCall($event_id) != null){
-            return renderPoints(calculateUserPoints($event_id, $_SESSION['user_id'])); // User called resolved event, show points
+            $note .= 'neh-note-before neh-point-change">';
+            $note .= renderPoints(calculateUserPoints($event_id, $_SESSION['user_id'])); // User called resolved event, show points
         } else {
-            return '🐌'; // User didn't place a call and event is now resolved
+            $note .= '">';
+            $note .= '🐌'; // User didn't place a call and event is now resolved
         }
     } else { // Still live
         if (checkIfDeadlineHasPassed($event_id) and getCreatorByEventId($event_id) == $_SESSION['user_id']){ // Unresolved, deadline passed and user is creator
-            return '⚠️✎';
+            $note .= '">';
+            $note .= '⚠️✎';
         } else if (getUsersCall($event_id) != null){ // Unresolved and user has placed bet
-            return getOptionTextFromId(getUsersCall($event_id));
+            $note .= 'neh-note-before neh-you-voted">';
+            $note .= getOptionTextFromId(getUsersCall($event_id));
         } else { // Unresolved and user hasn't bet yet
-            return '⏳';
+            $note .= '">';
+            $note .= '⏳';
         }
     }
+    return $note.'</div>';
 }
 function renderEventTab($event_id){
     $tab = '<div class="neh-event-tab-container">'.
@@ -682,7 +704,7 @@ function renderEventTab($event_id){
         'view_event',
         getEventQuestionById($event_id),
         renderInput('event_id','hidden','',$event_id)).
-        '<div class="neh-event-tab-note">'.renderEventTabNote($event_id).'</div>'.
+        renderEventTabNote($event_id).
         '</div>';
     return $tab;
 }
