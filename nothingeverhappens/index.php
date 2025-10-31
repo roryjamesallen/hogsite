@@ -495,8 +495,8 @@ function unixToWeeks($unix){
 function unixToUsefulText($unix){
     $weeks = floor(unixToWeeks($unix));
     $days = floor(unixToDays($unix) - ($weeks * 7));
-    $hours = floor(unixToHours($unix) - ($days * 24) - ($weeks * 7));
-    $minutes = floor(unixToMinutes($unix) - ($hours * 60)  - ($days * 24) - ($weeks * 7));
+    $hours = floor(unixToHours($unix) - ($days * 24) - ($weeks * 168));
+    $minutes = floor(unixToMinutes($unix) - ($hours * 60)  - ($days * 1440) - ($weeks * 10080));
     return $weeks.' weeks, '.$days.' days, '.$hours.' hours, and '.$minutes.' minutes';
 }
 function hoursToHoursMins($hours){
