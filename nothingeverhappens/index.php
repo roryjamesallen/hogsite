@@ -287,16 +287,25 @@ function submitNewEventOptions($event_id){
 // Validation Functions
 function validateUsername($username){
 	if (!empty(sqlQuery("SELECT * FROM users WHERE username='".$username."'"))){
-		return "Username Taken";
+		return "Username Taken<br>";
 	} elseif ('' == str_replace(' ','',$username)){
-		return "Username Can't Be Blank";
+		return "Username Can't Be Blank<br>";
 	} else {
 		return '';
 	}
 }
 function validateEmail($email){
 	if (!str_contains($email,'@')){
-		return 'Invalid Email Address';
+		return 'Invalid Email Address<br>';
+    } else if (checkIfAccountExistsForEmail($email)){
+        return 'Account already exists using this email address<br>';
+	} else {
+		return '';
+	}
+}
+function validatePassword($password){
+	if (strlen($password) < 8){
+		return "Password too short<br>";
 	} else {
 		return '';
 	}
@@ -673,7 +682,7 @@ function renderLoginPage(){
             'POST',
 		'attempt_login',
 		'Enter',
-		renderInput('username','text','Name').
+		renderInput('username','text','Username').
 		renderInput('password','password','Password')
         );
 }
@@ -1009,15 +1018,15 @@ if ($page_mode == 'render_login'){
 // User has entered new account details and pressed create account
 } else if ($page_mode == 'submit_new_account'){
 	[$user_id, $username, $password, $email] = array('usr'.uniqid(), $_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['email']);
-	[$valid_username, $valid_email] = array(validateUsername($username), validateEmail($email));
+	[$valid_username, $valid_email, $valid_password] = array(validateUsername($username), validateEmail($email), validatePassword($_POST['password']));
 // User's new account details were accepted
-	if ($valid_username == '' and $valid_email == ''){
+	if ($valid_username == '' and $valid_email == '' and $valid_password == ''){
 		createUser($user_id, $username, $password, $email);
 		renderMessage('User "'.$username.'" Created');
 		echo renderLoginPage();
 // User's new account details were rejected
 	} else {
-		renderMessage($valid_username.'<br>'.$valid_email);
+		renderMessage($valid_username.$valid_email.$valid_password);
 		echo renderCreateAccountPage();
 	}
 // User has clicked create new group but hasn't tried to submit one yet
