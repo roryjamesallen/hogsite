@@ -184,6 +184,7 @@ form input, label, select {
     background: var(--dark-grey);
     color: white;
     cursor: pointer;
+    border: 1px solid black;
 }
 .neh-points-positive {
     color: green;
@@ -200,7 +201,7 @@ form input, label, select {
     border: 1px solid black;
     padding: 0 0 0 0.5rem;
 }
-.neh-username-link:hover {
+.neh-username-link:hover, .neh-copy-text-button:hover {
     text-decoration: underline;
 }
 .neh-username-link:not(.neh-admin){
