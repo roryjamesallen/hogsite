@@ -79,6 +79,13 @@ CREATE TABLE IF NOT EXISTS `options` (
   `option_text` VARCHAR(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `email_settings` (
+  `group_id` VARCHAR(16) NOT NULL,
+  `user_id` VARCHAR(16) NOT NULL,
+  `email_setting` VARCHAR(32) NOT NULL,
+  `value` VARCHAR(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `user_calls` (
   `event_id` VARCHAR(16) NOT NULL,		
   `user_id` VARCHAR(16) NOT NULL,

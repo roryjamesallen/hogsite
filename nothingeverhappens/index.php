@@ -156,6 +156,10 @@ form input, label, select {
     background: var(--dark-grey);
     border: none;
 }
+.neh-input[type="checkbox" i] {
+    height: 1.5rem;
+    flex-basis: 0;
+}
 .neh-function-buttons {
     justify-content: center;
     margin-bottom: 1rem;
@@ -237,8 +241,14 @@ $button_modes = json_decode('{
     "Kick User": "kick_user",
     "Make Group Private": "make_group_private",
     "Make Group Public": "make_group_public",
+    "Email Settings": "email_settings",
 	"Create Event": "create_event"
 }',true);
+
+$email_settings = [
+    'new_event',
+    'event_resolved'
+];
 
 function setGroupPrivate($group_id){
     sqlQuery("UPDATE groups SET public='0' WHERE group_id='".$group_id."'");
@@ -523,14 +533,17 @@ function checkIfAccountExistsByUsername($username){
 function checkIfAccountExistsForEmail($email){
     return checkIfAccountExists('email', $email);
 }
+function sendEmail($address, $subject, $message){
+    $headers = 'From: accounts@hogwild.uk'       . "\r\n" .
+                 'Reply-To: accounts@hogwild.uk' . "\r\n" .
+                 'X-Mailer: PHP/' . phpversion();
+    mail($address, $subject, $message, $headers,'-f accounts@hogwild.uk');
+}
 function sendForgotPasswordEmail($email){
     $code = str_pad(strval(rand(0, 999999)), 6, '0', STR_PAD_LEFT);
     $subject = 'Nothing Ever Happens - Password Reset';
     $message = 'Enter the code: '.$code.' to reset your password. If you did not request this code please change your password as soon as possible.';
-    $headers = 'From: accounts@hogwild.uk'       . "\r\n" .
-                 'Reply-To: accounts@hogwild.uk' . "\r\n" .
-                 'X-Mailer: PHP/' . phpversion();
-    mail($email, $subject, $message, $headers,'-f accounts@hogwild.uk');
+    sendEmail($email, $subject, $message);
     return $code;
 }
 function renderSetNewPasswordPage($email){
@@ -542,6 +555,44 @@ function renderSetNewPasswordPage($email){
         renderInput('new_password','password','New Password').
             renderInput('user_id','hidden','',$user_id)
     );
+}
+function updateEmailNotificationSetting($group_id, $user_id, $email_setting, $value){
+    sqlQuery("DELETE FROM email_settings WHERE group_id='".$group_id."' AND user_id='".$user_id."' AND email_setting='".$email_setting."'"); // Delete any old value entries
+    if ($value == '1'){
+        sqlQuery("INSERT INTO email_settings (group_id, user_id, email_setting, value) VALUES ('".$group_id."', '".$user_id."', '".$email_setting."', '".$value."')"); // Insert new value entry
+    }
+}
+function updateAllEmailNotificationSettings($group_id, $user_id){
+    global $email_settings;
+    foreach ($email_settings as $email_setting){
+        if ($_POST[$email_setting] == 'on'){
+            $value = '1';
+        } else {
+            $value = '0';
+        }
+        updateEmailNotificationSetting($group_id, $user_id, $email_setting, $value);
+    }
+}
+function checkEmailNotificationSetting($group_id, $user_id, $email_setting){
+    $result = sqlQuery("SELECT value FROM email_settings WHERE group_id='".$group_id."' AND user_id='".$user_id."' AND email_setting='".$email_setting."'");
+    if ($result != null){
+        $result = $result[0]['value'];
+    }
+    if ($result == '1'){
+        return 'checked';
+    } else {
+        return '';
+    }
+}
+function sendNotificationEmails($group_id, $email_setting){
+    $email_setting_pretty = ucwords(str_replace($email_setting, '_', ' '));
+    $group_name = getGroupNameById($group_id);
+    foreach (getGroupUsernamesById($group_id) as $username){
+        $user_id = getUserIdByUsername($username);
+        if (checkEmailNotificationSetting($group_id, $user_id, $email_setting) == 'checked'){
+            sendEmail(getEmailByUserId($user_id), $email_setting_pretty.' in '.$group_name, '');
+        }
+    }
 }
 // Session Functions
 function addUserDetailsToSession($user_id, $username){
@@ -580,6 +631,9 @@ function renderLabel($for, $label){
 }
 function renderInput($name, $type, $label, $value='', $maxlength=''){
 	return renderLabel($name, $label).'<input class="neh-input" id="'.$name.'"name="'.$name.'" type="'.$type.'" value="'.$value.'" maxlength="'.$maxlength.'">';
+}
+function renderCheckbox($name, $label, $checked){
+    return renderLabel($name, $label).'<input class="neh-input" id="'.$name.'"name="'.$name.'" type="checkbox" '.$checked.'>';
 }
 function renderButton($text, $mode){
 	return renderForm('POST',$mode,$text,'');
@@ -778,9 +832,10 @@ function renderGroupsPage(){
     echo '</div>';
 }
 function renderGroupEventsPage($group_id){
+    global $current_url_without_parameters;
 	$_SESSION['active_group'] = $group_id;
     $group_admin = getGroupAdmin($group_id);
-    $function_buttons = ['View Groups','Leave Group','Create Event'];
+    $function_buttons = ['View Groups','Leave Group','Create Event','Email Settings'];
     if ($group_admin == $_SESSION['user_id']){
         $_SESSION['admin'] = true;
         $function_buttons[] = 'Admin Settings';
@@ -999,6 +1054,18 @@ function renderAdminSettingsPage(){
     }
     echo renderFunctionButtons($function_buttons);
 }
+function renderGroupEmailSettingsPage($group_id, $user_id){
+    echo renderFunctionButtons(['View Events']);
+    $new_event = checkEmailNotificationSetting($group_id, $user_id, 'new_event');
+    $event_resolved = checkEmailNotificationSetting($group_id, $user_id, 'event_resolved');
+    echo renderForm(
+        'POST',
+        'update_email_settings',
+        'Update Settings',
+        renderCheckbox('new_event','Someone makes a new event in this group',$new_event).
+            renderCheckbox('event_resolved','An event in this group gets resolved/cancelled',$event_resolved)
+    );
+}
 
 // Get Page Mode
 // Public page modes (GET)
@@ -1178,6 +1245,7 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
         if ($create_event_message == ''){ // User's new event details were accepted and it was submitted
             $_SESSION['event_already_created'] = true;
             $_SESSION['active_event'] = $event_id;
+            sendNotificationEmails($group_id, 'new_event');
             renderMessage('Event submitted');
             renderEventPage($event_id);
         } else { // User's event was rejected
@@ -1211,6 +1279,8 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
 } else if ($page_mode == 'attempt_resolve_event'){ // User set the outcome with the dropdown and clicked Set Outcome
     $event_id = $_SESSION['active_event'];
     setEventOutcome($event_id, $_POST['option_selector']); // Set the event's recorded outcome
+    $group_id = $_SESSION['active_group'];
+    sendNotificationEmails($group_id, 'event_resolved');
     renderMessage('Event outcome set');
     renderEventPage($event_id); // Render the now resolved event
 } else if ($page_mode == 'cancel_event'){ // User clicked cancel event from the event page
@@ -1220,6 +1290,8 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
 } else if ($page_mode == 'attempt_cancel_event'){ // User confirmed to cancel event
     $event_id = $_SESSION['active_event'];
     cancelEvent($event_id); // Mark event as cancelled
+    $group_id = $_SESSION['active_group'];
+    sendNotificationEmails($group_id, 'event_resolved');
     renderMessage('Event cancelled');
     renderEventPage($event_id); // Show the event page
 } else if ($page_mode == 'view_user'){ // User profile being viewed using GET
@@ -1229,6 +1301,15 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
         renderMessage('User "'.urldecode($_GET['usr']).'" doesn\'t exist');
         renderLogin(); // Try to get the viewer to make an account or login
     }
+} else if ($page_mode == 'email_settings'){ // User clicked email settings inside a group
+    $group_id = $_SESSION['active_group'];
+    $user_id = $_SESSION['user_id'];
+    renderGroupEmailSettingsPage($group_id, $user_id);
+} else if ($page_mode == 'update_email_settings'){
+    $group_id = $_SESSION['active_group'];
+    $user_id = $_SESSION['user_id'];
+    updateAllEmailNotificationSettings($group_id, $user_id);
+    renderGroupEventsPage($group_id);;
 }
 ?>
 
