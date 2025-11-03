@@ -69,6 +69,14 @@ if ($country_code == ""){
 }
 
 
+$tristan_webpage = file_get_contents("https://www.tristandc.com/population.php");
+foreach (explode("strong>",$tristan_webpage) as $strong_element){
+    if (str_contains($strong_element, "There are") and str_contains($strong_element, "Tristan da Cunha Islanders")){
+        $tristan_inhabitants_text = htmlspecialchars(str_replace('"','',str_replace("</","",$strong_element)));
+    }
+}
+
+
 if (isset($_GET['mail'])){
     if (count(sqlQuery("SELECT * FROM mailing_list WHERE email='".$_GET['mail']."'")) == 0){ // Only if user isn't already in mailing list
         sqlQuery("INSERT INTO mailing_list (email, time) VALUES ('".$_GET['mail']."', '".time()."')");
@@ -181,8 +189,12 @@ if (isset($_GET['mail'])){
 		<div class="lisboa-container"><div class="lisboa-status" style="background-color: green"><?php echo $verde;?></div></div>
 		<div class="lisboa-container"><div class="lisboa-status" style="background-color: red"><?php echo $vermelha;?></div></div>
 	</div>
-	
-	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall('https://official-joke-api.appspot.com/random_joke')['setup'].' '.apiCall('https://official-joke-api.appspot.com/random_joke')['punchline'];?></div>
+
+            <div class="lisboa-big-container">
+            <a class="button-as-link" href="https://www.tristandc.com/population.php"><?php echo $tristan_inhabitants_text;?></a>
+            </div>
+                
+	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div>
 </div>
 </body>
 
