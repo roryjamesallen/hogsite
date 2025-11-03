@@ -171,7 +171,7 @@ if (isset($_GET['mail'])){
     <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List" style="transform: scale(0.7);">
     <input type="email" placeholder="Email Address" name="mail" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png);">
     <input type="submit" class="button" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
- height: 96px; background-color: white; border: none; transform: scale(0.9);">
+ height: 96px; background-color: white; border: none; transform: scale(0.9); cursor: pointer;">
     </form>
     </div>
     
