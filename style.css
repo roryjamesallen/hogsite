@@ -11,7 +11,7 @@ body {
  }
 .random-joke {
 	font-family: Jokerman;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 .button-container {
      display: flex;
@@ -142,6 +142,7 @@ body {
 	height: fit-content;
 	padding: 5px;
 	border: 2px solid black;
+	max-width: min(80vw, 500px);
 }
 .lisboa-status {
 	border-radius: 50%;

@@ -193,8 +193,9 @@ if (isset($_GET['mail'])){
             <div class="lisboa-big-container">
             <a class="button-as-link" href="https://www.tristandc.com/population.php"><?php echo $tristan_inhabitants_text;?></a>
             </div>
-                
-	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div>
+
+    <div class="lisboa-big-container">
+	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div></div>
 </div>
 </body>
 
