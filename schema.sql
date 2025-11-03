@@ -3,6 +3,21 @@
 CREATE DATABASE IF NOT EXISTS `testdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE DATABASE IF NOT EXISTS `wildhog_analytics` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+
+USE `wildhog_analytics`;
+
+CREATE TABLE IF NOT EXISTS `home_visits` (
+  `visit_id` CHAR(36) NOT NULL PRIMARY KEY,
+  `visitor_ip` VARCHAR(45) DEFAULT NULL,
+  `visit_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` CHAR(36) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `mailing_list` (
+  `email` VARCHAR(255) NOT NULL,
+  `time` VARCHAR(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ========== testdb ==========
 USE `testdb`;
 
@@ -90,12 +105,4 @@ CREATE TABLE IF NOT EXISTS `user_calls` (
   `event_id` VARCHAR(16) NOT NULL,		
   `user_id` VARCHAR(16) NOT NULL,
   `option_id` VARCHAR(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE IF NOT EXISTS `home_visits` (
-  `visit_id` CHAR(36) NOT NULL PRIMARY KEY,
-  `visitor_ip` VARCHAR(45) DEFAULT NULL,
-  `visit_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_id` CHAR(36) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

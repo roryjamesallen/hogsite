@@ -67,6 +67,13 @@ if ($country_code == ""){
 } else {
     $location_message = ' this time you landed in '.$location_info['countryName'].' '.getEmojiFromCountryCode($country_code).'!';
 }
+
+
+if (isset($_GET['mail'])){
+    if (count(sqlQuery("SELECT * FROM mailing_list WHERE email='".$_GET['mail']."'")) == 0){ // Only if user isn't already in mailing list
+        sqlQuery("INSERT INTO mailing_list (email, time) VALUES ('".$_GET['mail']."', '".time()."')");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +93,7 @@ if ($country_code == ""){
 <div class="button-container">
     <h1 class="hidden-heading">hogwild.uk - Home of The Wild Hogs</h1>
     <img style="width: 100%;" src="images/hogwilduk-banner.png" alt="Hand drawn banner image that spells out the domain name hogwild.uk"></img>
-     
+    
     <a class="button" href="https://hogwild.uk/wiki">
         <h2 class="hidden-heading">Hogipedia</h2>
 		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
@@ -114,12 +121,22 @@ if ($country_code == ""){
 		<img src="images/buttons/hogmosaic.png" class="button-image" alt="Hand drawn button for Hog Mosaic page">
 	</a>
 
-    
-
     <a class="button" href="https://hogwild.uk/notoalgorithms">
         <h2 class="hidden-heading">No To Algorithms!</h2>
 		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
 	</a>
+
+    <form action="" style="background: white; filter: invert(1); display: flex; flex-wrap: wrap; justify-content: center; width: 250px;">
+    <div class="container">
+    <h2 class="hidden-heading">Subscribe to the Hog Wild Mailing List</h2>
+    <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List">
+    </div>
+    <input type="email" placeholder="Email Address" name="mail" required style="color: black; width: 90%; border: 3px solid black; font-size: 2rem;">
+    <div class="container">
+    <input type="submit" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
+ height: 96px; background-color: white; border: none;">
+    </div>
+    </form>
 	
 	<?php 
 		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
@@ -136,7 +153,7 @@ if ($country_code == ""){
 		<div class="lisboa-container"><div class="lisboa-status" style="background-color: red"><?php echo $vermelha;?></div></div>
 	</div>
 	
-	<div class="random-joke">Today's Hog Joke: <?php echo apiCall('https://official-joke-api.appspot.com/random_joke')['setup'].' '.apiCall('https://official-joke-api.appspot.com/random_joke')['punchline'];?></div>
+	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall('https://official-joke-api.appspot.com/random_joke')['setup'].' '.apiCall('https://official-joke-api.appspot.com/random_joke')['punchline'];?></div>
 </div>
 </body>
 
