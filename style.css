@@ -7,7 +7,6 @@
 }
 body {
     margin: 0;
-    padding-bottom: 10rem;
  }
 .random-joke {
 	font-family: Jokerman;
@@ -148,4 +147,10 @@ body {
 	border-radius: 50%;
 	border: 2px solid black;
 	padding: 5px;
+}
+.footer {
+    flex-basis: 70%;
+    font-family: Arial;
+    text-align: center;
+    margin: 10rem 0 1rem 0;
 }

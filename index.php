@@ -196,6 +196,13 @@ if (isset($_GET['mail'])){
 
     <div class="lisboa-big-container">
 	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div></div>
+
+
+
+<div class="footer">
+<strong>What the hell is this website!??!?</strong><br><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> is a collection of ideas and art by anyone who wants to have their ideas and art published. If you've made or are making something you'd like to share, or just have something to say, please <a class="button-as-link" href="mailto:rory@hogwild.uk">email Rory</a> at rory (@) hogwild.uk
+</div>
+
 </div>
 </body>
 
