@@ -17,7 +17,7 @@ body {
     flex-wrap: wrap;
      gap: 10px;
      justify-content: center;
-     padding: 50px 0;
+     overflow: hidden;
  }
 .button {
      position: relative;
@@ -25,7 +25,8 @@ body {
  }
 .button-image {
     flex-basis: 300px;
-     max-width: 300px;
+    max-width: 300px;
+    max-height: 70px;
 }
 .hidden-heading {
     display: none;

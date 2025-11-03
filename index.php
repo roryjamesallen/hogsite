@@ -105,7 +105,7 @@ if (isset($_GET['mail'])){
 
 <body>
 <div style="display: none"><?php echo $ip_address;?></div>
-<div class="page-banner">
+<div class="page-banner" style="margin-top: 0.5rem">
 <?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.'.$location_message;?>
 </div>
     
@@ -113,7 +113,7 @@ if (isset($_GET['mail'])){
     <h1 class="hidden-heading">hogwild.uk - Home of The Wild Hogs</h1>
     <img style="width: 100%;" src="images/hogwilduk-banner.png" alt="Hand drawn banner image that spells out the domain name hogwild.uk"></img>
     
-	<div class="hogspin-container" style="flex-basis: 100%; display: flex; justify-content: center;">
+	<div class="hogspin-container" style="flex-basis: 100%; display: flex; justify-content: center; margin-top: -5rem">
 		<img id="hogspin1" src="images/hogspin/1.png" style="display: block" alt="Hand drawn frame 1 of an animation of a rotating hog">
 		<img id="hogspin2" src="images/hogspin/2.png" style="display: none" alt="Hand drawn frame 2 of an animation of a rotating hog">
 		<img id="hogspin3" src="images/hogspin/3.png" style="display: none" alt="Hand drawn frame 3 of an animation of a rotating hog">
@@ -146,6 +146,11 @@ if (isset($_GET['mail'])){
     <a class="button" href="https://hogwild.uk/notoalgorithms">
         <h2 class="hidden-heading">No To Algorithms!</h2>
 		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
+	</a>
+
+    <a class="button" href="https://hogwild.uk/nothingeverhappens">
+        <h2 class="hidden-heading">Hog Mosaic</h2>
+		<img src="images/buttons/nothingeverhappens.png" class="button-image" alt="Hand drawn button for Nothing Ever Happens">
 	</a>
 
     <div class="page-banner">
