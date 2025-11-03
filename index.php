@@ -94,8 +94,14 @@ if (isset($_GET['mail'])){
     transform: scale(0.9);
     background-size: contain;
     background-repeat: no-repeat;
-}
-    </style>
+                         }
+.page-banner {
+    flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+                         }
+</style>
 
 <body>
 <div style="display: none"><?php echo $ip_address;?></div>
@@ -118,6 +124,10 @@ if (isset($_GET['mail'])){
 		<img id="hogspin8" src="images/hogspin/8.png" style="display: none" alt="Hand drawn frame 8 of an animation of a rotating hog">
 	</div>
 
+    <div class="page-banner">
+    <img src="images/banner-pages.png" alt="Banner for Hog Wild pages">
+    </div>
+    
     <a class="button" href="https://hogwild.uk/wiki">
         <h2 class="hidden-heading">Hogipedia</h2>
 		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
@@ -138,6 +148,10 @@ if (isset($_GET['mail'])){
 		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
 	</a>
 
+    <div class="page-banner">
+    <img src="images/banner-gubbins.png" alt="Banner for Hog Wild pages">
+    </div>
+    
     <form action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; background-image: url(images/buttons/mailing-list-border.png)">
     <h2 class="hidden-heading">Subscribe to the Hog Wild Mailing List</h2>
     <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List" style="transform: scale(0.7);">
@@ -145,7 +159,7 @@ if (isset($_GET['mail'])){
     <input type="submit" class="button" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
  height: 96px; background-color: white; border: none; transform: scale(0.9);">
     </form>
-	
+    
 	<?php 
 		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
 		$amarela = $lisboa['amarela'];
