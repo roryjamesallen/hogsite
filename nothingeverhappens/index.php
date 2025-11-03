@@ -540,10 +540,10 @@ function checkIfAccountExistsForEmail($email){
     return checkIfAccountExists('email', $email);
 }
 function sendEmail($address, $subject, $message){
-    $headers = 'From: accounts@hogwild.uk'       . "\r\n" .
-                 'Reply-To: accounts@hogwild.uk' . "\r\n" .
+    $headers = 'From: noreply@hogwild.uk'       . "\r\n" .
+                 'Reply-To: noreply@hogwild.uk' . "\r\n" .
                  'X-Mailer: PHP/' . phpversion() . 'Content-type: text/html; charset=utf-8' . "\r\n";
-    mail($address, $subject, $message, $headers,'-f accounts@hogwild.uk');
+    mail($address, $subject, $message, $headers,'-f noreply@hogwild.uk');
 }
 function sendForgotPasswordEmail($email){
     $code = str_pad(strval(rand(0, 999999)), 6, '0', STR_PAD_LEFT);
