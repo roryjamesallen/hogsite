@@ -156,14 +156,16 @@ if (isset($_GET['mail'])){
     <div class="page-banner">
     <img src="images/banner-gubbins.png" alt="Banner for Hog Wild pages">
     </div>
-    
-    <form action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; background-image: url(images/buttons/mailing-list-border.png)">
+
+    <div style="flex-basis: 100%; display: flex; justify-content: center;">
+    <form action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
     <h2 class="hidden-heading">Subscribe to the Hog Wild Mailing List</h2>
     <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List" style="transform: scale(0.7);">
     <input type="email" placeholder="Email Address" name="mail" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png);">
     <input type="submit" class="button" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
  height: 96px; background-color: white; border: none; transform: scale(0.9);">
     </form>
+    </div>
     
 	<?php 
 		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 

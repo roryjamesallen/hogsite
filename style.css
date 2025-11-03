@@ -6,7 +6,8 @@
     src: url('fonts/Jokerman.otf');
 }
 body {
-     margin: 0;
+    margin: 0;
+    padding-bottom: 10rem;
  }
 .random-joke {
 	font-family: Jokerman;
