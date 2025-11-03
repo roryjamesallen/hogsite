@@ -26,6 +26,18 @@ body {
     font-family: Arial;
     background: var(--medium-grey);
 }
+.button-as-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: unset;
+    color: #069;
+    cursor: pointer;
+    text-decoration: none;
+}
+.button-as-link:hover {
+    text-decoration: underline;
+}
 .neh-footer {
     width: var(--page-width);
     margin: 2rem auto;
@@ -1086,7 +1098,7 @@ function renderGroupEmailSettingsPage($group_id, $user_id){
 }
 function renderFooter(){
     return "<div class='neh-footer'>".
-        "<strong>What is this site?</strong><br>This is a site made for groups of mates to say what they think is going to be the result of events that they set up. There is <strong>no money involved</strong>, this is only for you to feel good (or bad) about yourselves based on how good you are at guessing what's gonna happen.".
+        "<strong>What is this site?</strong><br>Nothing Ever Happens is a site made by <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> for groups of mates to say what they think is going to be the result of events that they set up. There is <strong>no money involved</strong>, this is only for you to feel good (or bad) about yourselves based on how good you are at guessing what's gonna happen.".
         "</div>";
 }
 
