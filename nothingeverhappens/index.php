@@ -26,6 +26,10 @@ body {
     font-family: Arial;
     background: var(--medium-grey);
 }
+.neh-footer {
+    width: var(--page-width);
+    margin: 2rem auto;
+}
 .neh-function-buttons {
     display: flex;
     gap: 0.5rem;
@@ -805,7 +809,8 @@ function renderLoginPage(){
 		'Enter',
 		renderInput('username','text','Username').
 		renderInput('password','password','Password')
-        );
+        ).
+        renderFooter();
 }
 function renderCreateAccountPage(){
 	return renderFunctionButtons(['Login']).
@@ -1078,6 +1083,11 @@ function renderGroupEmailSettingsPage($group_id, $user_id){
         renderCheckbox('new_event','Someone makes a new event in this group',$new_event).
             renderCheckbox('event_resolved','An event in this group gets resolved/cancelled',$event_resolved)
     );
+}
+function renderFooter(){
+    return "<div class='neh-footer'>".
+        "<strong>What is this site?</strong><br>This is a site made for groups of mates to say what they think is going to be the result of events that they set up. There is <strong>no money involved</strong>, this is only for you to feel good (or bad) about yourselves based on how good you are at guessing what's gonna happen.".
+        "</div>";
 }
 
 // Get Page Mode
