@@ -416,6 +416,9 @@ function checkIfEventIsResolved($event_id){
         return false;
     };
 }
+function getEventDeadline($event_id){
+    return sqlQuery('SELECT deadline FROM events WHERE event_id="'.$event_id.'"')[0]['deadline'];
+}
 function getEventQuestionById($event_id){
     return sqlQuery('SELECT question FROM events WHERE event_id="'.$event_id.'"')[0]['question'];
 }
@@ -539,7 +542,7 @@ function checkIfAccountExistsForEmail($email){
 function sendEmail($address, $subject, $message){
     $headers = 'From: accounts@hogwild.uk'       . "\r\n" .
                  'Reply-To: accounts@hogwild.uk' . "\r\n" .
-                 'X-Mailer: PHP/' . phpversion();
+                 'X-Mailer: PHP/' . phpversion() . 'Content-type: text/html; charset=utf-8' . "\r\n";
     mail($address, $subject, $message, $headers,'-f accounts@hogwild.uk');
 }
 function sendForgotPasswordEmail($email){
@@ -587,13 +590,21 @@ function checkEmailNotificationSetting($group_id, $user_id, $email_setting){
         return '';
     }
 }
-function sendNotificationEmails($group_id, $email_setting){
+function sendNotificationEmails($event_id, $email_setting){
     $email_setting_pretty = ucwords(str_replace('_', ' ', $email_setting));
+    $group_id = $_SESSION['active_group'];
+    $user_id = $_SESSION['user_id'];
+    if ($email_setting == 'new_event'){
+        $message = 'New event created by '.getUsernameById($user_id).' in '.getGroupNameById($group_id).': '.getEventQuestionById($event_id).' by '.unixToDate(getEventDeadline($event_id)).'?';
+    } else if ($email_setting == 'event_resolved'){
+        $message = 'Event resolved by '.getUsernameById($user_id).' in '.getGroupNameById($group_id).': '.getEventQuestionById($event_id).'<br>View the event to see the full results.';
+        echo $message;
+    }
     $group_name = getGroupNameById($group_id);
     foreach (getGroupUsernamesById($group_id) as $username){
-        $user_id = getUserIdByUsername($username);
-        if (checkEmailNotificationSetting($group_id, $user_id, $email_setting) == 'checked'){
-            sendEmail(getEmailByUserId($user_id), $email_setting_pretty.' in '.$group_name, '');
+        $recipient_user_id = getUserIdByUsername($username);
+        if (checkEmailNotificationSetting($group_id, $recipient_user_id, $email_setting) == 'checked'){
+            sendEmail(getEmailByUserId($recipient_user_id), $email_setting_pretty, $message);
         }
     }
 }
@@ -1248,7 +1259,7 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
         if ($create_event_message == ''){ // User's new event details were accepted and it was submitted
             $_SESSION['event_already_created'] = true;
             $_SESSION['active_event'] = $event_id;
-            sendNotificationEmails($group_id, 'new_event');
+            sendNotificationEmails($event_id, 'new_event');
             renderMessage('Event submitted');
             renderEventPage($event_id);
         } else { // User's event was rejected
@@ -1283,7 +1294,7 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
     $event_id = $_SESSION['active_event'];
     setEventOutcome($event_id, $_POST['option_selector']); // Set the event's recorded outcome
     $group_id = $_SESSION['active_group'];
-    sendNotificationEmails($group_id, 'event_resolved');
+    sendNotificationEmails($event_id, 'event_resolved');
     renderMessage('Event outcome set');
     renderEventPage($event_id); // Render the now resolved event
 } else if ($page_mode == 'cancel_event'){ // User clicked cancel event from the event page
