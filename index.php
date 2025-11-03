@@ -84,6 +84,19 @@ if (isset($_GET['mail'])){
     <title>Home of The Wild Hogs</title>
 </head>
 
+    <style>
+.drawn-border-text-input {
+    color: black;
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 1.5rem;
+    transform: scale(0.9);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+    </style>
+
 <body>
 <div style="display: none"><?php echo $ip_address;?></div>
 <div class="page-banner">
@@ -94,12 +107,7 @@ if (isset($_GET['mail'])){
     <h1 class="hidden-heading">hogwild.uk - Home of The Wild Hogs</h1>
     <img style="width: 100%;" src="images/hogwilduk-banner.png" alt="Hand drawn banner image that spells out the domain name hogwild.uk"></img>
     
-    <a class="button" href="https://hogwild.uk/wiki">
-        <h2 class="hidden-heading">Hogipedia</h2>
-		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
-	</a>
-
-	<div class="hogspin-container">
+	<div class="hogspin-container" style="flex-basis: 100%; display: flex; justify-content: center;">
 		<img id="hogspin1" src="images/hogspin/1.png" style="display: block" alt="Hand drawn frame 1 of an animation of a rotating hog">
 		<img id="hogspin2" src="images/hogspin/2.png" style="display: none" alt="Hand drawn frame 2 of an animation of a rotating hog">
 		<img id="hogspin3" src="images/hogspin/3.png" style="display: none" alt="Hand drawn frame 3 of an animation of a rotating hog">
@@ -110,7 +118,11 @@ if (isset($_GET['mail'])){
 		<img id="hogspin8" src="images/hogspin/8.png" style="display: none" alt="Hand drawn frame 8 of an animation of a rotating hog">
 	</div>
 
-
+    <a class="button" href="https://hogwild.uk/wiki">
+        <h2 class="hidden-heading">Hogipedia</h2>
+		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
+	</a>
+    
 	<a class="button" href="https://hogwild.uk/thompson-world">
         <h2 class="hidden-heading">Thompson World</h2>
 		<img src="images/buttons/thompson-world.png" class="button-image" alt="Hand drawn button for Thompson World page">
@@ -126,16 +138,12 @@ if (isset($_GET['mail'])){
 		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
 	</a>
 
-    <form action="" style="background: white; filter: invert(1); display: flex; flex-wrap: wrap; justify-content: center; width: 250px;">
-    <div class="container">
+    <form action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; background-image: url(images/buttons/mailing-list-border.png)">
     <h2 class="hidden-heading">Subscribe to the Hog Wild Mailing List</h2>
-    <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List">
-    </div>
-    <input type="email" placeholder="Email Address" name="mail" required style="color: black; width: 90%; border: 3px solid black; font-size: 2rem;">
-    <div class="container">
-    <input type="submit" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
- height: 96px; background-color: white; border: none;">
-    </div>
+    <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List" style="transform: scale(0.7);">
+    <input type="email" placeholder="Email Address" name="mail" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png);">
+    <input type="submit" class="button" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
+ height: 96px; background-color: white; border: none; transform: scale(0.9);">
     </form>
 	
 	<?php 
