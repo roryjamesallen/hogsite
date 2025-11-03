@@ -597,8 +597,7 @@ function sendNotificationEmails($event_id, $email_setting){
     if ($email_setting == 'new_event'){
         $message = 'New event created by '.getUsernameById($user_id).' in '.getGroupNameById($group_id).': '.getEventQuestionById($event_id).' by '.unixToDate(getEventDeadline($event_id)).'?';
     } else if ($email_setting == 'event_resolved'){
-        $message = 'Event resolved by '.getUsernameById($user_id).' in '.getGroupNameById($group_id).': '.getEventQuestionById($event_id).'<br>View the event to see the full results.';
-        echo $message;
+        $message = 'Event resolved/cancelled by '.getUsernameById($user_id).' in '.getGroupNameById($group_id).': '.getEventQuestionById($event_id).'<br>View the event to see the full results.';
     }
     $group_name = getGroupNameById($group_id);
     foreach (getGroupUsernamesById($group_id) as $username){
