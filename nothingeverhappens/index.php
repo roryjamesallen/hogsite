@@ -12,6 +12,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
      <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
      <meta name="apple-mobile-web-app-title" content="NEH" />
      <link rel="manifest" href="favicon/site.webmanifest" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
     
 <style>
@@ -20,8 +21,16 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
 	--medium-grey: #dddddd;
     --dark-grey: #888;
 	--border-radius: 0.5rem;
-    --page-width: 950px;
+    --page-width: 850px;
  }
+@media screen and (max-width: 850px){
+    :root {
+        --page-width: 90vw;
+    }
+    html {
+        font-size: 24px;
+    }
+}
 body {
     font-family: Arial;
     background: var(--medium-grey);
@@ -42,6 +51,12 @@ body {
     width: var(--page-width);
     margin: 2rem auto;
 }
+.neh-hogwild-footer {
+    text-align: center;
+    flex-basis: 100%;
+    margin: 2rem 0 2rem;
+    font-size: 1.25rem;
+            }
 .neh-function-buttons {
     display: flex;
     gap: 0.5rem;
@@ -73,6 +88,7 @@ h1, h1 a {
     margin: 1rem auto 2rem;
     width: fit-content;
     font-size: 3rem;
+    text-align: center;
 }
 .neh-message {
     display: flex;
@@ -149,6 +165,7 @@ margin-bottom: 1rem;
 }
 form input, label, select {
     flex-basis: 70%;
+    min-width: 70%;
     flex-grow: 1;
     font-size: 1.5rem;
 }
@@ -179,6 +196,7 @@ form input, label, select {
 .neh-function-buttons {
     justify-content: center;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
 }
 .neh-function-buttons form {
     margin: 0;
@@ -1344,9 +1362,11 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
     $group_id = $_SESSION['active_group'];
     $user_id = $_SESSION['user_id'];
     updateAllEmailNotificationSettings($group_id, $user_id);
-    renderGroupEventsPage($group_id);;
+    renderGroupEventsPage($group_id);
 }
 ?>
+
+<div class='neh-hogwild-footer'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
 
 <script>
     var page_mode = '<?php echo $page_mode?>'
