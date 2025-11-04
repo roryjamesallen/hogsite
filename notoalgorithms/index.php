@@ -118,7 +118,6 @@ function renderSuggestedSpellings($entered_artists = ['first_artist','second_art
 				}
 			}
 		}
-		$result->data_seek(0);
 	}
 	if ($questions_asked != 0) { // If any were asked then close the div
 		echo "</div>";
