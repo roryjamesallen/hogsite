@@ -28,7 +28,7 @@ openSqlConnection('wildhog_nothingeverhappens', '../sql_login_wildhog_nothingeve
         --page-width: 90vw;
     }
     html {
-        font-size: 24px;
+        //font-size: 24px;
     }
 }
 body {
