@@ -1522,9 +1522,19 @@ if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
 
-document.getElementById("event-tab-list-call-toggle").addEventListener("click", toggleListContent);
-document.getElementById("event-tab-list-called-toggle").addEventListener("click", toggleListContent);
-document.getElementById("event-tab-list-resolved-toggle").addEventListener("click", toggleListContent);
-document.getElementById("event-tab-list-past-toggle").addEventListener("click", toggleListContent);
-document.getElementById("event-tab-list-cancelled-toggle").addEventListener("click", toggleListContent);
+var toggle_ids = [
+    "event-tab-list-call-toggle",
+    "event-tab-list-called-toggle",
+    "event-tab-list-resolved-toggle",
+    "event-tab-list-past-toggle",
+    "event-tab-list-cancelled-toggle"
+];
+
+for (var i = 0; i < toggle_ids.length; i++) {
+    try {
+        document.getElementById(toggle_ids[i]).addEventListener("click", toggleListContent);
+    } catch (error) {
+        // do nothing
+    }
+}
 </script>
