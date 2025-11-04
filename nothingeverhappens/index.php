@@ -167,10 +167,25 @@ form, .option-container {
     margin-bottom: -0.5rem;
 }
 .neh-you-voted:before {
-    content: "YOU VOTED";
+    content: "YOU CALLED";
 }
 .neh-point-change:before {
     content: "POINTS WON";
+}
+.neh-waiting-for:before {
+    content: "WAITING FOR";
+}
+.neh-too-slow:before {
+    content: "TOO SLOW";
+}
+.neh-place-bet:before {
+    content: "MAKE CALL";
+}
+.neh-cancelled:before {
+    content: "CANCELLED";
+}
+.neh-set-outcome:before {
+    content: "SET OUTCOME";
 }
 #create-options-list {
 width: 100%;
@@ -188,6 +203,7 @@ form input, label, select {
 .neh-input[type="submit"], .neh-input[type="button"]{
     flex-basis: 30%;
     flex-grow: 1;
+    min-width: unset;
 }
 .neh-input[type="submit"]:hover, .neh-input[type="button"]:hover{
     text-decoration: underline;
@@ -426,9 +442,13 @@ function attemptLogin($username, $guessed_password){
 		return '';
 	}
 }
-function createEvent($event_id, $group_id, $user_id, $question, $deadline){
+function createEvent($event_id, $group_id, $user_id, $question, $deadline, $event_date){
     $deadline = intval(strtotime($deadline));
-	if ($deadline < time() and false){ // temporarily disabled for testing
+    $event_date = intval(strtotime($event_date));
+    if ($event_date == null){
+        $event_date = $deadline;
+    }
+	if ($deadline < time() and ($event_date < time() or $event_date == $deadline)){ // Voting deadline can't have passed and neither can event date (if set)
 		return 'Date cannot have already passed';
 	} else if (!empty(sqlQuery("SELECT * FROM events WHERE question='".$question."' AND deadline='".$deadline."' AND user_id='".$user_id."'"))) {
 		return '';
@@ -437,7 +457,7 @@ function createEvent($event_id, $group_id, $user_id, $question, $deadline){
 	if ($submit_options_message != '') {
         return $submit_options_message;
     } else {
-		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "0", "null")');	
+		sqlQuery('INSERT INTO events (event_id, group_id, user_id, question, deadline, event_date, cancelled, option_id) VALUES ("'.$event_id.'", "'.$group_id.'", "'.$user_id.'", "'.$question.'", "'.$deadline.'", "'.$event_date.'", "0", "null")');	
 	}
 }
 function checkIfDeadlineHasPassed($event_id){
@@ -784,34 +804,31 @@ function renderAllCallsForEvent($event_id){
         echo '</div>';
     }
 }
-function renderKey(){
-    return '⏳: It\'s time to make a call!<br>'.
-        '🐌: You didn\'t make a call before the deadline<br>'.
-        '⚠️✎: You need to set the outcome now the deadline has passed<br>'.
-        '✖️: Event cancelled<br>';
-}
 function renderEventTabNote($event_id){
     $note = '<div class="neh-event-tab-note ';
     if (checkIfEventIsCancelled($event_id)){ // Cancelled
-        $note .= '">';
+        $note .= 'neh-note-before neh-cancelled">';
         $note .= '✖️';
     } else if (checkIfEventIsResolved($event_id)){ //  Resolved
         if (getUsersCall($event_id) != null){
             $note .= 'neh-note-before neh-point-change">';
             $note .= renderPoints(calculateUserPoints($event_id, $_SESSION['user_id'])); // User called resolved event, show points
         } else {
-            $note .= '">';
+            $note .= 'neh-note-before neh-too-slow">';
             $note .= '🐌'; // User didn't place a call and event is now resolved
         }
-    } else { // Still live
+    } else { // Still unresolved/live
         if (checkIfDeadlineHasPassed($event_id) and getCreatorByEventId($event_id) == $_SESSION['user_id']){ // Unresolved, deadline passed and user is creator
-            $note .= '">';
+            $note .= 'neh-note-before neh-set-outcome">';
             $note .= '⚠️✎';
+        } else if (checkIfDeadlineHasPassed($event_id)){ // Unresolved, deadline passed and user is not creator
+            $note .= 'neh-note-before neh-waiting-for">';
+            $note .= getUsernameById(getCreatorByEventId($event_id));
         } else if (getUsersCall($event_id) != null){ // Unresolved and user has placed bet
             $note .= 'neh-note-before neh-you-voted">';
             $note .= getOptionTextFromId(getUsersCall($event_id));
         } else { // Unresolved and user hasn't bet yet
-            $note .= '">';
+            $note .= 'neh-note-before neh-place-bet">';
             $note .= '⏳';
         }
     }
@@ -942,11 +959,21 @@ function renderGroupEventsPage($group_id){
     }
     echo '</div>';
     renderBlock('');
-    renderHeading('Past Events', 'event-tab-list-past-toggle', 'neh-collapsed-heading');
+    renderHeading('Calling Ended', 'event-tab-list-past-toggle', 'neh-collapsed-heading');
     echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-past-content">';
     foreach ($group_events as $event){
         $event_id = $event['event_id'];
-        if (checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id)){
+        if (checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and !checkIfEventIsResolved($event_id)){
+            echo renderEventTab($event_id);
+        }
+    }
+    echo '</div>';
+    renderBlock('');
+    renderHeading('Resolved', 'event-tab-list-resolved-toggle', 'neh-collapsed-heading');
+    echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-resolved-content">';
+    foreach ($group_events as $event){
+        $event_id = $event['event_id'];
+        if (checkIfEventIsResolved($event_id)){
             echo renderEventTab($event_id);
         }
     }
@@ -961,8 +988,6 @@ function renderGroupEventsPage($group_id){
         }
     }
     echo '</div>';
-    renderBlock('');
-    renderBlock(renderKey());
 }
 function renderJoinGroupPage(){
 	return renderFunctionButtons(['View Groups']).
@@ -984,7 +1009,8 @@ function renderCreateEventPage($group_id){
 		'attempt_create_event',
 		'Create',
 		renderInput('question','text','Question').
-		renderInput('deadline','datetime-local','Deadline').
+		renderInput('deadline','datetime-local','Call Deadline').
+        renderInput('event_date','datetime-local','Event Date (Leave blank if same as deadline)').
         renderDefaultOptions().
 		renderInput('group_id','hidden','',$group_id)
 	);
@@ -992,7 +1018,7 @@ function renderCreateEventPage($group_id){
 function renderEventPage($event_id){
 	echo renderFunctionButtons(['View Groups','View Events']);
 	$event = getEventFromId($event_id);
-    renderHeading($event['question'].' by '.unixToDate($event['deadline']).'?<br>');
+    renderHeading($event['question']);
     $deadline_passed = checkIfDeadlineHasPassed($event_id);
     $event_creator = getCreatorByEventId($event_id);
     $event_outcome = getEventOutcome($event_id);
@@ -1000,9 +1026,9 @@ function renderEventPage($event_id){
     $users_call = getUsersCall($event_id);
 
     if ($deadline_passed or $event_outcome != 'null' or $event_cancelled){
-        if ($users_call != null){
+        if ($users_call != null){ // Betting has ended and user did make a call
             renderMessage('You called '.getOptionTextFromId($users_call));
-        } else {
+        } else { // Betting has ended and user didn't call
             renderMessage('You did not make a call');
         }
         if ($event_cancelled){
@@ -1016,13 +1042,21 @@ function renderEventPage($event_id){
         }
     } else {
         $remaining_time = unixToUsefulText($event['deadline'] - time());
+
+        if ($event['event_date'] != $event['deadline'] and $event['event_date'] != 0){
+            $until_event = unixToUsefulText($event['event_date'] - time());
+            $until_event_text = '<br><br>The event is in '.$until_event;
+        } else {
+            $until_event_text = '';
+        }
+        
 		if ($users_call == null) {
-			renderMessage('Betting ends in '.$remaining_time);
+			renderMessage('Betting ends in '.$remaining_time.$until_event_text);
 			echo renderViewEventOptions($event_id); // Show selector to make call
             renderBlock('');
 		} else {
 			renderMessage('You have called '.getOptionTextFromId($users_call)); // Add user call date field? You called x on y date
-            renderMessage('Betting ends in '.$remaining_time);
+            renderMessage('Betting ends in '.$remaining_time.$until_event_text);
 		}
     }
     renderAllCallsForEvent($event_id);
@@ -1306,7 +1340,7 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
 	$group_id = $_SESSION['active_group'];
     if ($_SESSION['event_already_created'] != true){ // Check this isn't a form resubmission with the same values
         $event_id = 'evt'.uniqid();
-        $create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline']);
+        $create_event_message = createEvent($event_id, $_POST['group_id'], $_SESSION['user_id'], $_POST['question'], $_POST['deadline'], $_POST['event_date']);
         if ($create_event_message == ''){ // User's new event details were accepted and it was submitted
             $_SESSION['event_already_created'] = true;
             $_SESSION['active_event'] = $event_id;
@@ -1481,6 +1515,7 @@ if ( window.history.replaceState ) {
 
 document.getElementById("event-tab-list-call-toggle").addEventListener("click", toggleListContent);
 document.getElementById("event-tab-list-called-toggle").addEventListener("click", toggleListContent);
+document.getElementById("event-tab-list-resolved-toggle").addEventListener("click", toggleListContent);
 document.getElementById("event-tab-list-past-toggle").addEventListener("click", toggleListContent);
 document.getElementById("event-tab-list-cancelled-toggle").addEventListener("click", toggleListContent);
 </script>

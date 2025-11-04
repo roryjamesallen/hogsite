@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `user_id` VARCHAR(16) NOT NULL,
   `question` VARCHAR(64) NOT NULL,
   `deadline` INT(11) NOT NULL,
+  `event_date` INT(11) NOT NULL,
   `cancelled` VARCHAR(1) NOT NULL,
   `option_id` VARCHAR(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
