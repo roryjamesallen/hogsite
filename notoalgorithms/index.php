@@ -78,6 +78,7 @@ function renderArtistList($relations) { // Relations in format [artist: number o
 			style='font-size: ".$font_size."'>".urldecode($related_artist).$comma."
 		</a></h3><br>";
 	}
+    echo "<div class='nta-footer'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>";
 	echo "</div>";
 }
 
@@ -337,6 +338,24 @@ cursor: pointer;
 			.artist-name {
 				word-wrap: anywhere;
 			}
+.nta-footer {
+                text-align: center;
+    flex-basis: 100%;
+    margin: 2rem 0 4rem;
+                font-size: 2rem;
+            }
+.button-as-link {
+                background: none;
+                border: none;
+                padding: 0;
+                font-size: unset;
+                color: #069 !important;
+                cursor: pointer;
+                text-decoration: none;
+            }
+.button-as-link:hover {
+    text-decoration: underline;
+}
 			.heading {
 				font-size: 2rem;
 				text-align: center;
@@ -422,7 +441,6 @@ cursor: pointer;
 		</style>
 	</head>
             <body>
-<?php echo $standard_toolbar;?> 
 <?php echo $buffer; ?>           
             <script>
 			var showing_info = false;
