@@ -922,8 +922,8 @@ function renderGroupEventsPage($group_id){
     }
 	renderMessage($button.$members);
 	$group_events = getGroupEventsById($group_id);
-	renderHeading('Make A Call');
-    echo '<div class="neh-event-tab-list">';
+	renderHeading('Make A Call', 'event-tab-list-call-toggle', 'neh-collapsible-heading');
+    echo '<div class="neh-event-tab-list" id="event-tab-list-call-content">';
 	foreach ($group_events as $event){
         $event_id = $event['event_id'];
         if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) == null){
@@ -932,8 +932,8 @@ function renderGroupEventsPage($group_id){
     }
     echo '</div>';
     renderBlock('');
-    renderHeading('Called Events');
-    echo '<div class="neh-event-tab-list">';
+    renderHeading('Called Events', 'event-tab-list-called-toggle', 'neh-collapsible-heading');
+    echo '<div class="neh-event-tab-list" id="event-tab-list-called-content">';
 	foreach ($group_events as $event){
         $event_id = $event['event_id'];
         if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) != null){
@@ -1479,6 +1479,8 @@ if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
 
+document.getElementById("event-tab-list-call-toggle").addEventListener("click", toggleListContent);
+document.getElementById("event-tab-list-called-toggle").addEventListener("click", toggleListContent);
 document.getElementById("event-tab-list-past-toggle").addEventListener("click", toggleListContent);
 document.getElementById("event-tab-list-cancelled-toggle").addEventListener("click", toggleListContent);
 </script>
