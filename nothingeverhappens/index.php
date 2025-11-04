@@ -123,9 +123,15 @@ form, .option-container {
     height: 0;
     padding: 0;
 }
+.neh-collapsed-heading, .neh-collapsible-heading {
+    cursor: pointer;
+}
 .neh-collapsed-heading {
     background: var(--medium-grey) !important;
     border: 1px solid;
+}
+.neh-collapsed-heading:hover, .neh-collapsible-heading:hover {
+    text-decoration: underline;
 }
 .neh-collapsed-heading:before, .neh-collapsible-heading:before {
 }
