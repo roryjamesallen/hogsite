@@ -117,6 +117,19 @@ form, .option-container {
     margin: 0 auto;
     gap: 1rem;
     padding: 1rem 0;
+    overflow: hidden;
+}
+.neh-collapsed {
+    height: 0;
+    padding: 0;
+}
+.neh-collapsed-heading:before, .neh-collapsible-heading:before {
+}
+.neh-collapsed-heading:after {
+    content: " ▸";
+}
+.neh-collapsible-heading:after {
+    content: " ▾";
 }
 .neh-event-tab-list .neh-block {
     background: white;
@@ -321,7 +334,7 @@ function getGroupUsernamesById($group_id){
 	return $usernames;
 }
 function getGroupEventsById($group_id){
-	return sqlQuery("SELECT * FROM events where group_id='".$group_id."'");
+	return sqlQuery("SELECT * FROM events where group_id='".$group_id."' ORDER BY deadline");
 }
 function addUserToGroup($user_id, $group_id){
 	$group_exists = !empty(sqlQuery("SELECT * FROM groups WHERE group_id='".$group_id."'"));
@@ -696,8 +709,8 @@ function renderFunctionButtons($button_destinations=[]){
 function renderMessage($message){
 	echo '<div class="neh-message">'.$message.'</div>';
 }
-function renderHeading($message){
-	echo '<div class="neh-heading">'.$message.'</div>';
+function renderHeading($message, $id='', $class=''){
+	echo '<div class="neh-heading '.$class.'" id="'.$id.'">'.$message.'</div>';
 }
 function renderBlock($message){
 	echo '<div class="neh-block">'.$message.'</div>';
@@ -926,12 +939,11 @@ function renderGroupEventsPage($group_id){
         if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) != null){
             echo renderEventTab($event_id);
         }
-        
     }
     echo '</div>';
     renderBlock('');
-    renderHeading('Past Events');
-    echo '<div class="neh-event-tab-list">';
+    renderHeading('Past Events', 'event-tab-list-past-toggle', 'neh-collapsed-heading');
+    echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-past-content">';
     foreach ($group_events as $event){
         $event_id = $event['event_id'];
         if (checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id)){
@@ -940,8 +952,8 @@ function renderGroupEventsPage($group_id){
     }
     echo '</div>';
     renderBlock('');
-    renderHeading('Cancelled Events');
-    echo '<div class="neh-event-tab-list">';
+    renderHeading('Cancelled Events', 'event-tab-list-cancelled-toggle', 'neh-collapsed-heading');
+    echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-cancelled-content">';
     foreach ($group_events as $event){
         $event_id = $event['event_id'];
         if (checkIfEventIsCancelled($event_id)){
@@ -1440,6 +1452,21 @@ if ($page_mode == 'render_login'){ // User isn't logged in and hasn't tried to y
         document.getElementById('add_option').addEventListener('click', addOption);
     }
 
+function toggleListContent(event){
+    var heading = document.getElementById(event.target.id);
+    var content_id = event.target.id.replace("-toggle","-content");
+    var content = document.getElementById(content_id);
+    if (content.classList.contains("neh-collapsed")){
+        content.classList.remove("neh-collapsed");
+        heading.classList.remove("neh-collapsed-heading");
+        heading.classList.add("neh-collapsible-heading");
+    } else {
+        content.classList.add("neh-collapsed");
+        heading.classList.remove("neh-collapsible-heading");
+        heading.classList.add("neh-collapsed-heading");
+    }
+}
+
 function copyText(element_id){
     navigator.clipboard.writeText(element_id);
     document.getElementById(element_id).innerHTML = 'Copied';
@@ -1451,4 +1478,7 @@ if (document.getElementById('create-options-list') != null){
 if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
+
+document.getElementById("event-tab-list-past-toggle").addEventListener("click", toggleListContent);
+document.getElementById("event-tab-list-cancelled-toggle").addEventListener("click", toggleListContent);
 </script>
