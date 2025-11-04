@@ -123,6 +123,10 @@ form, .option-container {
     height: 0;
     padding: 0;
 }
+.neh-collapsed-heading {
+    background: var(--medium-grey) !important;
+    border: 1px solid;
+}
 .neh-collapsed-heading:before, .neh-collapsible-heading:before {
 }
 .neh-collapsed-heading:after {
@@ -238,8 +242,9 @@ form input, label, select {
     text-align: center;
     font-size: 1.5rem;
     background: var(--pale-grey);
+    transition: background 0.25s;
 }
-.neh-block {
+.neh-block {<
     text-align: left;
     border: none;
     background: none;
@@ -463,6 +468,14 @@ function createEvent($event_id, $group_id, $user_id, $question, $deadline, $even
 function checkIfDeadlineHasPassed($event_id){
     $event_deadline = sqlQuery('SELECT deadline FROM events WHERE event_id="'.$event_id.'"')[0]['deadline'];
     if (intval($event_deadline) < time()){
+        return true;
+    } else {
+        return false;
+    }
+}
+function checkIfEventDateHasPassed($event_id){
+    $event_date = sqlQuery('SELECT event_date FROM events WHERE event_id="'.$event_id.'"')[0]['event_date'];
+    if (intval($event_date) < time() and intval($event_date) != 0){
         return true;
     } else {
         return false;
@@ -818,10 +831,10 @@ function renderEventTabNote($event_id){
             $note .= '🐌'; // User didn't place a call and event is now resolved
         }
     } else { // Still unresolved/live
-        if (checkIfDeadlineHasPassed($event_id) and getCreatorByEventId($event_id) == $_SESSION['user_id']){ // Unresolved, deadline passed and user is creator
+        if (checkIfEventDateHasPassed($event_id) and getCreatorByEventId($event_id) == $_SESSION['user_id']){ // Event date has passed and user is creator
             $note .= 'neh-note-before neh-set-outcome">';
             $note .= '⚠️✎';
-        } else if (checkIfDeadlineHasPassed($event_id)){ // Unresolved, deadline passed and user is not creator
+        } else if (checkIfEventDateHasPassed($event_id) or checkIfDeadlineHasPassed($event_id)){ // Event date or deadline has passed and user isn't creator
             $note .= 'neh-note-before neh-waiting-for">';
             $note .= getUsernameById(getCreatorByEventId($event_id));
         } else if (getUsersCall($event_id) != null){ // Unresolved and user has placed bet
@@ -939,55 +952,51 @@ function renderGroupEventsPage($group_id){
     }
 	renderMessage($button.$members);
 	$group_events = getGroupEventsById($group_id);
-	renderHeading('Make A Call', 'event-tab-list-call-toggle', 'neh-collapsible-heading');
-    echo '<div class="neh-event-tab-list" id="event-tab-list-call-content">';
-	foreach ($group_events as $event){
-        $event_id = $event['event_id'];
-        if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) == null){
-            echo renderEventTab($event_id);
-        }
-    }
-    echo '</div>';
-    renderBlock('');
-    renderHeading('Called Events', 'event-tab-list-called-toggle', 'neh-collapsible-heading');
-    echo '<div class="neh-event-tab-list" id="event-tab-list-called-content">';
-	foreach ($group_events as $event){
-        $event_id = $event['event_id'];
-        if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) != null){
-            echo renderEventTab($event_id);
-        }
-    }
-    echo '</div>';
-    renderBlock('');
-    renderHeading('Calling Ended', 'event-tab-list-past-toggle', 'neh-collapsed-heading');
-    echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-past-content">';
+
+    $need_resolving = [];
+    $make_call = [];
+    $called_events = [];
+    $calling_ended = [];
+    $resolved = [];
+    $cancelled = [];
+
     foreach ($group_events as $event){
         $event_id = $event['event_id'];
-        if (checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and !checkIfEventIsResolved($event_id)){
-            echo renderEventTab($event_id);
+        if (checkIfEventDateHasPassed($event_id) and $_SESSION['user_id'] == getCreatorByEventId($event_id) and !checkIfEventIsResolved($event_id) and !checkIfEventIsCancelled($event_id)){
+            $need_resolving[] = $event_id;
+        } else if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) == null){
+            $make_call[] = $event_id;
+        } else if (!checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and getUsersCall($event_id) != null){
+            $called_events[] = $event_id;
+        } else if (checkIfDeadlineHasPassed($event_id) and !checkIfEventIsCancelled($event_id) and !checkIfEventIsResolved($event_id)){
+            $calling_ended[] = $event_id;
+        } else if (checkIfEventIsResolved($event_id)){
+            $resolved[] = $event_id;
+        } else if (checkIfEventIsCancelled($event_id)){
+            $cancelled[] = $event_id;
         }
     }
-    echo '</div>';
-    renderBlock('');
-    renderHeading('Resolved', 'event-tab-list-resolved-toggle', 'neh-collapsed-heading');
-    echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-resolved-content">';
-    foreach ($group_events as $event){
-        $event_id = $event['event_id'];
-        if (checkIfEventIsResolved($event_id)){
-            echo renderEventTab($event_id);
+
+    $heading_parameters = [
+        ['Set Outcome Now!', '', '', $need_resolving],
+        ['Make A Call', 'call', 'collapsible', $make_call],
+        ['Called Events', 'called', 'collapsible', $called_events],
+        ['Calling Ended', 'past', 'collapsed', $calling_ended],
+        ['Resolved', 'resolved', 'collapsed', $resolved],
+        ['Cancelled Events', 'cancelled', 'collapsed', $cancelled]];
+    
+    foreach ($heading_parameters as $parameter_list){
+        $event_count = count($parameter_list[3]);
+        if ($event_count != 0){ // Only show if there are events in category
+            renderHeading($parameter_list[0], 'event-tab-list-'.$parameter_list[1].'-toggle', 'neh-'.$parameter_list[2].'-heading');
+            echo '<div class="neh-event-tab-list neh-'.$parameter_list[2].'" id="event-tab-list-'.$parameter_list[1].'-content">';
+            foreach ($parameter_list[3] as $event_id){
+                echo renderEventTab($event_id);
+            }
+            echo '</div>';
+            renderBlock('');
         }
     }
-    echo '</div>';
-    renderBlock('');
-    renderHeading('Cancelled Events', 'event-tab-list-cancelled-toggle', 'neh-collapsed-heading');
-    echo '<div class="neh-event-tab-list neh-collapsed" id="event-tab-list-cancelled-content">';
-    foreach ($group_events as $event){
-        $event_id = $event['event_id'];
-        if (checkIfEventIsCancelled($event_id)){
-            echo renderEventTab($event_id);
-        }
-    }
-    echo '</div>';
 }
 function renderJoinGroupPage(){
 	return renderFunctionButtons(['View Groups']).
