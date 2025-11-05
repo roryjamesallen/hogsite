@@ -74,6 +74,9 @@ body {
 .neh-message {
     margin: 0.5rem 0;
 }
+.neh-leaderboard-points {
+    margin-left: 0.5rem;
+}
 label {
     display: block;
     margin: 0.5rem 0;
@@ -553,6 +556,13 @@ function setEventOutcome($event_id, $option_id){
 function cancelEvent($event_id){
     sqlQuery('UPDATE events SET cancelled=1 WHERE event_id="'.$event_id.'"');
 }
+function calculateUserPointsForGroup($user_id, $group_id){
+    $points = 0;
+    foreach (getGroupEventsById($group_id) as $event){
+        $points += calculateUserPoints($event['event_id'], $user_id);
+    }
+    return $points;
+}
 function calculateUserPoints($event_id, $user_id){
     if (checkIfEventIsResolved($event_id)){
         $user_call = getUsersCallById($event_id, $user_id);
@@ -942,14 +952,21 @@ function renderGroupEventsPage($group_id){
 	echo renderFunctionButtons($function_buttons);
 	$group_name = getGroupNameById($group_id);
 	$group_usernames = getGroupUsernamesById($group_id);
-	$members = '';
+    
+    $member_points = [];
 	foreach ($group_usernames as $key => $username){
+        $member_points[$username] = calculateUserPointsForGroup(getUserIdByUsername($username), $group_id);
+    }
+    arsort($member_points);
+    $members = '';
+    foreach ($member_points as $username => $points){
         $admin_class = '';
         if ($username == getUsernameById($group_admin)){
             $admin_class = 'neh-admin';
         }
-        $members .= '<a class="neh-username-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'</a>';
+        $members .= '<a class="neh-username-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'<span class="neh-leaderboard-points">'.renderPoints($points).'</span></a>'; 
 	}
+    
     renderHeading($group_name);
     if (isGroupPublic($group_id)){
         $button = renderCopyTextButton($group_id, "Copy Group ID");
@@ -1040,30 +1057,30 @@ function renderEventPage($event_id){
     $event_cancelled = checkIfEventIsCancelled($event_id);
     $users_call = getUsersCall($event_id);
 
+    if ($event['event_date'] != $event['deadline'] and $event['event_date'] != 0){
+        $until_event = unixToUsefulText($event['event_date'] - time());
+        $until_event_text = '<br><br>The event is in '.$until_event;
+    } else {
+        $until_event_text = '';
+    }
+    
     if ($deadline_passed or $event_outcome != 'null' or $event_cancelled){
         if ($users_call != null){ // Betting has ended and user did make a call
             renderMessage('You called '.getOptionTextFromId($users_call));
         } else { // Betting has ended and user didn't call
-            renderMessage('You did not make a call');
+            renderMessage('You did not make a call'.$until_event_text);
         }
         if ($event_cancelled){
             renderMessage('The event was cancelled');
         } else if ($event_outcome != 'null'){
             renderMessage('The outcome was '.getOptionTextFromId($event_outcome));
         } else if ($_SESSION['user_id'] == $event_creator){
-			renderMessage('Points will be calculated once you set the outcome');
+			renderMessage('Points will be calculated once you set the outcome'.$until_event_text);
         } else {
-            renderMessage('Points will be calculated once '.getUsernameById($event_creator).' sets the outcome');
+            renderMessage('Points will be calculated once '.getUsernameById($event_creator).' sets the outcome'.$until_event_text);
         }
     } else {
         $remaining_time = unixToUsefulText($event['deadline'] - time());
-
-        if ($event['event_date'] != $event['deadline'] and $event['event_date'] != 0){
-            $until_event = unixToUsefulText($event['event_date'] - time());
-            $until_event_text = '<br><br>The event is in '.$until_event;
-        } else {
-            $until_event_text = '';
-        }
         
 		if ($users_call == null) {
 			renderMessage('Betting ends in '.$remaining_time.$until_event_text);
