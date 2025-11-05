@@ -35,6 +35,9 @@ body {
     font-family: Arial;
     background: var(--medium-grey);
 }
+.hidden {
+    display: none !important;
+}
 .button-as-link {
     background: none;
     border: none;
@@ -234,6 +237,7 @@ form input, label, select {
 .neh-input[type="checkbox" i] {
     height: 1.5rem;
     flex-basis: 0;
+    min-width: 0;
 }
 .neh-function-buttons {
     justify-content: center;
@@ -755,8 +759,8 @@ function renderFunctionButtons($button_destinations=[]){
 	}
 	return $function_buttons.'</div>';
 }
-function renderMessage($message){
-	echo '<div class="neh-message">'.$message.'</div>';
+function renderMessage($message, $id=''){
+	echo '<div class="neh-message" id="'.$id.'">'.$message.'</div>';
 }
 function renderHeading($message, $id='', $class=''){
 	echo '<div class="neh-heading '.$class.'" id="'.$id.'">'.$message.'</div>';
@@ -964,7 +968,7 @@ function renderGroupEventsPage($group_id){
         if ($username == getUsernameById($group_admin)){
             $admin_class = 'neh-admin';
         }
-        $members .= '<a class="neh-username-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'<span class="neh-leaderboard-points">'.renderPoints($points).'</span></a>'; 
+        $members .= '<a class="neh-username-link '.$admin_class.'" href="'.$current_url_without_parameters.'?usr='.$username.'">'.$username.'<span class="neh-leaderboard-points hidden">'.renderPoints($points).'</span></a>'; 
 	}
     
     renderHeading($group_name);
@@ -973,7 +977,10 @@ function renderGroupEventsPage($group_id){
     } else {
         $button = '';
     }
-	renderMessage($button.$members);
+
+    $toggle = '<div id="toggle-user-scores" class="neh-copy-text-button">Show Points</div>';
+
+	renderMessage($button.$toggle.$members, 'user-list');
 	$group_events = getGroupEventsById($group_id);
 
     $need_resolving = [];
@@ -1545,6 +1552,22 @@ if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
 
+function toggleUserScores(){
+    var usernames = document.getElementById('user-list').childNodes;
+    for (var i = 0; i < usernames.length; i++) {
+        if (usernames[i].classList.contains("neh-username-link")){
+            var span = usernames[i].getElementsByTagName("span")[0];
+            if (span.classList.contains("hidden")){
+                span.classList.remove("hidden");
+                document.getElementById("toggle-user-scores").innerHTML = "Hide Points";
+            } else {
+                span.classList.add("hidden");
+                document.getElementById("toggle-user-scores").innerHTML = "Show Points";
+            }
+        }
+    }
+}
+
 var toggle_ids = [
     "event-tab-list-call-toggle",
     "event-tab-list-called-toggle",
@@ -1559,5 +1582,10 @@ for (var i = 0; i < toggle_ids.length; i++) {
     } catch (error) {
         // do nothing
     }
+}
+try {
+    document.getElementById('toggle-user-scores').addEventListener("click", toggleUserScores);
+} catch (error) {
+    // do nothing
 }
 </script>
