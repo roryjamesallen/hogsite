@@ -1,8 +1,7 @@
 <?php
+ob_start(); // Begin output buffering to allow output to be rendered after html head
 include '../lib/generic_content.php';
 openSqlConnection('wildhog_notoalgorithms', '../sql_login_wildhog_notoalgorithms.php');
-
-ob_start(); // Begin output buffering to allow output to be rendered after html head
 
 if (!isset($_GET['submit_confident'])) {
 	echo "<h1 class='page-title'><a href=".$_SERVER['PHP_SELF'].">no to algorithms!</a></h1>";
@@ -201,6 +200,7 @@ if (isset($_GET['new_submission'])) {
 	//render write boxes
 } elseif (isset($_GET['submit']) && isset($_GET['issue_ip'])) { // ip always sent with issue
 	writeIssue();
+    $buffer = ob_get_clean();
 	header('Location: '.$_SERVER['PHP_SELF'].'?message=issue submitted, thanks :)');
 } elseif (isset($_GET['submit']) && isset($_GET['first_artist'])) { // Receiving a submission, write to database (after spelling checks)
 	if ($_GET['first_artist'] == "" or $_GET['second_artist'] == "") {
@@ -257,6 +257,7 @@ if (isset($_GET['new_submission'])) {
 	}
 } elseif (isset($_GET['submit_confident'])) { // User specifically confirmed they think their spelling etc is correct so just write to database
 	if (writeToDatabase($ip_address)) {
+        $buffer = ob_get_clean();
         header('Location: '.$_SERVER['PHP_SELF'].'?message=recommendation submitted, thanks :)');
     }
 } elseif(isset($_GET['artist'])) {
