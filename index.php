@@ -68,19 +68,43 @@ if ($country_code == ""){
     $location_message = ' this time you landed in '.$location_info['countryName'].' '.getEmojiFromCountryCode($country_code).'!';
 }
 
-
 $tristan_webpage = file_get_contents("https://www.tristandc.com/population.php");
 foreach (explode("strong>",$tristan_webpage) as $strong_element){
     if (str_contains($strong_element, "There are") and str_contains($strong_element, "Tristan da Cunha Islanders")){
         $tristan_inhabitants_text = htmlspecialchars(str_replace('"','',str_replace("</","",$strong_element)));
     }
 }
-
-
+    
 if (isset($_GET['mail'])){
     if (count(sqlQuery("SELECT * FROM mailing_list WHERE email='".$_GET['mail']."'")) == 0){ // Only if user isn't already in mailing list
         sqlQuery("INSERT INTO mailing_list (email, time) VALUES ('".$_GET['mail']."', '".time()."')");
     }
+} else if (isset($_POST['song_link'])){ // User set a song link
+    $link = $_POST['song_link'];
+    $song_text = '';
+    $prevent_long_polling = false;
+    if ($link != null){
+        $link = explode("?",$link)[0];
+        if (sqlQuery('SELECT * FROM song_links WHERE link="'.$link.'"') == null and str_contains($link, "spotify")){
+            sqlQuery('INSERT INTO song_links (link, submitted, ip_address) VALUES ("'.$link.'", "'.time().'", "'.$ip_address.'")');
+        } else if (str_contains($link, "spotify")){
+            $song_text = "Song has been submitted before";
+        } else {
+            $song_text = "That's not a valid Spotify link";
+        }
+    } else {
+        $song_text = "Link can't be blank";
+    }
+    if ($song_text == ''){
+        $info = getSongInfoFromLink(getNewestSongLink());
+        $song_text = 'Someone recommends listening to '.$info['name'].' by '.$info['artist'];
+    } else {
+        $prevent_long_polling = true;
+    }
+} else {
+    $info = getSongInfoFromLink(getNewestSongLink());
+    $song_text = 'Someone recommends listening to '.$info['name'].' by '.$info['artist'];
+    $prevent_long_polling = false;
 }
 ?>
 
@@ -89,6 +113,7 @@ if (isset($_GET['mail'])){
 <head>
     <?php echo $standard_header_content;?>
     <link rel="canonical" href="https://hogwild.uk" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Home of The Wild Hogs</title>
 </head>
 
@@ -109,6 +134,11 @@ if (isset($_GET['mail'])){
         justify-content: center;
         margin-top: 3rem;
                          }
+input:focus-visible {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
 </style>
 
 <body>
@@ -169,9 +199,16 @@ if (isset($_GET['mail'])){
     <form action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
     <h2 class="hidden-heading">Subscribe to the Hog Wild Mailing List</h2>
     <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List" style="transform: scale(0.7);">
-    <input type="email" placeholder="Email Address" name="mail" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png);">
+    <input type="email" placeholder="Email Address" name="mail" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png);  background-position-y: 0.25rem;">
     <input type="submit" class="button" value="" style="background-image: url(images/buttons/subscribe.png); width: 250px;
  height: 96px; background-color: white; border: none; transform: scale(0.9); cursor: pointer;">
+    </form>
+
+    <form method="POST" action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
+    <h2 class="hidden-heading">Submit a song recommendation</h2>
+    <div id='song-text' class="song-link" style="width: 90%; margin-top: 1.5rem;"><?php echo $song_text;?></div>
+    <input placeholder="Spotify Link" name="song_link" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.75rem;">
+    <input type="submit" style="width: 80%; margin-bottom: 2rem;" value="Recommend Song">
     </form>
     </div>
     
@@ -195,7 +232,7 @@ if (isset($_GET['mail'])){
             </div>
 
     <div class="lisboa-big-container">
-	<div class="random-joke" style="max-width: 90%;">Today's Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div></div>
+	<div class="random-joke" style="max-width: 90%;">Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div></div>
 
 
 
@@ -206,8 +243,44 @@ if (isset($_GET['mail'])){
 </div>
 </body>
 
-<script type="module">
+<script type='module'>
     import { start_image_loop } from './lib/hoglib.js';
     start_image_loop('hogspin', 8, 150);
+
+var prevent_long_polling = <?php echo $prevent_long_polling;?>
+
+function updateSongText(text){
+    document.getElementById('song-text').innerHTML = text;
+}
+
+function waitForMsg(){
+    /* This requests the url "msgsrv.php"
+       When it complete (or errors)*/
+    $.ajax({
+            type: "GET",
+                url: "long_poll.php",
+                async: true, /* If set to non-async, browser shows page as "Loading.."*/
+                cache: false,
+                timeout:50000, /* Timeout in ms */
+
+                success: function(text){ /* called when request to barge.php completes */
+                    updateSongText(text); /* Add response to a .msg div (with the "new" class)*/
+                    setTimeout(
+                        waitForMsg, /* Request next message */
+                        1000 /* ..after 1 seconds */
+                    );
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                }
+                });
+};
+
+$(document).ready(function(){
+    if (!prevent_long_polling){
+        waitForMsg(); /* Start the inital request */
+    }
+});
+
+
 </script>
 </html>

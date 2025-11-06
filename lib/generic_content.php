@@ -78,4 +78,22 @@ function recordUserVisit(){
 	global $ip_address;
 	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
 }
+
+function getNewestSongLink(){
+    return sqlQuery("SELECT * FROM song_links ORDER BY submitted DESC")['0']['link'];
+}
+
+/* Other Functions */
+function getSongInfoFromLink($link){
+    $info = [];
+    if (str_contains($link, "spotify")){
+        $song_webpage = file_get_contents('https://spotify.detta.dev/?url='.$link);
+        $info['name'] = explode('</span>',explode('<span data-song-title data-astro-cid-qrctrsxd>',$song_webpage)[1])[0];
+        $info['artist'] = explode('</span>',explode('<span data-song-artist data-astro-cid-qrctrsxd>',$song_webpage)[1])[0];
+    } else {
+        $info['name'] = 'Invalid Link';
+        $info['artist'] = 'Invalid Link';
+    }
+    return $info;
+}
 ?>	
