@@ -58,14 +58,18 @@ if ($response['status'] == 'success'){
     $temperature_sentence = '';
     }*/
 
-$latitude = (random_int(0, 1800) - 900) / 10;
-$longitude = (random_int(0, 3600) - 1800) / 10;
-$location_info = apiCall('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='.$latitude.'&longitude='.$longitude.'&localityLanguage=en');
-$country_code = $location_info['countryCode'];
-if ($country_code == ""){
-    $location_message = ' this time you landed in the '.$location_info['localityInfo']['informative'][0]['name']. ' bozo 🌊';
-} else {
-    $location_message = ' this time you landed in '.$location_info['countryName'].' '.getEmojiFromCountryCode($country_code).'!';
+try{
+    $latitude = (random_int(0, 1800) - 900) / 10;
+    $longitude = (random_int(0, 3600) - 1800) / 10;
+    $location_info = apiCall('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='.$latitude.'&longitude='.$longitude.'&localityLanguage=en');
+    $country_code = $location_info['countryCode'];
+    if ($country_code == ""){
+        $location_message = ' this time you landed in the '.$location_info['localityInfo']['informative'][0]['name']. ' bozo 🌊';
+    } else {
+        $location_message = ' this time you landed in '.$location_info['countryName'].' '.getEmojiFromCountryCode($country_code).'!';
+    }
+} catch (Exception $e) {
+    $location_message = '';
 }
 
 $tristan_webpage = file_get_contents("https://www.tristandc.com/population.php");
