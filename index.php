@@ -57,7 +57,7 @@ if ($response['status'] == 'success'){
 } else {
     $temperature_sentence = '';
     }*/
-
+/*
 try {
     $latitude = (random_int(0, 1800) - 900) / 10;
     $longitude = (random_int(0, 3600) - 1800) / 10;
@@ -71,6 +71,7 @@ try {
 } catch (Exception $e) {
     $location_message = '';
 }
+*/
 
 $tristan_webpage = file_get_contents("https://www.tristandc.com/population.php");
 foreach (explode("strong>",$tristan_webpage) as $strong_element){
