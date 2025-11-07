@@ -58,7 +58,7 @@ if ($response['status'] == 'success'){
     $temperature_sentence = '';
     }*/
 
-try{
+try {
     $latitude = (random_int(0, 1800) - 900) / 10;
     $longitude = (random_int(0, 3600) - 1800) / 10;
     $location_info = apiCall('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='.$latitude.'&longitude='.$longitude.'&localityLanguage=en');
