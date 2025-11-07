@@ -280,7 +280,6 @@ function waitForMsg(){
 };
 
 $(document).ready(function(){
-    alert(prevent_long_polling);
     if (!prevent_long_polling){
         waitForMsg(); /* Start the inital request */
     }
