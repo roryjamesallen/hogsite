@@ -108,7 +108,7 @@ if (isset($_GET['mail'])){
     } else {
         $prevent_long_polling = true;
     }
-} else if (isset($_GET['light-bulb'])){
+} else if (isset($_POST['light-bulb'])){
     $old_state = getLightBulbState();
     $new_state = strval(1 - intval($old_state));
     setLightBulbState($new_state);
@@ -158,7 +158,7 @@ form input[type="submit"]:hover {
 <div class="page-banner" style="margin-top: 0.5rem">
 <?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.';?>
 
-    <form style="position: absolute; top: 0; right: 0; width: 452px; height: 655px; transform-origin: 100% 0%; transform: scale(0.25);">
+    <form method="POST" style="position: absolute; top: 0; right: 0; width: 452px; height: 655px; transform-origin: 100% 0%; transform: scale(0.25);">
     <input type="submit" value="" name="light-bulb" id="light-bulb" style="position: absolute; top: 0; left: 0; background-size: contain; width: 100%; height: 100%; background: none; border: none">
     </form>
 </div>
