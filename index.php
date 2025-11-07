@@ -107,7 +107,7 @@ if (isset($_GET['mail'])){
     }
 } else {
     $info = getSongInfoFromLink(getNewestSongLink());
-    $song_text = 'Someone recommends listening to '.$info['name'].' by '.$info['artist'];
+    $song_text = getSongTextFromInfo($info);
     $prevent_long_polling = false;
 }
 ?>

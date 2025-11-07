@@ -8,6 +8,6 @@ while ($original_info != $info){
     sleep(0.5);
     $info = getSongInfoFromLink(getNewestSongLink());
 }
-$song_text = 'Someone recommends listening to '.$info['name'].' by '.$info['artist'];
+$song_text = getSongTextFromInfo($info);
 echo $song_text;
 ?>

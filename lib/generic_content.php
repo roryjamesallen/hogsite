@@ -90,10 +90,15 @@ function getSongInfoFromLink($link){
         $song_webpage = file_get_contents('https://spotify.detta.dev/?url='.$link);
         $info['name'] = explode('</span>',explode('<span data-song-title data-astro-cid-qrctrsxd>',$song_webpage)[1])[0];
         $info['artist'] = explode('</span>',explode('<span data-song-artist data-astro-cid-qrctrsxd>',$song_webpage)[1])[0];
+        $info['link'] = $link;
     } else {
         $info['name'] = 'Invalid Link';
         $info['artist'] = 'Invalid Link';
+        $info['link'] = 'Invalid Link';
     }
     return $info;
+}
+function getSongTextFromInfo($info){
+    return 'Someone recommends listening to <a class="button-as-link" href="'.$info['link'].'">'.$info['name'].' by '.$info['artist'].'</a>';
 }
 ?>	
