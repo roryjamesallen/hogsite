@@ -78,9 +78,20 @@ function recordUserVisit(){
 	global $ip_address;
 	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$ip_address.'", NOW())');
 }
-
 function getNewestSongLink(){
     return sqlQuery("SELECT * FROM song_links ORDER BY submitted DESC")['0']['link'];
+}
+function getLightBulbState(){
+    return sqlQuery("SELECT * FROM interactive_elements WHERE name='light'")['0']['state'];
+}
+function setLightBulbState($state){
+    sqlQuery("UPDATE interactive_elements SET state='".$state."' WHERE name='light'");
+}
+function getInteractiveElementStates(){
+    $values = [];
+    $values['song_text'] = getSongTextFromInfo(getSongInfoFromLink(getNewestSongLink()));
+    $values['light'] = getLightBulbState();
+    return $values;
 }
 
 /* Other Functions */

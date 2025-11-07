@@ -78,6 +78,9 @@ foreach (explode("strong>",$tristan_webpage) as $strong_element){
         $tristan_inhabitants_text = htmlspecialchars(str_replace('"','',str_replace("</","",$strong_element)));
     }
 }
+
+$prevent_long_polling = false;
+$interactive_element_states = getInteractiveElementStates();
     
 if (isset($_GET['mail'])){
     if (count(sqlQuery("SELECT * FROM mailing_list WHERE email='".$_GET['mail']."'")) == 0){ // Only if user isn't already in mailing list
@@ -92,23 +95,24 @@ if (isset($_GET['mail'])){
         if (sqlQuery('SELECT * FROM song_links WHERE link="'.$link.'"') == null and str_contains($link, "spotify")){
             sqlQuery('INSERT INTO song_links (link, submitted, ip_address) VALUES ("'.$link.'", "'.time().'", "'.$ip_address.'")');
         } else if (str_contains($link, "spotify")){
-            $song_text = "Song has been submitted before";
+            $interactive_element_states['song_text'] = "Song has been submitted before";
         } else {
-            $song_text = "That's not a valid Spotify link";
+            $interactive_element_states['song_text'] = "That's not a valid Spotify link";
         }
     } else {
-        $song_text = "Link can't be blank";
+        $interactive_element_states['song_text'] = "Link can't be blank";
     }
     if ($song_text == ''){
         $info = getSongInfoFromLink(getNewestSongLink());
-        $song_text = 'Someone recommends listening to '.$info['name'].' by '.$info['artist'];
+        $interactive_element_states['song_text'] = 'Someone recommends listening to '.$info['name'].' by '.$info['artist'];
     } else {
         $prevent_long_polling = true;
     }
-} else {
-    $info = getSongInfoFromLink(getNewestSongLink());
-    $song_text = getSongTextFromInfo($info);
-    $prevent_long_polling = false;
+} else if (isset($_GET['light-bulb'])){
+    $old_state = getLightBulbState();
+    $new_state = strval(1 - intval($old_state));
+    setLightBulbState($new_state);
+    $interactive_element_states['light'] = $new_state;
 }
 ?>
 
@@ -152,7 +156,11 @@ form input[type="submit"]:hover {
 <body>
 <div style="display: none"><?php echo $ip_address;?></div>
 <div class="page-banner" style="margin-top: 0.5rem">
-<?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.'.$location_message;?>
+<?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.';?>
+
+    <form style="position: absolute; top: 0; right: 0; width: 452px; height: 655px; transform-origin: 100% 0%; transform: scale(0.25);">
+    <input type="submit" value="" name="light-bulb" id="light-bulb" style="position: absolute; top: 0; left: 0; background-size: contain; width: 100%; height: 100%; background: none; border: none">
+    </form>
 </div>
     
 <div class="button-container">
@@ -256,22 +264,36 @@ form input[type="submit"]:hover {
     import { start_image_loop } from './lib/hoglib.js';
     start_image_loop('hogspin', 8, 150);
 
-var prevent_long_polling = <?php echo json_encode($prevent_long_polling);?>
+var prevent_long_polling = <?php echo json_encode($prevent_long_polling);?>;
+var interactive_element_states = <?php echo json_encode($interactive_element_states);?>;
+console.log(interactive_element_states);
+processLongPollValues(interactive_element_states);
 
+function processLongPollValues(values){
+    try {
+        values = JSON.parse(values);
+    } catch {
+    }
+    //console.log(values);
+    updateSongText(values['song_text']);
+    updateLightBulb(values['light']);
+}
 function updateSongText(text){
     document.getElementById('song-text').innerHTML = text;
+}
+function updateLightBulb(state){
+    document.getElementById('light-bulb').style.backgroundImage = 'url(images/buttons/light-bulb-'+state+'.png)';
 }
 
 function longPoll(){
     $.ajax({
-        type: "GET",
-        url: "long_poll.php",
-        async: true, // Prevent browser 'loading'
+        type: 'GET',
+        url: 'long_poll.php',
+        async: true, // Prevent browser loading
         cache: false,
-        timeout:50000, // Give up after 50s
+        timeout: 50000, // Give up after 50s
         success: function(values){
-            values = JSON.parse(values);
-            updateSongText(values['song_text']); // Do stuff with the returned data
+            processLongPollValues(values);
             setTimeout(longPoll, 1000); // Request update after 1s
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){} // Catch errors
@@ -283,7 +305,6 @@ $(document).ready(function(){
         longPoll(); /* Start the inital request */
     }
 });
-
 
 </script>
 </html>

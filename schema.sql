@@ -18,10 +18,15 @@ CREATE TABLE IF NOT EXISTS `mailing_list` (
   `time` VARCHAR(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `mailing_list` (
+CREATE TABLE IF NOT EXISTS `song_links` (
   `link` VARCHAR(255) NOT NULL,
   `submitted` VARCHAR(11) NOT NULL,
   `ip_address` VARCHAR(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `interactive_elements` (
+  `name` VARCHAR(32) NOT NULL,
+  `state` VARCHAR(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ========== testdb ==========
