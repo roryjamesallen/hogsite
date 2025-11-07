@@ -251,7 +251,7 @@ input:focus-visible {
     import { start_image_loop } from './lib/hoglib.js';
     start_image_loop('hogspin', 8, 150);
 
-var prevent_long_polling = <?php echo $prevent_long_polling;?>
+var prevent_long_polling = <?php echo json_encode($prevent_long_polling);?>
 
 function updateSongText(text){
     document.getElementById('song-text').innerHTML = text;
@@ -280,6 +280,7 @@ function waitForMsg(){
 };
 
 $(document).ready(function(){
+    alert(prevent_long_polling);
     if (!prevent_long_polling){
         waitForMsg(); /* Start the inital request */
     }
