@@ -143,6 +143,10 @@ input:focus-visible {
     border: none;
     box-shadow: none;
 }
+form input[type="submit"]:hover {
+    filter: opacity(0.6);
+    cursor: pointer;
+}
 </style>
 
 <body>
@@ -213,31 +217,33 @@ input:focus-visible {
     <input placeholder="Spotify Link" name="song_link" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem;">
     <input type="submit" value="Recommend" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem; background-color: rgba(0,0,0,0); margin-top: -1.25rem">
     </form>
-    </div>
-    
-	<?php 
+
+
+    <?php 
 		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
 		$amarela = $lisboa['amarela'];
 		$azul = $lisboa['azul'];
 		$verde = $lisboa['verde'];
 		$vermelha = $lisboa['vermelha'];
 	?>
-	<div class="lisboa-big-container">
-		Lisboa Metro Status:
-		<div class="lisboa-container"><div class="lisboa-status" style="background-color: yellow"><?php echo $amarela;?></div></div>
-		<div class="lisboa-container"><div class="lisboa-status" style="background-color: blue"><?php echo $azul;?></div></div>
-		<div class="lisboa-container"><div class="lisboa-status" style="background-color: green"><?php echo $verde;?></div></div>
-		<div class="lisboa-container"><div class="lisboa-status" style="background-color: red"><?php echo $vermelha;?></div></div>
-	</div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
+        <div style="width: 80%; margin-top: 1.5rem">
+            <a class="button-as-link" href="https://www.metrolisboa.pt/en/">Lisboa Metro</a> Status:
+            <div class="lisboa-container"><div class="lisboa-status" style="color: yellow"><?php echo $amarela;?></div></div>
+            <div class="lisboa-container"><div class="lisboa-status" style="color: blue"><?php echo $azul;?></div></div>
+            <div class="lisboa-container"><div class="lisboa-status" style="color: green"><?php echo $verde;?></div></div>
+            <div class="lisboa-container"><div class="lisboa-status" style="color: red"><?php echo $vermelha;?></div></div>
+         </div>
+    </div>
 
-            <div class="lisboa-big-container">
-            <a class="button-as-link" href="https://www.tristandc.com/population.php"><?php echo $tristan_inhabitants_text;?></a>
-            </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
+            <a style="width: 80%; margin-top: 1.5rem; font-size: 2rem;" class="button-as-link" href="https://www.tristandc.com/population.php"><?php echo $tristan_inhabitants_text;?></a>
+    </div>
 
-    <div class="lisboa-big-container">
-	<div class="random-joke" style="max-width: 90%;">Hog Joke: <?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' '.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'];?></div></div>
-
-
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
+            <div class="random-joke" style="width: 80%; margin-top: 1.5rem;;">Hog Joke:<br><?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' <span style="font-family: Jokerman; text-decoration: underline">'.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'].'</span>';?></div>
+    </div>
+</div>
 
 <div class="footer">
 <strong>What the hell is this website!??!?</strong><br><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> is a collection of ideas and art by anyone who wants to have their ideas and art published. If you've made or are making something you'd like to share, or just have something to say, please <a class="button-as-link" href="mailto:rory@hogwild.uk">email Rory</a> at rory (@) hogwild.uk
