@@ -262,31 +262,25 @@ function updateSongText(text){
     document.getElementById('song-text').innerHTML = text;
 }
 
-function waitForMsg(){
-    /* This requests the url "msgsrv.php"
-       When it complete (or errors)*/
+function longPoll(){
     $.ajax({
-            type: "GET",
-                url: "long_poll.php",
-                async: true, /* If set to non-async, browser shows page as "Loading.."*/
-                cache: false,
-                timeout:50000, /* Timeout in ms */
-
-                success: function(text){ /* called when request to barge.php completes */
-                    updateSongText(text); /* Add response to a .msg div (with the "new" class)*/
-                    setTimeout(
-                        waitForMsg, /* Request next message */
-                        1000 /* ..after 1 seconds */
-                    );
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                }
-                });
-};
+        type: "GET",
+        url: "long_poll.php",
+        async: true, // Prevent browser 'loading'
+        cache: false,
+        timeout:50000, // Give up after 50s
+        success: function(values){
+            values = JSON.parse(values);
+            updateSongText(values['song_text']); // Do stuff with the returned data
+            setTimeout(longPoll, 1000); // Request update after 1s
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){} // Catch errors
+    });
+}
 
 $(document).ready(function(){
     if (!prevent_long_polling){
-        waitForMsg(); /* Start the inital request */
+        longPoll(); /* Start the inital request */
     }
 });
 

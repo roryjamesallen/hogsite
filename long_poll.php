@@ -2,12 +2,21 @@
 include 'lib/generic_content.php';
 openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
 
-$original_info = getSongInfoFromLink(getNewestSongLink());
-$info = $original_info;
-while ($original_info != $info){
-    sleep(0.5);
-    $info = getSongInfoFromLink(getNewestSongLink());
+$data = [];
+
+function getCurrentValues(){
+    $values = [];
+    $values['song_text'] = getSongTextFromInfo(getSongInfoFromLink(getNewestSongLink()));
+    return $values;
 }
-$song_text = getSongTextFromInfo($info);
-echo $song_text;
+
+// Song Link
+$original_values = getCurrentValues();
+$current_values = $original_values;
+while ($original_values != $current_values){
+    sleep(0.5);
+    $current_values = getCurrentValues();
+}
+// Something has changed
+echo json_encode($current_values);
 ?>
