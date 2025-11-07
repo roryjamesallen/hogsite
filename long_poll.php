@@ -8,7 +8,7 @@ $data = [];
 $original_values = getInteractiveElementStates();
 $current_values = $original_values;
 while ($original_values == $current_values){
-    sleep(0.5);
+    sleep(1);
     $current_values = getInteractiveElementStates();
 }
 // Something has changed

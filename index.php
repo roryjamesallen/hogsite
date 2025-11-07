@@ -221,7 +221,7 @@ form input[type="submit"]:hover {
 
     <form method="POST" action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
     <h2 class="hidden-heading">Submit a song recommendation</h2>
-    <div id='song-text' class="song-link" style="width: 80%; margin-top: 1.5rem;"><?php echo $song_text;?></div>
+    <div id='song-text' class="song-link" style="width: 80%; margin-top: 1.5rem;"></div>
     <input placeholder="Spotify Link" name="song_link" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem;">
     <input type="submit" value="Recommend" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem; background-color: rgba(0,0,0,0); margin-top: -1.25rem">
     </form>
