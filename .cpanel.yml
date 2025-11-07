@@ -6,6 +6,8 @@ deployment:
     - /bin/cp /home/wildhog/hogsite/.htaccess $DEPLOYPATH
     - /bin/cp /home/wildhog/hogsite/style.css $DEPLOYPATH
     - /bin/cp /home/wildhog/hogsite/sitemap.xml $DEPLOYPATH
+    - /bin/cp /home/wildhog/hogsite/robots.txt $DEPLOYPATH
+    - /bin/cp /home/wildhog/hogsite/long_poll.php $DEPLOYPATH
     - /bin/cp -R images $DEPLOYPATH
     - /bin/cp -R fonts $DEPLOYPATH
     - /bin/cp -R lib $DEPLOYPATH
