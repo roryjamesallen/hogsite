@@ -42,7 +42,8 @@ if ($thompson_room == 'lounge'){
 	$thompson_background_height = '1699';
 	$thompson_background_src = 'front-door';
 	$thompson_room_links =
-        renderImageLink('front-door-to-entrance-hallway', 'entrance-hallway', '253', '499', 'left: 236px; top: 866px');
+        renderImageLink('front-door-to-entrance-hallway', 'entrance-hallway', '253', '499', 'left: 236px; top: 866px').
+        "<span style='position: absolute; top: 4rem; right: 0; background: white; z-index: 99; font-size: 3rem; padding: 2rem'>This is a recreation (to the best of our memory) of the house that a few hogs lived in. See which rooms you can explore (some are yet to be added) and what you can interact with inside those rooms...</span>";
 } else if ($thompson_room == 'naughty-step'){
 	$thompson_background_height = '1441';
 	$thompson_background_src = 'naughty-step';
@@ -118,14 +119,15 @@ if ($thompson_room == 'lounge'){
 </head>
 <body>
 <?php echo $standard_toolbar;?>
-<div class="button-container" style="padding-top: 0;">
-	<div id="scene-container" class="scene-container" style="transform-origin: left top; width: 1080px; height: <?php echo $thompson_background_height ?>px">
+<div class="button-container" id="button-container">
+     <div class="scene-container" id="scene-container" style="transform-origin: left top; width: 1080px; height: <?php echo $thompson_background_height ?>px">
 		<form action="" method="GET" class="thompson-world-form">
 			<img class="scene-image scene-background" src="images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
             <?php echo $thompson_room_links; ?>
 		</form>
 	</div>
 </div>
+<div class='neh-hogwild-footer' style='width: fit-content; margin: 2rem auto; font-family: Arial'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
 </body>
 
 <script type='module'>
@@ -148,6 +150,8 @@ function resizeSceneContainer(){
         var scale = height_scale;
     }
     document.getElementById('scene-container').style.transform = 'scale(' + scale + ')';
+    var container_height = original_container_height * scale;
+    document.getElementById('button-container').style.height = container_height.toString() + 'px';
 }
 
 function flipConservatoryLights(){
