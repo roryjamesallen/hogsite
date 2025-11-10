@@ -152,6 +152,23 @@ form input[type="submit"]:hover {
     filter: opacity(0.6);
     cursor: pointer;
 }
+.button-with-caption {
+    display: flex;
+    align-content: center;
+    font-size: 1.5rem;
+    flex-wrap: wrap;
+}
+.button-caption {
+    flex-basis: 100%;
+    width: 0;
+    text-align: center;
+    font-family: monospace;
+    font-size: 1.5rem;
+    filter: opacity(0.5);
+}
+.button-container {
+    gap: 2rem;
+}
 </style>
 
 <body>
@@ -182,31 +199,46 @@ form input[type="submit"]:hover {
     <div class="page-banner">
     <img src="images/banner-pages.png" alt="Banner for Hog Wild pages">
     </div>
-    
+
+    <div class="button-with-caption">
     <a class="button" href="https://hogwild.uk/wiki">
         <h2 class="hidden-heading">Hogipedia</h2>
 		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
 	</a>
-    
+    <span class="button-caption">Learn The Lore</span>
+    </div>
+
+    <div class="button-with-caption">
 	<a class="button" href="https://hogwild.uk/thompson-world">
         <h2 class="hidden-heading">Thompson World</h2>
 		<img src="images/buttons/thompson-world.png" class="button-image" alt="Hand drawn button for Thompson World page">
 	</a>
+    <span class="button-caption">Explore The House</span>
+    </div>
 
+    <div class="button-with-caption">
     <a class="button" href="https://hogwild.uk/hogdivmosaic">
         <h2 class="hidden-heading">Hog Mosaic</h2>
 		<img src="images/buttons/hogmosaic.png" class="button-image" alt="Hand drawn button for Hog Mosaic page">
 	</a>
+    <span class="button-caption">Find The Hog</span>
+    </div>
 
+    <div class="button-with-caption">
     <a class="button" href="https://hogwild.uk/notoalgorithms">
         <h2 class="hidden-heading">No To Algorithms!</h2>
 		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
 	</a>
+    <span class="button-caption">Human Music Recommendations</span>
+    </div>
 
+    <div class="button-with-caption">
     <a class="button" href="https://hogwild.uk/nothingeverhappens">
         <h2 class="hidden-heading">Hog Mosaic</h2>
 		<img src="images/buttons/nothingeverhappens.png" class="button-image" alt="Hand drawn button for Nothing Ever Happens">
 	</a>
+    <span class="button-caption">Friendly Betting</span>
+    </div>
 
     <div class="page-banner">
     <img src="images/banner-gubbins.png" alt="Banner for Hog Wild pages">
