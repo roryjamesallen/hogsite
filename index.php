@@ -138,10 +138,13 @@ if (isset($_GET['mail'])){
     background-repeat: no-repeat;
                          }
 .page-banner {
-    flex-basis: 100%;
+        margin: auto;
+        flex-basis: 100%;
         display: flex;
+        gap: 0.5rem;
         justify-content: center;
         margin-top: 3rem;
+        text-align: left;
                          }
 input:focus-visible {
     outline: none;
@@ -168,14 +171,33 @@ form input[type="submit"]:hover {
 }
 .button-container {
     gap: 2rem;
+    margin: 0 2rem;
+}
+.hogspin-container:after {
+    content: "hogwild.uk";
+    display: flex;
+    position: absolute;
+    font-size: 5rem;
+    font-family: arial;
+    z-index: -1;
+    top: 4.5rem;
+}
+@media screen and (max-width: 750px){
+    .page-banner {
+        margin-left: 1rem !important;
+        text-align: left;
+    }
 }
 </style>
 
 <body>
 <div style="display: none"><?php echo $ip_address;?></div>
-<div class="page-banner" style="margin-top: 0.5rem">
-<?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.';?>
-
+    
+<div class="page-banner" style="margin: 1rem; width: calc(100% - 10rem)">
+    <?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.';?>
+    <span style="color: #999; text-align: right">try the light bulb → (try it again while a friend has the site open too...)</span>
+</div>
+    
     <form method="POST" style="position: absolute; top: 0; right: 0; width: 452px; height: 655px; transform-origin: 100% 0%; transform: scale(0.25);">
     <input type="submit" value="" name="light-bulb" id="light-bulb" style="position: absolute; top: 0; left: 0; background-size: contain; width: 100%; height: 100%; background: none; border: none">
     </form>
@@ -183,9 +205,8 @@ form input[type="submit"]:hover {
     
 <div class="button-container">
     <h1 class="hidden-heading">hogwild.uk - Home of The Wild Hogs</h1>
-    <img style="width: 100%;" src="images/hogwilduk-banner.png" alt="Hand drawn banner image that spells out the domain name hogwild.uk"></img>
     
-	<div class="hogspin-container" style="flex-basis: 100%; display: flex; justify-content: center; margin-top: -5rem">
+	<div class="hogspin-container" style="flex-basis: 100%; display: flex; justify-content: center; position: relative; margin-top: 1rem; transform: scale(0.8)">
 		<img id="hogspin1" src="images/hogspin/1.png" style="display: block" alt="Hand drawn frame 1 of an animation of a rotating hog">
 		<img id="hogspin2" src="images/hogspin/2.png" style="display: none" alt="Hand drawn frame 2 of an animation of a rotating hog">
 		<img id="hogspin3" src="images/hogspin/3.png" style="display: none" alt="Hand drawn frame 3 of an animation of a rotating hog">
