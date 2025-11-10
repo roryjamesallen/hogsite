@@ -11,6 +11,7 @@ $rooms = [
 		"garden",
 		"pigeons", 
 		"first-floor-landing",
+        "danny-and-rubys-room",
 		"bathroom",
 		"under-construction",
 ];
@@ -94,7 +95,7 @@ if ($thompson_room == 'lounge'){
         renderImageLink('first-floor-landing-to-naughty-step', 'naughty-step', '208', '152', 'left: 253px; top: 538px').
         renderImageLink('first-floor-landing-to-rorys-room', 'under-construction', '176', '575', 'left:0px; bottom: 0px').
         renderImageLink('first-floor-landing-to-itays-room', 'under-construction', '149', '446', 'left:673px; top: 239px').
-        renderImageLink('first-floor-landing-to-second-floor-landing', 'under-construction', '95', '236', 'left:448px; top: 143px').
+        renderImageLink('first-floor-landing-to-second-floor-landing', 'danny-and-rubys-room', '95', '236', 'left:448px; top: 143px').
         renderImageLink('first-floor-landing-to-bathroom', 'bathroom', '181', '227', 'left: 870px; bottom: 0px');
 } else if ($thompson_room == 'bathroom'){
 	$thompson_background_height = '810';
@@ -103,6 +104,11 @@ if ($thompson_room == 'lounge'){
         renderImageLink('bathroom-to-first-floor-landing', 'first-floor-landing', '194', '96', 'left: 0px; bottom: 0px').
 		renderUnderlayImage('bathroom-tap-on', '61', '60', 'top: 342px; left: 776px; display: none; z-index: -1;').
 		renderImageOnclick('bathroom-tap', '48', '42', 'left: 790px; top: 315px');
+} else if ($thompson_room == 'danny-and-rubys-room'){
+	$thompson_background_height = '739';
+	$thompson_background_src = 'danny-and-rubys-room';
+	$thompson_room_links =
+        renderImageLink('pigeons-to-garden', 'first-floor-landing', '185', '88', 'left: 0px; bottom: 0px');
 } else if ($thompson_room == 'under-construction'){
 	$thompson_background_height = '500';
 	$thompson_background_src = 'under-construction';
