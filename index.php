@@ -87,6 +87,8 @@ if (isset($_GET['mail'])){
     if (count(sqlQuery("SELECT * FROM mailing_list WHERE email='".$_GET['mail']."'")) == 0){ // Only if user isn't already in mailing list
         sqlQuery("INSERT INTO mailing_list (email, time) VALUES ('".$_GET['mail']."', '".time()."')");
     }
+} else if (isset($_GET['qr'])){
+	sqlQuery('INSERT INTO home_visits (visit_id, visitor_ip, visit_time) VALUES ("vst'.uniqid().'", "'.$_GET['qr'].'", NOW())');
 } else if (isset($_POST['song_link'])){ // User set a song link
     $link = $_POST['song_link'];
     $song_text = '';
