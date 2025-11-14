@@ -68,7 +68,7 @@ function renderFish(){
         const fish_position = fish[fish_index][1];
         const this_fish = document.getElementById('fish-' + fish_index)
             if (!this_fish.classList.contains('caught')){
-                this_fish.style.marginLeft = fish_position + 'px';
+                this_fish.style.left = fish_position + 'px';
             }
     }
 }
