@@ -9,6 +9,10 @@ include '../lib/generic_content.php';
     <link rel="canonical" href="https://hogwild.uk/hog-fishing" />
     <title>Hog Fishing</title>
 <style>
+:root {
+    --slow-transition: 2s;
+    --fast-transition: 0.1s
+}
 #fish-container {
     height: 100vh;
     width: 100vw;
@@ -16,6 +20,7 @@ include '../lib/generic_content.php';
 #fishing-rod {
     position: absolute;
     top: 0;
+    transition: left var(--fast-transition), top var(--fast-transition);
 }
 #fish-caught {
     color: green;
@@ -23,7 +28,7 @@ include '../lib/generic_content.php';
 }
 .fish {
     position: absolute;
-    transition: top 2s;
+    transition: left var(--fast-transition), top var(--slow-transition);
 }
 .caught {
     color: red;
