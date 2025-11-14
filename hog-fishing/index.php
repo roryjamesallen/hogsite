@@ -13,6 +13,13 @@ include '../lib/generic_content.php';
     --slow-transition: 2s;
     --fast-transition: 0.1s
 }
+#game-container {
+	position: relative;
+	width: 800px;
+	height: 500px;
+	margin: auto;
+	border: 2px solid black;
+}
 #fish-container {
     height: 100vh;
     width: 100vw;
@@ -37,16 +44,18 @@ include '../lib/generic_content.php';
 </style>
 </head>
 <body>
+	<div id='game-container'>
     <div id='fish-caught'></div>
     <div id='fishing-rod'>R</div>
     <div id='fish-container'></div>
+	</div>
 </body>
 
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
 var max_tick = 1000;
-var average_fish_speed = 5;
+var average_fish_speed = 20;
 var position_hitbox = 15;
 var height_hitbox = 25;
 
@@ -57,10 +66,14 @@ var mouse_position = [];
 var rod_status = 0; // 0=ready to drop 1=dropping 2=coming back up
 var rod_position = 0;
 var rod_height = 0;
-var max_rod_height = document.getElementById('fish-container').clientHeight;
+var max_rod_height = document.getElementById('game-container').clientHeight;
 console.log(max_rod_height);
 var rod_increment = 50;
 var fish_caught = 0;
+var mouse_offset = document.getElementById('game-container').getBoundingClientRect().left;
+var game_width = document.getElementById('game-container').clientWidth;
+var fish_width = 25;
+var rod_width = 10;
 
 // Rendering Functions
 function renderFish(){
@@ -107,6 +120,10 @@ function incrementAllFish(){
     for (let fish_index=0; fish_index<fish.length; fish_index++){
         const this_fish = fish[fish_index]
         this_fish[1] += this_fish[2]; // Increment each fish position by its speed
+		const this_fish_element = document.getElementById('fish-'+fish_index);	
+		if (parseInt(this_fish_element.style.left) >= (game_width - fish_width)){
+			this_fish_element.style.display = 'none';
+		}
     }
 }
 function checkRodCatch(){
@@ -142,8 +159,11 @@ function incrementRod(){
         }
     }
     if (rod_status == 0){
-        rod_position = mouse_position[0];
+        rod_position = clampValue(mouse_position[0] - mouse_offset, 0, (game_width - rod_width));
     }
+}
+function clampValue(value, min, max){
+	return Math.min(Math.max(value, min), max);
 }
 
 // HTML Functions
