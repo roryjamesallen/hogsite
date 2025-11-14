@@ -14,7 +14,8 @@ include '../lib/generic_content.php';
 </body>
 
 <script type='module'>
-var speed = 100;
+var framerate = 15;     
+var delay_per_tick = (1 / framerate) * 1000;
 var max_tick = 100;
 var fish = []; // [ID, Position]
 function renderFish(){
@@ -27,7 +28,7 @@ function getLastFishId(){
     if (fish.length == 0){
         return -1; // First ever fish, gets incremented to 0
     } else {
-        return fish[fish.length - 1][1];
+        return fish[fish.length - 1][0];
     }
 }
 function createFishElement(id){
@@ -54,7 +55,7 @@ function tickFish(tick){
             fish[fish_index][1] += 1; // Increment each fish position
         }
         renderFish(); // Update the real HTML positions
-    }, speed * tick);
+    }, delay_per_tick * tick);
 }
 function beginTick(){
     for (let tick=0; tick<max_tick; tick++){
