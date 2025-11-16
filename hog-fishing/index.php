@@ -55,7 +55,7 @@ include '../lib/generic_content.php';
 // Customisable globals      
 var framerate = 15;
 var max_tick = 1000;
-var average_fish_speed = 20;
+var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
 
