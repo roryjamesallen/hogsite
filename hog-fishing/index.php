@@ -35,8 +35,10 @@ body {
     aspect-ratio: 58 / 1790;
 }
 #fish-caught {
+    position: relative;
     color: green;
     font-size: 20px;
+    z-index: 2;
 }
 .fish {
     position: absolute;
@@ -51,6 +53,7 @@ body {
 .caught {
     color: red;
     top: 0 !important;
+    filter: opacity(0.5);
 }
 </style>
 </head>
