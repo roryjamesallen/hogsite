@@ -134,7 +134,7 @@ if ($thompson_room == 'lounge'){
 <body>
 <?php echo $standard_toolbar;?>
 <div class="button-container" id="button-container">
-     <div class="scene-container" id="scene-container" style="transform-origin: left top; width: 1080px; height: <?php echo $thompson_background_height ?>px">
+     <div class="scene-container" id="scene-container" style="transform-origin: left top; width: 100%; height: <?php echo $thompson_background_height ?>px">
 		<form action="" method="GET" class="thompson-world-form">
 			<img class="scene-image scene-background" src="images/thompson-world/thompson-world-<?php echo $thompson_background_src ?>.png">
             <?php echo $thompson_room_links; ?>
