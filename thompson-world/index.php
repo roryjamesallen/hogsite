@@ -127,6 +127,12 @@ if ($thompson_room == 'lounge'){
     <?php echo $standard_header_content;?>
     <link rel="canonical" href="https://tw.hogwild.uk" />
     <title><?php echo $thompson_room_pretty;?></title>
+<style>
+.scene-container {
+    position: absolute;
+    left: 0;
+}
+</style>
 </head>
 <body>
 <?php echo $standard_toolbar;?>
