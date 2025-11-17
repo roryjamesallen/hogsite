@@ -17,3 +17,4 @@ deployment:
     - /bin/cp -R thompson-world $DEPLOYPATH
     - /bin/cp -R hogdivmosaic $DEPLOYPATH
     - /bin/cp -R wiki $DEPLOYPATH
+    - /bin/cp -R hog-fishing $DEPLOYPATH
