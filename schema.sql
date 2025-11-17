@@ -29,6 +29,11 @@ CREATE TABLE IF NOT EXISTS `interactive_elements` (
   `state` VARCHAR(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `fishing_points` (
+  `username` VARCHAR(32) NOT NULL,
+  `points` INT(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ========== testdb ==========
 USE `testdb`;
 

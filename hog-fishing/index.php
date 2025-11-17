@@ -1,6 +1,28 @@
 <?php
 include '../lib/generic_content.php';
 
+openSqlConnection('wildhog_analytics', '../sql_login_wildhog_analytics.php');
+
+if (isset($_POST['username'])){
+	$username = $_POST['username'];
+	$points = $_POST['points'];
+	$result = sqlQuery('SELECT username FROM fishing_points WHERE username="'.$username.'"');
+	$submit_result = true;
+    if ($result != []){
+        // user has submitted a score before
+        foreach ($result as $old_points){
+			if ($old_points >= $points){
+				// this is not the users highest score ever
+				$submit_result = false;
+			}
+		}
+    }
+	if ($submit_result){
+		sqlQuery('INSERT INTO fishing_points (username, points) VALUES ("'.$username.'", "'.$points.'")');
+	}
+}
+
+$leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY points DESC'));
 ?>
 
 <!DOCTYPE html>
@@ -19,11 +41,19 @@ body {
 }
 .big-note {
     display: flex;
+	flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     height: 100%;
     text-align: center;
     font-size: 2rem;
+}
+.leaderboard, .leaderboard > div {
+	flex-basis: 100%;
+    display: flex;
+	flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
 }
 #bath-background {
     position: absolute;
@@ -87,7 +117,7 @@ body {
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 500;
+var max_tick = 10;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
@@ -158,7 +188,7 @@ function incrementAllFish(){
         this_fish[1] += this_fish[2]; // Increment each fish position by its speed
 		const this_fish_element = document.getElementById('fish-'+fish_index);	
 		if (parseInt(this_fish_element.style.left) >= (game_width - fish_width)){
-			this_fish_element.style.display = 'none';
+			this_fish_element.style.filter = 'opacity(0)';
 		}
     }
 }
@@ -211,12 +241,49 @@ function createFishElement(id){
     //img.style.filter = 'brightness(' + Math.floor((Math.random() + 0.75) * 100) + '%)'; // 0.5 to 1.5
     document.getElementById('fish-container').appendChild(img);
 }
+function createLeaderboardEntry(entry){
+	const container = document.createElement('div');
+	const username = document.createElement('span');
+	username.innerHTML = entry['username'];
+	const points = document.createElement('span');
+	points.innerHTML = entry['points'];
+	container.appendChild(username);
+	container.appendChild(points);
+	return container;
+}
 function showGameOver(){
     const text = document.createElement('p');
     text.innerHTML = 'GAME OVER<br>You won ' + fish_caught + ' points';
     text.classList.add('big-note');
-    document.getElementById('game-container').innerHTML = '';
-    document.getElementById('game-container').appendChild(text);
+	const form = document.createElement('form');
+	form.classList.add('leaderboard');
+	form.method = 'POST';
+	const input = document.createElement('input');
+	input.name = 'username';
+	input.placeholder = 'nickname';
+	const points = document.createElement('input');
+	points.name = 'points';
+	points.type = 'hidden';
+	points.value = fish_caught;
+	const submit = document.createElement('input');
+	submit.type = 'submit';
+	submit.value = 'submit';
+	form.appendChild(input);
+	form.appendChild(points);
+	form.appendChild(submit);
+	const game_container = document.getElementById('game-container');
+	text.appendChild(form);
+	
+	const leaderboard = <?php echo $leaderboard;?>;
+	const leaderboard_text = document.createElement('p');
+	leaderboard_text.classList.add('leaderboard');
+	for (let leaderboard_entry=0; leaderboard_entry<leaderboard.length; leaderboard_entry++){
+		leaderboard_text.appendChild(createLeaderboardEntry(leaderboard[leaderboard_entry]));
+	}
+	text.appendChild(leaderboard_text);
+	
+    game_container.innerHTML = '';
+    game_container.appendChild(text);
 }
 
 // User input processing
