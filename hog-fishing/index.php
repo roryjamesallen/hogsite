@@ -15,6 +15,15 @@ include '../lib/generic_content.php';
 }
 body {
 	overflow: hidden;
+    font-family: Arial;
+}
+.big-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    font-size: 2rem;
 }
 #game-container {
 	position: relative;
@@ -23,6 +32,7 @@ body {
 	margin: 50px auto;
 	border: 2px solid black;
     overflow: hidden;
+    background-color: #EDF3F9;
 }
 #fish-container {
     height: 100vh;
@@ -37,12 +47,13 @@ body {
 #fish-caught {
     position: relative;
     color: green;
-    font-size: 20px;
+    font-size: 2rem;
     z-index: 2;
+    margin: 1rem;
 }
 .fish {
     position: absolute;
-    transition: left var(--fast-transition), top var(--slow-transition);
+    transition: left var(--fast-transition), top var(--slow-transition), filter var(--slow-transition);
     background-image: url('images/hog-fishing/duck.png');
     background-size: contain;
     width: 35px;
@@ -50,10 +61,12 @@ body {
     box-sizing: border-box;
     padding: 14px;
 }
+.fish:not(.caught){
+    filter: saturate(0.99);
+}
 .caught {
-    color: red;
     top: 0 !important;
-    filter: opacity(0.5);
+    filter: saturate(0.25);
 }
 </style>
 </head>
@@ -63,12 +76,13 @@ body {
     <img id='fishing-rod' src='images/hog-fishing/rod-wire.png'/>
     <div id='fish-container'></div>
 	</div>
+    <div class='neh-hogwild-footer' style='width: fit-content; margin: 2rem auto; font-family: Arial'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
 </body>
 
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 1000;
+var max_tick = 500;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
@@ -189,7 +203,15 @@ function createFishElement(id){
     img.setAttribute('id', 'fish-' + id);
     img.classList.add('fish');
     img.style.top = (Math.floor(Math.random() * 250) + 50) + 'px';
+    //img.style.filter = 'brightness(' + Math.floor((Math.random() + 0.75) * 100) + '%)'; // 0.5 to 1.5
     document.getElementById('fish-container').appendChild(img);
+}
+function showGameOver(){
+    const text = document.createElement('p');
+    text.innerHTML = 'GAME OVER<br>You won ' + fish_caught + ' points';
+    text.classList.add('big-note');
+    document.getElementById('game-container').innerHTML = '';
+    document.getElementById('game-container').appendChild(text);
 }
 
 // User input processing
@@ -212,6 +234,9 @@ function beginTick(){
     for (let tick=0; tick<max_tick; tick++){
         tickFish(tick);
     }
+    setTimeout(function(){
+        showGameOver();
+    }, delay_per_tick * (max_tick + 1)); // Show after the last game tick
 }
 
 // Track mouse position
