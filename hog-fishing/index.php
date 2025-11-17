@@ -13,11 +13,14 @@ include '../lib/generic_content.php';
     --slow-transition: 2s;
     --fast-transition: 0.1s
 }
+body {
+	overflow: hidden;
+}
 #game-container {
 	position: relative;
 	width: 800px;
 	height: 500px;
-	margin: auto;
+	margin: 250px auto;
 	border: 2px solid black;
 }
 #fish-container {
@@ -60,28 +63,28 @@ var position_hitbox = 15;
 var height_hitbox = 25;
 
 // Non-customisable globals
-var delay_per_tick = (1 / framerate) * 1000;
-var fish = []; // [ID, Position]
-var mouse_position = [];
+var delay_per_tick = (1 / framerate) * 1000; // Convert framerate to ms per frame (tick)
+var fish = []; // [ID, Position, Speed]
+var mouse_position = []; // Updated with mouse coords every time mouse moves
 var rod_status = 0; // 0=ready to drop 1=dropping 2=coming back up
-var rod_position = 0;
-var rod_height = 0;
-var max_rod_height = document.getElementById('game-container').clientHeight;
-console.log(max_rod_height);
-var rod_increment = 50;
-var fish_caught = 0;
-var mouse_offset = document.getElementById('game-container').getBoundingClientRect().left;
+var rod_position = 0; // Horizontal rod position (mouse position but clamped to game size and not updated during rod drops)
+var rod_height = 0; // Vertical rod position (updated during rod drops)
+var max_rod_height = document.getElementById('game-container').clientHeight; // Maximum distance the rod can drop (based on game size)
+var rod_increment = 50; // Increment per frame of rod dropping (speed of rod)
+var fish_caught = 0; // Points
+var mouse_offset = document.getElementById('game-container').getBoundingClientRect().left; // Offset mouse for calculating hits based on game size
+var mouse_height_offset = document.getElementById('game-container').getBoundingClientRect().top;
 var game_width = document.getElementById('game-container').clientWidth;
-var fish_width = 25;
-var rod_width = 10;
+var fish_width = 25; // Hitbox of fish
+var rod_width = 10; // So the rod doesn't overflow the game container
 
 // Rendering Functions
 function renderFish(){
-    for (let fish_index=0; fish_index<fish.length; fish_index++){
-        const fish_position = fish[fish_index][1];
-        const this_fish = document.getElementById('fish-' + fish_index)
-            if (!this_fish.classList.contains('caught')){
-                this_fish.style.left = fish_position + 'px';
+    for (let fish_index=0; fish_index<fish.length; fish_index++){ // For every fish
+        const fish_position = fish[fish_index][1]; // Get its current position
+        const this_fish = document.getElementById('fish-' + fish_index) // Get the HTML element of the fish the array item relates to
+            if (!this_fish.classList.contains('caught')){ // Only update uncaught fish
+                this_fish.style.left = fish_position + 'px'; // Update its position (absolute left alignment)
             }
     }
 }
@@ -128,9 +131,9 @@ function incrementAllFish(){
 }
 function checkRodCatch(){
     for (let fish_index=0; fish_index<fish.length; fish_index++){
-        const horizontal_distance = Math.abs(fish[fish_index][1] - rod_position);
         const fish_coords = document.getElementById('fish-'+fish_index).getBoundingClientRect();
-        const vertical_distance = Math.abs(fish_coords.top - rod_height);
+		const horizontal_distance = Math.abs(fish[fish_index][1] - rod_position);
+        const vertical_distance = Math.abs(fish_coords.top - rod_height - mouse_height_offset);
         if (horizontal_distance < position_hitbox && vertical_distance < height_hitbox){ // If the rod is close enough (laterally) to the fish
             rod_status = 2; // Rod coming back up
             //fish.splice(fish_index, 1); // Remove the fish from array
