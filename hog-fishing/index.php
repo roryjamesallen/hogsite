@@ -25,14 +25,18 @@ body {
     text-align: center;
     font-size: 2rem;
 }
+#bath-background {
+    position: absolute;
+    z-index: -1;
+    width: 900px;
+    height: 600px;
+    left: -50px;
+}
 #game-container {
 	position: relative;
 	width: 800px;
 	height: 500px;
 	margin: 50px auto;
-	border: 2px solid black;
-    overflow: hidden;
-    background-color: #EDF3F9;
 }
 #fish-container {
     height: 100vh;
@@ -49,7 +53,7 @@ body {
     color: green;
     font-size: 2rem;
     z-index: 2;
-    margin: 1rem;
+    margin: 1rem 2rem;
 }
 .fish {
     position: absolute;
@@ -62,21 +66,22 @@ body {
     padding: 14px;
 }
 .fish:not(.caught){
-    filter: saturate(0.99);
+    filter: opacity(0.99);
 }
 .caught {
     top: 0 !important;
-    filter: saturate(0.25);
+    filter: opacity(0.25);
 }
 </style>
 </head>
 <body>
 	<div id='game-container'>
-    <div id='fish-caught'></div>
-    <img id='fishing-rod' src='images/hog-fishing/rod-wire.png'/>
-    <div id='fish-container'></div>
-	</div>
-    <div class='neh-hogwild-footer' style='width: fit-content; margin: 2rem auto; font-family: Arial'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
+        <img id='bath-background' src='images/hog-fishing/bath.png'>
+        <div id='fish-caught'></div>
+        <img id='fishing-rod' src='images/hog-fishing/rod-wire.png'/>
+        <div id='fish-container'></div>
+    </div>
+    <div class='neh-hogwild-footer' style='width: fit-content; margin: 7rem auto; font-family: Arial'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
 </body>
 
 <script type='module'>
