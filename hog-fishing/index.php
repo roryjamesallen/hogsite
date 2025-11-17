@@ -20,8 +20,9 @@ body {
 	position: relative;
 	width: 800px;
 	height: 500px;
-	margin: 250px auto;
+	margin: 50px auto;
 	border: 2px solid black;
+    overflow: hidden;
 }
 #fish-container {
     height: 100vh;
@@ -31,6 +32,7 @@ body {
     position: absolute;
     top: 0;
     transition: left var(--fast-transition), top var(--fast-transition);
+    aspect-ratio: 58 / 1790;
 }
 #fish-caught {
     color: green;
@@ -39,6 +41,12 @@ body {
 .fish {
     position: absolute;
     transition: left var(--fast-transition), top var(--slow-transition);
+    background-image: url('images/hog-fishing/duck.png');
+    background-size: contain;
+    width: 35px;
+    aspect-ratio: 100 / 82;
+    box-sizing: border-box;
+    padding: 14px;
 }
 .caught {
     color: red;
@@ -49,7 +57,7 @@ body {
 <body>
 	<div id='game-container'>
     <div id='fish-caught'></div>
-    <div id='fishing-rod'>R</div>
+    <img id='fishing-rod' src='images/hog-fishing/rod-wire.png'/>
     <div id='fish-container'></div>
 	</div>
 </body>
@@ -78,6 +86,8 @@ var game_width = document.getElementById('game-container').clientWidth;
 var fish_width = 25; // Hitbox of fish
 var rod_width = 10; // So the rod doesn't overflow the game container
 
+document.getElementById('fishing-rod').style.height = max_rod_height + 'px';
+
 // Rendering Functions
 function renderFish(){
     for (let fish_index=0; fish_index<fish.length; fish_index++){ // For every fish
@@ -89,7 +99,8 @@ function renderFish(){
     }
 }
 function renderRod(){
-    document.getElementById('fishing-rod').setAttribute('style','left: ' + rod_position + 'px; top: ' + rod_height + 'px');
+    document.getElementById('fishing-rod').style.left = rod_position + 'px';
+    document.getElementById('fishing-rod').style.top = -max_rod_height +  mouse_height_offset + rod_height + 'px';
 }
 function renderFishCaught(){
     document.getElementById('fish-caught').innerHTML = fish_caught;
@@ -171,13 +182,11 @@ function clampValue(value, min, max){
 
 // HTML Functions
 function createFishElement(id){
-    const para = document.createElement('p');
-    const node = document.createTextNode('X');
-    para.appendChild(node);
-    para.setAttribute('id', 'fish-' + id);
-    para.classList.add('fish');
-    para.style.top = (Math.floor(Math.random() * 250) + 50) + 'px';
-    document.getElementById('fish-container').appendChild(para);
+    const img = document.createElement('img');
+    img.setAttribute('id', 'fish-' + id);
+    img.classList.add('fish');
+    img.style.top = (Math.floor(Math.random() * 250) + 50) + 'px';
+    document.getElementById('fish-container').appendChild(img);
 }
 
 // User input processing
