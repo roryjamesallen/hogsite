@@ -5,7 +5,6 @@ $rooms = [
 		"front-door",
 		"entrance-hallway",
 		"naughty-step",
-        "alexs-room",
 		"lounge",
 		"kitchen",
 		"conservatory",
@@ -53,11 +52,7 @@ if ($thompson_room == 'lounge'){
         renderImageLink('naughty-step-to-lounge', 'lounge', '277', '942', 'left: 0px; top: 379px').
         renderImageLink('naughty-step-to-entrance-hallway', 'entrance-hallway', '130', '228', 'left: 406px; bottom: 0px').
         renderImageLink('naughty-step-to-first-floor-landing', 'first-floor-landing', '472', '816', 'left: 316px; top: 204px').
-        renderImageLink('naughty-step-to-alexs-room', 'alexs-room', '279', '977', 'left: 800px; top: 345px');
-} else if ($thompson_room == 'alexs-room'){
-	$thompson_background_height = '702';
-	$thompson_background_src = 'alexs-room';
-	$thompson_room_links = renderImageLink('pigeons-to-garden', 'naughty-step', '185', '88', 'left: 0px; bottom: 0px');
+        renderImageLink('naughty-step-to-alexs-room', 'under-construction', '279', '977', 'left: 800px; top: 345px');
 } else if($thompson_room == 'entrance-hallway'){
 	$thompson_background_height = '938';
 	$thompson_background_src = 'front-hallway';
