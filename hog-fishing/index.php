@@ -3,6 +3,8 @@ include '../lib/generic_content.php';
 
 openSqlConnection('wildhog_analytics', '../sql_login_wildhog_analytics.php');
 
+$force_leaderboard = false;
+$limit = 5;
 if (isset($_POST['username'])){
 	$username = $_POST['username'];
 	$points = $_POST['points'];
@@ -20,9 +22,11 @@ if (isset($_POST['username'])){
 	if ($submit_result){
 		sqlQuery('INSERT INTO fishing_points (username, points) VALUES ("'.$username.'", "'.$points.'")');
 	}
+} else if (isset($_GET['leaderboard'])){
+    $force_leaderboard = true; // user just wants to view it but not submit
+    $limit = 500;
 }
-
-$leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY points DESC LIMIT 5'));
+$leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY points DESC LIMIT '.$limit));
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +40,7 @@ $leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY point
     --fast-transition: 0.1s
 }
 body {
-	overflow: hidden;
+	overflow-x: hidden;
     font-family: Arial;
 }
 .big-note {
@@ -133,13 +137,13 @@ body {
         <img id='fishing-rod' src='images/hog-fishing/rod-wire.png'/>
         <div id='fish-container'></div>
     </div>
-    <div class='neh-hogwild-footer' style='width: fit-content; margin: 7rem auto; font-family: Arial'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
+    <div class='neh-hogwild-footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; text-align: center;'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
 </body>
 
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 500;
+var max_tick = 10;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
@@ -273,10 +277,39 @@ function createLeaderboardEntry(entry){
 	container.appendChild(points);
 	return container;
 }
-function showGameOver(){
+function generateLeaderboard(){
+    const leaderboard = <?php echo $leaderboard;?>;
+	const leaderboard_text = document.createElement('p');
+	leaderboard_text.classList.add('leaderboard');
+	for (let leaderboard_entry=0; leaderboard_entry<leaderboard.length; leaderboard_entry++){
+		leaderboard_text.appendChild(createLeaderboardEntry(leaderboard[leaderboard_entry]));
+	}
+    return leaderboard_text;
+}
+function generateFullLeaderboardLink(){
+    const link = document.createElement('a');
+    link.href = '<?php echo strtok($current_url, "?");?>' + '?leaderboard=true';
+    link.innerHTML = 'view full leaderboard';
+    link.classList.add('button-as-link');
+    return link
+}
+function generatePlayLink(text, remove_parameters=false){
+    let link = '';
+    if (remove_parameters){
+        link = '<?php echo strtok($current_url, "?");?>';
+    } else {
+        link = '<?php echo $current_url;?>';
+    }
+    return '<a href="'+link+'" style="flex-basis: 100%" class="button-as-link">'+text+'</a>';
+}
+function generateBigNote(content){
     const text = document.createElement('p');
-    text.innerHTML = '<a href="<?php echo $current_url;?>" style="flex-basis: 100%" class="button-as-link">Play Again</a>GAME OVER<br>You won ' + fish_caught + ' points';
+    text.innerHTML = content;
     text.classList.add('big-note');
+    return text
+}
+function showGameOver(){
+    const text = generateBigNote(generatePlayLink('Play Again') + 'GAME OVER<br>You won ' + fish_caught + ' points');
 	const form = document.createElement('form');
 	form.classList.add('leaderboard');
 	form.method = 'POST';
@@ -293,21 +326,21 @@ function showGameOver(){
 	form.appendChild(input);
 	form.appendChild(points);
 	form.appendChild(submit);
-	const game_container = document.getElementById('game-container');
 	text.appendChild(form);
-	
-	const leaderboard = <?php echo $leaderboard;?>;
-	const leaderboard_text = document.createElement('p');
-	leaderboard_text.classList.add('leaderboard');
-	for (let leaderboard_entry=0; leaderboard_entry<leaderboard.length; leaderboard_entry++){
-		leaderboard_text.appendChild(createLeaderboardEntry(leaderboard[leaderboard_entry]));
-	}
-	text.appendChild(leaderboard_text);
-	
-    game_container.innerHTML = '';
-    game_container.appendChild(text);
+	text.appendChild(generateLeaderboard());
+    text.appendChild(generateFullLeaderboardLink())
+    clearGameContainerContent();
+    appendGameContainerContent(text);
 }
-
+function clearGameContainerContent(){
+    const game_container = document.getElementById('game-container');
+    game_container.innerHTML = '';
+    game_container.style.height = 'unset';
+}
+function appendGameContainerContent(content){
+    const game_container = document.getElementById('game-container');
+    game_container.appendChild(content);
+}
 // User input processing
 function processClick(){
     if (rod_status == 0){ // Only if not already dropped rod
@@ -333,11 +366,18 @@ function beginTick(){
     }, delay_per_tick * (max_tick + 1)); // Show after the last game tick
 }
 
-// Track mouse position
-onmousemove = function(e){mouse_position = [e.clientX, e.clientY]}
-onmousedown = function(){processClick()}
-
-// Main
-spawnFish();
-beginTick();
+if (!<?php echo json_encode($force_leaderboard);?>){
+    // Track mouse position
+    onmousemove = function(e){mouse_position = [e.clientX, e.clientY]}
+    onmousedown = function(){processClick()}
+        
+    // Main
+    spawnFish();
+    beginTick();
+} else {
+    clearGameContainerContent();
+    const big_note = generateBigNote(generatePlayLink('Play Game', true));
+    big_note.appendChild(generateLeaderboard())
+    appendGameContainerContent(big_note);
+}
 </script>
