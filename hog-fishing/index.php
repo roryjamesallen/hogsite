@@ -46,7 +46,7 @@ $leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY point
 	<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
 	<link rel="manifest" href="favicon/site.webmanifest" />
 	<link rel="stylesheet" href="style.css">
-    <link rel="canonical" href="https://hogwild.uk/hog-fishing" />
+    <link rel="canonical" href="https://fishing.hogwild.uk" />
     <title>Hog Fishing</title>
 <style>
 :root {
@@ -331,12 +331,7 @@ function generateFullLeaderboardLink(){
     return link
 }
 function generatePlayLink(text, remove_parameters=false){
-    let link = '';
-    if (remove_parameters){
-        link = '<?php echo strtok($current_url, "?");?>';
-    } else {
-        link = '<?php echo $current_url;?>';
-    }
+    const link = 'https://fishing.hogwild.uk';
     return '<a href="'+link+'" style="flex-basis: 100%" class="button-as-link">'+text+'</a>';
 }
 function generateBigNote(content){
