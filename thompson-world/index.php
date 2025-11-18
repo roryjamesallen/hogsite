@@ -27,6 +27,9 @@ $thompson_room_pretty = ucwords(str_replace('-', ' ', $thompson_room));
 function renderImageLink($image_name, $links_to, $width, $height, $style){
 	return '<input class="scene-image-link" type="image" src="images/thompson-world/thompson-world-'.$image_name.'.png" name="'.$links_to.'" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
+function renderExternalImageLink($image_name, $links_to, $width, $height, $style){
+	return '<a class="scene-image-link" href="'.$links_to.'" style="'.$style.'"><img src="images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px"></a>';
+}
 function renderImageOnclick($image_name, $width, $height, $style){
     return '<img class="scene-image-link" id="'.$image_name.'" src="images/thompson-world/thompson-world-'.$image_name.'.png" width="'.$width.'px" height="'.$height.'px" style="'.$style.'">';
 }
@@ -108,6 +111,7 @@ if ($thompson_room == 'lounge'){
 	$thompson_room_links =
         renderImageLink('bathroom-to-first-floor-landing', 'first-floor-landing', '194', '96', 'left: 0px; bottom: 0px').
 		renderUnderlayImage('bathroom-tap-on', '61', '60', 'top: 342px; left: 776px; display: none; z-index: -1;').
+        renderExternalImageLink('bathroom-bath', 'https://fishing.hogwild.uk', '468', '350', 'left: 0px; top: 316px').
 		renderImageOnclick('bathroom-tap', '48', '42', 'left: 790px; top: 315px');
 } else if ($thompson_room == 'danny-and-rubys-room'){
 	$thompson_background_height = '739';
