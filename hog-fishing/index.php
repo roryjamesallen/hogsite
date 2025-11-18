@@ -132,12 +132,20 @@ body {
     transition: left var(--fast-transition), top var(--fast-transition);
     aspect-ratio: 58 / 1790;
 }
+#fish-caught, #lives {
+    font-size: 2rem;
+    z-index: 2;
+}
 #fish-caught {
     position: relative;
     color: green;
-    font-size: 2rem;
-    z-index: 2;
     margin: 1rem 2rem;
+}
+#lives {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
 }
 .fish {
     position: absolute;
@@ -162,6 +170,7 @@ body {
 	<div id='game-container'>
         <img id='bath-background' src='images/hog-fishing/bath.png'>
         <div id='fish-caught'></div>
+        <div id='lives'></div>
         <div id='face-container'>
             <img id='face' src='images/hog-fishing/face.png'/>
             <img id='eyes' src='images/hog-fishing/eyes.png'/>
@@ -175,14 +184,14 @@ body {
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 500;
+var max_tick = 5000;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
 
 // Non-customisable globals
 var delay_per_tick = (1 / framerate) * 1000; // Convert framerate to ms per frame (tick)
-var fish = []; // [ID, Position, Speed]
+var fish = []; // [ID, Position, Speed, Caught]
 var mouse_position = []; // Updated with mouse coords every time mouse moves
 var rod_status = 0; // 0=ready to drop 1=dropping 2=coming back up
 var rod_position = 0; // Horizontal rod position (mouse position but clamped to game size and not updated during rod drops)
@@ -195,6 +204,8 @@ var mouse_height_offset = document.getElementById('game-container').getBoundingC
 var game_width = document.getElementById('game-container').clientWidth;
 var fish_width = 25; // Hitbox of fish
 var rod_width = 10; // So the rod doesn't overflow the game container
+var missed_fish = 0;
+var max_missed_fish = 3;
 
 document.getElementById('fishing-rod').style.height = max_rod_height + 'px';
 
@@ -219,11 +230,15 @@ function renderEyes(){
 function renderFishCaught(){
     document.getElementById('fish-caught').innerHTML = fish_caught;
 }
+function renderLives(){
+    document.getElementById('lives').innerHTML = 'lives: ' + (max_missed_fish - missed_fish);
+}
 function renderAll(){ // Update the real HTML positions
     renderFish();
     renderRod();
     renderEyes();
     renderFishCaught();
+    renderLives();
 }
 
 // Basic data processing
@@ -237,7 +252,7 @@ function getLastFishId(){
 function spawnFish(){
     const new_fish_id = getLastFishId() + 1;
     const new_fish_speed = Math.floor(average_fish_speed * ((Math.random() * 1.75) + 0.5));
-    fish.push([new_fish_id, 0, new_fish_speed]);
+    fish.push([new_fish_id, 0, new_fish_speed, false]);
     createFishElement(new_fish_id);
 }
 function maybeSpawnFish(){
@@ -246,26 +261,36 @@ function maybeSpawnFish(){
     }
 }
 function incrementAllFish(){
+    if (missed_fish >= max_missed_fish){
+        showGameOver();
+    }
+    let indexes_to_remove = [];
     for (let fish_index=0; fish_index<fish.length; fish_index++){
         const this_fish = fish[fish_index]
-        this_fish[1] += this_fish[2]; // Increment each fish position by its speed
-		const this_fish_element = document.getElementById('fish-'+fish_index);	
-		if (parseInt(this_fish_element.style.left) >= (game_width - fish_width)){
-			this_fish_element.style.filter = 'opacity(0)';
-		}
+        if (this_fish[3] != true){
+            this_fish[1] += this_fish[2]; // Increment each fish position by its speed
+            const this_fish_element = document.getElementById('fish-'+this_fish[0]);	
+            if (parseInt(this_fish_element.style.left) >= (game_width - fish_width)){
+                this_fish_element.style.filter = 'opacity(0)';
+                missed_fish += 1;
+                this_fish[3] = true;
+            }
+        }
     }
 }
 function checkRodCatch(){
     for (let fish_index=0; fish_index<fish.length; fish_index++){
-        const fish_coords = document.getElementById('fish-'+fish_index).getBoundingClientRect();
-		const horizontal_distance = Math.abs(fish[fish_index][1] - rod_position);
-        const vertical_distance = Math.abs(fish_coords.top - rod_height - mouse_height_offset);
-        if (horizontal_distance < position_hitbox && vertical_distance < height_hitbox){ // If the rod is close enough (laterally) to the fish
-            rod_status = 2; // Rod coming back up
-            //fish.splice(fish_index, 1); // Remove the fish from array
-            document.getElementById('fish-'+fish_index).classList.add('caught');
-            fish_caught += fish[fish_index][2]; // As many points as the speed of the fish
-            break // Only allow one fish catch even if two are within hitbox (end loop now)
+        if (fish[fish_index][3] != true){
+            const fish_coords = document.getElementById('fish-'+fish_index).getBoundingClientRect();
+            const horizontal_distance = Math.abs(fish[fish_index][1] - rod_position);
+            const vertical_distance = Math.abs(fish_coords.top - rod_height - mouse_height_offset);
+            if (horizontal_distance < position_hitbox && vertical_distance < height_hitbox){ // If the rod is close enough (laterally) to the fish
+                rod_status = 2; // Rod coming back up
+                document.getElementById('fish-'+fish_index).classList.add('caught');
+                fish_caught += fish[fish_index][2]; // As many points as the speed of the fish
+                fish[fish_index][3] = true;
+                break // Only allow one fish catch even if two are within hitbox (end loop now)
+            }
         }
     }
 }
