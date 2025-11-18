@@ -20,7 +20,7 @@ if (isset($_POST['username'])){
 		}
     }
 	if ($submit_result){
-		sqlQuery('INSERT INTO fishing_points (username, points) VALUES ("'.$username.'", "'.$points.'")');
+		sqlQuery('INSERT INTO fishing_points (username, points) VALUES ("'.urlencode($username).'", "'.$points.'")');
 	}
 } else if (isset($_GET['leaderboard'])){
     $force_leaderboard = true; // user just wants to view it but not submit
@@ -143,7 +143,7 @@ body {
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 500;
+var max_tick = 10;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
@@ -270,7 +270,7 @@ function createFishElement(id){
 function createLeaderboardEntry(entry){
 	const container = document.createElement('div');
 	const username = document.createElement('span');
-	username.innerHTML = entry['username'];
+	username.innerHTML = decodeURIComponent(entry['username'].replace(/\+/g, ' '));
 	const points = document.createElement('span');
 	points.innerHTML = entry['points'];
 	container.appendChild(username);
@@ -316,6 +316,7 @@ function showGameOver(){
 	const input = document.createElement('input');
 	input.name = 'username';
 	input.placeholder = 'nickname';
+    input.maxLength = '32';
 	const points = document.createElement('input');
 	points.name = 'points';
 	points.type = 'hidden';
