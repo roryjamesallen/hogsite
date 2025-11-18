@@ -206,6 +206,7 @@ var fish_width = 25; // Hitbox of fish
 var rod_width = 10; // So the rod doesn't overflow the game container
 var missed_fish = 0;
 var max_missed_fish = 3;
+var running = true;
 
 document.getElementById('fishing-rod').style.height = max_rod_height + 'px';
 
@@ -246,7 +247,13 @@ function getLastFishId(){
     if (fish.length == 0){
         return -1; // First ever fish, gets incremented to 0
     } else {
-        return fish[fish.length - 1][0];
+        let max_id = 0;
+        for (let fish_index=0; fish_index<fish.length; fish_index++){
+            if (fish[fish_index][0] > max_id){
+                max_id = fish[fish_index][0];
+            }
+        }
+        return max_id;
     }
 }
 function spawnFish(){
@@ -262,6 +269,7 @@ function maybeSpawnFish(){
 }
 function incrementAllFish(){
     if (missed_fish >= max_missed_fish){
+        running = false;
         showGameOver();
     }
     let indexes_to_remove = [];
@@ -269,7 +277,7 @@ function incrementAllFish(){
         const this_fish = fish[fish_index]
         if (this_fish[3] != true){
             this_fish[1] += this_fish[2]; // Increment each fish position by its speed
-            const this_fish_element = document.getElementById('fish-'+this_fish[0]);	
+            const this_fish_element = document.getElementById('fish-'+this_fish[0]);
             if (parseInt(this_fish_element.style.left) >= (game_width - fish_width)){
                 this_fish_element.style.filter = 'opacity(0)';
                 missed_fish += 1;
@@ -409,10 +417,12 @@ function processClick(){
 // Main program functions
 function tickFish(tick){
     setTimeout(function(){
-        maybeSpawnFish();
-        incrementAllFish();
-        incrementRod();
-        renderAll();
+        if (running){
+            maybeSpawnFish();
+            incrementAllFish();
+            incrementRod();
+            renderAll();
+        }
     }, delay_per_tick * tick);
 }
 function beginTick(){
@@ -420,6 +430,7 @@ function beginTick(){
         tickFish(tick);
     }
     setTimeout(function(){
+        running = false;
         showGameOver();
     }, delay_per_tick * (max_tick + 1)); // Show after the last game tick
 }
