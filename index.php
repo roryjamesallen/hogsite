@@ -263,6 +263,14 @@ form input[type="submit"]:hover {
     <span class="button-caption">Friendly Betting</span>
     </div>
 
+    <div class="button-with-caption">
+    <a class="button" href="https://fishing.hogwild.uk">
+        <h2 class="hidden-heading">Hog Mosaic</h2>
+		<img src="images/buttons/hog-fishing.png" class="button-image" alt="Hand drawn button for Duck Fishing">
+	</a>
+    <span class="button-caption">Hook-a-duck in the Thompson World bath</span>
+    </div>                                                         
+
     <div class="page-banner">
     <img src="images/banner-gubbins.png" alt="Banner for Hog Wild pages">
     </div>
