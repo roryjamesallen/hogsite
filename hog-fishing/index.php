@@ -94,6 +94,20 @@ body {
 	height: 500px;
 	margin: 50px auto;
 }
+#face-container {
+    position: absolute;
+    top: -10px;
+    left: 400px;
+    z-index: -2;
+}
+#eyes, #face {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#eyes {
+    z-index: -3;
+}
 #fish-container {
     height: 100vh;
     width: 100vw;
@@ -134,6 +148,10 @@ body {
 	<div id='game-container'>
         <img id='bath-background' src='images/hog-fishing/bath.png'>
         <div id='fish-caught'></div>
+        <div id='face-container'>
+            <img id='face' src='images/hog-fishing/face.png'/>
+            <img id='eyes' src='images/hog-fishing/eyes.png'/>
+        </div>
         <img id='fishing-rod' src='images/hog-fishing/rod-wire.png'/>
         <div id='fish-container'></div>
     </div>
@@ -180,12 +198,17 @@ function renderRod(){
     document.getElementById('fishing-rod').style.left = rod_position + 'px';
     document.getElementById('fishing-rod').style.top = -max_rod_height +  mouse_height_offset + rod_height + 'px';
 }
+function renderEyes(){
+    document.getElementById('eyes').style.left = (Math.floor(rod_position / 50) - 10) + 'px';
+    document.getElementById('eyes').style.top = (Math.floor(rod_height / 75) - 3) + 'px';
+}
 function renderFishCaught(){
     document.getElementById('fish-caught').innerHTML = fish_caught;
 }
 function renderAll(){ // Update the real HTML positions
     renderFish();
     renderRod();
+    renderEyes();
     renderFishCaught();
 }
 
