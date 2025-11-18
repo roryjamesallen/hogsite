@@ -6,12 +6,12 @@ openSqlConnection('wildhog_analytics', '../sql_login_wildhog_analytics.php');
 if (isset($_POST['username'])){
 	$username = $_POST['username'];
 	$points = $_POST['points'];
-	$result = sqlQuery('SELECT username FROM fishing_points WHERE username="'.$username.'"');
+	$result = sqlQuery('SELECT * FROM fishing_points WHERE username="'.$username.'"');
 	$submit_result = true;
     if ($result != []){
         // user has submitted a score before
         foreach ($result as $old_points){
-			if ($old_points >= $points){
+			if ($old_points['points'] >= $points){
 				// this is not the users highest score ever
 				$submit_result = false;
 			}
