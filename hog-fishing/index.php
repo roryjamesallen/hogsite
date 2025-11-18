@@ -22,7 +22,7 @@ if (isset($_POST['username'])){
 	}
 }
 
-$leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY points DESC'));
+$leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY points DESC LIMIT 5'));
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +43,15 @@ body {
     display: flex;
 	flex-wrap: wrap;
     align-items: center;
+	align-content: start;
+	gap: 2rem;
     justify-content: center;
     height: 100%;
     text-align: center;
     font-size: 2rem;
+}
+.leaderboard > * {
+	flex-grow: 1;
 }
 .leaderboard, .leaderboard > div {
 	flex-basis: 100%;
@@ -54,6 +59,23 @@ body {
 	flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
+}
+.leaderboard > div {
+	padding: 0.5rem 0;
+	border-bottom: 1px solid black;
+}
+.leaderboard input {
+	height: 3rem;
+	box-sizing: border-box;
+	font-size: 2rem;
+	text-align: center;
+	border-radius: 0;
+}
+.leaderboard div span:first-child, .leaderboard input {
+	flex-basis: 70%;
+}
+.leaderboard input[type='submit'], .leaderboard div span:not(:first-child) {
+	flex-basis: 25%;
 }
 #bath-background {
     position: absolute;
@@ -117,7 +139,7 @@ body {
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 10;
+var max_tick = 500;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
@@ -253,7 +275,7 @@ function createLeaderboardEntry(entry){
 }
 function showGameOver(){
     const text = document.createElement('p');
-    text.innerHTML = 'GAME OVER<br>You won ' + fish_caught + ' points';
+    text.innerHTML = '<a href="<?php echo $current_url;?>" style="flex-basis: 100%" class="button-as-link">Play Again</a>GAME OVER<br>You won ' + fish_caught + ' points';
     text.classList.add('big-note');
 	const form = document.createElement('form');
 	form.classList.add('leaderboard');
