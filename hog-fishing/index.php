@@ -31,7 +31,21 @@ $leaderboard = json_encode(sqlQuery('SELECT * FROM fishing_points ORDER BY point
 
 <!DOCTYPE html>
 <head>
-    <?php echo $standard_header_content;?>
+    <meta charset="utf-8">
+	<meta name="description" content="Hook A Duck - Hog Style">
+    <meta property="og:title" content="Hook A Duck - Hog Style">
+    <meta property="og:description" content="How many ducks can you hook, can you even make the top 5..?">
+    <meta property="og:image" content="https://hogwild.uk/images/hog-fishing/duck.png">
+    <meta property="og:url" content="https://hogwild.uk">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <?php echo $base_content;?>
+    <link rel="icon" type="image/png" href="images/hog-fishing/duck.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="images/hog-fishing/duck.png" />
+	<link rel="shortcut icon" href="images/hog-fishing/duck.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="images/hog-fishing/duck.png" />
+	<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
+	<link rel="manifest" href="favicon/site.webmanifest" />
+	<link rel="stylesheet" href="style.css">
     <link rel="canonical" href="https://hogwild.uk/hog-fishing" />
     <title>Hog Fishing</title>
 <style>
