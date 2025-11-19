@@ -6,7 +6,7 @@ openSqlConnection('wildhog_analytics', '../sql_login_wildhog_analytics.php');
 $force_leaderboard = false;
 $limit = 5;
 if (isset($_POST['username'])){
-	$username = $_POST['username'];
+	$username = mb_strimwidth(filter_var($_POST['username'], FILTER_SANITIZE_SPECIAL_CHARS), 0, 29, "...");
 	$points = $_POST['points'];
 	$result = sqlQuery('SELECT * FROM fishing_points WHERE username="'.$username.'"');
 	$submit_result = true;
@@ -20,7 +20,7 @@ if (isset($_POST['username'])){
 		}
     }
 	if ($submit_result){
-		sqlQuery('INSERT INTO fishing_points (username, points) VALUES ("'.urlencode($username).'", "'.$points.'")');
+		sqlQuery('INSERT INTO fishing_points (username, points) VALUES ("'.$username.'", "'.$points.'")');
 	}
 } else if (isset($_GET['leaderboard'])){
     $force_leaderboard = true; // user just wants to view it but not submit
@@ -184,7 +184,7 @@ body {
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 5000;
+var max_tick = 10;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
