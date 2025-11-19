@@ -184,7 +184,7 @@ body {
 <script type='module'>
 // Customisable globals      
 var framerate = 15;
-var max_tick = 10;
+var max_tick = 5000;
 var average_fish_speed = 5;
 var position_hitbox = 15;
 var height_hitbox = 25;
