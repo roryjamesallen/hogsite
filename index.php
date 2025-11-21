@@ -192,146 +192,85 @@ form input[type="submit"]:hover {
 }
 </style>
 
+
+<style>
+body {
+    font-family: Arial;
+}
+
+.home-sections {
+    overflow-x: hidden;
+}
+#home-page-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    z-index: 99;
+    top: 0;
+    width: 100%;
+    height: 2rem;
+    background-color: #f4f4f4;
+}
+.home-section-container {
+    position: relative;
+    background-size: contain;
+}
+.height-medium {
+    height: 700px;
+}
+.height-small {
+    height: 250px;
+}
+.home-section-container a:hover .home-section-image {
+    filter: drop-shadow(0 0 10px grey);;
+}
+.home-section-image {
+    position: absolute;
+}
+</style>
+    
 <body>
-<div style="display: none"><?php echo $ip_address;?></div>
-    
-<div class="page-banner" style="margin: 1rem; width: calc(100% - 10rem)">
-    <?php echo 'hogwild.uk has had '.count($visits).' visits from '.count($unique_visitors).' visitors, you\'ve been here '.$client_visit_number.' times.';?>
-    <span style="color: #999; text-align: right">try the light bulb → (try it again while a friend has the site open too...)</span>
-</div>
-    
-    <form method="POST" style="position: absolute; top: 0; right: 0; width: 452px; height: 655px; transform-origin: 100% 0%; transform: scale(0.25);">
-    <input type="submit" value="" name="light-bulb" id="light-bulb" style="position: absolute; top: 0; left: 0; background-size: contain; width: 100%; height: 100%; background: none; border: none">
-    </form>
-</div>
-    
-<div class="button-container">
-    <h1 class="hidden-heading">hogwild.uk - Home of The Wild Hogs</h1>
-    
-	<div class="hogspin-container" style="flex-basis: 100%; display: flex; justify-content: center; position: relative; margin-top: 1rem; transform: scale(0.8)">
-		<img id="hogspin1" src="images/hogspin/1.png" style="display: block" alt="Hand drawn frame 1 of an animation of a rotating hog">
-		<img id="hogspin2" src="images/hogspin/2.png" style="display: none" alt="Hand drawn frame 2 of an animation of a rotating hog">
-		<img id="hogspin3" src="images/hogspin/3.png" style="display: none" alt="Hand drawn frame 3 of an animation of a rotating hog">
-		<img id="hogspin4" src="images/hogspin/4.png" style="display: none" alt="Hand drawn frame 4 of an animation of a rotating hog">
-		<img id="hogspin5" src="images/hogspin/5.png" style="display: none" alt="Hand drawn frame 5 of an animation of a rotating hog">
-		<img id="hogspin6" src="images/hogspin/6.png" style="display: none" alt="Hand drawn frame 6 of an animation of a rotating hog">
-		<img id="hogspin7" src="images/hogspin/7.png" style="display: none" alt="Hand drawn frame 7 of an animation of a rotating hog">
-		<img id="hogspin8" src="images/hogspin/8.png" style="display: none" alt="Hand drawn frame 8 of an animation of a rotating hog">
-	</div>
+    <div id='home-page-message'></div>
 
-    <div class="page-banner">
-    <img src="images/banner-pages.png" alt="Banner for Hog Wild pages">
+    <div class='home-sections'>
+        <div class='home-section-container height-medium' style="aspect-ratio: 1080 / 1699; margin-left: auto; background-image: url(images/thompson-world/thompson-world-front-door.png)">
+            <a class='home-section-link' href='https://hogwild.uk/thompson-world' title='explore the Thompson World'>
+                <img class='home-section-image' src='images/thompson-world/thompson-world-front-door-to-entrance-hallway.png' style='height: 29.3702%; top: 51%; left: 22%'/>
+            </a>
+        </div>
+
+        <div class='home-section-container height-small' style="aspect-ratio: 900 / 600; margin: max(-20vw, -250px) 0 0 2rem; background-image: url(images/hog-fishing/bath.png)">
+            <a class='home-section-link' href='https://fishing.hogwild.uk' title='try your hand at bathtub hook-a-duck'>
+                <img class='home-section-image' src='images/hog-fishing/duck.png' style='height: 29.3702%; top: 51%; left: 22%'/>
+            </a>
+        </div>
     </div>
-
-    <div class="button-with-caption">
-    <a class="button" href="https://hogwild.uk/wiki">
-        <h2 class="hidden-heading">Hogipedia</h2>
-		<img src="images/buttons/hogipedia.png" class="button-image" alt="Hand drawn button for the Hogipedia page, a Wikipedia style encyclopedia for The Wild Hogs">
-	</a>
-    <span class="button-caption">Learn The Lore</span>
-    </div>
-
-    <div class="button-with-caption">
-	<a class="button" href="https://hogwild.uk/thompson-world">
-        <h2 class="hidden-heading">Thompson World</h2>
-		<img src="images/buttons/thompson-world.png" class="button-image" alt="Hand drawn button for Thompson World page">
-	</a>
-    <span class="button-caption">Explore The House</span>
-    </div>
-
-    <div class="button-with-caption">
-    <a class="button" href="https://hogwild.uk/hogdivmosaic">
-        <h2 class="hidden-heading">Hog Mosaic</h2>
-		<img src="images/buttons/hogmosaic.png" class="button-image" alt="Hand drawn button for Hog Mosaic page">
-	</a>
-    <span class="button-caption">Find The Hog</span>
-    </div>
-
-    <div class="button-with-caption">
-    <a class="button" href="https://hogwild.uk/notoalgorithms">
-        <h2 class="hidden-heading">No To Algorithms!</h2>
-		<img src="images/buttons/notoalgorithms.png" class="button-image" alt="Hand drawn button for No To Algorithms music recommendations page">
-	</a>
-    <span class="button-caption">Human Music Recommendations</span>
-    </div>
-
-    <div class="button-with-caption">
-    <a class="button" href="https://hogwild.uk/nothingeverhappens">
-        <h2 class="hidden-heading">Hog Mosaic</h2>
-		<img src="images/buttons/nothingeverhappens.png" class="button-image" alt="Hand drawn button for Nothing Ever Happens">
-	</a>
-    <span class="button-caption">Friendly Betting</span>
-    </div>
-
-    <div class="button-with-caption">
-    <a class="button" href="https://fishing.hogwild.uk">
-        <h2 class="hidden-heading">Hog Mosaic</h2>
-		<img src="images/buttons/hog-fishing.png" class="button-image" alt="Hand drawn button for Duck Fishing">
-	</a>
-    <span class="button-caption">Hook-a-duck in the Thompson World bath</span>
-    </div>                                                         
-
-    <div class="page-banner">
-    <img src="images/banner-gubbins.png" alt="Banner for Hog Wild pages">
-    </div>
-
-    <div style="flex-basis: 100%; display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;">
-    <form action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
-    <h2 class="hidden-heading">Subscribe to the Hog Wild Mailing List</h2>
-    <img src="images/buttons/mailing-list.png" class="button-image" alt="Hand drawn button for the Hog Wild Mailing List" style="transform: scale(0.7);">
-    <input type="email" placeholder="Email Address" name="mail" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem;">
-    <input type="submit" value="Subscribe" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem; background-color: rgba(0,0,0,0); margin-top: -1.25rem">
-    </form>
-
-    <form method="POST" action="" style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
-    <h2 class="hidden-heading">Submit a song recommendation</h2>
-    <div id='song-text' class="song-link" style="width: 80%; margin-top: 1.5rem;"></div>
-    <input placeholder="Spotify Link" name="song_link" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem;">
-    <input type="submit" value="Recommend" class="drawn-border-text-input" required style="background-image: url(images/buttons/mailing-list-email-border.png); background-position-y: 0.9rem; background-color: rgba(0,0,0,0); margin-top: -1.25rem">
-    </form>
-
-
-    <?php 
-		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
-		$amarela = $lisboa['amarela'];
-		$azul = $lisboa['azul'];
-		$verde = $lisboa['verde'];
-		$vermelha = $lisboa['vermelha'];
-	?>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
-        <div style="width: 80%; margin-top: 1.5rem">
-            <a class="button-as-link" href="https://www.metrolisboa.pt/en/">Lisboa Metro</a> Status:
-            <div class="lisboa-container"><div class="lisboa-status" style="color: yellow"><?php echo $amarela;?></div></div>
-            <div class="lisboa-container"><div class="lisboa-status" style="color: blue"><?php echo $azul;?></div></div>
-            <div class="lisboa-container"><div class="lisboa-status" style="color: green"><?php echo $verde;?></div></div>
-            <div class="lisboa-container"><div class="lisboa-status" style="color: red"><?php echo $vermelha;?></div></div>
-         </div>
-    </div>
-
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
-            <a style="width: 80%; margin-top: 1.5rem; font-size: 2rem;" class="button-as-link" href="https://www.tristandc.com/population.php"><?php echo $tristan_inhabitants_text;?></a>
-    </div>
-
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 250px; aspect-ratio: 250 / 226; background-image: url(images/buttons/mailing-list-border.png)">
-            <div class="random-joke" style="width: 80%; margin-top: 1.5rem;;">Hog Joke:<br><?php echo apiCall("https://official-joke-api.appspot.com/random_joke")['setup'].' <span style="font-family: Jokerman; text-decoration: underline">'.apiCall("https://official-joke-api.appspot.com/random_joke")['punchline'].'</span>';?></div>
-    </div>
-</div>
-
-<div class="footer">
-<strong>What the hell is this website!??!?</strong><br><a class="button-as-link" href="https://hogwild.uk">hogwild.uk</a> is a collection of ideas and art by anyone who wants to have their ideas and art published. If you've made or are making something you'd like to share, or just have something to say, please <a class="button-as-link" href="mailto:rory@hogwild.uk">email Rory</a> at rory (@) hogwild.uk
-</div>
-
-</div>
 </body>
 
+<script>
+    function updatePageMessage(text){
+        document.getElementById('home-page-message').innerHTML = text;
+    }
+    function resetPageMessage(){
+        updatePageMessage("<span>welcome to <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a></span>")
+    }
+
+    resetPageMessage();
+    document.querySelectorAll(".home-section-link").forEach(element => {
+            element.addEventListener("mouseover", () => { updatePageMessage(element.title) });
+            element.addEventListener("mouseout", () => { resetPageMessage() });
+    });
+</script>
+    
 <script type='module'>
-    import { start_image_loop } from './lib/hoglib.js';
-    start_image_loop('hogspin', 8, 150);
+import { start_image_loop } from './lib/hoglib.js';
+//start_image_loop('hogspin', 8, 150);
 
 var prevent_long_polling = <?php echo json_encode($prevent_long_polling);?>;
 var interactive_element_states = <?php echo json_encode($interactive_element_states);?>;
 console.log(interactive_element_states);
-processLongPollValues(interactive_element_states);
+//processLongPollValues(interactive_element_states);
 
 function processLongPollValues(values){
     try {
@@ -366,7 +305,7 @@ function longPoll(){
 
 $(document).ready(function(){
     if (!prevent_long_polling){
-        longPoll(); /* Start the inital request */
+        //longPoll(); /* Start the inital request */
     }
 });
 
