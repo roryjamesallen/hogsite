@@ -220,9 +220,9 @@ body {
     height: 700px;
 }
 .height-small {
-    height: 250px;
+    height: max(30vw, 250px);
 }
-.home-section-container a:hover .home-section-image {
+.home-section-container a:hover .home-section-image:not(.no-hover) {
     filter: drop-shadow(0 0 10px grey);;
 }
 .home-section-image {
@@ -234,15 +234,22 @@ body {
     <div id='home-page-message'></div>
 
     <div class='home-sections'>
-        <div class='home-section-container height-medium' style="aspect-ratio: 1080 / 1699; margin-left: auto; background-image: url(images/thompson-world/thompson-world-front-door.png)">
+        <div class='home-section-container height-medium' style="aspect-ratio: 1080 / 1699; margin: 0 2rem 0 auto; background-image: url(images/thompson-world/thompson-world-front-door.png)">
             <a class='home-section-link' href='https://hogwild.uk/thompson-world' title='explore the Thompson World'>
                 <img class='home-section-image' src='images/thompson-world/thompson-world-front-door-to-entrance-hallway.png' style='height: 29.3702%; top: 51%; left: 22%'/>
             </a>
         </div>
 
-        <div class='home-section-container height-small' style="aspect-ratio: 900 / 600; margin: max(-20vw, -250px) 0 0 2rem; background-image: url(images/hog-fishing/bath.png)">
-            <a class='home-section-link' href='https://fishing.hogwild.uk' title='try your hand at bathtub hook-a-duck'>
-                <img class='home-section-image' src='images/hog-fishing/duck.png' style='height: 29.3702%; top: 51%; left: 22%'/>
+        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-20vw, -250px) 0 0;">
+            <img class='home-section-image' src='images/rug.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
+            <img class='home-section-image' src='images/speaker-l.png' style='height: 50%; top: 5%; left: 22%'/>
+            <img class='home-section-image' src='images/speaker-r.png' style='height: 30%; top: 0; left: max(70%, 45vw)'/>
+            <a class='home-section-link' href='https://hogwild.uk/notoalgorithms' title='no to algorithms! humans only music recommendation site'>
+                <img class='home-section-image' src='images/record-box.png' style='height: 30%; top: 40%; left: 70%'/>
+            </a>
+            <a class='home-section-link' href='https://hogwild.uk' title='put everyone onto something new'>
+                <img class='home-section-image' src='images/stand-note.png' style='height: 30%; top: 60%; left: 15%'/>
+                <div class='home-section-image no-hover' style='height: 30%; top: 62%; left: 17%'>now playing:<br>song by artist</div>
             </a>
         </div>
     </div>
