@@ -252,6 +252,12 @@ body {
                 <div class='home-section-image no-hover' style='height: 30%; top: 62%; left: 17%'>now playing:<br>song by artist</div>
             </a>
         </div>
+        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-15vw, -250px) 15vw 0 auto;">
+            <img class='home-section-image' src='images/gambling-items.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
+            <a class='home-section-link' href='https://hogwild.uk/nothingeverhappens' title='nothing ever happens - friendly betting'>
+                <img class='home-section-image' src='images/buttons/nothingeverhappens.png' style='height: 20%; top: 10%; left: max(170px, 25vw)'/>
+            </a>
+        </div>
     </div>
 </body>
 
