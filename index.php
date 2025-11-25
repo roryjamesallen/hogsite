@@ -197,7 +197,10 @@ form input[type="submit"]:hover {
 body {
     font-family: Arial;
 }
-
+a, a:visited {
+    color: black;
+}
+    
 .home-sections {
     overflow-x: hidden;
 }
@@ -240,7 +243,7 @@ body {
             </a>
         </div>
 
-        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-20vw, -250px) 0 0;">
+        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
             <img class='home-section-image' src='images/rug.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
             <img class='home-section-image' src='images/speaker-l.png' style='height: 50%; top: 5%; left: 22%'/>
             <img class='home-section-image' src='images/speaker-r.png' style='height: 30%; top: 0; left: max(70%, 45vw)'/>
@@ -252,10 +255,19 @@ body {
                 <div class='home-section-image no-hover' style='height: 30%; top: 62%; left: 17%'>now playing:<br>song by artist</div>
             </a>
         </div>
+    
         <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-15vw, -250px) 15vw 0 auto;">
             <img class='home-section-image' src='images/gambling-items.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
             <a class='home-section-link' href='https://hogwild.uk/nothingeverhappens' title='nothing ever happens - friendly betting'>
                 <img class='home-section-image' src='images/buttons/nothingeverhappens.png' style='height: 20%; top: 10%; left: max(170px, 25vw)'/>
+            </a>
+        </div>
+
+        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
+            <a class='home-section-link' href='https://hogwild.uk' title='check the status of the Lisbon metro'>
+                
+                <div class='home-section-image no-hover' style='max-height: 20%; top: 30%; left: 25%; max-width: 25%; transform: skew(0deg, -37deg); overflow: hidden;'>metro:<br>azul: Ok<br>amarillo: Ok</div>
+                <img class='home-section-image' src='images/noticeboard.png' style='height: 100%; top: -15%; left: 10%'/>
             </a>
         </div>
     </div>
