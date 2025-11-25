@@ -264,9 +264,9 @@ a, a:visited {
         </div>
 
         <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
-            <a class='home-section-link' href='https://hogwild.uk' title='check the status of the Lisbon metro'>
+            <a class='home-section-link' href='https://www.metrolisboa.pt/en/' title='check the status of the Lisbon metro'>
                 
-                <div class='home-section-image no-hover' style='max-height: 20%; top: 30%; left: 25%; max-width: 25%; transform: skew(0deg, -37deg); overflow: hidden;'>metro:<br>azul: Ok<br>amarillo: Ok</div>
+                                                                                                                              <div class='home-section-image no-hover' style='max-height: 22%; top: 30%; left: 21%; max-width: 32%; transform: scale(0.75, 1) skew(0deg, -28deg); overflow: hidden;'>azul: Ok<br>amarillo: Okteststtastvaujshbnkmolscknbosnivksilcunvisubdklji odvunsidvbisd ohfiajxkl<br>test: Ok<br>Bob: Ok</div>
                 <img class='home-section-image' src='images/noticeboard.png' style='height: 100%; top: -15%; left: 10%'/>
             </a>
         </div>
