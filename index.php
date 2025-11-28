@@ -202,7 +202,8 @@ a, a:visited {
 }
     
 .home-sections {
-    overflow-x: hidden;
+    overflow: hidden;
+    padding-bottom: 250px;
 }
 #home-page-message {
     display: flex;
@@ -265,9 +266,16 @@ a, a:visited {
 
         <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
             <a class='home-section-link' href='https://www.metrolisboa.pt/en/' title='check the status of the Lisbon metro'>
-                
-                                                                                                                              <div class='home-section-image no-hover' style='max-height: 22%; top: 30%; left: 21%; max-width: 32%; transform: scale(0.75, 1) skew(0deg, -28deg); overflow: hidden;'>azul: Ok<br>amarillo: Okteststtastvaujshbnkmolscknbosnivksilcunvisubdklji odvunsidvbisd ohfiajxkl<br>test: Ok<br>Bob: Ok</div>
+                <div class='home-section-image no-hover' style='max-height: 22%; top: 30%; left: 21%; max-width: 32%; transform: scale(0.75, 1) skew(0deg, -28deg); overflow: hidden;'>azul: Ok<br>amarillo: Okteststtastvaujshbnkmolscknbosnivksilcunvisubdklji odvunsidvbisd ohfiajxkl<br>test: Ok<br>Bob: Ok</div>
                 <img class='home-section-image' src='images/noticeboard.png' style='height: 100%; top: -15%; left: 10%'/>
+            </a>
+        </div>
+
+        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-15vw, -250px) 15vw 0 auto;">
+            <a class='home-section-link' href='https://hogwild.uk/wiki' title='hogipedia - learn the lore'>
+                <iframe src="wiki/index.php" width="100%" height="300" style="position: relative; height: 51%; width: 45%; top: 18%; left: 18%; zoom: 0.2"></iframe>
+                <img class='home-section-image' src='images/old-mouse.png' style='height: 35%; top: 60%; left: 60%'/>
+                <img class='home-section-image' src='images/old-pc.png' style='height: 100%; top: 10%; left: 10%'/>
             </a>
         </div>
     </div>
