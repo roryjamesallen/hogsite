@@ -238,22 +238,25 @@ a, a:visited {
     <div id='home-page-message'></div>
 
     <div class='home-sections'>
-        <div class='home-section-container height-medium' style="aspect-ratio: 1080 / 1699; margin: 0 2rem 0 auto; background-image: url(images/thompson-world/thompson-world-front-door.png)">
+        <div class='home-section-container height-medium' style="aspect-ratio: 1080 / 1699; margin: 0 auto 0 2rem; background-image: url(images/thompson-world/thompson-world-front-door.png)">
             <a class='home-section-link' href='https://hogwild.uk/thompson-world' title='explore the Thompson World'>
                 <img class='home-section-image' src='images/thompson-world/thompson-world-front-door-to-entrance-hallway.png' style='height: 29.3702%; top: 51%; left: 22%'/>
             </a>
+            <a class='home-section-link' href='' title='join the mailing list'>
+                <img class='home-section-image' src='images/mailbox.png' style='height: 29.3702%; bottom: min(20%, calc(20vw - 10%)); left: min(130%, 65vw)'/>
+            </a>
         </div>
 
-        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
+        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: 0;">
             <img class='home-section-image' src='images/rug.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
             <img class='home-section-image' src='images/speaker-l.png' style='height: 50%; top: 5%; left: 22%'/>
             <img class='home-section-image' src='images/speaker-r.png' style='height: 30%; top: 0; left: max(70%, 45vw)'/>
-            <a class='home-section-link' href='https://hogwild.uk/notoalgorithms' title='no to algorithms! humans only music recommendation site'>
+            <a class='home-section-link' href='https://hogwild.uk/notoalgorithms' title='no to algorithms! humans only music recommendations'>
                 <img class='home-section-image' src='images/record-box.png' style='height: 30%; top: 40%; left: 70%'/>
             </a>
             <a class='home-section-link' href='https://hogwild.uk' title='put everyone onto something new'>
-                <img class='home-section-image' src='images/stand-note.png' style='height: 30%; top: 60%; left: 15%'/>
-                <div class='home-section-image no-hover' style='height: 30%; top: 62%; left: 17%'>now playing:<br>song by artist</div>
+                <img class='home-section-image' src='images/stand-note.png' style='height: 40%; top: 60%; left: 15%'/>
+                <div id='song-text' class='home-section-image no-hover' style='height: 30%; top: 62%; left: 17%; max-width: 38%; max-height: 30%; font-size: 80%; overflow: hidden'></div>
             </a>
         </div>
     
@@ -264,9 +267,17 @@ a, a:visited {
             </a>
         </div>
 
+        <?php 
+		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
+		$amarela = $lisboa['amarela'];
+		$azul = $lisboa['azul'];
+		$verde = $lisboa['verde'];
+		$vermelha = $lisboa['vermelha'];
+	    ?>
+    
         <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
             <a class='home-section-link' href='https://www.metrolisboa.pt/en/' title='check the status of the Lisbon metro'>
-                <div class='home-section-image no-hover' style='max-height: 22%; top: 30%; left: 21%; max-width: 32%; transform: scale(0.75, 1) skew(0deg, -28deg); overflow: hidden;'>azul: Ok<br>amarillo: Okteststtastvaujshbnkmolscknbosnivksilcunvisubdklji odvunsidvbisd ohfiajxkl<br>test: Ok<br>Bob: Ok</div>
+            <div class='home-section-image no-hover' style='max-height: 26%; top: 30%; left: 21%; max-width: 32%; transform: scale(0.75, 1) skew(0deg, -28deg); overflow: hidden;'>amerela: <?php echo $amarela;?><br>azul: <?php echo $azul;?><br>verde: <?php echo $verde;?><br>vermelha: <?php echo $vermelha;?><br></div>
                 <img class='home-section-image' src='images/noticeboard.png' style='height: 100%; top: -15%; left: 10%'/>
             </a>
         </div>
@@ -295,7 +306,7 @@ a, a:visited {
             element.addEventListener("mouseout", () => { resetPageMessage() });
     });
 </script>
-    
+
 <script type='module'>
 import { start_image_loop } from './lib/hoglib.js';
 //start_image_loop('hogspin', 8, 150);
@@ -303,7 +314,7 @@ import { start_image_loop } from './lib/hoglib.js';
 var prevent_long_polling = <?php echo json_encode($prevent_long_polling);?>;
 var interactive_element_states = <?php echo json_encode($interactive_element_states);?>;
 console.log(interactive_element_states);
-//processLongPollValues(interactive_element_states);
+processLongPollValues(interactive_element_states);
 
 function processLongPollValues(values){
     try {
@@ -312,7 +323,7 @@ function processLongPollValues(values){
     }
     //console.log(values);
     updateSongText(values['song_text']);
-    updateLightBulb(values['light']);
+    //updateLightBulb(values['light']);
 }
 function updateSongText(text){
     document.getElementById('song-text').innerHTML = text;
@@ -338,7 +349,7 @@ function longPoll(){
 
 $(document).ready(function(){
     if (!prevent_long_polling){
-        //longPoll(); /* Start the inital request */
+        longPoll(); /* Start the inital request */
     }
 });
 
