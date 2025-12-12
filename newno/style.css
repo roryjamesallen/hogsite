@@ -28,5 +28,9 @@ strong {
 .drawing-by-text {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
+}
+.drawing-by-text h4 {
+    flex-basis: 8%;
+    flex-shrink: 0;
 }

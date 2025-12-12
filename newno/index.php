@@ -11,12 +11,12 @@
     <i>NEWNO</i> is a custom ruleset for the popular card game <a href="https://en.wikipedia.org/wiki/Uno_(card_game)">UNO</a> that has been cobbled together over many years by a group of friends from <a href="https://en.wikipedia.org/wiki/Macclesfield">Macclesfield, England.</a>
     <h2>Gameplay</h2>
     <h3>Overview</h3>
-    The basic gameplay is the same as the standard game, so read those rules if you aren't already familiar. This ruleset is comprehensive so don't expect for whatever house rules you have for the standard game to integrate neatly - they probably won't.
+    The basic gameplay is the same as the standard game, so read <a href="https://www.unorules.com/">those rules</a> if you aren't already familiar. The NEWNO ruleset may override original UNO rules, and the specific edge cases that may arise have been considered only in relation to the ruleset as a whole: don't expect for whatever individual house rules you have for the standard game to integrate neatly - they probably won't.<br><br>The best way to start playing NEWNO is to skim this document and begin playing, then consult when you aren't sure what's supposed to happen.
     <h3>Dealing</h3>
-    Deal 7 cards to each player, placing them face down on the table. Once you've dealt them, place the remaining deck in the middle of the table, also face down.
+    Deal seven cards to each player, placing them face down on the table. Once you've dealt them, place the remaining deck in the middle of the table, also face down.<br><br>You cannot touch any of the hands while cards are still being dealt, but after the last card is dealt you may take any hand to be your own (not necessarily the one in front of you). Once you have touched a hand it becomes yours, as long as you were the first to touch it.
     <h3>Starting to Play</h3>
     <strong>The first player to play plays first.</strong>
-    Any player may start the game once all the cards have been dealt and the deck has been placed in the middle. The starting player may play any card from their deck by placing it face up next to (not on) the deck, creating the <i>discard pile</i>.
+    Any player may start the game once all the cards have been dealt and the deck has been placed in the middle. The starting player may play any card from their deck by placing it face up next to the face down deck, creating the <i>discard pile</i>.
     <strong>The second player to play goes second.</strong>
     Whichever player (to either the direct left or direct right of the starting player) is quick enough to go second, may play any legal card from their hand, also placing it face up on the discard pile. After the second player has played, the direction is set. If you find yourself in a stalemate where neither player adjacent to the first player wants to play (for example if neither can play so one would have to pick up a card to determine the direction of play), the first player can nominate who goes second. It's up to the rest of the players to determine if a fair amount of time has passed before this can happen.
   <h3>Continuing to Play</h3>
@@ -27,12 +27,12 @@
   <h3>Swap Cards</h3>
   <div class="drawing-by-text">
     <h4><img src="seven.png" class="drawing"/></h4>
-    7 cards act as 'swap with one other player' cards. When you play one, you can pick one player to swap hands with.
+    Seven cards act as 'swap with one other player' cards. When you play one, you can pick one player to swap hands with.
   </div>
   <hr>
   <div class="drawing-by-text">
     <h4><img src="zero.png" class="drawing"/></h4>
-    0 cards act as 'swap in the direction of play' cards. Every player passes their hand to the player on whichever side of them would play next given the current direction.
+    Zero cards act as 'swap in the direction of play' cards. Every player passes their hand to the player on whichever side of them would play next given the current direction.
   </div>
   <hr>
   <h3>The Jump In Rule</h3>
@@ -96,5 +96,16 @@
     <h4><img src="zero.png" class="drawing"/></h4>
     You can only jump in with an all swap (0) if nobody has yet touched the hand that they would be receiving by swapping. If you can and do jump in with another 0, nobody gets to look at the cards they would have got with a single swap/rotation, they just pass twice in the direction of play instead.
   </div>
+  <h2>Playing Cards</h2>
+  It is possible to play NEWNO with a standard set of playing cards (as opposed to UNO cards), just substitute each of the special cards with normal cards as below, and use suits instead of colours.
+  <ul>
+    <li>0: 0</li>
+    <li>2: +2</li>
+    <li>3: Skip</li>
+    <li>7: 7</li>
+    <li>5: Reverse</li>
+    <li>King: Wild</li>
+    <li>Ace: Wild +4</li>
+  </ul>
   </body>
 </html>
