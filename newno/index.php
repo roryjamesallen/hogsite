@@ -2,11 +2,13 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>NEWNO</title>
   </head>
   <body>
     <h1><img src="newno.png" class="drawing"/></h1>
     <h2>Introduction</h2>
-    This is a custom ruleset for the popular card game <a href="https://en.wikipedia.org/wiki/Uno_(card_game)">UNO</a> that has been cobbled together over many years by a group of friends from <a href="https://en.wikipedia.org/wiki/Macclesfield">Macclesfield, England.</a>
+    <i>NEWNO</i> is a custom ruleset for the popular card game <a href="https://en.wikipedia.org/wiki/Uno_(card_game)">UNO</a> that has been cobbled together over many years by a group of friends from <a href="https://en.wikipedia.org/wiki/Macclesfield">Macclesfield, England.</a>
     <h2>Gameplay</h2>
     <h3>Overview</h3>
     The basic gameplay is the same as the standard game, so read those rules if you aren't already familiar. This ruleset is comprehensive so don't expect for whatever house rules you have for the standard game to integrate neatly - they probably won't.
