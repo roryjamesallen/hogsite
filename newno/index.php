@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>NEWNO</title>
+     <meta charset="utf-8">
+     <meta name="description" content="NEWNO is a custom ruleset for the popular card game UNO.">
+     <meta property="og:title" content="NEWNO">
+     <meta property="og:description" content="NEWNO is a custom ruleset for the popular card game UNO that has been cobbled together over many years by a group of friends from Macclesfield, England.">
+     <meta property="og:image" content="https://hogwild.uk/newno/sharing.png">
+     <meta property="og:url" content="https://newno.hogwild.uk">
+     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+     <link rel="icon" type="image/x-icon" href="favicon.ico"
+     <link rel="shortcut icon" href="favicon.ico" />
+     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+     <meta name="apple-mobile-web-app-title" content="NEWNO" />
+     <link rel="stylesheet" href="style.css">
+     <title>NEWNO</title>
   </head>
   <body>
     <h1><img src="newno.png" class="drawing"/></h1>
@@ -15,8 +25,9 @@
     <h3>Dealing</h3>
     Deal an equal number of cards to each player, placing them face down on the table. The number of cards in each hand for a given round is left to the dealer's discretion, but all hands must contain the same number of cards at the start. Once the hands have been dealt, place the remaining deck in the middle of the table, also face down.<br><br>You cannot touch any of the hands while cards are still being dealt, but after the last card is dealt you may take any hand to be your own (not necessarily the one in front of you). Once you have touched a hand it becomes yours, as long as you were the first to touch it.
     <h3>Starting to Play</h3>
+     The very first move of the game is the dealer turning the top card from the face down deck over to start the <i>discard pile</i>.
     <strong>The first player to play plays first.</strong>
-    Any player may start the game once all the cards have been dealt and the deck has been placed in the middle. The starting player may play any card from their deck by placing it face up next to the face down deck, creating the <i>discard pile</i>.
+     Any player may start the game once the first card has been turned over, as long as their play is 'legal'. The played card should be placed face up on the top of the discard pile.
     <strong>The second player to play goes second.</strong>
     Whichever player (to either the direct left or direct right of the starting player) is quick enough to go second, may play any legal card from their hand, also placing it face up on the discard pile. After the second player has played, the direction is set. If you find yourself in a stalemate where neither player adjacent to the first player wants to play (for example if neither can play so one would have to pick up a card to determine the direction of play), the first player can nominate who goes second. It's up to the rest of the players to determine if a fair amount of time has passed before this can happen.
   <h3>Continuing to Play</h3>
