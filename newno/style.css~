@@ -1,0 +1,17 @@
+body {
+    font-family: Arial;
+}
+h1, h2, h3 {
+    text-decoration: underline;
+}
+a {
+    color: #069;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+strong {
+    display: block;
+    margin: 1rem;
+}
