@@ -21,20 +21,54 @@
     <i>NEWNO</i> is a custom ruleset for the popular card game <a href="https://en.wikipedia.org/wiki/Uno_(card_game)">UNO</a> that has been cobbled together over many years by a group of friends from <a href="https://en.wikipedia.org/wiki/Macclesfield">Macclesfield, England.</a>
     <h2>Gameplay</h2>
     <h3>Overview</h3>
-    The basic gameplay is the same as the standard game, so read <a href="https://www.unorules.com/">those rules</a> if you aren't already familiar. The NEWNO ruleset may override original UNO rules, and the specific edge cases that may arise have been considered only in relation to the ruleset as a whole: don't expect for whatever individual house rules you have for the standard game to integrate neatly - they probably won't.<br><br>The best way to start playing NEWNO is to skim this document and begin playing, then consult when you aren't sure what's supposed to happen.
+    The basic gameplay is the same as the standard game, so read <a href="https://www.unorules.com/">those rules</a> if you aren't already familiar. The NEWNO ruleset may override original UNO rules, and the specific edge cases that may arise have been considered only in relation to the ruleset as a whole: don't expect for whatever individual house rules you have for the standard game to integrate neatly - they probably won't.<br><br>The best way to start playing NEWNO is to skim this document and begin playing, then consult when you aren't sure what's supposed to happen.<br><br>
+    <hr>
     <h3>Dealing</h3>
-    Deal an equal number of cards to each player, placing them face down on the table. The number of cards in each hand for a given round is left to the dealer's discretion, but all hands must contain the same number of cards at the start. Once the hands have been dealt, place the remaining deck in the middle of the table, also face down.<br><br>You cannot touch any of the hands while cards are still being dealt, but after the last card is dealt you may take any hand to be your own (not necessarily the one in front of you). Once you have touched a hand it becomes yours, as long as you were the first to touch it.
+    Deal an equal number of cards to each player, placing them face down on the table. The number of cards in each hand for a given round is left to the dealer's discretion, but all hands must contain the same number of cards at the start. Once the hands have been dealt, place the remaining deck in the middle of the table, also face down.<br><br>You cannot touch any of the hands while cards are still being dealt, but after the last card is dealt you may take any hand to be your own (not necessarily the one in front of you). Once you have touched a hand it becomes yours, as long as you were the first to touch it.<br><br>
+    <hr>
     <h3>Starting to Play</h3>
-     The very first move of the game is the dealer turning the top card from the face down deck over to start the <i>discard pile</i>.
+    The very first move of the game is the dealer turning the top card from the face down deck over to start the <i>discard pile</i>.
     <strong>The first player to play plays first.</strong>
-     Any player may start the game once the first card has been turned over, as long as their play is 'legal'. The played card should be placed face up on the top of the discard pile. If the turned over card is a +2 or +4 and thus nobody wants to play first, the dealer can nominate a player to play/draw.
+    Any player may start the game once the first card has been turned over, as long as their play is 'legal'. The played card should be placed face up on the top of the discard pile. See the <a href="#youngest-rule">The Youngest Rule</a> if you find the game in a stalemate during the first couple of plays.
+    <h4>Special Cases</h4>
+    If the turned over card is one of the below, the first player may have more leeway in what counts as a legal play:
+    <div class="drawing-by-text">
+      <h4><img src="plus-two.png" class="drawing"/></h4>
+      <p>The first player doesn't have to draw any cards, they can just play any card of the same colour.
+    </div>
+    <hr>
+    <div class="drawing-by-text">
+      <h4><img src="plus-four.png" class="drawing"/></h4>
+      The first player doesn't have to draw any cards, they can just play any card of any colour.
+    </div>
+    <hr>
+    <div class="drawing-by-text">
+      <h4><img src="skip.png" class="drawing"/></h4>
+      Nobody is actually 'skipped', the first player must just play a card of the same colour. If the first player also plays a skip, only one player to one side is skipped.
+    </div>
+    <hr>
+    <div class="drawing-by-text">
+      <h4><img src="reverse.png" class="drawing"/></h4>
+      As the direction is yet to be set, any card of the same colour may be played and nothing special happens.
+    </div>
+    <hr>
+    <div class="drawing-by-text">
+      <h4><img src="wild.png" class="drawing"/></h4>
+      Any card of any colour may be played.
+    </div>
+    <hr><br>
     <strong>The second player to play goes second.</strong>
-    Whichever player (to either the direct left or direct right of the starting player) is quick enough to go second, may play any legal card from their hand, also placing it face up on the discard pile. After the second player has played, the direction is set.<br><br>If you find yourself in a stalemate where neither player adjacent to the first player wants to play (for example if neither can play or the turned over card is a +2 or +4), the first player can nominate who goes second out of the two candidates. It's up to the rest of the players to determine if a fair amount of time has passed before this can happen.
+    Whichever player (to either the direct left or direct right of the starting player) is quick enough to go second, may play any legal card from their hand, also placing it face up on the discard pile. After the second player has played, the direction is set.<br><br>If you find yourself in a stalemate where neither player adjacent to the first player wants to play (for example if neither can play or the first player played a +2 or +4), see <a href="#youngest-rule">The Youngest Rule</a>.<br><br>
+    <hr>
   <h3>Continuing to Play</h3>
   After the first two players have played, each player in turn (in the direction set by the first two players' order) play one card from their deck. Special cards may change the direction - see below for all of the special cards and their eccentricities. If you cannot play, you must draw one card from the face down deck.
   <h4>The Apex Gambit</h4>
-  If you cannot play and thus draw one card, you are allowed to immediately play that card if it is legal. This does not apply when drawing cards as a penalty, for example after +2 or Wild Draw 4 cards.
+  If you cannot play and thus draw one card, you are allowed to immediately play that card if it is legal. This does not apply when drawing cards as a penalty, for example after +2 or +4 cards.<br><br>
+  <hr>
   <h2>Special Rules</h2>
+  <h3 id='youngest-rule'>The Youngest Rule</h3>
+  In any case where multiple players are allowed to play, for example immediately after the dealer turns over the first card in a game, or after the first player has played a card and the direction is unset, if nobody <i>wants</i> to play you may find the game in a stalemate. In this situation, the youngest player who could play next (e.g. adjacent to the first player if the stalemate occurs due to nobody wanting to go second) must play.<br>
+  <hr>
   <h3>Swap Cards</h3>
   <div class="drawing-by-text">
     <h4><img src="seven.png" class="drawing"/></h4>
@@ -89,7 +123,7 @@
   </div>
   <hr>
   <div class="drawing-by-text">
-    <h4 style="display: flex;"><img src="wild.png" class="drawing"/> <img src="plus-four.png" class="drawing"/></h4>
+    <h4 style="display: flex;"><img src="plus-four.png" class="drawing"/></h4>
     The new player picks the colour in the same way as for a normal Wild card, however the number adds, so for the first jump in the number would increase from draw 4 to draw 8. As with a Wild, you cannot jump in if the colour has already been called (but you can still play it to defend yourself if it's your turn).
   </div>
   <hr>
