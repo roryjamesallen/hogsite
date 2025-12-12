@@ -3,7 +3,7 @@
   <head>
      <meta charset="utf-8">
      <meta name="description" content="NEWNO is a custom ruleset for the popular card game UNO.">
-     <meta property="og:title" content="NEWNO">
+     <meta property="og:title" content="NEWNO - Alternative UNO Ruleset">
      <meta property="og:description" content="NEWNO is a custom ruleset for the popular card game UNO that has been cobbled together over many years by a group of friends from Macclesfield, England.">
      <meta property="og:image" content="https://hogwild.uk/newno/sharing.png">
      <meta property="og:url" content="https://newno.hogwild.uk">
@@ -13,10 +13,10 @@
      <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
      <meta name="apple-mobile-web-app-title" content="NEWNO" />
      <link rel="stylesheet" href="style.css">
-     <title>NEWNO</title>
+     <title>NEWNO - Alternative UNO Ruleset</title>
   </head>
   <body>
-    <h1><img src="newno.png" class="drawing"/></h1>
+    <h1><img src="newno.png" class="drawing" alt="Hand drawn icon for NEWNO - Alternative UNO Ruleset"/><p style='display: none'>NEWNO</p></h1>
     <h2>Introduction</h2>
     <i>NEWNO</i> is a custom ruleset for the popular card game <a href="https://en.wikipedia.org/wiki/Uno_(card_game)">UNO</a> that has been cobbled together over many years by a group of friends from <a href="https://en.wikipedia.org/wiki/Macclesfield">Macclesfield, England.</a>
     <h2>Gameplay</h2>
@@ -33,27 +33,27 @@
     <h4>Special Cases</h4>
     If the turned over card is one of the below, the first player may have more leeway in what counts as a legal play:
     <div class="drawing-by-text">
-      <h4><img src="plus-two.png" class="drawing"/></h4>
+      <h4><img src="plus-two.png" class="drawing" alt="Hand drawn icon for NEWNO - Plus Two Card"/><p style='display: none'>Plus Two</p></h4>
       <p>The first player doesn't have to draw any cards, they can just play any card of the same colour.
     </div>
     <hr>
     <div class="drawing-by-text">
-      <h4><img src="plus-four.png" class="drawing"/></h4>
+      <h4><img src="plus-four.png" class="drawing" alt="Hand drawn icon for NEWNO - Plus Four Card"/><p style='display: none'>Plus Four</p></h4>
       The first player doesn't have to draw any cards, they can just play any card of any colour.
     </div>
     <hr>
     <div class="drawing-by-text">
-      <h4><img src="skip.png" class="drawing"/></h4>
+      <h4><img src="skip.png" class="drawing" alt="Hand drawn icon for NEWNO - Skip Card"/><p style='display: none'>Skip</p></h4>
       Nobody is actually 'skipped', the first player must just play a card of the same colour. If the first player also plays a skip, only one player to one side is skipped.
     </div>
     <hr>
     <div class="drawing-by-text">
-      <h4><img src="reverse.png" class="drawing"/></h4>
+      <h4><img src="reverse.png" class="drawing" alt="Hand drawn icon for NEWNO - Reverse Card"/><p style='display: none'>Reverse</p></h4>
       As the direction is yet to be set, any card of the same colour may be played and nothing special happens.
     </div>
     <hr>
     <div class="drawing-by-text">
-      <h4><img src="wild.png" class="drawing"/></h4>
+      <h4><img src="wild.png" class="drawing" alt="Hand drawn icon for NEWNO - Wild Card"/><p style='display: none'>Wild</p></h4>
       Any card of any colour may be played.
     </div>
     <hr><br>
@@ -71,12 +71,12 @@
   <hr>
   <h3>Swap Cards</h3>
   <div class="drawing-by-text">
-    <h4><img src="seven.png" class="drawing"/></h4>
+    <h4><img src="seven.png" class="drawing" alt="Hand drawn icon for NEWNO - Seven Card"/><p style='display: none'>Seven</p></h4>
     Seven cards act as 'swap with one other player' cards. When you play one, you can pick one player to swap hands with.
   </div>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="zero.png" class="drawing"/></h4>
+    <h4><img src="zero.png" class="drawing" alt="Hand drawn icon for NEWNO - Zero Card"/><p style='display: none'>Zero</p></h4>
     Zero cards act as 'swap in the direction of play' cards. Every player passes their hand to the player on whichever side of them would play next given the current direction.
   </div>
   <hr>
@@ -92,7 +92,7 @@
   </ul>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="reverse.png" class="drawing"/></h4>
+    <h4><img src="reverse.png" class="drawing" alt="Hand drawn icon for NEWNO - Reverse Card"/><p style='display: none'>Reverse</p></h4>
     <p>Jumping in with a reverse card cancels the original reverse (as <a href="https://www.youtube.com/watch?v=Uk1lU3nJsZg">two reverse</a> cards = no reverse), and play continues from the player who jumped in.</p>
   </div>
   For example:
@@ -104,7 +104,7 @@
   </ul>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="skip.png" class="drawing"/></h4>
+    <h4><img src="skip.png" class="drawing" alt="Hand drawn icon for NEWNO - Skip Card"/><p style='display: none'>Skip</p></h4>
     Jumping in with a skip will add one to the number of people to be skipped, so if you are jumping in on one skip, two people after you will be skipped.
   </div>
   For example:
@@ -118,27 +118,27 @@
   <strong>You cannot jump in with a skip if you would have had your go skipped by a previously played skip card, even if the previously played skip was a jump in.</strong><br>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="wild.png" class="drawing"/></h4>
+    <h4><img src="wild.png" class="drawing" alt="Hand drawn icon for NEWNO - Wild Card"/><p style='display: none'>Wild</p></h4>
     For normal wild cards, the player who jumped in can choose the new colour instead of the original player, however you cannot jump in on a wild card if the first player has already called the new colour.
   </div>
   <hr>
   <div class="drawing-by-text">
-    <h4 style="display: flex;"><img src="plus-four.png" class="drawing"/></h4>
+    <h4 style="display: flex;"><img src="plus-four.png" class="drawing" alt="Hand drawn icon for NEWNO - Plus Four Card"/><p style='display: none'>Plus Four</p></h4>
     The new player picks the colour in the same way as for a normal Wild card, however the number adds, so for the first jump in the number would increase from draw 4 to draw 8. As with a Wild, you cannot jump in if the colour has already been called (but you can still play it to defend yourself if it's your turn).
   </div>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="plus-two.png" class="drawing"/></h4>
+    <h4><img src="plus-two.png" class="drawing" alt="Hand drawn icon for NEWNO - Plus Two Card"/><p style='display: none'>Plus Two</p></h4>
     The number of cards the next player along without a +2 to play must draw adds up normally, when jumping in play will just continue from the player who jumped.
   </div>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="seven.png" class="drawing"/></h4>
+    <h4><img src="seven.png" class="drawing" alt="Hand drawn icon for NEWNO - Seven Card"/><p style='display: none'>Seven</p></h4>
     The first player to play a swap hand card (7) swaps with a player of their choice, and afterwards the player who jumped in can swap their hand with anyone else. Alternatively the player who jumped in can choose to swap two other players' hands and keep their own. You cannot jump in with a 7 if the first player to play one has already said which player they want to switch with.
   </div>
   <hr>
   <div class="drawing-by-text">
-    <h4><img src="zero.png" class="drawing"/></h4>
+    <h4><img src="zero.png" class="drawing" alt="Hand drawn icon for NEWNO - Zero Card"/><p style='display: none'>Zero</p></h4>
     You can only jump in with an all swap (0) if nobody has yet touched the hand that they would be receiving by swapping. If you can and do jump in with another 0, nobody gets to look at the cards they would have got with a single swap/rotation, they just pass twice in the direction of play instead.
   </div>
   <h2>Playing Cards</h2>
@@ -152,5 +152,6 @@
     <li>King: Wild</li>
     <li>Ace: Wild +4</li>
   </ul>
+  <div style='width: fit-content; margin: 6rem auto; font-family: Arial; text-align: center;'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
   </body>
 </html>
