@@ -127,7 +127,15 @@ if (isset($_GET['mail'])){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Home of The Wild Hogs</title>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-6BQYQMEP06');
+</script>
     <style>
 .drawn-border-text-input {
     color: black;
@@ -369,6 +377,5 @@ $(document).ready(function(){
         longPoll(); /* Start the inital request */
     }
 });
-
 </script>
 </html>

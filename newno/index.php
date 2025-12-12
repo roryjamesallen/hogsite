@@ -15,6 +15,15 @@
      <link rel="stylesheet" href="style.css">
      <title>NEWNO - Alternative UNO Ruleset</title>
   </head>
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6BQYQMEP06');
+  </script>
   <body>
     <h1><img src="newno.png" class="drawing" alt="Hand drawn icon for NEWNO - Alternative UNO Ruleset"/><p style='display: none'>NEWNO</p></h1>
     <h2>Introduction</h2>
