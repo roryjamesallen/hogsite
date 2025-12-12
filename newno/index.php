@@ -41,7 +41,7 @@
     <li>Play continues from the player who jumped in</li>
     <li>Play continues in the same direction as it was going before</li>
     <li>You can jump in on yourself but you must use one hand to draw them one after each other from your other hand - you can't put both down in one movement</li>
-    <li>You can jump in with special cards too, see the individual rules below</li>
+    <li>You can jump in with special cards too, see the individual rules below</li><br>
   </ul>
   <hr>
   <div class="drawing-by-text">
@@ -53,7 +53,7 @@
     <li>6 people are playing: A, B, C, D, E, and F and the play direction is clockwise (A, B, C etc)</li>
     <li>C plays a reverse card</li>
     <li>E jumps in with a reverse card of the same colour</li>
-    <li>Play resumes in the original direction, clockwise, with F playing next</li>
+    <li>Play resumes in the original direction, clockwise, with F playing next</li><br>
   </ul>
   <hr>
   <div class="drawing-by-text">
@@ -68,7 +68,7 @@
     <li>D and E are <i>both</i> skipped, and play resumes with F playing next</li>
   </ul>
   Skips can stack, but the number of skip jump ins in a row is limited by the number of players:<br>
-  <strong>You cannot jump in with a skip if you would have had your go skipped by a previously played skip card, even if the previously played skip was a jump in.</strong>
+  <strong>You cannot jump in with a skip if you would have had your go skipped by a previously played skip card, even if the previously played skip was a jump in.</strong><br>
   <hr>
   <div class="drawing-by-text">
     <h4><img src="wild.png" class="drawing"/></h4>
