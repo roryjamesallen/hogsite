@@ -101,9 +101,9 @@
   <ul>
     <li>0: 0</li>
     <li>2: +2</li>
-    <li>3: Skip</li>
     <li>7: 7</li>
-    <li>5: Reverse</li>
+    <li>8: Skip</li>
+    <li>9: Reverse</li>
     <li>King: Wild</li>
     <li>Ace: Wild +4</li>
   </ul>
