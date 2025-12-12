@@ -61,7 +61,7 @@
     Whichever player (to either the direct left or direct right of the starting player) is quick enough to go second, may play any legal card from their hand, also placing it face up on the discard pile. After the second player has played, the direction is set.<br><br>If you find yourself in a stalemate where neither player adjacent to the first player wants to play (for example if neither can play or the first player played a +2 or +4), see <a href="#youngest-rule">The Youngest Rule</a>.<br><br>
     <hr>
   <h3>Continuing to Play</h3>
-  After the first two players have played, each player in turn (in the direction set by the first two players' order) play one card from their deck. Special cards may change the direction - see below for all of the special cards and their eccentricities. If you cannot play, you must draw one card from the face down deck.
+  After the first two players have played, each player in turn (in the direction set by the first two players' order) plays one card from their deck or draws one if they cannot make a legal play. Special cards may change the direction - see below for all of the special cards and their eccentricities. If you cannot play, you must draw one card from the face down deck.
   <h4>The Apex Gambit</h4>
   If you cannot play and thus draw one card, you are allowed to immediately play that card if it is legal. This does not apply when drawing cards as a penalty, for example after +2 or +4 cards.<br><br>
   <hr>
