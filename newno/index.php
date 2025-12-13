@@ -89,7 +89,7 @@
   <hr>
   <div class="drawing-by-text">
     <h4><img src="plus-four.png" class="drawing" alt="Hand drawn icon for NEWNO - Seven Card"/><p style='display: none'>Plus Two</p></h4>
-    These work in the same was as +2s (above), but +2s and +4s <i>cannot be mixed</i> - you cannot 'protect' yourself from a +2 by playing a +4 or vice versa.
+    <p>These work in the same was as +2s (above), but +2s and +4s <i>cannot be mixed</i> - you cannot 'protect' yourself from a +2 by playing a +4 or vice versa.</p>
   </div>
   <hr>
   <h3>Swap Cards</h3>
