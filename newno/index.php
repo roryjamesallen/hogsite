@@ -10,8 +10,6 @@
      <meta name="viewport" content="width=device-width, initial-scale=1"/>
      <link rel="icon" type="image/x-icon" href="favicon.ico"
      <link rel="shortcut icon" href="favicon.ico" />
-     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
-     <meta name="apple-mobile-web-app-title" content="NEWNO" />
      <link rel="stylesheet" href="style.css">
      <title>NEWNO - Alternative UNO Ruleset</title>
   </head>
