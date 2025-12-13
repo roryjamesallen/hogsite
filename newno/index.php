@@ -81,6 +81,17 @@
   <h3>Challenges</h3>
   If a player does not shout 'UNO' when they are down to one card, or touch a hand that is being passed to them (for example if a 7 or 0 has been played) that only contains one card, they are liable to be challenged. Any other player can say 'challenge' if htey spot that someone has not shouted UNO, and the challenged player must draw 2 cards. Play resumes as normal from whoever's turn it was before the challenge was made.<br><br>If a player incorrectly challenges another, <i>they</i> must draw 2 cards.<br><br>
   <hr>
+  <h3>Penalty Cards</h3>
+  <div class="drawing-by-text">
+    <h4><img src="plus-two.png" class="drawing" alt="Hand drawn icon for NEWNO - Seven Card"/><p style='display: none'>Plus Two</p></h4>
+    If the player before you plays a +2, you may play a +2 if you have one, adding to the overall number (the next player would draw 4). This can go on for any amount of +2s, and when one player doesn't have a +2 to play they must draw the total number of cards.
+  </div>
+  <hr>
+  <div class="drawing-by-text">
+    <h4><img src="plus-four.png" class="drawing" alt="Hand drawn icon for NEWNO - Seven Card"/><p style='display: none'>Plus Two</p></h4>
+    These work in the same was as +2s (above), but +2s and +4s <i>cannot be mixed</i> - you cannot 'protect' yourself from a +2 by playing a +4 or vice versa.
+  </div>
+  <hr>
   <h3>Swap Cards</h3>
   <div class="drawing-by-text">
     <h4><img src="seven.png" class="drawing" alt="Hand drawn icon for NEWNO - Seven Card"/><p style='display: none'>Seven</p></h4>
@@ -136,7 +147,7 @@
   <hr>
   <div class="drawing-by-text">
     <h4 style="display: flex;"><img src="plus-four.png" class="drawing" alt="Hand drawn icon for NEWNO - Plus Four Card"/><p style='display: none'>Plus Four</p></h4>
-    The new player picks the colour in the same way as for a normal Wild card, however the number adds, so for the first jump in the number would increase from draw 4 to draw 8. As with a Wild, you cannot jump in if the colour has already been called (but you can still play it to defend yourself if it's your turn).
+    The new player picks the colour in the same way as for a normal Wild card, however the number adds, so for the first jump in the number would increase from draw 4 to draw 8. As with a Wild, you cannot jump in if the colour has already been called (but you can still play it to defend yourself if it's your turn). You cannot use a normal wild card (without the +4) or a +2 to defend yourself from a +4.
   </div>
   <hr>
   <div class="drawing-by-text">
