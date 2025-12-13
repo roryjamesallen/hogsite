@@ -76,7 +76,10 @@
   <hr>
   <h2>Special Rules</h2>
   <h3 id='youngest-rule'>The Youngest Rule</h3>
-  In any case where multiple players are allowed to play, for example immediately after the dealer turns over the first card in a game, or after the first player has played a card and the direction is unset, if nobody <i>wants</i> to play you may find the game in a stalemate. In this situation, the youngest player who could play next (e.g. adjacent to the first player if the stalemate occurs due to nobody wanting to go second) must play.<br>
+  In any case where multiple players are allowed to play, for example immediately after the dealer turns over the first card in a game, or after the first player has played a card and the direction is unset, if nobody <i>wants</i> to play you may find the game in a stalemate. In this situation, the youngest player who could play next (e.g. adjacent to the first player if the stalemate occurs due to nobody wanting to go second) must play.<br><br>
+  <hr>
+  <h3>Challenges</h3>
+  If a player does not shout 'UNO' when they are down to one card, or touch a hand that is being passed to them (for example if a 7 or 0 has been played) that only contains one card, they are liable to be challenged. Any other player can say 'challenge' if htey spot that someone has not shouted UNO, and the challenged player must draw 2 cards. Play resumes as normal from whoever's turn it was before the challenge was made.<br><br>If a player incorrectly challenges another, <i>they</i> must draw 2 cards.<br><br>
   <hr>
   <h3>Swap Cards</h3>
   <div class="drawing-by-text">
