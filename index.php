@@ -15,6 +15,7 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
 <style>
   body {
   font-family: Arial;
+  margin: 0;
   }
   a, a:visited {
   color: black;
