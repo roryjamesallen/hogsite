@@ -17,61 +17,6 @@ function getUniqueVisitors($visits){
 	}
 	return $visitors;
 }
-function getTemperatureComment($temperature){
-    if ($temperature < 0) {
-        $temperature_comment = 'What\'s cooler than being cool? ICE COLD!';
-    } else if ($temperature < 10) {
-        $temperature_comment = 'Wear a jumper...';
-    } else if ($temperature < 25) {
-        $temperature_comment = 'That\'s a normal temperature...';
-    } else if ($temperature < 35) {
-        $temperature_comment = 'Don\'t forget sun cream!';
-    } else if ($temperature < 40) {
-        $temperature_comment = 'Hot one today!! Be careful...';
-    } else {
-        $temperature_comment = 'You are dead.';
-    }
-    return $temperature_comment;
-}
-function getEmojiFromCountryCode($country_code){
-    return mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[0] ) ) . ';', 'UTF-8', 'HTML-ENTITIES').mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[1] ) ) . ';', 'UTF-8', 'HTML-ENTITIES');
-}
-$visits = sqlQuery("SELECT * from home_visits");
-$unique_visitors = getUniqueVisitors($visits);
-$client_visit_number = $unique_visitors[$ip_address];
-
-/*
-$ip_api_url = 'http://ip-api.com/json/'.$ip_address;
-$response = apiCall($ip_api_url);
-if ($response['status'] == 'success'){
-    $country_code = $response['countryCode'];
-    $country_emoji = mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[0] ) ) . ';', 'UTF-8', 'HTML-ENTITIES').mb_convert_encoding( '&#' . ( 127397 + ord( $country_code[1] ) ) . ';', 'UTF-8', 'HTML-ENTITIES');
-    $city = $response['city'];
-    $latitude = $response['lat'];
-    $longitude = $response['lon'];
-    $weather_api_url = 'https://api.open-meteo.com/v1/forecast?latitude='.$latitude.'&longitude='.$longitude.'&hourly=apparent_temperature&forecast_days=1';
-    $weather_response = apiCall($weather_api_url);
-    $temperature = round($weather_response['hourly']['apparent_temperature'][1]);
-    $temperature_comment = getTemperatureComment($temperature);
-    $temperature_sentence = ' it\'s about '.$temperature.'°C near '.$city.' '.$country_emoji.' '.$temperature_comment;
-} else {
-    $temperature_sentence = '';
-    }*/
-/*
-try {
-    $latitude = (random_int(0, 1800) - 900) / 10;
-    $longitude = (random_int(0, 3600) - 1800) / 10;
-    $location_info = apiCall('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='.$latitude.'&longitude='.$longitude.'&localityLanguage=en');
-    $country_code = $location_info['countryCode'];
-    if ($country_code == ""){
-        $location_message = ' this time you landed in the '.$location_info['localityInfo']['informative'][0]['name']. ' bozo 🌊';
-    } else {
-        $location_message = ' this time you landed in '.$location_info['countryName'].' '.getEmojiFromCountryCode($country_code).'!';
-    }
-} catch (Exception $e) {
-    $location_message = '';
-}
-*/
 
 $tristan_webpage = file_get_contents("https://www.tristandc.com/population.php");
 foreach (explode("strong>",$tristan_webpage) as $strong_element){
@@ -200,96 +145,41 @@ body {
 a, a:visited {
     color: black;
 }
-    
-.home-sections {
-    overflow: hidden;
-    padding-bottom: 250px;
-}
+#header-bar {
+display: flex;
+width: calc(100% - 1rem);
+padding: 0 0.5rem;
+height: 2rem;
+background-color: #f4f4f4;
+position: sticky;
+z-index: 99;
+top: 0;
+justify-content: space-between;
+align-items: center;
+}   
 #home-page-message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: sticky;
-    z-index: 99;
-    top: 0;
-    width: 100%;
-    height: 2rem;
-    background-color: #f4f4f4;
 }
-.home-section-container {
-    position: relative;
-    background-size: contain;
-}
-.height-medium {
-    height: 700px;
-}
-.height-small {
-    height: max(30vw, 250px);
+.home-section {
+flex-basis: 25%;
 }
 .home-section-container a:hover .home-section-image:not(.no-hover) {
     filter: drop-shadow(0 0 10px grey);;
 }
-.home-section-image {
-    position: absolute;
-}
 </style>
     
 <body>
+  <div id='header-bar'>
+    <div id='mail'>🖂</div>
     <div id='home-page-message'></div>
+    <div id='help'>⍰</div>
+  </div>
 
-    <div class='home-sections'>
-        <div class='home-section-container height-medium' style="aspect-ratio: 1080 / 1699; margin: 0 auto 0 2rem; background-image: url(images/thompson-world/thompson-world-front-door.png)">
-            <a class='home-section-link' href='https://hogwild.uk/thompson-world' title='explore the Thompson World'>
-                <img class='home-section-image' src='images/thompson-world/thompson-world-front-door-to-entrance-hallway.png' style='height: 29.3702%; top: 51%; left: 22%'/>
-            </a>
-            <a class='home-section-link' href='' title='join the mailing list'>
-                <img class='home-section-image' src='images/mailbox.png' style='height: 29.3702%; bottom: min(20%, calc(20vw - 10%)); left: min(130%, 65vw)'/>
-            </a>
-        </div>
-
-        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: 0;">
-            <img class='home-section-image' src='images/rug.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
-            <img class='home-section-image' src='images/speaker-l.png' style='height: 50%; top: 5%; left: 22%'/>
-            <img class='home-section-image' src='images/speaker-r.png' style='height: 30%; top: 0; left: max(70%, 45vw)'/>
-            <a class='home-section-link' href='https://hogwild.uk/notoalgorithms' title='no to algorithms! humans only music recommendations'>
-                <img class='home-section-image' src='images/record-box.png' style='height: 30%; top: 40%; left: 70%'/>
-            </a>
-            <a class='home-section-link' href='https://hogwild.uk' title='put everyone onto something new'>
-                <img class='home-section-image' src='images/stand-note.png' style='height: 40%; top: 60%; left: 15%'/>
-                <div id='song-text' class='home-section-image no-hover' style='height: 30%; top: 62%; left: 17%; max-width: 38%; max-height: 30%; font-size: 80%; overflow: hidden'></div>
-            </a>
-        </div>
-    
-        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-15vw, -250px) 15vw 0 auto;">
-            <img class='home-section-image' src='images/gambling-items.png' style='height: 60%; top: 10%; left: max(10%, 10vw)'/>
-            <a class='home-section-link' href='https://hogwild.uk/nothingeverhappens' title='nothing ever happens - friendly betting'>
-                <img class='home-section-image' src='images/buttons/nothingeverhappens.png' style='height: 20%; top: 10%; left: max(170px, 25vw)'/>
-            </a>
-        </div>
-
-        <?php 
-		$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
-		$amarela = $lisboa['amarela'];
-		$azul = $lisboa['azul'];
-		$verde = $lisboa['verde'];
-		$vermelha = $lisboa['vermelha'];
-	    ?>
-    
-        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-25vw, -10%) 0 0;">
-            <a class='home-section-link' href='https://www.metrolisboa.pt/en/' title='check the status of the Lisbon metro'>
-            <div class='home-section-image no-hover' style='max-height: 26%; top: 30%; left: 21%; max-width: 32%; transform: scale(0.75, 1) skew(0deg, -28deg); overflow: hidden;'>amerela: <?php echo $amarela;?><br>azul: <?php echo $azul;?><br>verde: <?php echo $verde;?><br>vermelha: <?php echo $vermelha;?><br></div>
-                <img class='home-section-image' src='images/noticeboard.png' style='height: 100%; top: -15%; left: 10%'/>
-            </a>
-        </div>
-
-        <div class='home-section-container height-small' style="aspect-ratio: 1080 / 720; margin: max(-15vw, -250px) 15vw 0 auto;">
-            <a class='home-section-link' href='https://hogwild.uk/wiki' title='hogipedia - learn the lore'>
-                <iframe src="wiki/index.php" width="100%" height="300" style="position: relative; height: 51%; width: 45%; top: 18%; left: 18%; zoom: 0.2"></iframe>
-                <img class='home-section-image' src='images/old-mouse.png' style='height: 35%; top: 60%; left: 60%'/>
-                <img class='home-section-image' src='images/old-pc.png' style='height: 100%; top: 10%; left: 10%'/>
-            </a>
-        </div>
-    </div>
+  <div id='home-container'>
+    <div class='home-section'><a class='home-section-link' href='https://hogwild.uk/thompson-world' title='explore the Thompson World'></div>
+    <div class='home-section'></div>
+    <div class='home-section'></div>
+    <div class='home-section'></div>
+  </div>
 </body>
 
 <script>
@@ -349,7 +239,7 @@ function longPoll(){
 
 $(document).ready(function(){
     if (!prevent_long_polling){
-        longPoll(); /* Start the inital request */
+        //longPoll(); /* Start the inital request */
     }
 });
 
