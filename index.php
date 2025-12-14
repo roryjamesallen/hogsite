@@ -6,7 +6,7 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php echo $standard_header_content;?>
+    <?php //echo $standard_header_content;?>
     <link rel="canonical" href="https://hogwild.uk" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Home of The Wild Hogs</title>
