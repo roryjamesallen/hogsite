@@ -84,6 +84,7 @@ a:hover {
 }   
 #home-page-message {
     font-size: 1rem;
+    font-weight: unset;
 }
 #home-container {
     display: flex;
@@ -140,54 +141,67 @@ a:hover {
 <body>
   <div id='header-bar'>
     <div id='mail'></div>
-    <div id='home-page-message'></div>
+    <h1 id='home-page-message'></h1>
     <div id='help'></div>
   </div>
 
   <div id='home-container'>
     
     <div class='home-section'>
-      <img class='home-section-background' src='images/home/desk.png'/>
+      <h2 style='display: none'>The Office</h2>
+      <img class='home-section-background' src='images/home/desk.png' alt='Hand drawn desk with computer'/>
       <a title='browse the hogipedia' class='home-section-link' href='https://wiki.hogwild.uk' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
-	<img src='images/home/computer.gif'/>
+        <h3 style='display: none;'>Hogipedia</h3>
+	    <img src='images/home/computer.gif' alt='Hand drawn 90s computer with an animated rotating hog on the screen'/>
       </a>
     </div>
     <div class='home-section'>
-      <img class='home-section-background' src='images/home/window.png'/>
+      <h2 style='display: none'>The Windows</h2>
+      <img class='home-section-background' src='images/home/window.png' alt='Hand drawn windows with houses visible outside and a jigsaw in the foreground'/>
       <a title='look around thompson world' class='home-section-link' href='https://tw.hogwild.uk' style='left: 8.6%; top: 7.8%; width: 35.6%; height: 58.2%;'>
-	<img src='images/home/outside.png'/>
+        <h3 style='display: none;'>Thompson World</h3>
+	    <img src='images/home/outside.png' alt='Hand drawn houses visible through a sash window'/>
       </a>
       <a title='assemble the hog mosaic' class='home-section-link' href='https://mosaic.hogwild.uk' style='left: 0; bottom: 0.5%; width: 64%; height: 17%;'>
-	<img src='images/home/jigsaw.png'/>
+        <h3 style='display: none;'>Hog Mosaic</h3>
+        <img src='images/home/jigsaw.png' alt='Hand drawn jigsaw pieces'/>
       </a>
     </div>
 
     <div class='home-section'>
-      <img class='home-section-background' src='images/home/games.png' style='z-index: 1; position: relative;'/>
-      <a title='tristan de cunhas islanders' href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden; font-family: Chozo;'><?php echo $tristan_inhabitants_text;?></a>
+      <h2 style='display: none'>The Playroom</h2>
+      <img class='home-section-background' src='images/home/games.png' style='z-index: 1; position: relative;' alt='Hand drawn set of games including dice and UNO cards in front of a large bath'/>
+      <a title='tristan de cunhas islanders' href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden; font-family: Chozo; transform: rotate(-5deg)'><?php echo $tristan_inhabitants_text;?></a>
       <a title='lisbon metro status' href='https://www.metrolisboa.pt/en/' class='home-section-link' style='left: 17%; top: 16%; width: 15%; height: 14%; transform: rotate(-7deg); overflow: hidden; font-family: Chozo'>
         <span style='color: yellow'><?php echo $amarela;?></span>
-	<span style='color: blue'><?php echo $azul;?></span>
-	<span style='color: green'><?php echo $verde;?></span>
-	<span style='color: red'><?php echo $vermelha;?></span>
+	    <span style='color: blue'><?php echo $azul;?></span>
+	    <span style='color: green'><?php echo $verde;?></span>
+	    <span style='color: red'><?php echo $vermelha;?></span>
       </a>
       <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
-	<img src='images/home/bath.png'/>
+        <h3 style='display: none;'>Hog Fishing</h3>
+	    <img src='images/home/bath.png' alt='Hand drawn bath full of water with two rubber ducks inside'/>
       </a>
       <a title='nothing ever happens - friendly betting' class='home-section-link' href='https://hogwild.uk/nothingeverhappens' style='left: 10.2%; top: 73%; width: 32.4%; height: 26.2%;'>
-	<img src='images/home/dice.png'/>
+        <h3 style='display: none;'>Nothing Ever Happens</h3>
+	    <img src='images/home/dice.png' alt='Hand drawn dice and cup'/>
       </a>
       <a title='newno - alternative uno rules' class='home-section-link' href='https://newno.hogwild.uk' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
-	<img src='images/home/uno.png'/>
+        <h3 style='display: none;'>Newno</h3>
+	    <img src='images/home/uno.png' alt='Hand drawn UNO cards'/>
       </a>
     </div>
+    
     <div class='home-section'>
-      <img class='home-section-background' src='images/home/music.png'/>
+      <h2 style='display: none'>The Listening Room</h2>
+      <img class='home-section-background' src='images/home/music.png' alt='Hand drawn speakers, CDs, records, and CD player with headphones'/>
       <a title='no to algorithms! music recs' class='home-section-link' href='https://notoalgorithms.hogwild.uk' style='left: 6%; top: 64.4%; width: 32%; height: 25.8%'>
-	<img src='images/home/cds.png'/>
+        <h3 style='display: none;'>No To Algorithms</h3>
+	    <img src='images/home/cds.png' alt='Hand drawn CDs with low resolution covers'/>
       </a>
       <a title='deliberate listening essay' class='home-section-link' href='https://roryjamesallen1.substack.com/p/deliberate-listening' style='left: 42.8%; top: 11%; width: 18.4%; height: 16%'>
-	<img src='images/home/substack.png'/>
+        <h3 style='display: none;'>Deliberate Listening</h3>
+        <img src='images/home/substack.png' alt='Hand drawn sign showing the Spotify logo crossed out'/>
       </a>
     </div>
 
