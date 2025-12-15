@@ -49,6 +49,7 @@ foreach (explode('strong>',$tristan_webpage) as $strong_element){
   font-size: 1rem;
   }   
   #home-page-message {
+  font-size: 1rem;
   }
   #home-container {
   display: flex;
