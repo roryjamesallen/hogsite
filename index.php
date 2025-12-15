@@ -2,6 +2,9 @@
 include 'lib/generic_content.php';
 ob_start(); // Begin output buffering to allow output to be rendered after html head
 
+openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
+recordUserVisit();
+
 $tristan_webpage = file_get_contents('https://www.tristandc.com/population.php');
 foreach (explode('strong>',$tristan_webpage) as $strong_element){
     if (str_contains($strong_element, 'There are') and str_contains($strong_element, 'Tristan da Cunha Islanders')){
