@@ -80,6 +80,7 @@ foreach (explode('strong>',$tristan_webpage) as $strong_element){
   width: 100%;
   font-size: 1rem;
   margin-top: 10rem;
+  text-align: center;
   }
   @media screen and (max-width: 1100px){
   body {
@@ -149,7 +150,7 @@ foreach (explode('strong>',$tristan_webpage) as $strong_element){
 
   </div>
   <div id='footer'>
-    <p><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, email <a href='mailto:rory@hogwild.uk'>rory@hogwild.uk</a></p>
+    <p style='width: 90%'><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, email <a href='mailto:rory@hogwild.uk'>rory@hogwild.uk</a></p>
   </div>
 </body>
 
