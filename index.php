@@ -141,7 +141,7 @@ a:hover {
 <body>
   <div id='header-bar'>
     <div id='mail'></div>
-    <h1 id='home-page-message'></h1>
+    <h1 id='home-page-message'><span>welcome to <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a></span></h1>
     <div id='help'></div>
   </div>
 
@@ -150,7 +150,7 @@ a:hover {
     <div class='home-section'>
       <h2 style='display: none'>The Office</h2>
       <img class='home-section-background' src='images/home/desk.png' alt='Hand drawn desk with computer'/>
-      <a title='browse the hogipedia' class='home-section-link' href='https://wiki.hogwild.uk' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
+      <a title='browse the hogipedia' class='home-section-link' href='https://hogwild.uk/wiki' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
         <h3 style='display: none;'>Hogipedia</h3>
 	    <img src='images/home/computer.gif' alt='Hand drawn 90s computer with an animated rotating hog on the screen'/>
       </a>
@@ -158,11 +158,11 @@ a:hover {
     <div class='home-section'>
       <h2 style='display: none'>The Windows</h2>
       <img class='home-section-background' src='images/home/window.png' alt='Hand drawn windows with houses visible outside and a jigsaw in the foreground'/>
-      <a title='look around thompson world' class='home-section-link' href='https://tw.hogwild.uk' style='left: 8.6%; top: 7.8%; width: 35.6%; height: 58.2%;'>
+      <a title='look around thompson world' class='home-section-link' href='https://hogwild.uk/thompson-world' style='left: 8.6%; top: 7.8%; width: 35.6%; height: 58.2%;'>
         <h3 style='display: none;'>Thompson World</h3>
 	    <img src='images/home/outside.png' alt='Hand drawn houses visible through a sash window'/>
       </a>
-      <a title='assemble the hog mosaic' class='home-section-link' href='https://mosaic.hogwild.uk' style='left: 0; bottom: 0.5%; width: 64%; height: 17%;'>
+      <a title='assemble the hog mosaic' class='home-section-link' href='https://hogwild.uk/hogdivmosaic' style='left: 0; bottom: 0.5%; width: 64%; height: 17%;'>
         <h3 style='display: none;'>Hog Mosaic</h3>
         <img src='images/home/jigsaw.png' alt='Hand drawn jigsaw pieces'/>
       </a>
@@ -178,7 +178,7 @@ a:hover {
 	    <span style='color: green'><?php echo $verde;?></span>
 	    <span style='color: red'><?php echo $vermelha;?></span>
       </a>
-      <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
+      <a title='hook-a-duck in the bath' class='home-section-link' href='https://hogwild.uk/hog-fishing' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
         <h3 style='display: none;'>Hog Fishing</h3>
 	    <img src='images/home/bath.png' alt='Hand drawn bath full of water with two rubber ducks inside'/>
       </a>
@@ -186,7 +186,7 @@ a:hover {
         <h3 style='display: none;'>Nothing Ever Happens</h3>
 	    <img src='images/home/dice.png' alt='Hand drawn dice and cup'/>
       </a>
-      <a title='newno - alternative uno rules' class='home-section-link' href='https://newno.hogwild.uk' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
+      <a title='newno - alternative uno rules' class='home-section-link' href='https://hogwild.uk/newno' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
         <h3 style='display: none;'>Newno</h3>
 	    <img src='images/home/uno.png' alt='Hand drawn UNO cards'/>
       </a>
@@ -195,7 +195,7 @@ a:hover {
     <div class='home-section'>
       <h2 style='display: none'>The Listening Room</h2>
       <img class='home-section-background' src='images/home/music.png' alt='Hand drawn speakers, CDs, records, and CD player with headphones'/>
-      <a title='no to algorithms! music recs' class='home-section-link' href='https://notoalgorithms.hogwild.uk' style='left: 6%; top: 64.4%; width: 32%; height: 25.8%'>
+      <a title='no to algorithms! music recs' class='home-section-link' href='https://hogwild.uk/notoalgorithms' style='left: 6%; top: 64.4%; width: 32%; height: 25.8%'>
         <h3 style='display: none;'>No To Algorithms</h3>
 	    <img src='images/home/cds.png' alt='Hand drawn CDs with low resolution covers'/>
       </a>
