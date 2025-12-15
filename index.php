@@ -20,117 +20,119 @@ $vermelha = $lisboa['vermelha'];
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-  <link rel='canonical' href='https://hogwild.uk' />
-  <meta charset="utf-8">
-  <meta name="description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
-  <meta property="og:title" content="Join The Wild Hogs">
-  <meta property="og:description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
-  <meta property="og:image" content="https://hogwild.uk/favicon/apple-touch-icon.png">
-  <meta property="og:url" content="https://hogwild.uk">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-  <link rel="shortcut icon" href="favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="hogwild.uk" />
-  <link rel="manifest" href="favicon/site.webmanifest" />
-  <title>Home of The Wild Hogs</title>
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
+    <link rel='canonical' href='https://hogwild.uk' />
+    <meta charset="utf-8">
+    <meta name="description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
+    <meta property="og:title" content="Join The Wild Hogs">
+    <meta property="og:description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
+    <meta property="og:image" content="https://hogwild.uk/favicon/apple-touch-icon.png">
+    <meta property="og:url" content="https://hogwild.uk">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="hogwild.uk" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <title>Home of The Wild Hogs</title>
+     
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+</script>
+    
 <style>
-  :root {
-  --wiki-grey: rgb(162, 169, 177);
-  --link: #069;
-  }
-  @font-face {
-  font-family: Chozo;
-  src: url(fonts/OtalaHandwritten-Regular.ttf);
-  }
-  body {
-  font-family: Arial;
-  margin: 0;
-  background: white;
-  font-size: 8px;
-  }
-  a, a:visited {
-  color: var(--link);
-  text-decoration: none;
-  }
-  a:hover {
-  text-decoration: underline;
-  }
-  #header-bar {
-  display: flex;
-  width: calc(100% - 1rem);
-  padding: 0 0.5rem;
-  height: 2rem;
-  background-color: #f4f4f4;
-  position: sticky;
-  z-index: 99;
-  top: 0;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-  }   
-  #home-page-message {
-  font-size: 1rem;
-  }
-  #home-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  }
-  .home-section {
-  flex-basis: 25%;
-  flex-grow: 1;
-  }
-  .home-section {
-  position: relative;
-  }
-  .home-section-background {
-  width: 100%;
-  pointer-events: none;
-  }
-  .home-section-link {
-  position: absolute;
-  }
-  .home-section-link img {
-	  width: 100%;
-  }
-  .home-section-link:hover {
-  filter: drop-shadow(0 0 10px grey);
-  }
-  #footer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  font-size: 1rem;
-  margin-top: 10rem;
-  text-align: center;
-  }
-  @media screen and (max-width: 1100px){
-  body {
-  font-size: 11px;
-  }
-  .home-section {
-  flex-basis: 50%;
-  }
-  }
-  @media screen and (max-width: 750px){
-  body {
-  font-size: 13px;
-  }
-  .home-section {
-  flex-basis: 100%;
-  }
-  }
+:root {
+   --wiki-grey: rgb(162, 169, 177);
+   --link: #069;
+}
+@font-face {
+    font-family: Chozo;
+    src: url(fonts/OtalaHandwritten-Regular.ttf);
+}
+body {
+    font-family: Arial;
+    margin: 0;
+    background: white;
+    font-size: 8px;
+}
+a, a:visited {
+    color: var(--link);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+#header-bar {
+    display: flex;
+    width: calc(100% - 1rem);
+    padding: 0 0.5rem;
+    height: 2rem;
+    background-color: #f4f4f4;
+    position: sticky;
+    z-index: 99;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}   
+#home-page-message {
+    font-size: 1rem;
+}
+#home-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.home-section {
+    flex-basis: 25%;
+    flex-grow: 1;
+}
+.home-section {
+    position: relative;
+}
+.home-section-background {
+    width: 100%;
+    pointer-events: none;
+}
+.home-section-link {
+    position: absolute;
+}
+.home-section-link img {
+    width: 100%;
+}
+.home-section-link:hover {
+    filter: drop-shadow(0 0 10px grey);
+}
+#footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 10rem;
+    text-align: center;
+}
+@media screen and (max-width: 1100px){
+    body {
+        font-size: 11px;
+    }
+        .home-section {
+        flex-basis: 50%;
+    }
+}
+@media screen and (max-width: 750px){
+    body {
+        font-size: 13px;
+    }
+        .home-section {
+        flex-basis: 100%;
+    }
+}
 </style>
+</head>
 
 <body>
   <div id='header-bar'>
@@ -156,7 +158,7 @@ $vermelha = $lisboa['vermelha'];
 	<img src='images/home/jigsaw.png'/>
       </a>
     </div>
-    
+
     <div class='home-section'>
       <img class='home-section-background' src='images/home/games.png' style='z-index: 1; position: relative;'/>
       <a title='tristan de cunhas islanders' href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden; font-family: Chozo;'><?php echo $tristan_inhabitants_text;?></a>
