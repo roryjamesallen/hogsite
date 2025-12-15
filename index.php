@@ -36,6 +36,12 @@ $vermelha = $lisboa['vermelha'];
   <link rel="manifest" href="favicon/site.webmanifest" />
   <title>Home of The Wild Hogs</title>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
 <style>
   :root {

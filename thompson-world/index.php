@@ -135,6 +135,13 @@ if ($thompson_room == 'lounge'){
 
 </style>
 </head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6BQYQMEP06');
+</script>
 <body>
 <?php echo $standard_toolbar;?>
 <div class="button-container" id="button-container">

@@ -1,0 +1,36 @@
+:root {
+    --link: #069;
+    --background: #f2f2f2;
+    --note: #aaa;
+body {
+    font-family: Arial;
+    max-width: min(80vw, 900px);
+    margin: 5rem auto;
+}
+h1, h2 {
+    text-decoration: underline;
+}
+.drawing {
+    height: 3rem;
+}
+a {
+    color: var(--link);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+strong {
+    display: block;
+    width: fit-content;
+    margin: 0.5rem auto 0.5rem 0;
+}
+.drawing-by-text {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.drawing-by-text h4 {
+    flex-basis: 8%;
+    flex-shrink: 0;
+}
