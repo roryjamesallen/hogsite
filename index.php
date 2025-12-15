@@ -7,20 +7,44 @@ foreach (explode('strong>',$tristan_webpage) as $strong_element){
     if (str_contains($strong_element, 'There are') and str_contains($strong_element, 'Tristan da Cunha Islanders')){
         $tristan_inhabitants_text = htmlspecialchars(str_replace('</','',$strong_element));
     }
-}
+    }
+
+
+$lisboa = json_decode(file_get_contents('http://app.metrolisboa.pt/status/getLinhas.php'),true)['resposta']; 
+$amarela = $lisboa['amarela'];
+$azul = $lisboa['azul'];
+$verde = $lisboa['verde'];
+$vermelha = $lisboa['vermelha'];
 ?>
 
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-    <link rel='canonical' href='https://hogwild.uk' />
-    <title>Home of The Wild Hogs</title>
+  <link rel='canonical' href='https://hogwild.uk' />
+  <meta charset="utf-8">
+  <meta name="description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
+  <meta property="og:title" content="Join The Wild Hogs">
+  <meta property="og:description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
+  <meta property="og:image" content="https://hogwild.uk/favicon/apple-touch-icon.png">
+  <meta property="og:url" content="https://hogwild.uk">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+  <link rel="shortcut icon" href="favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="hogwild.uk" />
+  <link rel="manifest" href="favicon/site.webmanifest" />
+  <title>Home of The Wild Hogs</title>
 </head>
 
 <style>
   :root {
   --wiki-grey: rgb(162, 169, 177);
   --link: #069;
+  }
+  @font-face {
+  font-family: Chozo;
+  src: url(fonts/OtalaHandwritten-Regular.ttf);
   }
   body {
   font-family: Arial;
@@ -65,6 +89,7 @@ foreach (explode('strong>',$tristan_webpage) as $strong_element){
   }
   .home-section-background {
   width: 100%;
+  pointer-events: none;
   }
   .home-section-link {
   position: absolute;
@@ -128,7 +153,13 @@ foreach (explode('strong>',$tristan_webpage) as $strong_element){
     
     <div class='home-section'>
       <img class='home-section-background' src='images/home/games.png'/>
-      <a href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden;'><?php echo $tristan_inhabitants_text;?></a>
+      <a title='tristan de cunhas islanders' href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden; font-family: Chozo;'><?php echo $tristan_inhabitants_text;?></a>
+      <a title='lisbon metro status' href='https://www.metrolisboa.pt/en/' class='home-section-link' style='left: 17%; top: 16%; width: 15%; height: 14%; transform: rotate(-7deg); z-index: -1; overflow: hidden; font-family: Chozo'>
+        <span style='color: yellow'><?php echo $amarela;?></span>
+	<span style='color: blue'><?php echo $azul;?></span>
+	<span style='color: green'><?php echo $verde;?></span>
+	<span style='color: red'><?php echo $vermelha;?></span>
+      </a>
       <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
 	<img src='images/home/bath.png'/>
       </a>
