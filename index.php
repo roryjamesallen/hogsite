@@ -152,9 +152,9 @@ $vermelha = $lisboa['vermelha'];
     </div>
     
     <div class='home-section'>
-      <img class='home-section-background' src='images/home/games.png'/>
+      <img class='home-section-background' src='images/home/games.png' style='z-index: 1; position: relative;'/>
       <a title='tristan de cunhas islanders' href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden; font-family: Chozo;'><?php echo $tristan_inhabitants_text;?></a>
-      <a title='lisbon metro status' href='https://www.metrolisboa.pt/en/' class='home-section-link' style='left: 17%; top: 16%; width: 15%; height: 14%; transform: rotate(-7deg); z-index: -1; overflow: hidden; font-family: Chozo'>
+      <a title='lisbon metro status' href='https://www.metrolisboa.pt/en/' class='home-section-link' style='left: 17%; top: 16%; width: 15%; height: 14%; transform: rotate(-7deg); overflow: hidden; font-family: Chozo'>
         <span style='color: yellow'><?php echo $amarela;?></span>
 	<span style='color: blue'><?php echo $azul;?></span>
 	<span style='color: green'><?php echo $verde;?></span>
