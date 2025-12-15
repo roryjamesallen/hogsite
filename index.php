@@ -16,6 +16,7 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
   body {
   font-family: Arial;
   margin: 0;
+  background: white;
   }
   a, a:visited {
   color: black;
@@ -43,8 +44,8 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
   .home-section {
   flex-basis: 25%;
   flex-grow: 1;
-  min-width: 300px;
-  max-width: 700px;
+  }
+  .home-section {
   position: relative;
   }
   .home-section-background {
@@ -57,7 +58,17 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
 	  width: 100%;
   }
   .home-section-link:hover {
-  filter: drop-shadow(0 0 10px grey);;
+  filter: drop-shadow(0 0 10px grey);
+  }
+  @media screen and (max-width: 1100px){
+  .home-section {
+  flex-basis: 50%;
+  }
+  }
+  @media screen and (max-width: 750px){
+  .home-section {
+  flex-basis: 100%;
+  }
   }
 </style>
 
@@ -69,43 +80,47 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
   </div>
 
   <div id='home-container'>
+    
     <div class='home-section'>
       <img class='home-section-background' src='images/home/desk.png'/>
-	  <a title='browse the hogipedia' class='home-section-link' href='https://wiki.hogwild.uk' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
-		<img src='images/home/computer.png'/>
-	  </a>
+      <a title='browse the hogipedia' class='home-section-link' href='https://wiki.hogwild.uk' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
+	<img src='images/home/computer.png'/>
+      </a>
     </div>
     <div class='home-section'>
       <img class='home-section-background' src='images/home/window.png'/>
-	  <a title='look around thompson world' class='home-section-link' href='https://tw.hogwild.uk' style='left: 8.6%; top: 7.8%; width: 35.6%; height: 58.2%;'>
-		<img src='images/home/outside.png'/>
-	  </a>
-	  <a title='assemble the hog mosaic' class='home-section-link' href='https://mosaic.hogwild.uk' style='left: 0; bottom: 0.5%; width: 64%; height: 17%;'>
-		<img src='images/home/jigsaw.png'/>
-	  </a>
+      <a title='look around thompson world' class='home-section-link' href='https://tw.hogwild.uk' style='left: 8.6%; top: 7.8%; width: 35.6%; height: 58.2%;'>
+	<img src='images/home/outside.png'/>
+      </a>
+      <a title='assemble the hog mosaic' class='home-section-link' href='https://mosaic.hogwild.uk' style='left: 0; bottom: 0.5%; width: 64%; height: 17%;'>
+	<img src='images/home/jigsaw.png'/>
+      </a>
     </div>
+    
+
     <div class='home-section'>
       <img class='home-section-background' src='images/home/games.png'/>
-	  <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
-		<img src='images/home/bath.png'/>
-	  </a>
-	  <a title='nothing ever happens - friendly betting' class='home-section-link' href='https://hogwild.uk/nothingeverhappens' style='left: 10.2%; top: 73%; width: 32.4%; height: 26.2%;'>
-		<img src='images/home/dice.png'/>
-	  </a>
-	  <a title='newno - alternative uno rules' class='home-section-link' href='https://newno.hogwild.uk' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
-		<img src='images/home/uno.png'/>
-	  </a>
-	  
+      <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
+	<img src='images/home/bath.png'/>
+      </a>
+      <a title='nothing ever happens - friendly betting' class='home-section-link' href='https://hogwild.uk/nothingeverhappens' style='left: 10.2%; top: 73%; width: 32.4%; height: 26.2%;'>
+	<img src='images/home/dice.png'/>
+      </a>
+      <a title='newno - alternative uno rules' class='home-section-link' href='https://newno.hogwild.uk' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
+	<img src='images/home/uno.png'/>
+      </a>
+      
     </div>
     <div class='home-section'>
       <img class='home-section-background' src='images/home/music.png'/>
-	  <a title='no to algorithms! music recs' class='home-section-link' href='https://notoalgorithms.hogwild.uk' style='left: 6%; top: 64.4%; width: 32%; height: 25.8%'>
-		<img src='images/home/cds.png'/>
-	  </a>
-	  <a title='deliberate listening essay' class='home-section-link' href='https://roryjamesallen1.substack.com/p/deliberate-listening' style='left: 42.8%; top: 11%; width: 18.4%; height: 16%'>
-		<img src='images/home/substack.png'/>
-	  </a>
+      <a title='no to algorithms! music recs' class='home-section-link' href='https://notoalgorithms.hogwild.uk' style='left: 6%; top: 64.4%; width: 32%; height: 25.8%'>
+	<img src='images/home/cds.png'/>
+      </a>
+      <a title='deliberate listening essay' class='home-section-link' href='https://roryjamesallen1.substack.com/p/deliberate-listening' style='left: 42.8%; top: 11%; width: 18.4%; height: 16%'>
+	<img src='images/home/substack.png'/>
+      </a>
     </div>
+
   </div>
 </body>
 
