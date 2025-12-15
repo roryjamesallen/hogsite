@@ -84,7 +84,7 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
     <div class='home-section'>
       <img class='home-section-background' src='images/home/desk.png'/>
       <a title='browse the hogipedia' class='home-section-link' href='https://wiki.hogwild.uk' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
-	<img src='images/home/computer.png'/>
+	<img src='images/home/computer.gif'/>
       </a>
     </div>
     <div class='home-section'>
@@ -97,7 +97,6 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
       </a>
     </div>
     
-
     <div class='home-section'>
       <img class='home-section-background' src='images/home/games.png'/>
       <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
