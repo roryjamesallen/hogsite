@@ -1,38 +1,52 @@
 <?php
 include 'lib/generic_content.php';
 ob_start(); // Begin output buffering to allow output to be rendered after html head
+
+$tristan_webpage = file_get_contents('https://www.tristandc.com/population.php');
+foreach (explode('strong>',$tristan_webpage) as $strong_element){
+    if (str_contains($strong_element, 'There are') and str_contains($strong_element, 'Tristan da Cunha Islanders')){
+        $tristan_inhabitants_text = htmlspecialchars(str_replace('</','',$strong_element));
+    }
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <?php //echo $standard_header_content;?>
-    <link rel="canonical" href="https://hogwild.uk" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel='canonical' href='https://hogwild.uk' />
     <title>Home of The Wild Hogs</title>
 </head>
 
 <style>
+  :root {
+  --wiki-grey: rgb(162, 169, 177);
+  --link: #069;
+  }
   body {
   font-family: Arial;
   margin: 0;
   background: white;
+  font-size: 8px;
   }
   a, a:visited {
-  color: black;
+  color: var(--link);
+  text-decoration: none;
+  }
+  a:hover {
+  text-decoration: underline;
   }
   #header-bar {
   display: flex;
   width: calc(100% - 1rem);
   padding: 0 0.5rem;
-  height: 3rem;
+  height: 2rem;
   background-color: #f4f4f4;
   position: sticky;
   z-index: 99;
   top: 0;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
   }   
   #home-page-message {
   }
@@ -60,12 +74,25 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
   .home-section-link:hover {
   filter: drop-shadow(0 0 10px grey);
   }
+  #footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 10rem;
+  }
   @media screen and (max-width: 1100px){
+  body {
+  font-size: 11px;
+  }
   .home-section {
   flex-basis: 50%;
   }
   }
   @media screen and (max-width: 750px){
+  body {
+  font-size: 13px;
+  }
   .home-section {
   flex-basis: 100%;
   }
@@ -99,6 +126,7 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
     
     <div class='home-section'>
       <img class='home-section-background' src='images/home/games.png'/>
+      <a href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden;'><?php echo $tristan_inhabitants_text;?></a>
       <a title='hook-a-duck in the bath' class='home-section-link' href='https://fishing.hogwild.uk' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
 	<img src='images/home/bath.png'/>
       </a>
@@ -108,7 +136,6 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
       <a title='newno - alternative uno rules' class='home-section-link' href='https://newno.hogwild.uk' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
 	<img src='images/home/uno.png'/>
       </a>
-      
     </div>
     <div class='home-section'>
       <img class='home-section-background' src='images/home/music.png'/>
@@ -121,6 +148,9 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
     </div>
 
   </div>
+  <div id='footer'>
+    <p><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, email <a href='mailto:rory@hogwild.uk'>rory@hogwild.uk</a></p>
+  </div>
 </body>
 
 <script>
@@ -130,11 +160,17 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
   function resetPageMessage(){
   updatePageMessage("<span>welcome to <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a></span>")
   }
-
   resetPageMessage();
   document.querySelectorAll(".home-section-link").forEach(element => {
   element.addEventListener("mouseover", () => { updatePageMessage(element.title) });
   element.addEventListener("mouseout", () => { resetPageMessage() });
   });
+
+  function callAPIs(){
+  }
+  
+  window.onload = function() {
+  callAPIs();
+  };
 </script>
 </html>
