@@ -17,4 +17,5 @@ deployment:
     - /bin/cp -R hogdivmosaic $DEPLOYPATH
     - /bin/cp -R wiki $DEPLOYPATH
     - /bin/cp -R hog-fishing $DEPLOYPATH
-    - /bin/cp -R newno $DEPLOYPATH    
+    - /bin/cp -R newno $DEPLOYPATH
+    - /bin/cp -R rory $DEPLOYPATH	
