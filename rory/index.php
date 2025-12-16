@@ -95,39 +95,39 @@
 	<div class="collapsible" id="me">
 	    <h2>Me<div class="garden">🌱 planted 16.12.25</div></h2>
 	    <img src="favicon.png" width="200px"/>
-	    <div class="collapsible">
+	    <div class="collapsible" id="about">
 		<h3>About</h3>
-		My name is Rory Allen, I am <span id="age">(loading)</span> old.
+		<span>My name is Rory Allen, I am <span id="age">(loading)</span> old.</span>
 	    </div>
 	    <div class="collapsible">
 		<h3>Instruments</h3>
 		<ul class="hide-numbers">
-		    <li><h4>Guitar</h4>Played since I was 11 or 12.
-			My first guitar was a blue Squier Strat, since then I have had only the two I still own: A red & black Gibson Junior and an Ovation Applause
+		    <li class="collapsible"><h4>Guitar</h4><span>Played since I was 11 or 12.
+			My first guitar was a blue Squier Strat, since then I have had only the two I still own: A red & black Gibson Junior and an Ovation Applause</span>
 		    </li>
-		    <li><h4>Bass</h4>I still don't think of myself as a bassist but I've played/play bass in Otala and Fool.
+		    <li class="collapsible"><h4>Bass</h4><span>I still don't think of myself as a bassist but I've played/play bass in <a href="https://otalaband.com">Otala</a> and <a href="https://www.instagram.com/foolbandofficial/">Fool</a>.
 			I originally played a messy DIY machine made from an eBay neck and bridge and the body of my old Squier electric which I chiseled out.
 			It had approximately 1.5cm of action and gave me blisters every time I played it.
-			(the stupid bass pictured at Fuel on the 27th Jan 2023, playing with Bloodworm, Horse Mouth, and Plaster)
+			Pictured below at Fuel on the 27th Jan 2023, playing with Bloodworm, Horse Mouth, and Plaster.
 			<br><img src="squier.jpg" width="200px"/><br>
-			I sold it for parts when my lovely parents bought me my Yamaha 5 String as a graduation present.
+			I sold it for parts when my lovely parents bought me my Yamaha 5 String as a graduation present.</span>
 		    </li>
-		    <li><h4>Modular Synth</h4>I first started getting into synths with a Korg Monologue around when I started uni in 2019,
+		    <li class="collapsible"><h4>Modular Synth</h4><span>I first started getting into synths with a Korg Monologue around when I started uni in 2019,
 			but soon started messing with modular and developing stuff under <a href="https://allensynthesis.co.uk">Allen Synthesis</a>
 			after seeing <a href="https://www.youtube.com/watch?v=8WDNgfnZ3HM&list=RD8WDNgfnZ3HM&start_radio=1">Ann Annie covering Debussy</a> on a modular.
 			I currently work for ALM which feels amazing as I'd seen their stuff for as long as I'd been interested in modular.
-			Still can't really play keys but I can "sound design" alright and make beats and remixes in a cracked copy of ableton
+			Still can't really play keys but I can "sound design" alright and make beats and remixes in a cracked copy of ableton</span>
 		    </li>
 		</ul>
 	    </div>
 	    <div class="collapsible">
 		<h3>Software</h3>
 		<ul class="hide-numbers">
-		    <li><h4>Blender</h4>I've been using Blender since I was about 14 when my friend Toby and I managed to convince the school IT department that it was educational enough to be pre-installed on the school systems. Since then it's changed and modernised a ridiculous amount (I remember the switch from 2.79 to 2.8...) and is one of the most incredible outputs of the <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">FOSS</a> community in my opinion.
+		    <li class="collapsible"><h4>Blender</h4><span>I've been using Blender since I was about 14 when my friend Toby and I managed to convince the school IT department that it was educational enough to be pre-installed on the school systems. Since then it's changed and modernised a ridiculous amount (I remember the switch from 2.79 to 2.8...) and is one of the most incredible outputs of the <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">FOSS</a> community in my opinion.</span>
 		    </li>
-		    <li><h4>Emacs</h4>When I started working at ALM I used the first Mac of my life and got shown what <a href="https://www.gnu.org/software/emacs/">Emacs</a> is and why it's useful, and although it's a little archaic I have learned to love it and feel accomplished when I can work on something without needing to touch a mouse.
+		    <li class="collapsible"><h4>Emacs</h4><span>When I started working at ALM I used the first Mac of my life and got shown what <a href="https://www.gnu.org/software/emacs/">Emacs</a> is and why it's useful, and although it's a little archaic I have learned to love it and feel accomplished when I can work on something without needing to touch a mouse.</span>
 		    </li>
-		    <li><h4>Affinity</h4>I only started using <a href="https://www.affinity.studio/">Affinity</a> when it became free in late 2025, but it's a great alternative to Adobe slop (which I had previously pirated/used at work. Cracked CS6 was manageable, the new cloud stuff that changes every time you open it is NOT. Wish it was actually open-source but it's great for normal artists that it's free and can open Adobe files!
+		    <li class="collapsible"><h4>Affinity</h4><span>I only started using <a href="https://www.affinity.studio/">Affinity</a> when it became free in late 2025, but it's a great alternative to Adobe slop (which I had previously pirated/used at work. Cracked CS6 was manageable, the new cloud stuff that changes every time you open it is NOT. Wish it was actually open-source but it's great for normal artists that it's free and can open Adobe files!</span>
 		    </li>
 		</ul>
 	    </div>
@@ -254,7 +254,7 @@
      });
      
      document.querySelectorAll(".collapsible").forEach(element => {
-	 if (element.id != "me"){
+	 if (!["me","about"].includes(element.id)){
 	     element.classList.add("collapsed");
 	 }
 	 element.querySelectorAll("h2,h3,h4,h5")[0].addEventListener("click", () => { toggleCollapse(element) });
