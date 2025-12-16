@@ -34,6 +34,11 @@
 	     padding: 1rem 0;
 	     border-bottom: 1px solid var(--wiki-grey);
 	 }
+	 h1, h2, h3, h4, h5 {
+	     display: flex;
+	     align-items: center;
+	     gap: 1rem;
+	 }
 	 h3 {
 	     font-size: unset;
 	 }
@@ -56,7 +61,6 @@
 	     color: var(--wiki-grey);
 	     font-size: 0.75rem;
 	     padding: 0.25rem;
-	     margin-top: 0.5rem;
 	     border: 1px solid #eee;
 	 }
 	 a:hover {
@@ -93,14 +97,14 @@
     <body>
 	<div id="page-header">this is my <a href="https://maggieappleton.com/garden-history">digital garden</a>, you can click on the headings to expand each section!</div>
 	<div class="collapsible" id="me">
-	    <h2>Me<div class="garden">🌱 planted 16.12.25</div></h2>
+	    <h2>Me<div class="garden">🌱 16.12.25</div></h2>
 	    <img src="favicon.png" width="200px"/>
 	    <div class="collapsible" id="about">
 		<h3>About</h3>
-		<span>My name is Rory Allen, I am <span id="age">(loading)</span> old.</span>
+		<span>My name is Rory Allen, I am <span id="age">(loading)</span> old. You can email me at <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a> - I like to be emailed and aim to respond to every one that I get! </span>
 	    </div>
 	    <div class="collapsible">
-		<h3>Instruments</h3>
+		<h3>Music</h3>
 		<ul class="hide-numbers">
 		    <li class="collapsible"><h4>Guitar</h4><span>Played since I was 11 or 12.
 			My first guitar was a blue Squier Strat, since then I have had only the two I still own: A red & black Gibson Junior and an Ovation Applause</span>
@@ -133,7 +137,25 @@
 	    </div>
 	</div>
 	<div class="collapsible">
-	    <h2>Life Story<div class="garden">🌱 planted 16.12.25</div></h2>
+	    <h2>This Page<div class="garden">🌱 16.12.25</div></h2>
+	    <div class="collapsible">
+		<h3>Concept</h3>
+		<span>I only started learning about <a href="https://maggieappleton.com/garden-history">digital gardens</a> as a concept a few months after starting to develop <a href="https://hogwild.uk">hogwild.uk</a> and realised that it was the way to describe what I wanted to do and why I wanted to do it. This page is just a splinter from the main site that's for my more personal messing around. I think it's a really cool idea and I hope more people start to use them to claw back a bit of human interaction from an internet that's increasingly becoming a conversation between LLMs that real people just look at.</span>
+	    </div>
+	    <div class="collapsible">
+		<h3>Programming</h3><span>I'm using a Dell laptop (thanks Johnny) running Linux (<a href="https://www.debian.org/">Debian</a>). I'm using <a href="https://www.gnu.org/software/emacs/">Emacs</a> as my code editor (using <a href="https://web-mode.org/">web-mode</a> for styling while editing) and just checking the page content in <a href="https://www.firefox.com/en-GB/">Firefox</a> as I go. I like working without any packages when I'm developing web stuff as much as I can, just pure HTML, CSS, JavaScript, and sometimes PHP. The font I'm using on this page is <a href="https://fonts.google.com/specimen/Google+Sans+Code">Google Sans Code</a>, a free to use one that I like a lot</span>
+	    </div>
+	    <div class="collapsible">
+		<h3>🌱?</h3><span>I'm using a similar method of labelling my stuff on this page as the writer of the digital gardens article I find the most useful for understanding the idea:
+		    <ul>
+			<li>🌱 When I first 'planted' something on the page</li>
+			<li>🌿 When I last edited a section (if different to planting date)</li>
+			<li>🌳 Stuff I think is pretty complete and unlikely to change much</li>
+		    </ul></span>
+	    </div>
+	</div>
+	<div class="collapsible">
+	    <h2>Life Story<div class="garden">🌱 16.12.25</div></h2>
 	    <input type="checkbox" id="reverse-life-story" autocomplete="off">
 	    <label for="reverse-life-story">oldest first</label>
 	    <ol id="life-story" class="hide-numbers reversible">
@@ -190,7 +212,7 @@
 	    </ul>
 	</div>
 	<div class="collapsible">
-	    <h2><a href="https://en.wikipedia.org/wiki/Desert_Island_Discs">Desert Island Discs</a><div class="garden">🌱 planted 16.12.25</div></h2>
+	    <h2><a href="https://en.wikipedia.org/wiki/Desert_Island_Discs">Desert Island Discs</a><div class="garden">🌱 16.12.25</div></h2>
 	    <ol class="hide-numbers">
 		<li class="did-flex">
 		    <img class="did-image" src="itigtwof.jpg"/>
