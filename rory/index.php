@@ -9,7 +9,7 @@
 	<meta property="og:image" content="https://hogwild.uk/favicon/apple-touch-icon.png">
 	<meta property="og:url" content="https://hogwild.uk">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" type="image/png" href="favico.png" sizes="512x512" />
+	<link rel="icon" type="image/png" href="favicon.png" sizes="512x512" />
 	<link rel="shortcut icon" href="favicon.png" />
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
 	<meta name="apple-mobile-web-app-title" content="Rory" />
@@ -29,9 +29,12 @@
 	     margin: 0 auto;
 	     font-family: Google Sans Code;
 	 }
+	 #page-header {
+	     text-align: center;
+	     padding: 1rem 0;
+	     border-bottom: 1px solid var(--wiki-grey);
+	 }
 	 h3 {
-	     margin: unset;
-	     //font-weight: unset;
 	     font-size: unset;
 	 }
 	 a, a:visited {
@@ -44,10 +47,9 @@
 	 ol > li {
 	     border-top: 1px solid var(--wiki-grey);
 	     margin-bottom: 1rem;
-	     padding-top: 1rem;
 	 }
 	 ol li img, ul li img {
-	     margin-top: 1rem;
+	     margin: 1rem 0;
 	 }
 	 .garden {
 	     width: fit-content;
@@ -89,27 +91,28 @@
     </script>
 
     <body>
-	<div class="collapsible">
+	<div id="page-header">this is my <a href="https://maggieappleton.com/garden-history">digital garden</a>, you can click on the headings to expand each section!</div>
+	<div class="collapsible" id="me">
 	    <h2>Me<div class="garden">🌱 planted 16.12.25</div></h2>
 	    <img src="favicon.png" width="200px"/>
 	    <div class="collapsible">
 		<h3>About</h3>
 		My name is Rory Allen, I am <span id="age">(loading)</span> old.
 	    </div>
-		<div class="collapsible">
+	    <div class="collapsible">
 		<h3>Instruments</h3>
-		<ul>
-		    <li>Guitar - Played since I was 11 or 12.
+		<ul class="hide-numbers">
+		    <li><h4>Guitar</h4>Played since I was 11 or 12.
 			My first guitar was a blue Squier Strat, since then I have had only the two I still own: A red & black Gibson Junior and an Ovation Applause
 		    </li>
-		    <li>Bass - I still don't think of myself as a bassist but I've played/play bass in Otala and Fool.
+		    <li><h4>Bass</h4>I still don't think of myself as a bassist but I've played/play bass in Otala and Fool.
 			I originally played a messy DIY machine made from an eBay neck and bridge and the body of my old Squier electric which I chiseled out.
 			It had approximately 1.5cm of action and gave me blisters every time I played it.
 			(the stupid bass pictured at Fuel on the 27th Jan 2023, playing with Bloodworm, Horse Mouth, and Plaster)
 			<br><img src="squier.jpg" width="200px"/><br>
 			I sold it for parts when my lovely parents bought me my Yamaha 5 String as a graduation present.
 		    </li>
-		    <li>Modular Synth - I first started getting into synths with a Korg Monologue around when I started uni in 2019,
+		    <li><h4>Modular Synth</h4>I first started getting into synths with a Korg Monologue around when I started uni in 2019,
 			but soon started messing with modular and developing stuff under <a href="https://allensynthesis.co.uk">Allen Synthesis</a>
 			after seeing <a href="https://www.youtube.com/watch?v=8WDNgfnZ3HM&list=RD8WDNgfnZ3HM&start_radio=1">Ann Annie covering Debussy</a> on a modular.
 			I currently work for ALM which feels amazing as I'd seen their stuff for as long as I'd been interested in modular.
@@ -117,39 +120,50 @@
 		    </li>
 		</ul>
 	    </div>
+	    <div class="collapsible">
+		<h3>Software</h3>
+		<ul class="hide-numbers">
+		    <li><h4>Blender</h4>I've been using Blender since I was about 14 when my friend Toby and I managed to convince the school IT department that it was educational enough to be pre-installed on the school systems. Since then it's changed and modernised a ridiculous amount (I remember the switch from 2.79 to 2.8...) and is one of the most incredible outputs of the <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">FOSS</a> community in my opinion.
+		    </li>
+		    <li><h4>Emacs</h4>When I started working at ALM I used the first Mac of my life and got shown what <a href="https://www.gnu.org/software/emacs/">Emacs</a> is and why it's useful, and although it's a little archaic I have learned to love it and feel accomplished when I can work on something without needing to touch a mouse.
+		    </li>
+		    <li><h4>Affinity</h4>I only started using <a href="https://www.affinity.studio/">Affinity</a> when it became free in late 2025, but it's a great alternative to Adobe slop (which I had previously pirated/used at work. Cracked CS6 was manageable, the new cloud stuff that changes every time you open it is NOT. Wish it was actually open-source but it's great for normal artists that it's free and can open Adobe files!
+		    </li>
+		</ul>
+	    </div>
 	</div>
 	<div class="collapsible">
 	    <h2>Life Story<div class="garden">🌱 planted 16.12.25</div></h2>
-	    <input type="checkbox" id="reverse-life-story">
+	    <input type="checkbox" id="reverse-life-story" autocomplete="off">
 	    <label for="reverse-life-story">oldest first</label>
 	    <ol id="life-story" class="hide-numbers reversible">
-		<li>Oct 2025 - <a href="https://hogwild.uk/">hogwild.uk</a> goes live</li>
-		<li>May 2025 - Move <i>back</i> in with Issy to our new house in Tooting. #aweomse
+		<li><h3>Oct 2025</h3> <a href="https://hogwild.uk/">hogwild.uk</a> goes live</li>
+		<li><h3>May 2025</h3>Move <i>back</i> in with Issy to our new house in Tooting. #aweomse
 		    <br><img src="tooting.jpg"/>
 		</li>
-		<li>Dec 2024 - Started working at <a href="https://busycircuits.com/">ALM</a>! Love it!</li>
-		<li>Oct 2024 - Moved to London to live in a rank shared house (nice room though) but without Issy... :(</li>
-		<li>May 2024 - Moved in with Issy to Sharrow Lane, Sheffield
+		<li><h3>Dec 2024</h3>Started working at <a href="https://busycircuits.com/">ALM</a>! Love it!</li>
+		<li><h3>Oct 2024</h3>Moved to London to live in a rank shared house (nice room though) but without Issy... :(</li>
+		<li><h3>May 2024</h3>Moved in with Issy to Sharrow Lane, Sheffield
 		    <br><img src="sharrow.jpg"/>
 		</li>
-		<li>Oct 2023 - Played Left of the Dial in Rotterdam (see Rig pic above). Amazing festival and one of the best things we've ever done as a band. Sang <a href="https://www.youtube.com/watch?v=fr4NSDBtK6o&list=RDfr4NSDBtK6o&start_radio=1">Jesse by Geese</a> in the karaoke room and made good use of the open bar for artists, not necessarily in that order... We played 3 sets over 3 days and slept in the rig thanks to the ferry cancellation.
+		<li><h3>Oct 2023</h3>Played Left of the Dial in Rotterdam (see Rig pic above). Amazing festival and one of the best things we've ever done as a band. Sang <a href="https://www.youtube.com/watch?v=fr4NSDBtK6o&list=RDfr4NSDBtK6o&start_radio=1">Jesse by Geese</a> in the karaoke room and made good use of the open bar for artists, not necessarily in that order... We played 3 sets over 3 days and slept in the rig thanks to the ferry cancellation.
 		    <br><img src="lotd.jpg"/>
 		</li>
-		<li>Sep 2023 - Start at <a href="https://www.pclairtechnology.com/">PCL</a>, a pretty dry job but made some nice friends James & Cole and learned about the world of full time work</li>
-		<li>Jul 2023 - Moved into <a href="https://hogwild.uk/thompson-world">Thompson World</a> with Ruby, Danny, Itay, and Tom</li>
-		<li>Jun 2022 - Moved to Sheffield to live with my school friends Johnny & Toby</li>
-		<li>Jan/Feb 2022 - Started playing with Otala and playing gigs in and around <a href="https://maps.app.goo.gl/ythS87pwhko1HRjg7">Nottingham</a> a lot more often</li>
-		<li>Apr 2021 - Started to make synth stuff under the name <a href="https://allensynthesis.co.uk/">Allen Synthesis</a></li>
-		<li>Dec 2020 - Bought my second car - <a href="https://wiki.hogwild.uk/?page=the-rig">The Rig</a>. Pictured driving to Rotterdam to play <a href="https://leftofthedial.nl/">Left of the Dial</a> with my band <a href="https://otalaband.com/">Otala</a> (at the time Oscar, Charlotte, Jack, Fin, and me) in Oct 2022:
+		<li><h3>Sep 2023</h3>Start at <a href="https://www.pclairtechnology.com/">PCL</a>, a pretty dry job but made some nice friends James & Cole and learned about the world of full time work</li>
+		<li><h3>Jul 2023</h3>Moved into <a href="https://hogwild.uk/thompson-world">Thompson World</a> with Ruby, Danny, Itay, and Tom</li>
+		<li><h3>Jun 2022</h3>Moved to Sheffield to live with my school friends Johnny & Toby</li>
+		<li><h3>Jan/Feb 2022</h3>Started playing with Otala and playing gigs in and around <a href="https://maps.app.goo.gl/ythS87pwhko1HRjg7">Nottingham</a> a lot more often</li>
+		<li><h3>Apr 2021</h3>Started to make synth stuff under the name <a href="https://allensynthesis.co.uk/">Allen Synthesis</a></li>
+		<li><h3>Dec 2020</h3>Bought my second car - <a href="https://wiki.hogwild.uk/?page=the-rig">The Rig</a>. Pictured driving to Rotterdam to play <a href="https://leftofthedial.nl/">Left of the Dial</a> with my band <a href="https://otalaband.com/">Otala</a> (at the time Oscar, Charlotte, Jack, Fin, and me) in Oct 2022:
 		    <br><img src="rig.jpg"/>
 		</li>
-		<li>Aug/Sep/Oct 2020 - Started making music with Oscar under 'Comic Book Sandpaper' (a stupid name we came up with to make sure we didn't encounter the anonymity problems faced by Oscar's previous band Sketch, and probably submliminally because it reminded us of our shared love of <a href="https://www.youtube.com/watch?v=jCyKRfGI8lA&list=RDjCyKRfGI8lA&start_radio=1&t=2402s">Car Seat Headrest</a>)</li>
-		<li>Jun 2020 - Bought my first car, a 1996 Corsa B in green. It had a sunroof and a 16V engine
+		<li><h3>Aug/Sep/Oct 2020</h3>Started making music with Oscar under 'Comic Book Sandpaper' (a stupid name we came up with to make sure we didn't encounter the anonymity problems faced by Oscar's previous band Sketch, and probably submliminally because it reminded us of our shared love of <a href="https://www.youtube.com/watch?v=jCyKRfGI8lA&list=RDjCyKRfGI8lA&start_radio=1&t=2402s">Car Seat Headrest</a>)</li>
+		<li><h3>Jun 2020</h3>Bought my first car, a 1996 Corsa B in green from <a href="https://share.google/09bSfRuc0rr4DhOlL">Richardsons of Congleton</a>. It had a sunroof and a 16V engine.
 		    <br><img src="corsa.jpg"/>
 		</li>
-		<li>Mar 2020 - Pandemic hit, moved home #brilliant</li>
-		<li>Oct 2019 - Start uni at <a href="https://en.wikipedia.org/wiki/Loughborough_University">Loughborough</a> (shithole!!! if anyone in sixth form tells you to "pick based on the course because that's what you're there for, the city comes second", they're wrong)</li>
-		<li>Sep 2017 - Start A-Levels. I picked:
+		<li><h3>Mar 2020</h3>Pandemic hit, moved home #epicfail</li>
+		<li><h3>Oct 2019</h3>Start uni at <a href="https://en.wikipedia.org/wiki/Loughborough_University">Loughborough</a> (shithole!!! if anyone in sixth form tells you to "pick based on the course because that's what you're there for, the city comes second", take it with a fat pinch of salt)</li>
+		<li><h3>Sep 2017</h3>Start A-Levels. I picked:
 		    <ul>
 			<li>Computer Science (made a shopping list website with map solving for the fastest route around the shop)</li>
 			<li>Physics</li>
@@ -157,7 +171,7 @@
 			<li>Maths (only did this for 1 year AS level)</li>
 		    </ul>
 		</li>
-		<li>Sep 2015 - Start GCSEs. I picked:
+		<li><h3>Sep 2015</h3>Start GCSEs. I picked:
 		    <ul>
 			<li>Triple Science</li>
 			<li>Spanish</li>
@@ -166,11 +180,13 @@
 			<li>Computer Science</li>
 		    </ul>
 		</li>
-		<li>Sep 2012 - Finish at Whirley and start secondary school at The Fallibroome Academy</li>
-		<li>Sep 2005 - Start term at Whirley Primary School. Street view of me, my sister Rowan, and my Dad outside our house in 2009:
+		<li><h3>Sep 2012</h3>Finish at Whirley and start secondary school at The Fallibroome Academy</li>
+		<li><h3>Sep 2005</h3>Start term at Whirley Primary School. Street view of me, my sister Rowan, and my Dad outside our house in 2009:
 		    <br><img src="whirley.jpg"/>
 		</li>
-		<li>Sep 2000 - Born in <a href="https://en.wikipedia.org/wiki/Macclesfield_District_General_Hospital">Macclesfield General Hospital</a> to Dunc and BJ Allen. Had jaundice #fail</li>
+		<li><h3>Sep 2000</h3>Born in <a href="https://en.wikipedia.org/wiki/Macclesfield_District_General_Hospital">Macclesfield General Hospital</a> to Dunc and BJ Allen. Had jaundice #fail
+		    <br><img src="baby.jpg"/>
+		</li>
 	    </ul>
 	</div>
 	<div class="collapsible">
@@ -221,13 +237,14 @@
 	 }
      }
      function toggleReverse(element){
-	 const listItems = Array.from(element.querySelectorAll('li'));
+	 const listItems = Array.from(element.querySelectorAll('.reversible > li'));
 	 listItems.reverse().forEach(item => element.appendChild(item));
      }
      function updateAge(){
 	 const time_now_s = Math.floor(Date.now() / 1000);
-	 const age_s = time_now_s - 969714040
-	 document.getElementById("age");
+	 const age_s = time_now_s - 969714040;
+	 const age_y = Math.floor(age_s / 31536000);
+	 document.getElementById("age").innerText = age_y + ' Years (' + age_s + ' Seconds)';
      }
      
      document.querySelectorAll(".reversible").forEach(element => {
@@ -237,10 +254,13 @@
      });
      
      document.querySelectorAll(".collapsible").forEach(element => {
-	 //element.classList.add("collapsed");
+	 if (element.id != "me"){
+	     element.classList.add("collapsed");
+	 }
 	 element.querySelectorAll("h2,h3,h4,h5")[0].addEventListener("click", () => { toggleCollapse(element) });
      });
 
+     updateAge();
      setInterval(updateAge, 1000);
     </script>
 </html>
