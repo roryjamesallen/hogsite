@@ -207,7 +207,7 @@ $vermelha = $lisboa['vermelha'];
 
 	</div>
 	<div id='footer'>
-	    <p style='width: 90%'><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, please email <a href='https://rory.hogwild.uk'>rory</a></p>
+	    <p style='width: 90%'><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, please email <a href='https://hogwild.uk/rory'>rory</a></p>
 	</div>
     </body>
 
