@@ -1,5 +1,0 @@
-SetEnvIf Origin "http(s)?://(.+\.)?hogwild\.uk(:\d{1,5})?$" CORS=$0 Header set Access-Control-Allow-Origin "%{CORS}e" env=CORS Header merge Vary "Origin"
-Header set Access-Control-Allow-Origin "*"
-
-RewriteCond %{HTTP_HOST} ^www\.example\.com$
-RewriteRule ^/?$ "http\:\/\/example\.com\/" [R=301,L]
