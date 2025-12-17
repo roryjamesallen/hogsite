@@ -3,15 +3,15 @@
     <head>
 	<link rel='canonical' href='https://hogwild.uk' />
 	<meta charset="utf-8">
-	<meta name="description" content="Rory's Page">
+	<meta name="description" content="About me, what I'm into and what I've been making">
 	<meta property="og:title" content="Rory">
 	<meta property="og:description" content="About me, what I'm into and what I've been making">
-	<meta property="og:image" content="https://hogwild.uk/favicon/apple-touch-icon.png">
-	<meta property="og:url" content="https://hogwild.uk">
+	<meta property="og:image" content="favicon.png">
+	<meta property="og:url" content="https://hogwild.uk/rory">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="icon" type="image/png" href="favicon.png" sizes="512x512" />
 	<link rel="shortcut icon" href="favicon.png" />
-	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="512x512" href="favicon.png" />
 	<meta name="apple-mobile-web-app-title" content="Rory" />
 	<title>Rory</title>
 
