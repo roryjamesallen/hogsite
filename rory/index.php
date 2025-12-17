@@ -97,13 +97,18 @@
     <body>
 	<div id="page-header">this is my <a href="https://maggieappleton.com/garden-history">digital garden</a>, you can click on the headings to expand each section!</div>
 	<div class="collapsible" id="me">
-	    <h2>Me<div class="garden">🌱 16.12.25</div></h2>
+	    <h2>Me<div class="garden">🌱 16.12.25 🌿 17.12.25</div></h2>
 	    <img src="favicon.png" width="200px"/>
 	    <div class="collapsible" id="about">
 		<h3>About</h3>
 		<span>My name is Rory Allen, I am <span id="age">(loading)</span> old. You can email me at <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a> - I like to be emailed and aim to respond to every one that I get! </span>
 	    </div>
 	    <div class="collapsible">
+		<h3>Currently Into</h3>
+		<span>I have been using <a href="https://www.pi.fyi/">Perfectly Imperfect</a> when I feel like scrolling (eventually maybe I won't even have the urge) and it's great, I find myself far more often clicking into something and it inspiring me to do something worthwhile or research something rather than just encouraging people to stick on the feed</span>
+	    </div>
+	    <div class="collapsible">
+		<div class="collapsible">
 		<h3>Music</h3>
 		<ul class="hide-numbers">
 		    <li class="collapsible"><h4>Guitar</h4><span>Played since I was 11 or 12.
