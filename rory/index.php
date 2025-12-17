@@ -22,7 +22,7 @@
 	 }
 	 @font-face {
 	     font-family: Google Sans Code;
-	     src: url(../fonts/GoogleSansCode.ttf);
+	     src: url(https://hogwild.uk/fonts/GoogleSansCode.ttf);
 	 }
 	 body {
 	     width: min(800px, 90%);
