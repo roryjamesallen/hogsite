@@ -590,7 +590,7 @@
      });
      
      document.querySelectorAll(".collapsible").forEach(element => {
-	 if (!["me","about","gigs"].includes(element.id)){
+	 if (!["me","about"].includes(element.id)){
 	     element.classList.add("collapsed");
 	 }
 	 element.querySelectorAll("h2,h3,h4,h5")[0].addEventListener("click", () => { toggleCollapse(element) });
