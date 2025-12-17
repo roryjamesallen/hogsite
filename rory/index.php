@@ -36,6 +36,10 @@
 	     padding: 1rem 0;
 	     border-bottom: 1px solid var(--wiki-grey);
 	 }
+	 h1 {
+	     justify-content: center;
+	     margin: 0.5rem 0;
+	 }
 	 h1, h2, h3, h4, h5 {
 	     display: flex;
 	     align-items: center;
@@ -109,7 +113,7 @@
     </script>
 
     <body>
-	<div id="page-header">this is my <a href="https://maggieappleton.com/garden-history">digital garden</a>, you can click on the headings to expand each section!</div>
+	<div id="page-header"><h1>Rory's Digital Garden</h1>(you can click on the headings to expand/collapse each section)</div>
 	<div class="collapsible" id="me">
 	    <h2>Me<div class="garden">🌱 16.12.25 🌿 17.12.25</div></h2>
 	    <img src="favicon.png" width="200px"/>
@@ -137,7 +141,7 @@
 			I originally played a messy DIY machine made from an eBay neck and bridge and the body of my old Squier electric which I chiseled out.
 			It had approximately 1.5cm of action and gave me blisters every time I played it.
 			Pictured below at Fuel on the 27th Jan 2023, playing with Bloodworm, Horse Mouth, and Plaster.
-			<br><img src="squier.jpg" width="200px"/><br>
+			<br><img src="squier.jpg" width="200px" alt="Photo of a Squier electric guitar that's been converted into a bass guitar" /><br>
 			I sold it for parts when my lovely parents bought me my Yamaha 5 String as a graduation present.</span>
 		    </li>
 		    <li class="collapsible"><h4>Modular Synth</h4><span>I first started getting into synths with a Korg Monologue around when I started uni in 2019,
@@ -195,17 +199,17 @@
 	    <ol id="life-story" class="hide-numbers reversible">
 		<li><h3>Oct 2025</h3> <a href="https://hogwild.uk/">hogwild.uk</a> goes live</li>
 		<li><h3>May 2025</h3>Move <i>back</i> in with Issy to our new house in Tooting. #aweomse
-		    <br><img src="tooting.jpg"/>
+		    <br><img src="tooting.jpg" alt="Photo of the kitchen of Rory's house in Tooting, London, UK" />
 		</li>
 		<li><h3>Dec 2024</h3>Started working at <a href="https://busycircuits.com/">ALM</a>! Love it!</li>
 		<li><h3>Oct 2024</h3>Moved to London to live in a rank shared house (nice room though) but without Issy... :(</li>
 		<li><h3>May 2024</h3>Moved in with Issy to Sharrow Lane, Sheffield
-		    <br><img src="sharrow.jpg"/>
+		    <br><img src="sharrow.jpg" alt="Photo of the lounge of Rory's old flat in Sheffield, UK" />
 		</li>
 		<li><h3>Oct 2023</h3>Played Left of the Dial in Rotterdam (see Rig pic above). Amazing festival and one of the best things we've ever done as a band.
 		    Sang <a href="https://www.youtube.com/watch?v=fr4NSDBtK6o&list=RDfr4NSDBtK6o&start_radio=1">Jesse by Geese</a> in the karaoke room and made good use of the open bar for artists, not necessarily in that order...
 		    We played 3 sets over 3 days and slept in the rig thanks to the ferry cancellation.
-		    <br><img src="lotd.jpg"/>
+		    <br><img src="lotd.jpg" alt="Photo of Rory's Volvo 940 at a ferry terminal" />
 		</li>
 		<li><h3>Sep 2023</h3>Start at <a href="https://www.pclairtechnology.com/">PCL</a>, a pretty dry job but made some nice friends James & Cole and learned about the world of full time work</li>
 		<li><h3>Jul 2023</h3>Moved into <a href="https://hogwild.uk/thompson-world">Thompson World</a> with Ruby, Danny, Itay, and Tom</li>
@@ -214,12 +218,12 @@
 		<li><h3>Apr 2021</h3>Started to make synth stuff under the name <a href="https://allensynthesis.co.uk/">Allen Synthesis</a></li>
 		<li><h3>Dec 2020</h3>Bought my second car - <a href="https://wiki.hogwild.uk/?page=the-rig">The Rig</a>. Pictured driving to Rotterdam to play <a href="https://leftofthedial.nl/">Left of the Dial</a>
 		    with my band <a href="https://otalaband.com/">Otala</a> (at the time Oscar, Charlotte, Jack, Fin, and me) in Oct 2022:
-		    <br><img src="rig.jpg"/>
+		    <br><img src="rig.jpg" alt="Cut out photo of Rory's Volvo 940" />
 		</li>
 		<li><h3>Aug/Sep/Oct 2020</h3>Started making music with Oscar under 'Comic Book Sandpaper' (a stupid name we came up with to make sure we didn't encounter the anonymity problems faced by Oscar's previous band Sketch,
 		    and probably submliminally because it reminded us of our shared love of <a href="https://www.youtube.com/watch?v=jCyKRfGI8lA&list=RDjCyKRfGI8lA&start_radio=1&t=2402s">Car Seat Headrest</a>)</li>
 		<li><h3>Jun 2020</h3>Bought my first car, a 1996 Corsa B in green from <a href="https://share.google/09bSfRuc0rr4DhOlL">Richardsons of Congleton</a>. It had a sunroof and a 16V engine.
-		    <br><img src="corsa.jpg"/>
+		    <br><img src="corsa.jpg" alt="Cutout photo of Rory's Corsa B" />
 		</li>
 		<li><h3>Mar 2020</h3>Pandemic hit, moved home #epicfail</li>
 		<li><h3>Oct 2019</h3>Start uni at <a href="https://en.wikipedia.org/wiki/Loughborough_University">Loughborough</a> (shithole!!! if anyone in sixth form tells you to "pick based on the course because that's what you're there for,
@@ -243,10 +247,10 @@
 		</li>
 		<li><h3>Sep 2012</h3>Finish at Whirley and start secondary school at The Fallibroome Academy</li>
 		<li><h3>Sep 2005</h3>Start term at Whirley Primary School. Street view of me, my sister Rowan, and my Dad outside our house in 2009:
-		    <br><img src="whirley.jpg"/>
+		    <br><img src="whirley.jpg" alt="Screenshot of a 2009 Google Street View photo" />
 		</li>
 		<li><h3>Sep 2000</h3>Born in <a href="https://en.wikipedia.org/wiki/Macclesfield_District_General_Hospital">Macclesfield General Hospital</a> to Dunc and BJ Allen. Had jaundice #fail
-		    <br><img src="baby.jpg"/>
+		    <br><img src="baby.jpg" alt="Photo of Rory as a baby" />
 		</li>
 		</ul>
 	</div>
@@ -254,49 +258,49 @@
 	    <h2>Desert Island Discs <a href="https://en.wikipedia.org/wiki/Desert_Island_Discs">?</a><div class="garden">🌱 16.12.25</div></h2>
 	    <ol class="hide-numbers">
 		<li class="did-flex">
-		    <img class="did-image" src="itigtwof.jpg"/>
+		    <img class="did-image" src="itigtwof.jpg" alt="Ry Cooder - Bop Til You Drop album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=MVEMQ_SCc6w&list=RDMVEMQ_SCc6w&start_radio=1">I Think It's Going To Work Out Fine - Ry Cooder</a></h3>This song evokes the feeling its name describes.
 			Ry Cooder can make a guitar sing more soulfully than any words could. I'm not sure the rest of this list is ordered but I know that this is #1 every time.</span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="willin.jpg"/>
+		    <img class="did-image" src="willin.jpg" alt="Little Feat - Sailing Shoes album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=zcrEWRLk3CE&list=RDzcrEWRLk3CE&start_radio=1">Willin' - Little Feat</a></h3>I've found America 🇺🇸 very interesting for most of my life,
 			probably partly thanks to the stories my Dad has told me about his time living in Florida <a href="https://jkeworks.com/history/">repairing vintage aircraft</a>,
 			and this song reminds me both of him and of the caricature of the USA that I dream(ed) of.</span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="pavement.jpg"/>
+		    <img class="did-image" src="pavement.jpg" alt="Pavement - Wowee Zowee album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=LjWoeq2-2AU&list=RDLjWoeq2-2AU&start_radio=1">Black Out - Pavement</a></h3>Continuing on the imaginary exploration of a country I've never been to,
 			this track feels like the other side of America, watching the slacker skateboard types killing time to avoid the ennui of suburbia.</span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="wilco.jpg"/>
+		    <img class="did-image" src="wilco.jpg" alt="Wilco - Sky Blue Sky album cover"/>
 		    <span><h3><a href="https://www.youtube.com/watch?v=Epbu2z3o28w&list=RDEpbu2z3o28w&start_radio=1">Impossible Germany - Wilco</a></h3>One of my favourite guitar soloes and seeing it live in
 			<a href="https://wilcoworld.net/tour_date_type/5-sept-2023-manchester-uk-the-bridgewater-hall/">Manchester</a> was nothing short of transcendental. I listened to this album
 			(as well as <a href="https://www.youtube.com/watch?v=3RQcPC8KY_g&list=PLC80P4gsPr-Z-Ry7aMiTWXCWHWy56AmiB&pp=0gcJCbAEOCosWNin">YHF</a>) a lot during the final two weeks of cramming for my final degree coursework,
 			so listening to this reminds me of my breaks, when I'd walk around <a href="https://maps.app.goo.gl/MCQHahEty5HTW5rz7">The Ponderosa</a> and look at the sky blue sky.</span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="brj.jpg"/>
+		    <img class="did-image" src="brj.jpg" alt="Bill Ryder-Jones - West Kirby County Primary album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=dOhaGfiGAUY&list=RDdOhaGfiGAUY&start_radio=1">Tell Me You Don't Love Me Watching - Bill Ryder-Jones</a></h3>
 			My friend Johnny put this album on when we were planning a walking expedition, probably soon after it came out so 2015/16, and I've loved it ever since.
 			His voice is so soft and real that he manages to make the questionable narrative of a song like this sound romantic. Also, finally a British artist in the list!</span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="denver.jpg"/>
+		    <img class="did-image" src="denver.jpg" alt="John Denver album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=BZpRobzuLck&list=RDBZpRobzuLck&start_radio=1">Leaving On A Jet Plane - John Denver</a></h3>
 			This one reminds me of going with my Mum and Sister to pick up my Dad from Manchester Airport when he'd been away for work, and also of Scout camps at
 			<a href="https://www.mcscouts.org.uk/barnswood">Barnswood</a>.</span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="morrison.jpg"/>
+		    <img class="did-image" src="morrison.jpg" alt="Van Morrison - Saint Dominics Preview album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=igK2ME-0jh4&list=RDigK2ME-0jh4&start_radio=1">Saint Dominic's Preview - Van Morrison</a></h3>
 			This is one of the first songs my girlfriend Issy shared with me when we had just started talking, and one of many that revealed how much we have in common.
 			I listened to this song a lot during the late winter of 2022, walking between my flat in Netherthorpe and hers near the top of
 			<a href="https://maps.app.goo.gl/G13mhqyM8UKwbqKZA">The Botanical Gardens.</a></span>
 		</li>
 		<li class="did-flex">
-		    <img class="did-image" src="gosh.jpg"/>
+		    <img class="did-image" src="gosh.jpg" alt="Jamie xx - In Colour album cover" />
 		    <span><h3><a href="https://www.youtube.com/watch?v=hTGJfRPLe08&list=RDhTGJfRPLe08&start_radio=1">Gosh - Jamie xx</a></h3>One of my favourite electronic tracks.
 			Listening usually makes me want to make music of my own.</span>
 		</li>
