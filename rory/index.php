@@ -28,7 +28,7 @@
 	 }
 	 body {
 	     width: min(800px, 90%);
-	     margin: 0 auto;
+	     margin: 0 auto 10rem auto;
 	     font-family: Google Sans Code;
 	 }
 	 #page-header {
@@ -307,7 +307,7 @@
 	    </ol>
 	</div>
 	<div class="collapsible" id="gigs">
-	    <h2>Gigs<div class="garden">🌱 17.12.25</div></h2>
+	    <h2>Gigs<div class="garden">🌱 17.12.25 🌿 18.12.25</div></h2>
 	    <p>Since the start of 2025 I have been to <span id="gig-count">(loading)</span> gigs. <span id="city-count">(loading)</span> of those were in <span id="city">(loading)</span>, and <span id="venue-count">(loading)</span> were at <span id="venue">(loading)</span>.</p>
 	    <table id="gig-list" class="hide-numbers">
 		<thead>
