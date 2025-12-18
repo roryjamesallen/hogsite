@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang='en'>
     <head>
-	<link rel='canonical' href='https://hogwild.uk' />
+	<link rel='canonical' href='https://rory.hogwild.uk' />
 	<meta charset="utf-8">
 	<meta name="description" content="About me, what I'm into and what I've been making">
 	<meta property="og:title" content="Rory">
@@ -95,11 +95,11 @@
 	     border-collapse: collapse;
 	     border-spacing: 1rem;
 	 }
-	 th {
+	 th, td {
 	     border-bottom: 1px solid var(--wiki-grey);
 	     padding: 1rem;
 	 }
-	 th:not(:first-child) {
+	 th:not(:first-child), td:not(:first-child) {
 	     border-left: 1px solid var(--wiki-grey);
 	 }
 	</style>
@@ -308,262 +308,308 @@
 	</div>
 	<div class="collapsible" id="gigs">
 	    <h2>Gigs<div class="garden">🌱 17.12.25</div></h2>
-	    <p>Since the start of 2025 I have been to <span id="gig-count">(loading)</span> gigs.</p>
+	    <p>Since the start of 2025 I have been to <span id="gig-count">(loading)</span> gigs. <span id="city-count">(loading)</span> of those were in <span id="city">(loading)</span>, and <span id="venue-count">(loading)</span> were at <span id="venue">(loading)</span>.</p>
 	    <table id="gig-list" class="hide-numbers">
-		<tr>
-		    <th>Date</th>
-		    <th>Venue</th>
-		    <th>I Saw</th>
-		    <th>Notes</th>
-		</tr>
-		<tr>
-		    <th>01.12.25</th>
-		    <th>The Roundhouse, London</th>
-		    <th>Cameron Winter</th>
-		    <th>Whoah</th>
-		</tr>
-		<tr>
-		    <th>18.11.25</th>
-		    <th>Heaven, London</th>
-		    <th>Frankie Cosmos, Babehoven</th>
-		    <th>Been listening to them since I was ~15, really happy they played a bunch of oldies including <a href="https://www.youtube.com/watch?v=LA0roJEwza0&list=RDLA0roJEwza0&start_radio=1">Being Alive</a>
-			which someone shouted out as a request. Babehoven really nice, my friend Jacob made sure we came in time to see their whole set</th>
-		</tr>
-		<tr>
-		    <th>11.11.25</th>
-		    <th>Elephant's Head, London</th>
-		    <th>Tex Crick</th>
-		    <th>Really nice. Knew him from <a href="https://www.youtube.com/watch?v=vjVWhg_RNw0&list=RDvjVWhg_RNw0&start_radio=1&t=1037s">a live set with Connan Mockasin</a> but he was even better with a full band</th>
-		</tr>
-		<tr>
-		    <th>7.11.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Little Grandad</th>
-		    <th>I was playing with Fool who knew the band and it was great. Lovely vocal harmonies</th>
-		</tr>
-		<tr>
-		    <th>31.10.25</th>
-		    <th>O2 Brixton, London</th>
-		    <th>Black Country New Road, Blue Bendy</th>
-		    <th>They were dressed up as Fontaines D.C. for halloween. Great sets from both bands</th>
-		</tr>
-		<tr>
-		    <th>28.10.25</th>
-		    <th>The Windmill, London</th>
-		    <th>My New Band Believe, Curbside Lambsear</th>
-		    <th>MNBB were good but CL were my favourite of the night, one of the members of Caroline and another member I think, raw folky electronica</th>
-		</tr>
-		<tr>
-		    <th>26.11.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Pink Eye Club</th>
-		    <th>I was playing in Otala, fun gig. PEC fun to dance to</th>
-		</tr>
-		<tr>
-		    <th>10.11.25</th>
-		    <th>Old Blue Last, London</th>
-		    <th>Mleko</th>
-		    <th>Playing with Otala, cool early BCNRy (sorry!). All really nice people</th>
-		</tr>
-		<tr>
-		    <th>09.10.25</th>
-		    <th>The Roundhouse, London</th>
-		    <th>A.G. Cook, Proc Fiskal</th>
-		    <th>Great set, he's such a funny character. Cool visuals and a MIDI piano. Proc Fiskal was similar and great sound but didn't seem to like being on stage...</th>
-		</tr>
-		<tr>
-		    <th>01.10.25</th>
-		    <th>Purple Turtle, Reading</th>
-		    <th>Oyama, Kiosk</th>
-		    <th>Playing in Otala, first time in Reading, not desperate to return. Both bands really cool though, Oyama nice and scandi sound (icelandic) and Kiosk cool electronic kinda smerzy duo</th>
-		</tr>
-		<tr>
-		    <th>21.09.25</th>
-		    <th>KOKO, London</th>
-		    <th>Clipping.</th>
-		    <th>Free ticket from my friend & bandmate Charlotte (thanks char). Amazing sound, heavy, bit hard to see and had a hangover but really enjoyed</th>
-		</tr>
-		<tr>
-		    <th>08.09.25</th>
-		    <th>The Windmill, London</th>
-		    <th>HAAL, Allarme, Paper Hats</th>
-		    <th>Love HAAL awesome bunch of guys making sick music. Other two were nice as well but didn't see too much of their sets, allarme quite loud and paper hats good as usual</th>
-		</tr>
-		<tr>
-		    <th>14.08.25</th>
-		    <th>We Out Here, Dorset</th>
-		    <th>NoName, Kokoroko, Nala Sinephro, 4am Kru, MJ Cole, Kaitlyn Aurelia Smith, Ben UFO, Mia Koden, Luke Una, Channel One, Gilles Peterson, Astrid Sonne, Loyle Carner</th>
-		    <th>First time going and will definitely be going back. Amazing festival with some of my best friends. Gorgeous weather the whole weekend too!</th>
-		</tr>
-		<tr>
-		    <th>04.08.25</th>
-		    <th>Shacklewell Arms, London</th>
-		    <th>That Fog, Frownland2007</th>
-		    <th>Playing with Otala, That Fog is Eddie's new project with his girlfriend, I enjoyed it a lot. Frownland was cool but maybe too unstructured for me to get properly into</th>
-		</tr>
-		<tr>
-		    <th>03.07.25</th>
-		    <th>Wembley Stadium, London</th>
-		    <th>Lana Del Rey, Addison Rae</th>
-		    <th>Awesome, played Venice Bitch one of mine and Issy's favs and Addison was really good, had been listening to her album a lot since it came out</th>
-		</tr>
-		<tr>
-		    <th>20.06.25</th>
-		    <th>O2 Brixton, London</th>
-		    <th>LCD Soundsystem</th>
-		    <th>Went with Issy Mina & Johnny, really great set but SO HOT. Heatwave and no AC, dripping sweat</th>
-		</tr>
-		<tr>
-		    <th>16.06.25</th>
-		    <th>Victoria Park, London</th>
-		    <th>LIDO - Charli XCX, A.G. Cook, Gessafelstein, Magdalena Bay, Kelly Lee Owens, Bladee, The Japanese House</th>
-		    <th>Great weather and acts. Charli really good but annoying af kid fans, they seemed to be having fun once they stood up though so hard to hate. Gessafelstein unexpectedly very enjoyable.
-			J house really nice in the evening lull</th>
-		</tr>
-		<tr>
-		    <th>03.06.25</th>
-		    <th>Islington Assembly Hall, London</th>
-		    <th>Caroline</th>
-		    <th>One of my fav bands and albuums of the year and completely done justice by the live set. Incredibly respectful crowd, all just listening and enjoying</th>
-		</tr>
-		<tr>
-		    <th>31.05.25</th>
-		    <th>Paper Dress Vintage, London</th>
-		    <th>Fool</th>
-		    <th>First time meeting Luca and Saul properly from Fool, love those guys and love their music. Good set but sadly only 20 mins</th>
-		</tr>
-		<tr>
-		    <th>22.05.25</th>
-		    <th>The George Tavern, London</th>
-		    <th>Martial Arts, Bloodworm, Porchlight</th>
-		    <th>All 3 as great as usual. Lovely to see Euan again after ages and all the MA lot</th>
-		</tr>
-		<tr>
-		    <th>04.05.25</th>
-		    <th>Wanderlust Festival, Southampton</th>
-		    <th>Skydaddy, Terra Twin</th>
-		    <th>Playing with Otala, didn't see as many acts as planned as most were on the other day. Skydaddy great though, Terra Twin were fun</th>
-		</tr>
-		<tr>
-		    <th>02.05.25</th>
-		    <th>DUST, Brighton</th>
-		    <th>Billy. E. Marsh</th>
-		    <th>Playing with Otala at a Flip Top Head promoted gig. Love to see those guys and their friend Billy was great, solo acoustic and poetry very enjoyable and moving.</th>
-		</tr>
-		<tr>
-		    <th>27.04.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Fool</th>
-		    <th>First time seeing Jacob's new other band. They're really good</th>
-		</tr>
-		<tr>
-		    <th>25.04.25</th>
-		    <th>The George Tavern, London</th>
-		    <th>Outlander, HAAL</th>
-		    <th>Lovely to see HAAL after they stayed on my floor the night before, great as always. Outlander really cool and post rocky too</th>
-		</tr>
-		<tr>
-		    <th>20.04.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Body Orchestra</th>
-		    <th>Playing with Otala, no full band for BO this time but still really cool, atmospheric</th>
-		</tr>
-		<tr>
-		    <th>16.04.25</th>
-		    <th>The Victoria, London</th>
-		    <th>Paper Hats, More Money</th>
-		    <th>Playing with Otala, all bands good but not a big fan of the venue... Too far out and gig room too soundproofed so nobody comes in from the bar</th>
-		</tr>
-		<tr>
-		    <th>12.04.25</th>
-		    <th>Outer Town Festival, Bristol</th>
-		    <th>HAAL, Enola Gay</th>
-		    <th>HAAL great as always + thanks guys for letting us stay! Stayed up with Lilian & Ethan DJing in their attic - fun times</th>
-		</tr>
-		<tr>
-		    <th>29.03.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Westside Cowboy</th>
-		    <th>They're great</th>
-		</tr>
-		<tr>
-		    <th>28.03.25</th>
-		    <th>MOTH Club, London</th>
-		    <th>The Stingrays</th>
-		    <th>Playing with Otala, main band was the guy from yellow days which I wasn't familiar with but it was v fun and I always love being at moth</th>
-		</tr>
-		<tr>
-		    <th>17.03.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Mount Palomar, Nixer, Balderdash</th>
-		    <th>All acts greeat, especially MP, proper big beat danceable shit</th>
-		</tr>
-		<tr>
-		    <th>13.03.25</th>
-		    <th>The Lexington, London</th>
-		    <th>Keg, Known For</th>
-		    <th>Playing with Otala, great crowd and Keg awesome</th>
-		</tr>
-		<tr>
-		    <th>11.03.25</th>
-		    <th>Sebright Arms, London</th>
-		    <th>Fruit, Van Quan</th>
-		    <th>Always lovely to see the Fruit lot, great set. Van Quan really cool too, bit like cowboyy, would like to see them again</th>
-		</tr>
-		<tr>
-		    <th>03.03.25</th>
-		    <th>Old Blue Last, London</th>
-		    <th>Legss, Porchlight</th>
-		    <th>Lots of new material from L, really like it, every time they change their sound it seems to be for the better but without losing anything essential to their sound. Porchlight really enjoyable</th>
-		</tr>
-		<tr>
-		    <th>02.03.25</th>
-		    <th>George Tavern, London</th>
-		    <th>Deathcrash, Child, The Cowards</th>
-		    <th>2 eddie projects both great, Deathcrash were playing under a fake name, amazing to see them somewhere so small</th>
-		</tr>
-		<tr>
-		    <th>23.02.25</th>
-		    <th>George Tavern, London</th>
-		    <th>Fatberg, Divorce Attorney, Mountain Peaks</th>
-		    <th>Otala EP release gig, really fun!</th>
-		</tr>
-		<tr>
-		    <th>20.02.25</th>
-		    <th>The Windmill, London</th>
-		    <th>Martial Arts, Holly Head</th>
-		    <th>Lovely to see MA as always, great set from both bands. Not seen HH since we played together in Apr 2023 (same one as with truthpaste), nice to see Joe again</th>
-		</tr>
-		<tr>
-		    <th>05.02.25</th>
-		    <th>The Waiting Room, London</th>
-		    <th>Samxemma</th>
-		    <th>Finally saw them with Issy, great set. Saw them before they got famous and got the badge to prove it...</th>
-		</tr>
-		<tr>
-		    <th>01.02.25</th>
-		    <th>MOTH Club, London</th>
-		    <th>Blue Bendy, Web</th>
-		    <th>Playing with Otala, really amazing gig to be able to play. Love Blue Bendy's album a ton</th>
-		</tr>
-		<tr>
-		    <th>29.01.25</th>
-		    <th>The Social, London</th>
-		    <th>Westside Cowboy</th>
-		    <th>First time seeing them, went with Charlotte, they're incredible. Followed since I saw the members i knew from diekaidie started something new so happy it's come to something this good</th>
-		</tr>
-		<tr>
-		    <th>27.01.25</th>
-		    <th>Old Blue Last, London</th>
-		    <th>Human Resources</th>
-		    <th>Otala's IVW gig, fun!</th>
-		</tr>
-		<tr>
-		    <th>10.01.25</th>
-		    <th>George Tavern, London</th>
-		    <th>Truthpaste</th>
-		    <th>Really like these guys! Been trying to see them since playing together in Apr 2023 and loving their set</th>
-		</tr>
+		<thead>
+		    <tr>
+			<th>Date</th>
+			<th>Venue</th>
+			<th>City</th>
+			<th>I Saw</th>
+			<th>Notes</th>
+		    </tr>
+		</thead>
+		<tbody>
+		    <tr>
+			<td>01.12.25</td>
+			<td>The Roundhouse</td>
+			<td>London</td>
+			<td>Cameron Winter</td>
+			<td>Whoah</td>
+		    </tr>
+		    <tr>
+			<td>18.11.25</td>
+			<td>Heaven</td>
+			<td>London</td>
+			<td>Frankie Cosmos, Babehoven</td>
+			<td>Been listening to them since I was ~15, really happy they played a bunch of oldies including <a href="https://www.youtube.com/watch?v=LA0roJEwza0&list=RDLA0roJEwza0&start_radio=1">Being Alive</a>
+			    which someone shouted out as a request. Babehoven really nice, my friend Jacob made sure we came in time to see their whole set</td>
+		    </tr>
+		    <tr>
+			<td>11.11.25</td>
+			<td>Elephant's Head</td>
+			<td>London</td>
+			<td>Tex Crick</td>
+			<td>Really nice. Knew him from <a href="https://www.youtube.com/watch?v=vjVWhg_RNw0&list=RDvjVWhg_RNw0&start_radio=1&t=1037s">a live set with Connan Mockasin</a> but he was even better with a full band</td>
+		    </tr>
+		    <tr>
+			<td>7.11.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Little Grandad</td>
+			<td>I was playing with Fool who knew the band and it was great. Lovely vocal harmonies</td>
+		    </tr>
+		    <tr>
+			<td>31.10.25</td>
+			<td>O2 Brixton</td>
+			<td>London</td>
+			<td>Black Country New Road, Blue Bendy</td>
+			<td>They were dressed up as Fontaines D.C. for halloween. Great sets from both bands</td>
+		    </tr>
+		    <tr>
+			<td>28.10.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>My New Band Believe, Curbside Lambsear</td>
+			<td>MNBB were good but CL were my favourite of the night, one of the members of Caroline and another member I think, raw folky electronica</td>
+		    </tr>
+		    <tr>
+			<td>26.11.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Pink Eye Club</td>
+			<td>I was playing in Otala, fun gig. PEC fun to dance to</td>
+		    </tr>
+		    <tr>
+			<td>10.11.25</td>
+			<td>Old Blue Last</td>
+			<td>London</td>
+			<td>Mleko</td>
+			<td>Playing with Otala, cool early BCNRy (sorry!). All really nice people</td>
+		    </tr>
+		    <tr>
+			<td>09.10.25</td>
+			<td>The Roundhouse</td>
+			<td>London</td>
+			<td>A.G. Cook, Proc Fiskal</td>
+			<td>Great set, he's such a funny character. Cool visuals and a MIDI piano. Proc Fiskal was similar and great sound but didn't seem to like being on stage...</td>
+		    </tr>
+		    <tr>
+			<td>01.10.25</td>
+			<td>Purple Turtle</td>
+			<td>Reading</td>
+			<td>Oyama, Kiosk</td>
+			<td>Playing in Otala, first time in Reading, not desperate to return. Both bands really cool though, Oyama nice and scandi sound (icelandic) and Kiosk cool electronic kinda smerzy duo</td>
+		    </tr>
+		    <tr>
+			<td>21.09.25</td>
+			<td>KOKO</td>
+			<td>London</td>
+			<td>Clipping.</td>
+			<td>Free ticket from my friend & bandmate Charlotte (thanks char). Amazing sound, heavy, bit hard to see and had a hangover but really enjoyed</td>
+		    </tr>
+		    <tr>
+			<td>08.09.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>HAAL, Allarme, Paper Hats</td>
+			<td>Love HAAL awesome bunch of guys making sick music. Other two were nice as well but didn't see too much of their sets, allarme quite loud and paper hats good as usual</td>
+		    </tr>
+		    <tr>
+			<td>14.08.25</td>
+			<td>We Out Here</td>
+			<td>Dorset</td>
+			<td>NoName, Kokoroko, Nala Sinephro, 4am Kru, MJ Cole, Kaitlyn Aurelia Smith, Ben UFO, Mia Koden, Luke Una, Channel One, Gilles Peterson, Astrid Sonne, Loyle Carner</td>
+			<td>First time going and will definitely be going back. Amazing festival with some of my best friends. Gorgeous weather the whole weekend too!</td>
+		    </tr>
+		    <tr>
+			<td>04.08.25</td>
+			<td>Shacklewell Arms</td>
+			<td>London</td>
+			<td>That Fog, Frownland2007</td>
+			<td>Playing with Otala, That Fog is Eddie's new project with his girlfriend, I enjoyed it a lot. Frownland was cool but maybe too unstructured for me to get properly into</td>
+		    </tr>
+		    <tr>
+			<td>03.07.25</td>
+			<td>Wembley Stadium</td>
+			<td>London</td>
+			<td>Lana Del Rey, Addison Rae</td>
+			<td>Awesome, played Venice Bitch one of mine and Issy's favs and Addison was really good, had been listening to her album a lot since it came out</td>
+		    </tr>
+		    <tr>
+			<td>20.06.25</td>
+			<td>O2 Brixton</td>
+			<td>London</td>
+			<td>LCD Soundsystem</td>
+			<td>Went with Issy Mina & Johnny, really great set but SO HOT. Heatwave and no AC, dripping sweat</td>
+		    </tr>
+		    <tr>
+			<td>16.06.25</td>
+			<td>Victoria Park</td>
+			<td>London</td>
+			<td>LIDO - Charli XCX, A.G. Cook, Gessafelstein, Magdalena Bay, Kelly Lee Owens, Bladee, The Japanese House</td>
+			<td>Great weather and acts. Charli really good but annoying af kid fans, they seemed to be having fun once they stood up though so hard to hate. Gessafelstein unexpectedly very enjoyable.
+			    J house really nice in the evening lull</td>
+		    </tr>
+		    <tr>
+			<td>03.06.25</td>
+			<td>Islington Assembly Hall</td>
+			<td>London</td>
+			<td>Caroline</td>
+			<td>One of my fav bands and albuums of the year and completely done justice by the live set. Incredibly respectful crowd, all just listening and enjoying</td>
+		    </tr>
+		    <tr>
+			<td>31.05.25</td>
+			<td>Paper Dress Vintage</td>
+			<td>London</td>
+			<td>Fool</td>
+			<td>First time meeting Luca and Saul properly from Fool, love those guys and love their music. Good set but sadly only 20 mins</td>
+		    </tr>
+		    <tr>
+			<td>22.05.25</td>
+			<td>The George Tavern</td>
+			<td>London</td>
+			<td>Martial Arts, Bloodworm, Porchlight</td>
+			<td>All 3 as great as usual. Lovely to see Euan again after ages and all the MA lot</td>
+		    </tr>
+		    <tr>
+			<td>04.05.25</td>
+			<td>Wanderlust Festival</td>
+			<td>Southampton</td>
+			<td>Skydaddy, Terra Twin</td>
+			<td>Playing with Otala, didn't see as many acts as planned as most were on the other day. Skydaddy great though, Terra Twin were fun</td>
+		    </tr>
+		    <tr>
+			<td>02.05.25</td>
+			<td>DUST</td>
+			<td>Brighton</td>
+			<td>Billy. E. Marsh</td>
+			<td>Playing with Otala at a Flip Top Head promoted gig. Love to see those guys and their friend Billy was great, solo acoustic and poetry very enjoyable and moving.</td>
+		    </tr>
+		    <tr>
+			<td>27.04.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Fool</td>
+			<td>First time seeing Jacob's new other band. They're really good</td>
+		    </tr>
+		    <tr>
+			<td>25.04.25</td>
+			<td>The George Tavern</td>
+			<td>London</td>
+			<td>Outlander, HAAL</td>
+			<td>Lovely to see HAAL after they stayed on my floor the night before, great as always. Outlander really cool and post rocky too</td>
+		    </tr>
+		    <tr>
+			<td>20.04.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Body Orchestra</td>
+			<td>Playing with Otala, no full band for BO this time but still really cool, atmospheric</td>
+		    </tr>
+		    <tr>
+			<td>16.04.25</td>
+			<td>The Victoria</td>
+			<td>London</td>
+			<td>Paper Hats, More Money</td>
+			<td>Playing with Otala, all bands good but not a big fan of the venue... Too far out and gig room too soundproofed so nobody comes in from the bar</td>
+		    </tr>
+		    <tr>
+			<td>12.04.25</td>
+			<td>Outer Town Festival</td>
+			<td>Bristol</td>
+			<td>HAAL, Enola Gay</td>
+			<td>HAAL great as always + thanks guys for letting us stay! Stayed up with Lilian & Ethan DJing in their attic - fun times</td>
+		    </tr>
+		    <tr>
+			<td>29.03.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Westside Cowboy</td>
+			<td>They're great</td>
+		    </tr>
+		    <tr>
+			<td>28.03.25</td>
+			<td>MOTH Club</td>
+			<td>London</td>
+			<td>The Stingrays</td>
+			<td>Playing with Otala, main band was the guy from yellow days which I wasn't familiar with but it was v fun and I always love being at moth</td>
+		    </tr>
+		    <tr>
+			<td>17.03.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Mount Palomar, Nixer, Balderdash</td>
+			<td>All acts greeat, especially MP, proper big beat danceable shit</td>
+		    </tr>
+		    <tr>
+			<td>13.03.25</td>
+			<td>The Lexington</td>
+			<td>London</td>
+			<td>Keg, Known For</td>
+			<td>Playing with Otala, great crowd and Keg awesome</td>
+		    </tr>
+		    <tr>
+			<td>11.03.25</td>
+			<td>Sebright Arms</td>
+			<td>London</td>
+			<td>Fruit, Van Quan</td>
+			<td>Always lovely to see the Fruit lot, great set. Van Quan really cool too, bit like cowboyy, would like to see them again</td>
+		    </tr>
+		    <tr>
+			<td>03.03.25</td>
+			<td>Old Blue Last</td>
+			<td>London</td>
+			<td>Legss, Porchlight</td>
+			<td>Lots of new material from L, really like it, every time they change their sound it seems to be for the better but without losing anything essential to their sound. Porchlight really enjoyable</td>
+		    </tr>
+		    <tr>
+			<td>02.03.25</td>
+			<td>George Tavern</td>
+			<td>London</td>
+			<td>Deathcrash, Child, The Cowards</td>
+			<td>2 eddie projects both great, Deathcrash were playing under a fake name, amazing to see them somewhere so small</td>
+		    </tr>
+		    <tr>
+			<td>23.02.25</td>
+			<td>George Tavern</td>
+			<td>London</td>
+			<td>Fatberg, Divorce Attorney, Mountain Peaks</td>
+			<td>Otala EP release gig, really fun!</td>
+		    </tr>
+		    <tr>
+			<td>20.02.25</td>
+			<td>The Windmill</td>
+			<td>London</td>
+			<td>Martial Arts, Holly Head</td>
+			<td>Lovely to see MA as always, great set from both bands. Not seen HH since we played together in Apr 2023 (same one as with truthpaste), nice to see Joe again</td>
+		    </tr>
+		    <tr>
+			<td>05.02.25</td>
+			<td>The Waiting Room</td>
+			<td>London</td>
+			<td>Samxemma</td>
+			<td>Finally saw them with Issy, great set. Saw them before they got famous and got the badge to prove it...</td>
+		    </tr>
+		    <tr>
+			<td>01.02.25</td>
+			<td>MOTH Club</td>
+			<td>London</td>
+			<td>Blue Bendy, Web</td>
+			<td>Playing with Otala, really amazing gig to be able to play. Love Blue Bendy's album a ton</td>
+		    </tr>
+		    <tr>
+			<td>29.01.25</td>
+			<td>The Social</td>
+			<td>London</td>
+			<td>Westside Cowboy</td>
+			<td>First time seeing them, went with Charlotte, they're incredible. Followed since I saw the members i knew from diekaidie started something new so happy it's come to something this good</td>
+		    </tr>
+		    <tr>
+			<td>27.01.25</td>
+			<td>Old Blue Last</td>
+			<td>London</td>
+			<td>Human Resources</td>
+			<td>Otala's IVW gig, fun!</td>
+		    </tr>
+		    <tr>
+			<td>10.01.25</td>
+			<td>George Tavern</td>
+			<td>London</td>
+			<td>Truthpaste</td>
+			<td>Really like these guys! Been trying to see them since playing together in Apr 2023 and loving their set</td>
+		    </tr>
+		</tbody>
 	    </table>
 	</div>
     </body>
@@ -586,6 +632,30 @@
 	 const age_y = Math.floor(age_s / 31536000);
 	 document.getElementById("age").innerText = age_y + ' Years (' + age_s + ' Seconds)';
      }
+     function updateGigs(){
+	 const rows = document.getElementById('gig-list').getElementsByTagName('tbody')[0].rows;
+	 var venues = {};
+	 var cities = {};
+	 const arrays = [[venues,1],[cities,2]];
+	 for (const gig of rows){
+	     for (const arr of arrays){
+		 const val = gig.cells[arr[1]].innerText;
+		 const realarr = arr[0];
+		 if (realarr[val] != null){
+		     realarr[val] = realarr[val] + 1;
+		 } else {
+		     realarr[val] = 1;
+		 }
+	     }
+	 }
+	 document.getElementById("gig-count").innerText = rows.length - 1;
+	 const city_count = Object.values(cities).reduce((a, b) => Math.max(a, b), -Infinity);
+	 document.getElementById("city-count").innerText = city_count;
+	 document.getElementById("city").innerText = Object.keys(cities).find(key => cities[key] === city_count);
+	 const venue_count = Object.values(venues).reduce((a, b) => Math.max(a, b), -Infinity);
+	 document.getElementById("venue-count").innerText = venue_count;
+	 document.getElementById("venue").innerText = Object.keys(venues).find(key => venues[key] === venue_count);
+     }
      
      document.querySelectorAll(".reversible").forEach(element => {
 	 var toggle_id = "reverse-" + element.id;
@@ -600,9 +670,8 @@
 	 element.querySelectorAll("h2,h3,h4,h5")[0].addEventListener("click", () => { toggleCollapse(element) });
      });
 
-     document.getElementById("gig-count").innerText = document.getElementById('gig-list').rows.length - 1;
-
      updateAge();
      setInterval(updateAge, 1000);
+     updateGigs();
     </script>
 </html>
