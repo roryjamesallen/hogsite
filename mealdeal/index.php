@@ -32,11 +32,8 @@
 	     flex-basis: 30%;
 	     flex-grow: 1;
 	 }
-	 .selector select {
-	     width: 100%;
-	     height: 3rem;
-	     font-size: 1rem;
-	     font-family: inherit;
+	 .selector > * {
+	     flex-basis: 100%;
 	 }
 	 .hidden {
 	     display: none;
@@ -51,31 +48,39 @@
 	    $products_json = json_decode($products_string, true);
 	    $product_types = ['Main','Snack','Drink'];
 	    foreach ($product_types as $type){
-		echo '<div class="selector">';
-		echo '<h2><label for="'.$type.'">'.$type.'</label></h2>';
-		echo '<select name="'.$type.'" id="'.$type.'" class="selector-dropdown">';
-		foreach ($products_json as $id => $product){
-		    if ($product['type'] == $type){
-			echo '<option value="'.$id.'"><h3>'.$product['name'].'</h3></option>';
-		    }
-		}
-		echo '</select>';
-		foreach ($products_json as $id => $product){
-		    if ($product['type'] == $type){
-			echo '<img id="'.$id.'" src="images/'.$id.'.jpg" class="product-image hidden"/>';
-		    }
-		}
-		echo '</div>';
+	    echo '<div class="selector">';
+	    echo '<h2><label for="'.$type.'-input">'.$type.'</label></h2>';
+	    echo '<input list="'.$type.'-list" id="'.$type.'-input" class="list-input">';
+	    echo '<datalist name="'.$type.'" id="'.$type.'-list">';
+	    foreach ($products_json as $id => $product){
+            if ($product['type'] == $type){
+            echo '<option data-value="'.$id.'" value="'.$product['name'].'"></option>';
+            }
+	    }
+	    echo '</datalist>';
+	    echo '<img id="'.$type.'-image" src="" class="product-image"/>';
+	    echo '</div>';
 	    }
 	    ?>
 	</div>
     </body>
     <script>
-     document.querySelectorAll(".selector-dropdown").forEach(element => {
-	 element.onchange = (event) => { // When a new item is picked from the dropdown
-	     event.target.parentElement.querySelectorAll(".product-image").forEach(element => { element.style.display = 'none' }); // Clear all images
-	     document.getElementById(event.target.value).style.display = 'block'; // Show the one that got selected
-	 }
+     document.querySelectorAll(".list-input").forEach(element => { // For each Main, Snack, Drink dropdown
+	 /*
+         element.onchange= (event) => { // When a new item is picked from the dropdown
+	     console.log('changes');
+	     
+	     const options = document.getElementById(element.id.replace('input','list')).childNodes;
+	     for (var i = 0; i < options.length; i++) {
+		 var option = options[i];
+		 if(option.value === element.value) {
+		     const product_id = option.getAttribute('data-value');
+		     break;
+		 }
+	     }
+	     document.getElementById(element.id.replace('input','image')).src = 'images/' + product_id + '.jpg'; // Update the dropdown's image src to the picked item
+	     
+         }*/
      });
     </script>
 </html>
