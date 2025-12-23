@@ -64,7 +64,7 @@
 		<input id="username-input" name="username">
 		<input type="submit" value="Submit">
 	    </div>
-	    <h4><a href="https://hogwild.uk/mealdeal/all">View All Meal Deals</a></h4>
+	    <h4><a href="https://hogwild.uk/mealdeal/all.php">View All Meal Deals</a></h4>
 	    <span id="something-wrong"></span>
 	</form>
 	<div class='footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; font-size: 1rem; text-align: center;'>

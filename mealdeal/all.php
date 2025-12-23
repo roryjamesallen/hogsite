@@ -43,5 +43,10 @@
 	}
 	echo '</div>';
 	?>
+	<br><h4><a href="https://hogwild.uk/mealdeal">Create A Meal Deal</a></h4>
+	<div class='footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; font-size: 1rem; text-align: center;'>
+	    For bug reports and suggestions please email <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a><br><br>
+	    A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation
+	</div>
     </body>
 </html>
