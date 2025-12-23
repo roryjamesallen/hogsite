@@ -27,10 +27,10 @@
 	<?php
 	include '../lib/generic_content.php';
 	openSqlConnection('wildhog_mealdeal', '../sql_login_wildhog_mealdeal.php');
-	$combos = sqlQuery('SELECT * FROM combos WHERE 1');
+	$combos = sqlQuery('SELECT * FROM combos WHERE 1 ORDER BY time ASC');
 	echo '<div class="all-combo-list">';
 	foreach ($combos as $combo){
-	    $name_info = sqlQuery('SELECT * FROM names WHERE combo_id="'.$combo['combo_id'].'" ORDER BY time ASC');
+	    $name_info = sqlQuery('SELECT * FROM names WHERE combo_id="'.$combo['combo_id'].'"');
 	    $name = urldecode($name_info[0]['name']);
 	    $username = urldecode($name_info[0]['username']);
 	    $url = 'https://hogwild.uk/mealdeal?main='.$combo['main'].'&snack='.$combo['snack'].'&drink='.$combo['drink'];
