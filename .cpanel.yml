@@ -18,4 +18,5 @@ deployment:
     - /bin/cp -R wiki $DEPLOYPATH
     - /bin/cp -R hog-fishing $DEPLOYPATH
     - /bin/cp -R newno $DEPLOYPATH
-    - /bin/cp -R rory $DEPLOYPATH	
+    - /bin/cp -R rory $DEPLOYPATH
+    - /bin/cp -R mealdeal $DEPLOYPATH

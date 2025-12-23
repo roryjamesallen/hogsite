@@ -123,3 +123,21 @@ CREATE TABLE IF NOT EXISTS `user_calls` (
   `user_id` VARCHAR(16) NOT NULL,
   `option_id` VARCHAR(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE DATABASE IF NOT EXISTS `wildhog_mealdeal` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `wildhog_mealdeal`;
+
+CREATE TABLE IF NOT EXISTS `combos` (
+  `combo_id` VARCHAR(16) NOT NULL,		
+  `main` VARCHAR(16) NOT NULL,
+  `snack` VARCHAR(16) NOT NULL,
+  `drink` VARCHAR(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `names` (
+  `name_id` VARCHAR(16) NOT NULL,		
+  `combo_id` VARCHAR(16) NOT NULL,
+  `name` VARCHAR(128) NOT NULL,
+  `username` VARCHAR(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
