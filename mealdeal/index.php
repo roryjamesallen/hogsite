@@ -225,15 +225,15 @@
      function updateComboName(id, name, username){
 	 if (id!= null && name != null && username != null){
 	     showNameSet();
-	     document.getElementById("combo-name").innerHTML = decodeURI(name);
-	     document.getElementById("combo-username").innerHTML = "Coined By: " + decodeURI(username);
-	     document.getElementById("combo-id").innerHTML = id;
-	     document.getElementById("share-combo").innerHTML = 'Share';
+	     document.getElementById("combo-name").innerText = decodeURI(name);
+	     document.getElementById("combo-username").innerText = "Coined By: " + decodeURI(username);
+	     document.getElementById("combo-id").innerText = id;
+	     document.getElementById("share-combo").innerText = 'Share';
 	 } else {
 	     showNameForm();
-	     document.getElementById("combo-name").innerHTML = '';
-	     document.getElementById("combo-username").innerHTML = '';
-	     document.getElementById("share-combo").innerHTML = '';
+	     document.getElementById("combo-name").innerText = '';
+	     document.getElementById("combo-username").innerText = '';
+	     document.getElementById("share-combo").innerText = '';
 	 }
      }
      function getComboData(combo){ // Get the user submitted name(s) for the combo of items
@@ -289,7 +289,7 @@
 	 const combo = getCurrentCombo();
 	 if (!combo.includes(null)){
 	     navigator.clipboard.writeText('https://hogwild.uk/mealdeal?main='+combo[0]+'&snack='+combo[1]+'&drink='+combo[2]);
-	     document.getElementById('share-combo').innerHTML = 'Copied';
+	     document.getElementById('share-combo').innerText = 'Copied';
 	 }
      }
 
