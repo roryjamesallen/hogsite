@@ -2,13 +2,13 @@
 include '../lib/generic_content.php';
 openSqlConnection('wildhog_mealdeal', '../sql_login_wildhog_mealdeal.php');
 
-if (!isset($_GET['combo_id'])){ // Get combo_id from main/snack/drink if not set
+if (isset($_GET['combo_id'])){ // Get combo_id from main/snack/drink if not set
+    $combo_id = $_GET['combo_id'];
+} else {
     $main = $_GET['main'];
     $snack = $_GET['snack'];
     $drink = $_GET['drink'];
     $combo_id = sqlQuery('SELECT * FROM combos WHERE main="'.urlencode($main).'" AND snack="'.urlencode($snack).'" AND drink="'.urlencode($drink).'"');
-} else {
-    $combo_id = $_GET['combo_id'];
 }
 
 $name = null;
