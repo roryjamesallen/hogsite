@@ -252,7 +252,7 @@
      function copyShareLink(){
 	 const combo = getCurrentCombo();
 	 if (!combo.includes(null)){
-	     navigator.clipboard.writeText('https://mealdeal.hogwild?main='+combo[0]+'&snack='+combo[1]+'&drink='+combo[2]);
+	     navigator.clipboard.writeText('https://hogwild.uk/mealdeal?main='+combo[0]+'&snack='+combo[1]+'&drink='+combo[2]);
 	     document.getElementById('share-combo').innerHTML = 'Copied';
 	 }
      }
