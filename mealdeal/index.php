@@ -108,6 +108,7 @@
 	 }
 	 #name-set-container {
 	     gap: 0;
+	     display: none;
 	 }
 	 #name-form-container label, #name-set-container h2, #name-set-container h3 {
 	     flex-basis: 100%;
@@ -177,7 +178,7 @@
 		<h2 id="combo-name"></h2>
 		<h3 id="combo-username"></h3>
 		<span id="combo-id" class="hidden"></span>
-		<a id="share-combo" onclick="copyShareLink()">Share</a>
+		<a id="share-combo" onclick="copyShareLink()"></a>
 	    </div>
 	    <div id="name-form-container">
 		<label for="name-input">Meal Deal Name</label>
@@ -227,10 +228,12 @@
 	     document.getElementById("combo-name").innerHTML = decodeURI(name);
 	     document.getElementById("combo-username").innerHTML = "Coined By: " + decodeURI(username);
 	     document.getElementById("combo-id").innerHTML = id;
+	     document.getElementById("share-combo").innerHTML = 'Share';
 	 } else {
 	     showNameForm();
 	     document.getElementById("combo-name").innerHTML = '';
 	     document.getElementById("combo-username").innerHTML = '';
+	     document.getElementById("share-combo").innerHTML = '';
 	 }
      }
      function getComboData(combo){ // Get the user submitted name(s) for the combo of items
