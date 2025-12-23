@@ -64,8 +64,7 @@
 		<input id="username-input" name="username">
 		<input type="submit" value="Submit">
 	    </div>
-	    <h4><a href="https://hogwild.uk/mealdeal/all.php">View All Meal Deals</a></h4>
-	    <span id="something-wrong"></span>
+	    <h4><a href="https://hogwild.uk/mealdeal/all.php">View All Meal Deals</a> | <a id="randomise">Randomise</a></h4>
 	</form>
 	<div class='footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; font-size: 1rem; text-align: center;'>
 	    For bug reports and suggestions please email <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a><br><br>
@@ -122,7 +121,6 @@
 	     xhttp = new XMLHttpRequest();
 	     xhttp.onreadystatechange = function() {
 		 if (this.readyState == 4 && this.status == 200) {
-		     console.log(this.responseText);
 		     response = JSON.parse(this.responseText);
 		     updateComboName(response.id, response.name, response.username);
 		 }
@@ -173,12 +171,29 @@
 	     document.getElementById('share-combo').innerText = 'Copied';
 	 }
      }
+     function randomiseCombo(){
+	 var product_ids = [];
+	 document.querySelectorAll("datalist").forEach(datalist => {
+	     let random = Math.floor(1 + Math.random() * datalist.childElementCount);
+	     child = datalist.querySelector('option:nth-child(' + random + ')');
+	     product_ids.push(child.getAttribute('data-value'));
+	     const input = document.getElementById(datalist.id.replace('-list','-input'));
+	     input.value = child.innerText;
+	     updateURLParameter(input.id.replace('-input','').toLowerCase(), getProductIdByInput(input));
+	     updateInputImage(input);
+	 });
+	 const combo = getCurrentCombo();
+	 getComboData(combo);
+     }
 
      // On Page Load
      addEventListenersToInputs();
      document.getElementById('selectors').onsubmit = function() {
 	 submitName();
 	 return false;
+     };
+     document.getElementById('randomise').onclick = function() {
+	 randomiseCombo();
      };
     </script>
 </html>

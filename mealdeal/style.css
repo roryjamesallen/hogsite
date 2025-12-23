@@ -82,7 +82,7 @@ a:hover {
 input {
     font-size: 1rem;
     font-family: inherit;
-    color: var(--medium-grey);
+    color: var(--dark-grey);
 }
 #combo-username {
     color: var(--medium-grey);
