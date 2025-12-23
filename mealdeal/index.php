@@ -3,6 +3,14 @@
     <head>
 	<title>Meal Deal Maker</title>
 	<meta charset="UTF-8">
+	<meta name="description" content="Create and name your favourite meal deals.">
+	<meta property="og:title" content="Meal Deal Maker">
+	<meta property="og:description" content="Create and name your favourite meal deals.">
+	<meta property="og:image" content="https://hogwild.uk/mealdeal/images/logo.png">
+	<meta property="og:url" content="https://hogwild.uk/mealdeal">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="icon" type="image/x-icon" href="favicon.ico"
+	<link rel="shortcut icon" href="favicon.ico" />
 	<style>
 	 @font-face {
 	     font-family: Tesco;
@@ -43,9 +51,11 @@
 	 }
 	 a {
 	     color: var(--link-blue);
+	     text-decoration: none;
 	 }
 	 a:hover {
 	     cursor: pointer;
+	     text-decoration: underline;
 	 }
 	 #logo {
 	     max-width: 100%;
@@ -77,6 +87,7 @@
 	 }
 	 .selector > img {
 	     max-width: min(255px, 100%);
+	     mix-blend-mode: darken;
 	 }
 	 input {
 	     font-size: 1rem;
@@ -107,6 +118,12 @@
 	 }
 	 .hidden {
 	     display: none;
+	 }
+	 #something-wrong {
+	     font-size: 1rem;
+	     text-align: center;
+	     color: var(--medium-grey);
+	     flex-basis: 100%;
 	 }
 	 @media screen and (min-width: 800px){
 	     #selector-container {
@@ -160,8 +177,9 @@
 		<input id="username-input" name="username">
 		<input type="submit" value="Submit">
 	    </div>
+	    <span id="something-wrong">For bug reports and suggestions please email <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a></span>
 	</form>
-	
+	<div class='footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; font-size: 1rem; text-align: center;'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
     </body>
     <script>
      function getProductIdByInput(input){
@@ -220,12 +238,18 @@
 	     xhttp.send();
 	 }
      }
+     function updateURLParameter(parameter, value){
+	 const url = new URL(location);
+	 url.searchParams.set(parameter, value);
+	 history.pushState({}, "", url);
+     }
      function updateInputImage(input){
 	 product_id = getProductIdByInput(input); // Get the ID of the product by its name (input.value)
 	 if (product_id != null){ // As long as the input doesn't contain a random user inputted product that doesn't exist
 	     updateInputImageByProductId(input, product_id); // Update the input's image src to the selected product
 	     const combo = getCurrentCombo();
 	     getComboData(combo);
+	     updateURLParameter(input.id.replace('-input','').toLowerCase(), product_id);
 	 }
      }
      function addEventListenersToInputs(){
