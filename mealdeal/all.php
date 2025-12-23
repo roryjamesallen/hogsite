@@ -30,7 +30,7 @@
 	$combos = sqlQuery('SELECT * FROM combos WHERE 1');
 	echo '<div class="all-combo-list">';
 	foreach ($combos as $combo){
-	    $name_info = sqlQuery('SELECT * FROM names WHERE combo_id="'.$combo['combo_id'].'" ORDER BY time DESC');
+	    $name_info = sqlQuery('SELECT * FROM names WHERE combo_id="'.$combo['combo_id'].'" ORDER BY time ASC');
 	    $name = urldecode($name_info[0]['name']);
 	    $username = urldecode($name_info[0]['username']);
 	    $url = 'https://hogwild.uk/mealdeal?main='.$combo['main'].'&snack='.$combo['snack'].'&drink='.$combo['drink'];
