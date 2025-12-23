@@ -2143,5 +2143,10 @@
   "name": "Tesco Japanese Style Chicken Sushi 135g",
   "type": "Main",
   "image": "https://digitalcontent.api.tesco.com/v2/media/ghs/24f8a08e-ea2e-440c-8f84-7cab7ebcdc29/1b590fd4-56e4-401d-bdd8-31f904d2c35a.jpeg?h=225&amp;w=225"
+ },
+ "320989014": {
+  "name": "Ginsters Butter Chicken Pocket 100g",
+  "type": "Snack",
+  "image": "https://digitalcontent.api.tesco.com/v2/media/ghs/84971c42-b4fd-4fd9-8ff4-e98a1bb11068/7e9730be-52f1-4e9e-ae2e-4f7850c354d3.jpeg?h=225&w=225"
  }
 }
