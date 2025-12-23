@@ -188,7 +188,9 @@
 
      // On Page Load
      addEventListenersToInputs();
-     randomiseCombo();
+     if (document.getElementById('Main-input').value == ''){
+	 randomiseCombo();
+     }
      document.getElementById('selectors').onsubmit = function() {
 	 submitName();
 	 return false;
