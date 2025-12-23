@@ -23,6 +23,10 @@ body {
 h1, h2, h3 {
     font-family: Tesco Bold;
 }
+h4 {
+    margin: 0 auto;
+    text-align: center;
+}
 h1 {
     display: flex;
     justify-content: center;

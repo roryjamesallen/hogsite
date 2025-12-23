@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="style.css">
     </head>
-
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
     <script>
@@ -64,9 +64,13 @@
 		<input id="username-input" name="username">
 		<input type="submit" value="Submit">
 	    </div>
-	    <span id="something-wrong">For bug reports and suggestions please email <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a></span>
+	    <h4><a href="https://hogwild.uk/mealdeal/all">View All Meal Deals</a></h4>
+	    <span id="something-wrong"></span>
 	</form>
-	<div class='footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; font-size: 1rem; text-align: center;'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
+	<div class='footer' style='width: fit-content; margin: 6rem auto; font-family: Arial; font-size: 1rem; text-align: center;'>
+	    For bug reports and suggestions please email <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a><br><br>
+	    A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation
+	</div>
     </body>
     <script>
      function getProductIdByInput(input){
