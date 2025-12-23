@@ -6,7 +6,7 @@
 	<meta name="description" content="Create and name your favourite meal deals.">
 	<meta property="og:title" content="Meal Deal Maker">
 	<meta property="og:description" content="Create and name your favourite meal deals.">
-	<meta property="og:image" content="https://hogwild.uk/mealdeal/images/logo.png">
+	<meta property="og:image" content="https://hogwild.uk/mealdeal/sharing.png">
 	<meta property="og:url" content="https://hogwild.uk/mealdeal">
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="icon" type="image/x-icon" href="favicon.ico"
@@ -135,6 +135,15 @@
 	 }
 	</style>
     </head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+    </script>
+	
     <body>
 	<h1><span class="hidden">Meal Deal Maker</span><img id="logo" src="images/logo.png" alt="Logo for Meal Deal Maker" /></h1>
 	<form id="selectors">
