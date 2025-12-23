@@ -44,6 +44,9 @@
 	 a {
 	     color: var(--link-blue);
 	 }
+	 a:hover {
+	     cursor: pointer;
+	 }
 	 #logo {
 	     max-width: 100%;
 	 }
@@ -119,29 +122,36 @@
 	<h1><span class="hidden">Meal Deal Maker</span><img id="logo" src="images/logo.png" alt="Logo for Meal Deal Maker" /></h1>
 	<form id="selectors">
 	    <div id="selector-container">
-	    <?php
-	    $products_string = file_get_contents('products.json');
-	    $products_json = json_decode($products_string, true);
-	    $product_types = ['Main','Snack','Drink'];
-	    foreach ($product_types as $type){
-		echo '<div class="selector">';
-		echo '<h2><label for="'.$type.'-input">'.$type.'</label></h2>';
-		echo '<input name="'.$type.'-input" list="'.$type.'-list" id="'.$type.'-input" class="list-input">';
-		echo '<datalist id="'.$type.'-list">';
-		foreach ($products_json as $id => $product){
-		    if ($product['type'] == $type){
-			echo '<option data-value="'.$id.'">'.$product['name'].'</option>';
+		<?php
+		$products_string = file_get_contents('products.json');
+		$products_json = json_decode($products_string, true);
+		$product_types = ['Main','Snack','Drink'];
+		foreach ($product_types as $type){
+		    echo '<div class="selector">';
+		    echo '<h2><label for="'.$type.'-input">'.$type.'</label></h2>';
+		    if (isset($_GET[strtolower($type)])){
+			$value = $products_json[$_GET[strtolower($type)]]['name'];
+		    } else {
+			$value = '';
 		    }
+		    echo '<input name="'.$type.'-input" list="'.$type.'-list" id="'.$type.'-input" value="'.$value.'" class="list-input">';
+		    echo '<datalist id="'.$type.'-list">';
+		    foreach ($products_json as $id => $product){
+			if ($product['type'] == $type){
+			    echo '<option data-value="'.$id.'">'.$product['name'].'</option>';
+			}
+		    }
+		    echo '</datalist>';
+		    echo '<img id="'.$type.'-image" src="images/placeholder.png" alt="Thumbnail of meal deal item" class="product-image"/>';
+		    echo '</div>';
 		}
-		echo '</datalist>';
-		echo '<img id="'.$type.'-image" src="images/placeholder.png" alt="Thumbnail of meal deal item" class="product-image"/>';
-		echo '</div>';
-	    }
-	    ?>
+		?>
 	    </div>
 	    <div id="name-set-container">
 		<h2 id="combo-name"></h2>
 		<h3 id="combo-username"></h3>
+		<span id="combo-id" class="hidden"></span>
+		<a id="share-combo" onclick="copyShareLink()">Share</a>
 	    </div>
 	    <div id="name-form-container">
 		<label for="name-input">Meal Deal Name</label>
@@ -184,11 +194,12 @@
 	 document.getElementById('name-form-container').style.display = 'none';
 	 document.getElementById('name-set-container').style.display = 'flex';
      }
-     function updateComboName(name, username){
-	 if (name != null && username != null){
+     function updateComboName(id, name, username){
+	 if (id!= null && name != null && username != null){
 	     showNameSet();
 	     document.getElementById("combo-name").innerHTML = decodeURI(name);
 	     document.getElementById("combo-username").innerHTML = "Coined By: " + decodeURI(username);
+	     document.getElementById("combo-id").innerHTML = id;
 	 } else {
 	     showNameForm();
 	     document.getElementById("combo-name").innerHTML = '';
@@ -202,7 +213,7 @@
 		 if (this.readyState == 4 && this.status == 200) {
 		     console.log(this.responseText);
 		     response = JSON.parse(this.responseText);
-		     updateComboName(response.name, response.username);
+		     updateComboName(response.id, response.name, response.username);
 		 }
 	     };
 	     xhttp.open("GET", "get.php?main="+combo[0]+'&snack='+combo[1]+'&drink='+combo[2], true);
@@ -236,6 +247,13 @@
 	     };
 	     xhttp.open("GET", "submit.php?main="+combo[0]+'&snack='+combo[1]+'&drink='+combo[2]+'&name='+name+'&username='+username, true);
 	     xhttp.send();
+	 }
+     }
+     function copyShareLink(){
+	 const combo = getCurrentCombo();
+	 if (!combo.includes(null)){
+	     navigator.clipboard.writeText('https://mealdeal.hogwild?main='+combo[0]+'&snack='+combo[1]+'&drink='+combo[2]);
+	     document.getElementById('share-combo').innerHTML = 'Copied';
 	 }
      }
 
