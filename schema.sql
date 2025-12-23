@@ -132,12 +132,16 @@ CREATE TABLE IF NOT EXISTS `combos` (
   `combo_id` VARCHAR(16) NOT NULL,		
   `main` VARCHAR(16) NOT NULL,
   `snack` VARCHAR(16) NOT NULL,
-  `drink` VARCHAR(16) NOT NULL
+  `drink` VARCHAR(16) NOT NULL,
+  `ip` VARCHAR(45) NOT NULL,
+  `time` INT(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `names` (
   `name_id` VARCHAR(16) NOT NULL,		
   `combo_id` VARCHAR(16) NOT NULL,
   `name` VARCHAR(128) NOT NULL,
-  `username` VARCHAR(32) NOT NULL
+  `username` VARCHAR(32) NOT NULL,
+  `ip` VARCHAR(45) NOT NULL,
+  `time` INT(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
