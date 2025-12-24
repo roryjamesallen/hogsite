@@ -1,0 +1,27 @@
+:root {
+    --link: #069;
+    --background: #f2f2f2;
+    --note: #aaa;
+body {
+    font-family: Arial;
+    max-width: min(80vw, 900px);
+    margin: 5rem auto;
+}
+h1, h2 {
+    text-decoration: underline;
+}
+a {
+    color: var(--link);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+strong {
+}
+.guff {
+}
+.flex {
+    display: flex;
+    gap: 1rem;
+}
