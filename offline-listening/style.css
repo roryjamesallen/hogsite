@@ -25,3 +25,9 @@ strong {
     display: flex;
     gap: 1rem;
 }
+img {
+    display: block;
+    max-width: min(500px, 100%);
+    max-height: 500px;
+    margin: 1rem auto;
+}
