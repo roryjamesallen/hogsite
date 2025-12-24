@@ -76,7 +76,7 @@ a:hover {
     flex-basis: 100%;
 }
 .selector > img {
-    max-width: min(255px, 100%);
+    max-width: min(150px, 100%);
     mix-blend-mode: darken;
 }
 input {
@@ -122,15 +122,17 @@ input {
     gap: 0.5rem;
     padding: 0.5rem;
     background: var(--pale-grey);
-    height: 3rem;
+    min-height: 3rem;
     justify-content: end;
 }
 .all-combo-container > h2 {
     margin-right: auto;
+    font-size: 1.5rem;
+    text-align: left;
 }
 .all-combo-container > img {
     mix-blend-mode: darken;
-    height: 75%;
+    height: 2rem;
 }
 .all-combo-list {
     display: flex;
