@@ -147,6 +147,7 @@
 	 document.querySelectorAll(".list-input").forEach(element => { // For each Main, Snack, Drink dropdown
 	     updateInputImage(element); // On page load update images in case datalist option is stored in cache
              element.oninput = (event) => { updateInputImage(element) } // Update image every time the input changes
+	     element.onclick = (event) => { element.select() }
 	 });
      }
      function submitName(){
