@@ -20,3 +20,4 @@ deployment:
     - /bin/cp -R newno $DEPLOYPATH
     - /bin/cp -R rory $DEPLOYPATH
     - /bin/cp -R mealdeal $DEPLOYPATH
+    - /bin/cp -R offline-listening $DEPLOYPATH
