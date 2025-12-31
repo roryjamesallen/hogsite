@@ -62,7 +62,7 @@
    }
    #copied {
        opacity: 0;
-       transition: opacity 0s 2s;
+       transition: opacity 0.5s;
    }
   </style>
   
@@ -128,6 +128,7 @@
 		   var node = a;
 	       } else {
 		   var node = document.createTextNode(selection_string);
+		   alert('No Wikipedia Page Found!');
 	       }
 	       range.deleteContents();
 	       range.insertNode(node);
