@@ -55,6 +55,7 @@
        font-size: 1rem;
        text-align: left;
        padding: 0.5rem;
+       word-wrap: break-word;
    }
    a, a:visited {
        color: #069;
