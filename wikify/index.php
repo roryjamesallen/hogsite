@@ -33,13 +33,11 @@
        font-family: Arial;
        display: flex;
        flex-wrap: wrap;
-       justify-content: center;
        gap: 0.5rem;
        width: min(800px, 95%);
        margin: 50px auto;
    }
    body > * {
-       flex-basis: 100%;
        margin: 0;
        font-weight: normal;
    }
@@ -47,15 +45,18 @@
        font-family: Garamond Std;
        font-size: 3rem;
        text-align: center;
+       flex-basis: 100%;
    }
    #text-input, #text-output {
        min-height: 150px;
-       border: 1px solid black;
+       border: 1px solid #aaa;
        box-sizing: border-box;
        font-size: 1rem;
        text-align: left;
        padding: 0.5rem;
        word-wrap: break-word;
+       flex-basis: 100%;
+       background: #f8f9fa;
    }
    a, a:visited {
        color: #069;
@@ -64,12 +65,19 @@
        opacity: 0;
        transition: opacity 0.5s;
    }
+   #add-link {
+       background: #069;
+       color: white;
+       padding: 0.5rem;
+       cursor: pointer;
+   }
   </style>
   
   <body>
       <h1>Wikify</h1>
       <h2>Add relevant <a href="https://en.wikipedia.org">Wikipedia</a> links to your text (in HTML form)</h2>
-      <h3>Type/paste text into the top box, highlight text, then press Alt-W to create a link to its Wikipedia page (if one exists). Clicking the bottom box will automatically copy the HTML to your clipboard.</h3><br>
+      <h3>Type/paste text into the top box, highlight text, then use Alt-W to create a link to its Wikipedia page (if one exists). Clicking the bottom box will automatically copy the HTML to your clipboard.</h3>
+      <div id="add-link" style="display: none">Add Link</div>
       <div id="text-input" contenteditable="true"></div>
       <div id="text-output"></div>
       <div id="copied">Copied!</div>
@@ -79,6 +87,7 @@
   <script>
    const textarea = document.getElementById('text-input');
    const output = document.getElementById('text-output');
+   const add_link = document.getElementById('add-link');
 
    function processWikiJSON(json){
        console.log(json['pages']);
@@ -155,6 +164,7 @@
            replaceSelectedText();
        }
    };
+   //add_link.addEventListener('mousedown', replaceSelectedText);
    document.body.onkeyup = function() {
        updateHTML();
    }
