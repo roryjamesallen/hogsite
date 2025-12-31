@@ -21,3 +21,4 @@ deployment:
     - /bin/cp -R rory $DEPLOYPATH
     - /bin/cp -R mealdeal $DEPLOYPATH
     - /bin/cp -R offline-listening $DEPLOYPATH
+    - /bin/cp -R wikify $DEPLOYPATH
