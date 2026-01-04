@@ -22,3 +22,4 @@ deployment:
     - /bin/cp -R mealdeal $DEPLOYPATH
     - /bin/cp -R offline-listening $DEPLOYPATH
     - /bin/cp -R wikify $DEPLOYPATH
+    - /bin/cp -R ideas $DEPLOYPATH
