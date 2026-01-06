@@ -77,8 +77,7 @@ function renderArtistList($relations) { // Relations in format [artist: number o
 			style='font-size: ".$font_size."'>".urldecode($related_artist).$comma."
 		</a></h3><br>";
 	}
-    echo "<div class='nta-footer'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>";
-	echo "</div>";
+    echo "</div>";
 }
 
 function renderHomeArtists() {
@@ -450,21 +449,32 @@ cursor: pointer;
 	  gtag('config', 'G-6BQYQMEP06');
 	</script>
         <body>
-	  <?php echo $buffer; ?>           
-           <script>
-			var showing_info = false;
-const info_button = document.getElementById('info-button');
-if (info_button) {
-    info_button.addEventListener('click', showInfo);
-}
-			
-			function showInfo() {
-				if (showing_info) {
-					hideInfo();
-					showing_info = false;
-				} else {
-					var button = document.getElementById('info-button');
-					button.innerHTML = `
+	    <?php echo $buffer; ?>
+	    <div style="margin: 5rem auto 0 auto; width: fit-content; font-size: 1rem; text-align: center; background: red; color: white;">
+		<h2 id="im-chinese">你是中国人吗?</h2>
+		<form id="china-form" style="display: none" action="../submit_note.php" method="post" target="_blank">
+		    <p>我注意到有大量來自中國的流量，對此現象深感好奇。若中國地區的訪客能分享任何關於本站內容的看法，我將不勝感激！</p>
+		    <p>請原諒我的文法，我完全不會說任何形式的中文，但我對貴國充滿著驚嘆與敬佩。</p>
+		    <input type="textarea" maxlength="512" name="note" style="width: 50%; min-height: 5rem"><br><br>
+		    <input type="hidden" name="ip" value="<?php echo $ip_address ?>">
+		    <input type="submit" value="提交">
+		</form>
+	    </div>
+	    <div class='nta-footer'>A <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a> creation</div>
+            <script>
+	     var showing_info = false;
+	     const info_button = document.getElementById('info-button');
+	     if (info_button) {
+		 info_button.addEventListener('click', showInfo);
+	     }
+	     
+	     function showInfo() {
+		 if (showing_info) {
+		     hideInfo();
+		     showing_info = false;
+		 } else {
+		     var button = document.getElementById('info-button');
+		     button.innerHTML = `
 					&#x2022 this is a platform for finding out about musical artists where the recommendations come ONLY from other real life humans, no algorithms!<br><br>
 					&#x2022 when you submit a combination of artists, each one will show up in the search results of the other<br>
 					&#x2022 the more times a certain combination is submitted, the bigger each artist's name will be in the other artist's search results<br>
@@ -474,17 +484,25 @@ if (info_button) {
 					&#x2022 if you have any questions, suggestions, or bug reports please email <a href="mailto:contact@allensynthesis.co.uk">contact@allensynthesis.co.uk</a><br>
 					(click again to close)
 					
-					`;
-					button.classList.add('info-button-open');
-					showing_info = true;
-				}
-			}
-			
-			function hideInfo() {
-				var button = document.getElementById('info-button');
-				button.innerHTML = "?";
-				button.classList.remove('info-button-open');
-			}
-		</script>
-            </body>
+		     `;
+		     button.classList.add('info-button-open');
+		     showing_info = true;
+		 }
+	     }
+	     
+	     function hideInfo() {
+		 var button = document.getElementById('info-button');
+		 button.innerHTML = "?";
+		 button.classList.remove('info-button-open');
+	     }
+
+	     function showChinaForm(){
+		 const form = document.getElementById('china-form')
+		 form.style.display = 'block';
+		 form.style.padding = '0.5rem';
+	     }
+
+	     document.getElementById('im-chinese').addEventListener('click', showChinaForm);
+	    </script>
+        </body>
 </html>
