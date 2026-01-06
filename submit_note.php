@@ -7,8 +7,16 @@ if (isset($_POST['note'])){
         fwrite($myfile, $contents);
         fclose($myfile);
 
-        $headers = 'From: noreply@hogwild.uk'.'\r\n'.'Reply-To: noreply@hogwild.uk'.'\r\n'.'X-Mailer: PHP/'.phpversion().'Content-type: text/html; charset=utf-8'.'\r\n';
-        mail('rory@hogwild.uk', 'hogwild chinese note', 'new note', $headers,'-f noreply@hogwild.uk');
+        $headers = "From: rory@hogwild.uk\r\n";
+        $headers .= "Reply-To: rory@hogwild.uk\r\n";
+        $headers .= "Return-Path: rory@hogwild.uk\r\n";
+        $headers .= "Organization: The Wild Hogs\r\n";
+        $headers .= "X-Mailer: PHP".phpversion()."\r\n";
+        $headers .= "Content-type: text/plain; charset=iso-8859-1\r\n";
+        $headers .= "X-Priority: 3\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        
+        mail('rory@hogwild.uk', 'hogwild chinese note', $contents, $headers, '-f noreply@hogwild.uk');
 
         echo '<h1>谢谢</h1>';
     } else {
