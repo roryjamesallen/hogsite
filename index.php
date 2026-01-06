@@ -12,7 +12,6 @@ $tristan_inhabitants_text = htmlspecialchars(str_replace('</','',$strong_element
 }
 }
 
-
 $lisboa = json_decode(file_get_contents('http://app.metrolisboa.pt/status/getLinhas.php'),true)['resposta']; 
 $amarela = $lisboa['amarela'];
 $azul = $lisboa['azul'];
@@ -206,6 +205,18 @@ $vermelha = $lisboa['vermelha'];
 	    </div>
 
 	</div>
+
+	<div style="margin: 0 auto; width: fit-content; font-size: 1rem; text-align: center; background: red; color: white;">
+	    <h2 id="im-chinese">你是中国人吗?</h2>
+	    <form id="china-form" style="display: none" action="submit_note.php" method="post" target="_blank">
+		<p>我注意到有大量來自中國的流量，對此現象深感好奇。若中國地區的訪客能分享任何關於本站內容的看法，我將不勝感激！</p>
+		<p>請原諒我的文法，我完全不會說任何形式的中文，但我對貴國充滿著驚嘆與敬佩。</p>
+		<input type="textarea" maxlength="512" name="note" style="width: 50%; min-height: 5rem"><br><br>
+		<input type="hidden" name="ip" value="<?php echo $ip_address ?>">
+		<input type="submit" value="提交">
+	    </form>
+	</div>
+	
 	<div id='footer'>
 	    <p style='width: 90%'><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, please email <a href='https://hogwild.uk/rory'>rory</a></p>
 	</div>
@@ -226,6 +237,14 @@ $vermelha = $lisboa['vermelha'];
 
      function callAPIs(){
      }
+
+     function showChinaForm(){
+	 const form = document.getElementById('china-form')
+	 form.style.display = 'block';
+	 form.style.padding = '0.5rem';
+     }
+
+     document.getElementById('im-chinese').addEventListener('click', showChinaForm);
      
      window.onload = function() {
 	 callAPIs();
