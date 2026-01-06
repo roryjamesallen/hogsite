@@ -1,4 +1,5 @@
 .htaccess
 sql_login_*
 notes/*
+error_log
 
