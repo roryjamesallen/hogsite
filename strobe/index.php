@@ -65,12 +65,9 @@
 	     justify-content: center;
 	     flex-wrap: wrap;
 	 }
-	 .colour-container {
-	     display: flex;
-	     gap: 0;
-	     flex-wrap: wrap;
-	 }
-	 .colour-container > * {
+	 #colours > * {
+	     min-width: 2rem;
+	     height: 2rem;
 	 }
 	 
 	</style>
@@ -89,14 +86,9 @@
 	    <hr>
 	    <span>COLOURS</span>
 	    <ul id="colours">
-		<div class="colour-container" id="colour-0">
-		    <input type="color" value="#ffffff">
-		    <input type="submit" value="X">
-		</div>
-		<div class="colour-container" id="colour-1">
-		    <input type="color" value="#000000">
-		    <input type="submit" value="X">
-		</div>
+		<input id="colour-0" type="color" value="#ffffff">
+		<input id="colour-1" type="color" value="#000000">
+		<input type="submit" value="-" id="remove-colour">
 		<input type="submit" value="+" id="add-colour">
 	    </ul>
 	    <hr>
@@ -113,11 +105,12 @@
      const settings = document.getElementById('settings');
      const background_element = document.getElementById('background');
      const add_colour_element = document.getElementById('add-colour');
+     const remove_colour_element = document.getElementById('remove-colour');
      var colour_list = document.getElementById('colours');
 
      function updateColours(){
 	 colours = [];
-	 const colour_count = colour_list.childElementCount - 1; // -1 to remove + button
+	 const colour_count = colour_list.childElementCount - 2; // -2 to remove + and - buttons
 	 for (let i = 0; i < colour_count; i++) {
 	     colours.push(document.getElementById('colour-' + i).value);
 	 }
@@ -156,13 +149,21 @@
 	 interval_text.innerText = interval_element.value + 'ms';
      }
      function addColour(){
-	 var last_colour = colour_list.lastElementChild.previousElementSibling;
+	 var last_colour = colour_list.lastElementChild.previousElementSibling.previousElementSibling; // before + and - buttons
 	 var new_colour = last_colour.cloneNode(true);
 	 new_colour.value = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 	 new_colour.id = 'colour-' + (parseInt(last_colour.id.replace('colour-','')) + 1);
-	 colour_list.insertBefore(new_colour, add_colour_element);
+	 colour_list.insertBefore(new_colour, add_colour_element.previousElementSibling);
+     }
+     function removeColour(){
+	 updateColours();
+	 if (colours.length > 2){
+	     var last_colour = colour_list.lastElementChild.previousElementSibling.previousElementSibling; // before + and - buttons
+	     colour_list.removeChild(last_colour);
+	 }
      }
 
+     remove_colour_element.addEventListener('click', removeColour);
      add_colour_element.addEventListener('click', addColour);
      interval_element.addEventListener('input', updateIntervalText);
      document.getElementById('start').addEventListener('click', toggleStrobe);
