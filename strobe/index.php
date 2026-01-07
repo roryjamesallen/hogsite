@@ -42,6 +42,11 @@
 	     background: white;
 	     border-radius: 0;
 	     border: 2px solid black;
+	     color: black;
+	     cursor: pointer;
+	 }
+	 label, #interval-text {
+	     color: #555;
 	 }
 	 input:hover {
 	     background: #f4f4f4;
@@ -54,7 +59,7 @@
 	     flex-grow: 1;
 	 }
 	 .range-container > span {
-	     flex-basis: 20%;
+	     flex-basis: 5rem;
 	 }
 	 #start {
 	     padding: 0.5rem;
@@ -69,6 +74,11 @@
 	     min-width: 2rem;
 	     height: 2rem;
 	 }
+	 @media screen and (max-width: 1000px){
+	     html, body {
+		 font-size: 30px;
+	     }
+	 }
 	 
 	</style>
     </head>
@@ -80,11 +90,11 @@
 	    <hr>
 	    <label for="interval">INTERVAL</label>
 	    <div class="range-container">
-		<input id="interval" type="range" value="5" min="1" max="1000" step="1">
+		<input id="interval" type="range" value="5" min="1" max="150" step="1">
 		<span id="interval-text">5ms</span>
 	    </div>
 	    <hr>
-	    <span>COLOURS</span>
+	    <label>COLOURS</label>
 	    <ul id="colours">
 		<input id="colour-0" type="color" value="#ffffff">
 		<input id="colour-1" type="color" value="#000000">
