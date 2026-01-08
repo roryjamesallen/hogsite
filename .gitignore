@@ -1,5 +1,5 @@
 .htaccess
 sql_login_*
-notes/*
+notes/
 error_log
-
+music/
