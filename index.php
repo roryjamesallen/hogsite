@@ -115,8 +115,33 @@ $vermelha = $lisboa['vermelha'];
 	     justify-content: center;
 	     width: 100%;
 	     font-size: 1rem;
-	     margin-top: 10rem;
+	     margin: 10rem auto 5rem auto;
 	     text-align: center;
+	 }
+	 .button-cluster {
+	     display: flex;
+	     flex-wrap: wrap;
+	     margin: 5rem auto;
+	     gap: 1rem;
+	     justify-content: center;
+	     width: 0;
+	     position: relative;
+	 }
+	 .button-cluster > a {
+	     display: flex;
+	     justify-content: center;
+	     align-items: center;
+	     gap: 1rem;
+	 }
+	 .button-cluster > a:hover {
+	     font-size: 1rem;
+	     text-decoration: none
+	 }
+	 .button-cluster > a:hover:after {
+	     content: '<';
+	 }
+	 .button-cluster > a:hover:before {
+	     content: '>';
 	 }
 	 @media screen and (max-width: 1100px){
 	     body {
@@ -206,7 +231,20 @@ $vermelha = $lisboa['vermelha'];
 
 	</div>
 
-	<div style="margin: 0 auto; width: fit-content; font-size: 1rem; text-align: center; background: red; color: white;">
+	<div class="button-cluster">
+	    <a href="https://wiki.hogwild.uk"><img src="images/buttons/hogipedia.jpg"></a>
+	    <a href="https://mosaic.hogwild.uk"><img src="images/buttons/mosaic.jpg"></a>
+	    <a href="https://fishing.hogwild.uk"><img src="images/buttons/fishing.jpg"></a>
+	    <a href="https://hogwild.uk/mealdeal"><img src="images/buttons/mealdeal.jpg"></a>
+	    <a href="https://newno.hogwild.uk"><img src="images/buttons/newno.jpg"></a>
+	    <a href="https://hogwild.uk/nothingeverhappens"><img src="images/buttons/nothingeverhappens.jpg"></a>
+	    <a href="https://notoalgorithms.hogwild.uk"><img src="images/buttons/algorithms.jpg"></a>
+	    <a href="https://hogwild.uk/strobe"><img src="images/buttons/strobe.jpg"></a>
+	    <a href="https://valve.hogwild.uk"><img src="images/buttons/valve.jpg"></a>
+	    <a href="https://tw.hogwild.uk"><img src="images/buttons/thompson.jpg"></a>
+	</div>
+
+	<div style="margin: 5rem auto 0 auto; width: fit-content; font-size: 1rem; text-align: center; background: red; color: white;">
 	    <h2 id="im-chinese">你是中国人吗?</h2>
 	    <form id="china-form" style="display: none" action="submit_note.php" method="post" target="_blank">
 		<p>我注意到有大量來自中國的流量，對此現象深感好奇。若中國地區的訪客能分享任何關於本站內容的看法，我將不勝感激！</p>
