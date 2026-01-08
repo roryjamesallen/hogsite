@@ -68,6 +68,11 @@ $vermelha = $lisboa['vermelha'];
 	 a:hover {
 	     text-decoration: underline;
 	 }
+	 h2 {
+	     font-size: 2rem;
+	     text-align: center;
+	     text-decoration: underline;
+	 }
 	 #header-bar {
 	     display: flex;
 	     width: calc(100% - 1rem);
@@ -121,10 +126,11 @@ $vermelha = $lisboa['vermelha'];
 	 .button-cluster {
 	     display: flex;
 	     flex-wrap: wrap;
-	     margin: 5rem auto;
+	     margin: 0 auto;
 	     gap: 1rem;
 	     justify-content: center;
-	     width: 0;
+	     max-width: 250px;
+	     padding: 1rem;
 	     position: relative;
 	 }
 	 .button-cluster > a {
@@ -231,6 +237,7 @@ $vermelha = $lisboa['vermelha'];
 
 	</div>
 
+	<h2>All Pages</h2>
 	<div class="button-cluster">
 	    <a href="https://wiki.hogwild.uk"><img src="images/buttons/hogipedia.jpg"></a>
 	    <a href="https://mosaic.hogwild.uk"><img src="images/buttons/mosaic.jpg"></a>
