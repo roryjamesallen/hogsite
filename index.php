@@ -101,7 +101,6 @@ $vermelha = $lisboa['vermelha'];
 	 #home-container {
 	     display: flex;
 	     gap: 1rem;
-	     padding: 1rem;
 	 }
 	 #drawings-container {
 	     display: flex;
@@ -127,6 +126,9 @@ $vermelha = $lisboa['vermelha'];
 	 .home-section-link:hover {
 	     filter: drop-shadow(0 0 10px grey);
 	 }
+	 #im-chinese {
+	     cursor: pointer;
+	 }
 	 #footer {
 	     display: flex;
 	     justify-content: center;
@@ -144,6 +146,8 @@ $vermelha = $lisboa['vermelha'];
 	     max-width: 250px;
 	     height: fit-content;
 	     position: relative;
+	     padding: 1rem;
+	     background: #f4f4f4;
 	 }
 	 .button-cluster > a {
 	     display: flex;
@@ -154,18 +158,21 @@ $vermelha = $lisboa['vermelha'];
 	     text-decoration: none
 	 }
 	 .button-cluster > a:hover {
+	     filter: drop-shadow(0 0 10px grey);
 	 }
+	 /*
 	 .button-cluster > a:hover:after {
 	     content: '<';
 	 }
 	 .button-cluster > a:hover:before {
 	     content: '>';
 	 }
+	 */
 	 .vertical-divider {
 	     width: 2px;
 	     background: var(--wiki-grey);
 	 }
-	 @media screen and (max-width: 1500px){
+	 @media screen and (max-width: 1200px){
 	     body {
 		 font-size: 11px;
 	     }
@@ -191,6 +198,9 @@ $vermelha = $lisboa['vermelha'];
 	     .vertical-divider {
 		 display: none;
 	     }
+	     .button-cluster {
+		 max-width: unset;
+	     }
 	 }
 	</style>
     </head>
@@ -205,20 +215,19 @@ $vermelha = $lisboa['vermelha'];
 	<div id='home-container'>
 	    <div class="button-cluster">
 		<a href="https://hogwild.uk"><h1>hogwild.uk</h1></a>
-		<a href="https://wiki.hogwild.uk"><img src="images/buttons/hogipedia.jpg"></a>
-		<a href="https://mosaic.hogwild.uk"><img src="images/buttons/mosaic.jpg"></a>
-		<a href="https://fishing.hogwild.uk"><img src="images/buttons/fishing.jpg"></a>
-		<a href="https://hogwild.uk/mealdeal"><img src="images/buttons/mealdeal.jpg"></a>
-		<a href="https://newno.hogwild.uk"><img src="images/buttons/newno.jpg"></a>
-		<a href="https://hogwild.uk/nothingeverhappens"><img src="images/buttons/nothingeverhappens.jpg"></a>
-		<a href="https://notoalgorithms.hogwild.uk"><img src="images/buttons/algorithms.jpg"></a>
-		<a href="https://hogwild.uk/strobe"><img src="images/buttons/strobe.jpg"></a>
-		<a href="https://valve.hogwild.uk"><img src="images/buttons/valve.jpg"></a>
-		<a href="https://tw.hogwild.uk"><img src="images/buttons/thompson.jpg"></a>
+		<a href="https://wiki.hogwild.uk"><img src="images/buttons/hogipedia.png"></a>
+		<a href="https://mosaic.hogwild.uk"><img src="images/buttons/mosaic.png"></a>
+		<a href="https://fishing.hogwild.uk"><img src="images/buttons/fishing.png"></a>
+		<a href="https://hogwild.uk/mealdeal"><img src="images/buttons/mealdeal.png"></a>
+		<a href="https://newno.hogwild.uk"><img src="images/buttons/newno.png"></a>
+		<a href="https://hogwild.uk/nothingeverhappens"><img src="images/buttons/nothingeverhappens.png"></a>
+		<a href="https://notoalgorithms.hogwild.uk"><img src="images/buttons/algorithms.png"></a>
+		<a href="https://hogwild.uk/strobe"><img src="images/buttons/strobe.png"></a>
+		<a href="https://valve.hogwild.uk"><img src="images/buttons/valve.png"></a>
+		<a href="https://tw.hogwild.uk"><img src="images/buttons/thompson.png"></a>
+		<p style='flex-basis: 100%; font-size: 1rem;'><a href='https://hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, please email <a href='https://hogwild.uk/rory'>rory</a></p>
 	    </div>
 
-	    <div class='vertical-divider'></div>
-	    
 	    <div id='drawings-container'>
 		<div class='home-section'>
 		    <h2 style='display: none'>The Office</h2>
@@ -278,7 +287,7 @@ $vermelha = $lisboa['vermelha'];
 		    </a>
 		</div>
 
-		<p style='flex-basis: 100%; text-align: center; font-size: 1rem;'><a href='hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, please email <a href='https://hogwild.uk/rory'>rory</a></p>
+		
 
 		<div style="margin: 0 auto; width: fit-content; font-size: 1rem; text-align: center; background: red; color: white;">
 		    <h2 id="im-chinese" style="font-size: inherit">你是中国人吗?</h2>
@@ -304,7 +313,7 @@ $vermelha = $lisboa['vermelha'];
 	 document.getElementById('home-page-message').innerHTML = text;
      }
      function resetPageMessage(){
-	 updatePageMessage("<span>welcome to <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a></span>")
+	 updatePageMessage("<span>click around and see what you can find...</span>")
      }
      resetPageMessage();
      document.querySelectorAll(".home-section-link").forEach(element => {
@@ -315,13 +324,17 @@ $vermelha = $lisboa['vermelha'];
      function callAPIs(){
      }
 
-     function showChinaForm(){
+     function toggleChinaForm(){
 	 const form = document.getElementById('china-form')
-	 form.style.display = 'block';
-	 form.style.padding = '0.5rem';
+	 if (form.style.display == 'none'){
+	     form.style.display = 'block';
+	     form.style.padding = '0.5rem';
+	 } else {
+	     form.style.display = 'none';
+	 }
      }
 
-     document.getElementById('im-chinese').addEventListener('click', showChinaForm);
+     document.getElementById('im-chinese').addEventListener('click', toggleChinaForm);
      
      window.onload = function() {
 	 callAPIs();
