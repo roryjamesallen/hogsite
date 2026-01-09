@@ -77,7 +77,7 @@
 	 var product_id = null;
 	 for (var i = 0; i < options.length; i++) {
 	     var option = options[i];
-	     if(option.value === input.value) {
+	     if(option.value.strip() === input.value) {
 		 product_id = option.getAttribute('data-value');
 		 break;
 	     }
