@@ -34,7 +34,7 @@
 		    echo '<div class="selector">';
 		    echo '<h2><label for="'.$type.'-input">'.$type.'</label></h2>';
 		    if (isset($_GET[strtolower($type)])){
-			$value = $products_json[$_GET[strtolower($type)]]['name'];
+			$value = trim($products_json[$_GET[strtolower($type)]]['name']);
 		    } else {
 			$value = '';
 		    }
