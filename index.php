@@ -188,6 +188,9 @@ $vermelha = $lisboa['vermelha'];
 	     #home-container {
 		 flex-wrap: wrap;
 	     }
+	     .vertical-divider {
+		 display: none;
+	     }
 	 }
 	</style>
     </head>
