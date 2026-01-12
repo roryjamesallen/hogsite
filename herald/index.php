@@ -19,7 +19,7 @@
     <body>
 	<div id="newspaper">
 	    <div id="header" class="pad">
-		<a id="hogwild-link" href="hogwild.uk">hogwild.uk</a>
+		<a id="hogwild-link" href="https://hogwild.uk">hogwild.uk</a>
 		<div id="date">Last Updated: Monday 12th January 2026</div>
 	    </div>
 	    <h1 id="title" class="pad">The Hogwild Herald</h1>
