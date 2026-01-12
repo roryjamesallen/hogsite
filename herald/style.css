@@ -89,3 +89,7 @@ a {
     color: var(--caption);
     margin-top: 0.5rem;
 }
+footer {
+    text-align: center;
+    margin: 10rem 0 2rem;
+}
