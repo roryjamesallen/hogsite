@@ -46,6 +46,9 @@ a {
     padding: 1rem 0;
     font-family: Gothic Pixels;
 }
+#title:first-child {
+    flex-grow: 1;
+}
 .article {
     flex-basis: 40%;
     flex-grow: 1;
@@ -59,12 +62,19 @@ a {
     margin: 0;
     flex-grow: 1;
     display: flex;
-    gap: 0.5rem;
+    column-gap: 0.5rem;
     align-items: center;
+    flex-wrap: wrap;
+    font-size: 2rem;
+}
+.small-article > h3 {
+    font-size: 1.5rem;
+    text-align: left;
 }
 .article-type {
     color: var(--caption);
     font-size: 1rem;
+    padding: 0.5rem 0;
 }
 .article > img {
     max-height: 250px;
