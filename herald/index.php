@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="style.css">
-	<title>The Hogwild Herald</title>
+	<?php include 'html_head.php' ?>
     </head>
     
     <!-- Google tag (gtag.js) -->
