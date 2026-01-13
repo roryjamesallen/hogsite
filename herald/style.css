@@ -8,11 +8,11 @@
 }
 :root {
     --caption: #777777;
-    
+    --pale-grey: #f4f4f4;
     --image-padding: 1rem;
 }
 body {
-    background: #f4f4f4;
+    background: var(--pale-grey);
     font-size: 20px;
     font-family: Melodica;
 }
@@ -92,4 +92,29 @@ a {
 footer {
     text-align: center;
     margin: 10rem 0 2rem;
+}
+.submit-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5rem;
+    flex-grow: 0;
+    margin: 0 auto;
+}
+.submit-form > * {
+    flex-basis: 100%;
+    background: white;
+}
+input, textarea {
+    background: var(--pale-grey);
+    border: 1px solid var(--caption);
+    max-width: 100%;
+}
+input[type=file] {
+    border: none;
+    background: none;
+}
+input[type=submit] {
+    margin-top: 2rem;
 }
