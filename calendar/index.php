@@ -29,7 +29,7 @@
       <div id="form">
 	  <input type="checkbox" id="box0">
       </div>
-      <div id="result">
+      <input id="result">
   </body>
 
   <script>
@@ -37,6 +37,26 @@
    const checkbox = form.firstElementChild;
    checkbox.addEventListener('change',calculateResult);
    const result = document.getElementById('result');
+   result.addEventListener('change', updateBoxes);
+
+   function dec2bin(dec) {
+       return (dec >>> 0).toString(2).padStart(365, '0').split("").reverse().join("");
+   }
+   
+   function updateBoxes(){
+       const decimal = result.value;
+       const binary = dec2bin(decimal);
+       console.log(decimal);
+       console.log(binary);
+       for (const box of form.children) {
+	   bit = parseInt(box.id.replace('box',''));
+	   if (binary[bit] == 1){
+	       box.checked = true;
+	   } else {
+	       box.checked = false;
+	   }
+       }
+   }
    
    function calculateResult(){
        let total = 0;
@@ -45,7 +65,7 @@
 	   bit_mult = 2 ** bit;
 	   total += bit_mult * parseInt(box.checked ? '1' : '0');
        }
-       result.innerText = total;
+       result.value = total;
    }
 
    for (let box=1; box<365; ++box){
