@@ -12,6 +12,9 @@
       }
       input {
       }
+      #result {
+	  width: 100%;
+      }
      </style>
   </head>
   
@@ -60,12 +63,18 @@
    
    function calculateResult(){
        let total = 0;
+       let binary = '';
        for (const box of form.children) {
 	   bit = parseInt(box.id.replace('box',''));
 	   bit_mult = 2 ** bit;
-	   total += bit_mult * parseInt(box.checked ? '1' : '0');
+	   check = parseInt(box.checked ? '1' : '0')
+	   total += bit_mult * check;
+	   binary += (check);
        }
+       //result.value = total;
+       total = BigInt('0b' + binary.split("").reverse().join("")).toString().substring(0, binary.length - 1);
        result.value = total;
+       console.log(binary);
    }
 
    for (let box=1; box<365; ++box){
