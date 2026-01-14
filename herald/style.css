@@ -1,0 +1,120 @@
+@font-face {
+    font-family: Gothic Pixels;
+    src: url('../fonts/gothic_pixels.ttf');
+}
+@font-face {
+    font-family: Melodica;
+    src: url('../fonts/Melodica.otf');
+}
+:root {
+    --caption: #777777;
+    --pale-grey: #f4f4f4;
+    --image-padding: 1rem;
+}
+body {
+    background: var(--pale-grey);
+    font-size: 20px;
+    font-family: Melodica;
+}
+a {
+    color: unset;
+}
+.pad {
+    padding: 0.5rem;
+}
+#newspaper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: min(90vw, 1500px);
+    margin: 0 auto;
+}
+#newspaper > * {
+    background: white;
+}
+#header {
+    display: flex;
+    flex-basis: 100%;
+    justify-content: space-between;
+    color: var(--caption);
+}
+#title {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 5rem;
+    margin: 0;
+    padding: 1rem 0;
+    font-family: Gothic Pixels;
+}
+#title:first-child {
+    flex-grow: 1;
+}
+.article {
+    flex-basis: 40%;
+    flex-grow: 1;
+    text-align: justify;
+}
+.small-article {
+    flex-basis: 10%;
+    font-size: 1rem;
+}
+.article > h3 {
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    column-gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 2rem;
+}
+.small-article > h3 {
+    font-size: 1.5rem;
+    text-align: left;
+}
+.article-type {
+    color: var(--caption);
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+.article > img {
+    max-height: 250px;
+    float: right;
+    margin: 0 0 var(--image-padding) var(--image-padding);
+}
+.article:not(.small-article) .article-text:first-letter {
+    font-family: Gothic Pixels;
+}
+.article-author {
+    font-size: 1rem;
+    color: var(--caption);
+    margin-top: 0.5rem;
+}
+footer {
+    text-align: center;
+    margin: 10rem 0 2rem;
+}
+.submit-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5rem;
+    flex-grow: 0;
+    margin: 0 auto;
+}
+.submit-form > * {
+    flex-basis: 100%;
+    background: white;
+}
+input, textarea {
+    background: var(--pale-grey);
+    border: 1px solid var(--caption);
+    max-width: 100%;
+}
+input[type=file] {
+    border: none;
+    background: none;
+}
+input[type=submit] {
+    margin-top: 2rem;
+}
