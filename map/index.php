@@ -10,25 +10,27 @@
 	 body {
 	     overflow: hidden;
 	     position: relative;
+	     height: 100vh;
+	     margin: 0;
 	 }
 	 #map {
-	     position: relative;
-	     top: 0px;
-	     left: 0px;
+	     position: fixed;
 	     width: fit-content;
 	     height: fit-content;
 	 }
 	 #map-background {
-	     margin: auto;
 	 }
-	 .map-link {
+	 .map-item {
 	     position: absolute;
 	     background: grey;
 	     color: white;
 	     transform: translate(-50%, -50%);
+	     transform-origin: center;
+	     transition: transform 0.2s;
 	 }
 	 .map-link:hover {
-	     transform: scale(1.2) translate(-50%, -50%);
+	     cursor: pointer;
+	     transform: scale(1.2) translate(-40%, -40%);
 	 }
 	</style>
     </head>
@@ -46,7 +48,8 @@
     <body>
 	<div id="map" draggable="false">
 	    <img id="map-background" src="map.jpg" draggable="false">
-	    <div class="map-link" id="tinsel-town-tavern">Tinsel Town Tavern</div>
+	    <div class="map-item map-link" id="tinsel-town-tavern">Tinsel Town Tavern</div>
+	    <div class="map-item map-link" id="firehouse">Firehouse</div>
 	</div>
     </body>
 
@@ -54,12 +57,13 @@
      var real_mouse_position = [0,0];
      var start_drag_position = [0,0];
      var dragging = false;
-     const map = document.getElementById('map');
-     const half_map_width = map.offsetWidth / 2;
-     const half_map_height = map.offsetHeight / 2;
+     var map;
+     var half_map_width;
+     var half_map_height;
 
      const map_positions = {
-	 'tinsel-town-tavern': [0,0]
+	 'tinsel-town-tavern': [0, 0],
+	 'firehouse': [-100, -200]
      }
 
      // Mouse Functions
@@ -80,6 +84,12 @@
 	     updateMapPosition();
 	 }
      }
+
+     // Map Movement Functions
+     function focusMapCoordinates(x, y){
+	 map.style.left = ((document.body.clientWidth / 2) - half_map_width) + 'px';
+	 map.style.top = ((document.body.clientHeight / 2) - half_map_height) + 'px';
+     }
      
      // Map Initialisation Functions
      function placeMapItem(item,x,y){
@@ -95,11 +105,17 @@
 
      // Page Initialisation
      window.onload = function(){
+	 map = document.getElementById('map');
+	 half_map_width = map.offsetWidth / 2;
+	 half_map_height = map.offsetHeight / 2;
 	 initialiseMapItems();
 	 map.addEventListener('mousedown', startDrag);
+	 map.addEventListener('touchstart', startDrag);
 	 document.addEventListener('mouseup', endDrag);
+	 document.addEventListener('touchend', endDrag);
 	 document.addEventListener('mousemove', updateRealMousePosition);
-	 updateMapPosition();
+	 document.addEventListener('touchmove', updateRealMousePosition);
+	 focusMapCoordinates(0,0);
      }
     </script>
 </html>
