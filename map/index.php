@@ -49,11 +49,14 @@
 	<div id="map" draggable="false">
 	    <img id="map-background" src="map.jpg" draggable="false">
 	    <div class="map-item map-link" id="tinsel-town-tavern">Tinsel Town Tavern</div>
+	    <div class="map-item map-link" id="bunker-hill">Bunker Hill</div>
+	    <div class="map-item map-link" id="russel">Russel</div>
 	    <div class="map-item map-link" id="firehouse">Firehouse</div>
 	</div>
     </body>
 
     <script>
+     var snapping = true;
      var real_mouse_position = [0,0];
      var start_drag_position = [0,0];
      var dragging = false;
@@ -63,7 +66,30 @@
 
      const map_positions = {
 	 'tinsel-town-tavern': [0, 0],
+	 'bunker-hill': [-50, -500],
+	 'russel': [300, 450],
 	 'firehouse': [-100, -200]
+     }
+
+     // Mathematical Functions
+     function distanceBetweenCoords(x1, y1, x2, y2){
+	 return Math.abs(Math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2)));
+     }
+     function findNearestLink(){
+	 x1 = document.body.clientWidth / 2;
+	 y1 = document.body.clientHeight / 2;
+	 var smallest_distance = 99999;
+	 var closest_coords = [0, 0];
+	 for (var place in map_positions){
+	     x2 = parseInt(map.style.left) + half_map_width + map_positions[place][0];
+	     y2 = parseInt(map.style.top) + half_map_height + map_positions[place][1];
+	     distance = distanceBetweenCoords(x1, y1, x2, y2);
+	     if (distance < smallest_distance){
+		 smallest_distance = distance;
+		 closest_coords = map_positions[place];
+	     }
+	 }
+	 return closest_coords;
      }
 
      // Mouse Functions
@@ -73,6 +99,8 @@
      }
      function endDrag(){
 	 dragging = false;
+	 coords = findNearestLink();
+	 focusMapCoordinates(coords[0], coords[1]);
      }
      function updateMapPosition(){
 	 map.style.left = (real_mouse_position[0] - start_drag_position[0]) + 'px';
@@ -86,9 +114,29 @@
      }
 
      // Map Movement Functions
+     function findNearestLink(){
+	 x1 = document.body.clientWidth / 2;
+	 y1 = document.body.clientHeight / 2;
+	 var smallest_distance = 99999;
+	 var closest_coords = [0, 0];
+	 for (var place in map_positions){
+	     x2 = parseInt(map.style.left) + half_map_width + map_positions[place][0];
+	     y2 = parseInt(map.style.top) + half_map_height + map_positions[place][1];
+	     distance = distanceBetweenCoords(x1, y1, x2, y2);
+	     if (distance < smallest_distance){
+		 smallest_distance = distance;
+		 closest_coords = map_positions[place];
+	     }
+	 }
+	 return closest_coords;
+     }
      function focusMapCoordinates(x, y){
-	 map.style.left = ((document.body.clientWidth / 2) - half_map_width) + 'px';
-	 map.style.top = ((document.body.clientHeight / 2) - half_map_height) + 'px';
+	 if (snapping){
+	     map.style.transition = 'top 0.2s, left 0.2s';
+	     setTimeout(() => { map.style.transition = ''; }, 200);
+	 }
+	 map.style.left = ((document.body.clientWidth / 2) - half_map_width - x) + 'px';
+	 map.style.top = ((document.body.clientHeight / 2) - half_map_height - y) + 'px';
      }
      
      // Map Initialisation Functions
