@@ -139,10 +139,14 @@
      }
 
      // Mouse Functions
-     function startDrag(){
+     function startDrag(event){
 	 dragging = true;
 	 target.style.filter = 'opacity(1)';
-	 start_drag_position = [real_mouse_position[0] - parseInt(map.style.left), real_mouse_position[1] - parseInt(map.style.top)];
+	 if (event.type.startsWith('touch')) {
+	     start_drag_position = [event.touches[0].pageX - parseInt(map.style.left), event.touches[0].pageY - parseInt(map.style.top)];
+	 } else {
+	     start_drag_position = [real_mouse_position[0] - parseInt(map.style.left), real_mouse_position[1] - parseInt(map.style.top)];
+	 }
      }
      function endDrag(){
 	 dragging = false;
@@ -156,7 +160,11 @@
 	 map.style.top = (real_mouse_position[1] - start_drag_position[1]) + 'px';
      }
      function updateRealMousePosition(event){
-	 real_mouse_position = [event.pageX, event.pageY];
+	 if (event.type.startsWith('touch')) {
+	     real_mouse_position = [event.touches[0].pageX, event.touches[0].pageY];
+	 } else {
+	     real_mouse_position = [event.pageX, event.pageY];
+	 }
 	 if (dragging == true){
 	     updateMapPosition();
 	 }
