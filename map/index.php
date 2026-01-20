@@ -61,6 +61,7 @@
 	     z-index: 99;
 	     filter: opacity(0);
 	     transition: filter 0.2s;
+	     pointer-events: none;
 	 }
 	</style>
     </head>
@@ -78,20 +79,23 @@
     <body>
 	<img id="target" src="images/target.png">
 	<div id="map" draggable="false">
-	    <div id="map-background" draggable="false"></div>
-	    <div class="map-item map-link" id="tinsel-town-tavern" tabindex="0"  draggable="false">Tinsel Town Tavern</div>
-	    <div class="map-item map-link" id="bunker-hill" tabindex="0"  draggable="false">Bunker Hill</div>
-	    <div class="map-item map-link" id="russel" tabindex="0"  draggable="false">Russel</div>
-	    <div class="map-item map-link" id="firehouse" tabindex="0"  draggable="false">Firehouse</div>
-	    <div class="map-item map-link" id="the-swamp" tabindex="0"  draggable="false">
+	    <div id="map-background"></div>
+	    <div class="map-item map-link" id="tinsel-town-tavern">
+		<img src="images/tinsel-town-tavern.png">
+		<span style="">Tinsel Town Tavern</span>
+	    </div>
+	    <div class="map-item map-link" id="bunker-hill">Bunker Hill</div>
+	    <div class="map-item map-link" id="russel">Russel</div>
+	    <div class="map-item map-link" id="firehouse">Firehouse</div>
+	    <div class="map-item map-link" id="the-swamp">
 		<img src="images/the-swamp.png">
 		<span style="">The Swamp</span>
 	    </div>
-	    <div class="map-item map-link" id="the-shack" tabindex=0"  draggable="false">
+	    <div class="map-item map-link" id="the-shack">
 		<span style="top: -20px">The Shack</span>
 		<img src="images/the-shack.png">
 	    </div>
-	    <div class="map-item map-link" id="lady-garden-lake" tabindex=0"  draggable="false">
+	    <div class="map-item map-link" id="lady-garden-lake">
 		<span style="top: -5px; left: 40px">Lady Garden Lake</span>
 		<img src="images/lady-garden-lake.png">
 	    </div>
@@ -191,6 +195,12 @@
 	     placeMapItem(location_element, map_positions[place][0], map_positions[place][1]);
 	 }
      }
+     function initialiseChildren(){
+	 Array.from(map.querySelectorAll('*')).forEach(child => {
+	     child.setAttribute('draggable', false);
+	     child.setAttribute('tabindex', 0);	     
+	 });
+     }
 
      // Page Initialisation
      window.onload = function(){
@@ -207,6 +217,7 @@
 	 document.addEventListener('touchmove', updateRealMousePosition);
 	 focusMapCoordinates(0,0);
 	 findNearestLink();
+	 initialiseChildren();
      };
     </script>
 </html>
