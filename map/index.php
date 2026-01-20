@@ -19,6 +19,7 @@
 	     margin: 0;
 	     background-image: url('images/the-wilderness.png');
 	     background-color: var(--beige-dark);
+	     font-family: Melodica;
 	 }
 	 #map {
 	     position: fixed;
@@ -36,7 +37,6 @@
 	     transform: scale(2) translate(-25%, -25%);
 	     transform-origin: center;
 	     transition: transform 0.2s;
-	     font-family: Melodica;
 	     font-size: 10px;
 	     color: black;
 	     text-decoration: none;
@@ -65,6 +65,18 @@
 	     filter: opacity(0);
 	     transition: filter 0.2s;
 	     pointer-events: none;
+	 }
+	 #controls {
+	     position: absolute;
+	     bottom: 5px;
+	     right: 5px;
+	     display: flex;
+	     align-items: center;
+	     gap: 5px;
+	     font-size: 30px;
+	 }
+	 input[type="checkbox"]{
+	     scale: 1.5;
 	 }
 	</style>
     </head>
@@ -106,6 +118,11 @@
 		<img src="images/the-bomb.png">
 	    </div>
 	</div>
+	<div id="controls">
+	    <label for="checkbox-snapping">SNAP</label>
+	    <input id="checkbox-snapping" class="js-checkbox" type="checkbox" checked="true">
+	</div>
+	
     </body>
 
     <script>
@@ -164,9 +181,7 @@
      function endDrag(event){
 	 dragging = false; // Not dragging anymore
 	 target.style.filter = 'opacity(0)'; // Hide the target/cursor
-	 nearest_link = findNearestLink(); // Find the ID of the nearest map-link to the target/cursor
-	 focusMapCoordinates(...map_positions[nearest_link]); // Move the map to make the closest element in the middle of the screen
-	 window.setTimeout(() => document.getElementById(nearest_link).focus(), 0); // Focus the element
+	 updateSnappedLocation();
      }
      function updateMapPosition(){ // Move the map based on the current cursor position while dragging
 	 map.style.left = (real_mouse_position[0] - start_drag_position[0]) + 'px';
@@ -188,7 +203,24 @@
 	 }
      }
 
+     // Control Functions
+     function updateControlVariable(event){ // Update a variable that's linked to a checkbox
+	 related_bool = event.target.id.replace('checkbox-',''); // Get the string of the variable name
+	 window[related_bool] = event.target.checked; // Update the actual variable
+	 updateSnappedLocation(); // Update snapped location in case snapping just turned on and needs to snap to closest
+     }
+
      // Map Movement Functions
+     function updateSnappedLocation(){
+	 if (snapping){ // Only snap to nearest if snapping is on
+	     snapToNearestLink();
+	 }
+     }
+     function snapToNearestLink(){
+	 nearest_link = findNearestLink(); // Find the ID of the nearest map-link to the target/cursor
+	 focusMapCoordinates(...map_positions[nearest_link]); // Move the map to make the closest element in the middle of the screen
+	 window.setTimeout(() => document.getElementById(nearest_link).focus(), 0); // Focus the element
+     }
      function focusMapCoordinates(x, y){
 	 if (snapping){ // If the map should snap to the closest map-link
 	     map.style.transition = 'top 0.2s, left 0.2s'; // Add a transition so it looks smoother
@@ -222,7 +254,12 @@
 	     child.classList.add('map-link'); // Add map-link class
 	 });
      }
-
+     function initialiseControls(){
+	 Array.from(document.querySelectorAll('.js-checkbox')).forEach(child => { // Only direct children	     
+	     child.addEventListener('change', updateControlVariable)
+	 });
+     }
+     
      // Page Initialisation
      window.onload = function(){
 	 map = document.getElementById('map');
@@ -237,8 +274,8 @@
 	 document.addEventListener('mousemove', updateRealMousePosition);
 	 document.addEventListener('touchmove', updateRealMousePosition);
 	 initialiseChildren();
+	 initialiseControls();
 	 focusMapCoordinates(0,0);
-	 findNearestLink();
      };
     </script>
 </html>
