@@ -95,6 +95,7 @@
 	<img id="target" src="images/target.png">
 	<div id="map" draggable="false">
 	    <div id="map-background"></div>
+	    <div class="map-item" id="the-bomb"><img src="images/the-bomb.png"></div>
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
 		<span style="top: 50px; left: 20px">Tinsel Town Tavern</span>
@@ -102,6 +103,10 @@
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
 	    <a class="map-item" id="russel">Russel</a>
 	    <a class="map-item" id="firehouse">Firehouse</a>
+	    <a class="map-item" id="lady-garden-lake">
+		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
+		<img src="images/lady-garden-lake.png">
+	    </a>
 	    <a class="map-item" id="the-swamp">
 		<img src="images/the-swamp.png">
 		<span style="left: 50px">The<br>Swamp</span>
@@ -110,13 +115,6 @@
 		<span style="top: -12px">The Shack</span>
 		<img src="images/the-shack.png">
 	    </a>
-	    <a class="map-item" id="lady-garden-lake">
-		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
-		<img src="images/lady-garden-lake.png">
-	    </a>
-	    <div class="map-item" id="the-bomb">
-		<img src="images/the-bomb.png">
-	    </div>
 	</div>
 	<div id="controls">
 	    <label for="checkbox-snapping">SNAP</label>
