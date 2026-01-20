@@ -38,9 +38,12 @@
 	     transition: transform 0.2s;
 	     font-family: Melodica;
 	     font-size: 10px;
+	     color: black;
+	     text-decoration: none;
 	 }
 	 .map-item > span {
 	     position: absolute;
+	     white-space: nowrap;
 	 }
 	 .map-item > img {
 	     width: 100%;
@@ -80,125 +83,143 @@
 	<img id="target" src="images/target.png">
 	<div id="map" draggable="false">
 	    <div id="map-background"></div>
-	    <div class="map-item map-link" id="tinsel-town-tavern">
+	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
-		<span style="">Tinsel Town Tavern</span>
-	    </div>
-	    <div class="map-item map-link" id="bunker-hill">Bunker Hill</div>
-	    <div class="map-item map-link" id="russel">Russel</div>
-	    <div class="map-item map-link" id="firehouse">Firehouse</div>
-	    <div class="map-item map-link" id="the-swamp">
+		<span style="top: 50px; left: 20px">Tinsel Town Tavern</span>
+	    </a>
+	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
+	    <a class="map-item" id="russel">Russel</a>
+	    <a class="map-item" id="firehouse">Firehouse</a>
+	    <a class="map-item" id="the-swamp">
 		<img src="images/the-swamp.png">
-		<span style="">The Swamp</span>
-	    </div>
-	    <div class="map-item map-link" id="the-shack">
-		<span style="top: -20px">The Shack</span>
+		<span style="left: 50px">The<br>Swamp</span>
+	    </a>
+	    <a class="map-item" id="the-shack">
+		<span style="top: -12px">The Shack</span>
 		<img src="images/the-shack.png">
-	    </div>
-	    <div class="map-item map-link" id="lady-garden-lake">
-		<span style="top: -5px; left: 40px">Lady Garden Lake</span>
+	    </a>
+	    <a class="map-item" id="lady-garden-lake">
+		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
 		<img src="images/lady-garden-lake.png">
+	    </a>
+	    <div class="map-item" id="the-bomb">
+		<img src="images/the-bomb.png">
 	    </div>
 	</div>
     </body>
 
     <script>
-     var snapping = true;
-     var real_mouse_position = [0,0];
-     var start_drag_position = [0,0];
-     var dragging = false;
-     var map;
-     var half_map_width;
-     var half_map_height;
-     var target;
+     var snapping = true; // If off the user can scroll freely, if on on mouseup the map will jump the target (middle) to the closest map-link element (not just map-item)
+     var real_mouse_position = [0,0]; // Current mouse position
+     var start_drag_position = [0,0]; // Position of mouse when starting to drag the map
+     var dragging = false; // Currently dragging the map?
+     var map; // Map element
+     var half_map_width; // Pixel value of half the map width
+     var half_map_height; // Pixel value of half the map height
+     var target; // Target (cursor) element
 
-     const map_positions = {
-	 'tinsel-town-tavern': [0, 0],
+     const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
+	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
+	 'the-bomb': [100, 30],
 	 'bunker-hill': [-50, -500],
 	 'russel': [300, 450],
 	 'firehouse': [-100, -200],
 	 'the-swamp': [420, -400],
 	 'the-shack': [380, -460],
-	 'lady-garden-lake': [200, -350]
+	 'lady-garden-lake': [200, -350],
      };
 
      // Mathematical Functions
      function distanceBetweenCoords(x1, y1, x2, y2){
-	 return Math.abs(Math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2)));
+	 return Math.abs(Math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2))); // Absolute distance to allow for easy comparison regardless of direction
      }
-     function findNearestLink(){
+     function findNearestLink(){ // Return ID of the nearest map-link (class) element to the middle of the screen
 	 x1 = document.body.clientWidth / 2;
 	 y1 = document.body.clientHeight / 2;
-	 var smallest_distance = 99999;
-	 for (var place in map_positions){
-	     x2 = parseInt(map.style.left) + half_map_width + map_positions[place][0];
-	     y2 = parseInt(map.style.top) + half_map_height + map_positions[place][1];
-	     distance = distanceBetweenCoords(x1, y1, x2, y2);
-	     if (distance < smallest_distance){
-		 smallest_distance = distance;
-		 nearest_link = place;
+	 var smallest_distance = 99999; // Set really high so that the first distance will override
+	 for (var place in map_positions){ // For each ID (key) in the map positions array
+	     if (document.getElementById(place).classList.contains('map-link')){ // If the element is a map-link (not just a map-item)
+		 x2 = parseInt(map.style.left) + half_map_width + map_positions[place][0]; // Get the location of the element
+		 y2 = parseInt(map.style.top) + half_map_height + map_positions[place][1];
+		 distance = distanceBetweenCoords(x1, y1, x2, y2); // Work out the distance from the target (middle of screen) to the element
+		 if (distance < smallest_distance){ // If it's closer than any previous element
+		     smallest_distance = distance; // Set the distance for comparison to other elements
+		     nearest_link = place; // Set the ID to return if it ends up being the closest
+		 }
 	     }
 	 }
-	 return nearest_link;
+	 return nearest_link; // Return the ID of the nearest link to the middle of the screen
      }
 
      // Mouse Functions
      function startDrag(event){
-	 dragging = true;
-	 target.style.filter = 'opacity(1)';
-	 if (event.type.startsWith('touch')) {
+	 dragging = true; // Currently dragging
+	 target.style.filter = 'opacity(1)'; // Show the target/cursor
+	 if (event.type.startsWith('touch')) { // If on mobile use a slightly different way of getting the cursor position
 	     start_drag_position = [event.touches[0].pageX - parseInt(map.style.left), event.touches[0].pageY - parseInt(map.style.top)];
-	 } else {
+	 } else { // On desktop get the cursor position
 	     start_drag_position = [real_mouse_position[0] - parseInt(map.style.left), real_mouse_position[1] - parseInt(map.style.top)];
 	 }
      }
-     function endDrag(){
-	 dragging = false;
-	 target.style.filter = 'opacity(0)';
-	 nearest_link = findNearestLink();
-	 focusMapCoordinates(...map_positions[nearest_link]);
-	 window.setTimeout(() => document.getElementById(nearest_link).focus(), 0);
+     function endDrag(event){
+	 dragging = false; // Not dragging anymore
+	 target.style.filter = 'opacity(0)'; // Hide the target/cursor
+	 nearest_link = findNearestLink(); // Find the ID of the nearest map-link to the target/cursor
+	 focusMapCoordinates(...map_positions[nearest_link]); // Move the map to make the closest element in the middle of the screen
+	 window.setTimeout(() => document.getElementById(nearest_link).focus(), 0); // Focus the element
      }
-     function updateMapPosition(){
+     function updateMapPosition(){ // Move the map based on the current cursor position while dragging
 	 map.style.left = (real_mouse_position[0] - start_drag_position[0]) + 'px';
 	 map.style.top = (real_mouse_position[1] - start_drag_position[1]) + 'px';
      }
      function updateRealMousePosition(event){
-	 if (event.type.startsWith('touch')) {
+	 if (event.type.startsWith('touch')) { // If on mobile work out the mouse position slightly differently
 	     real_mouse_position = [event.touches[0].pageX, event.touches[0].pageY];
-	 } else {
+	 } else { // Get mouse position on desktop
 	     real_mouse_position = [event.pageX, event.pageY];
 	 }
 	 if (dragging == true){
-	     updateMapPosition();
+	     updateMapPosition(); // Move the map if currently dragging
+	 }
+     }
+     function handleLinkClick(event){
+	 if (distanceBetweenCoords(...start_drag_position, event.pageX - parseInt(map.style.left), event.pageY - parseInt(map.style.top)) > 5){
+	     return false; // Don't open the link if the mouse has moved more than 5px from the element (at the end of a drag rather than a deliberate click)
 	 }
      }
 
      // Map Movement Functions
      function focusMapCoordinates(x, y){
-	 if (snapping){
-	     map.style.transition = 'top 0.2s, left 0.2s';
-	     setTimeout(() => { map.style.transition = ''; }, 200);
+	 if (snapping){ // If the map should snap to the closest map-link
+	     map.style.transition = 'top 0.2s, left 0.2s'; // Add a transition so it looks smoother
+	     setTimeout(() => { map.style.transition = ''; }, 200); // Remove the transition the instant it ends
 	 }
-	 map.style.left = ((document.body.clientWidth / 2) - half_map_width - x) + 'px';
+	 map.style.left = ((document.body.clientWidth / 2) - half_map_width - x) + 'px'; // Move the map to the coordinates
 	 map.style.top = ((document.body.clientHeight / 2) - half_map_height - y) + 'px';
      }
      
      // Map Initialisation Functions
-     function placeMapItem(item,x,y){
+     function placeMapItem(item,x,y){ // Position a map-item according to set coordinates with origin in the middle of the screen
 	 item.style.left = (x + half_map_width) + 'px';
 	 item.style.top = (y + half_map_height) + 'px';
      }
      function initialiseMapItems(){
-	 for (var place in map_positions){
-	     const location_element = document.getElementById(place);
-	     placeMapItem(location_element, map_positions[place][0], map_positions[place][1]);
+	 for (var place in map_positions){ // For every element ID in the array
+	     const location_element = document.getElementById(place); // Get the corresponding element
+	     placeMapItem(location_element, map_positions[place][0], map_positions[place][1]); // Position the element according to its coordinates
 	 }
      }
      function initialiseChildren(){
-	 Array.from(map.querySelectorAll('*')).forEach(child => {
-	     child.setAttribute('draggable', false);
-	     child.setAttribute('tabindex', 0);	     
+	 Array.from(map.querySelectorAll('*')).forEach(child => { // For all children including sub-children
+	     child.setAttribute('draggable', false); // Make them non-draggable to stop weird visual stuff as dragging is custom
+	     child.setAttribute('tabindex', 0); // Allow them to be focused
+	 });
+	 Array.from(map.querySelectorAll('a')).forEach(child => { // Only direct children
+	     if (!child.getAttribute('href')){ // If href isn't set then it should be a default wiki link
+		 child.setAttribute('href', 'https://wiki.hogwild.uk?page='+child.id); // Add the default wiki link
+	     }
+	     child.onclick = handleLinkClick; // Override the normal click to prevent weird link clicking when dragging
+	     child.classList.add('map-link'); // Add map-link class
 	 });
      }
 
@@ -215,9 +236,9 @@
 	 document.addEventListener('touchend', endDrag);
 	 document.addEventListener('mousemove', updateRealMousePosition);
 	 document.addEventListener('touchmove', updateRealMousePosition);
+	 initialiseChildren();
 	 focusMapCoordinates(0,0);
 	 findNearestLink();
-	 initialiseChildren();
      };
     </script>
 </html>
