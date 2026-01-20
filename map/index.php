@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 	<title>Map</title>
 	<style>
 	 @font-face {
@@ -32,26 +33,22 @@
 	 }
 	 .map-item {
 	     position: absolute;
-	     transform: translate(-50%, -50%);
+	     transform: scale(2) translate(-25%, -25%);
 	     transform-origin: center;
 	     transition: transform 0.2s;
-	     display: flex;
-	     flex-wrap: wrap;
-	     justify-content: center;
-	     text-align: center;
 	     font-family: Melodica;
-	     font-size: 20px;
+	     font-size: 10px;
 	 }
 	 .map-item > span {
-	     flex-basis: 100%;
+	     position: absolute;
 	 }
 	 .map-item > img {
-	     width: 200%;
+	     width: 100%;
 	     image-rendering: pixelated;
 	 }
 	 .map-link:hover, .map-link:focus {
 	     cursor: pointer;
-	     transform: scale(1.2) translate(-40%, -40%);
+	     /*transform: scale(1.2) translate(-40%, -40%);*/
 	     border: none;
 	     outline: none;
 	 }
@@ -88,11 +85,15 @@
 	    <div class="map-item map-link" id="firehouse" tabindex="0"  draggable="false">Firehouse</div>
 	    <div class="map-item map-link" id="the-swamp" tabindex="0"  draggable="false">
 		<img src="images/the-swamp.png">
-		<span>The Swamp</span>
+		<span style="">The Swamp</span>
 	    </div>
 	    <div class="map-item map-link" id="the-shack" tabindex=0"  draggable="false">
-		<span>The Shack</span>
+		<span style="top: -20px">The Shack</span>
 		<img src="images/the-shack.png">
+	    </div>
+	    <div class="map-item map-link" id="lady-garden-lake" tabindex=0"  draggable="false">
+		<span style="top: -5px; left: 40px">Lady Garden Lake</span>
+		<img src="images/lady-garden-lake.png">
 	    </div>
 	</div>
     </body>
@@ -112,8 +113,9 @@
 	 'bunker-hill': [-50, -500],
 	 'russel': [300, 450],
 	 'firehouse': [-100, -200],
-	 'the-swamp': [80, -70],
-	 'the-shack': [25, -165]
+	 'the-swamp': [420, -400],
+	 'the-shack': [380, -460],
+	 'lady-garden-lake': [200, -350]
      };
 
      // Mathematical Functions
