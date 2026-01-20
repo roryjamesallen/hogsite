@@ -49,11 +49,12 @@
 	     width: 100%;
 	     image-rendering: pixelated;
 	 }
-	 .map-link:hover, .map-link:focus {
+	 .map-link:hover, .map-link:hover span, .map-link:focus, .map-link:focus span {
 	     cursor: pointer;
 	     /*transform: scale(1.2) translate(-40%, -40%);*/
 	     border: none;
 	     outline: none;
+	     text-decoration: underline;
 	 }
 	 #target {
 	     position: absolute;
@@ -96,6 +97,10 @@
 	<div id="map" draggable="false">
 	    <div id="map-background"></div>
 	    <div class="map-item" id="the-bomb"><img src="images/the-bomb.png"></div>
+	    <a class="map-item" id="ol-dusty">
+		<img src="images/ol-dusty.png">
+		<span style="left: -10px; top: -10px">Ol' Dusty</span>
+	    </a>
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
 		<span style="top: 50px; left: 20px">Tinsel Town Tavern</span>
@@ -135,13 +140,14 @@
 
      const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
-	 'the-bomb': [100, 30],
-	 'bunker-hill': [-50, -500],
-	 'russel': [300, 450],
-	 'firehouse': [-100, -200],
-	 'the-swamp': [420, -400],
-	 'the-shack': [380, -460],
-	 'lady-garden-lake': [200, -350],
+			     'the-bomb': [100, 30],
+			     'bunker-hill': [-50, -500],
+			     'russel': [300, 450],
+			     'firehouse': [-100, -200],
+			     'the-swamp': [420, -400],
+			     'the-shack': [380, -460],
+			     'lady-garden-lake': [200, -350],
+			     'ol-dusty': [-110, -20]
      };
 
      // Mathematical Functions
@@ -242,7 +248,6 @@
      function initialiseChildren(){
 	 Array.from(map.querySelectorAll('*')).forEach(child => { // For all children including sub-children
 	     child.setAttribute('draggable', false); // Make them non-draggable to stop weird visual stuff as dragging is custom
-	     child.setAttribute('tabindex', 0); // Allow them to be focused
 	 });
 	 Array.from(map.querySelectorAll('a')).forEach(child => { // Only direct children
 	     if (!child.getAttribute('href')){ // If href isn't set then it should be a default wiki link
@@ -250,6 +255,7 @@
 	     }
 	     child.onclick = handleLinkClick; // Override the normal click to prevent weird link clicking when dragging
 	     child.classList.add('map-link'); // Add map-link class
+	     child.setAttribute('tabindex', 0); // Allow them to be focused
 	 });
      }
      function initialiseControls(){
