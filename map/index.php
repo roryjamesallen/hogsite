@@ -69,7 +69,7 @@
 	 }
 	 #controls {
 	     position: absolute;
-	     bottom: 5px;
+	     top: 5px;
 	     right: 5px;
 	     display: flex;
 	     align-items: center;
