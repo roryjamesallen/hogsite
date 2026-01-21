@@ -28,7 +28,7 @@
 	 }
 	 #map-background {
 	     width: 2500px;
-	     height: 1500px;
+	     height: 2500px;
 	     background-image: url('images/tile.png');
 	     background-color: var(--beige-pale);
 	 }
@@ -107,6 +107,8 @@
 	    </a>
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
 	    <a class="map-item" id="russel">Russel</a>
+	    <a class="map-item" id="hoisington">Hoisington</a>
+	    <a class="map-item" id="great-bend">Great Bend</a>
 	    <a class="map-item" id="firehouse">Firehouse</a>
 	    <a class="map-item" id="lady-garden-lake">
 		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
@@ -141,8 +143,10 @@
      const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
 			     'the-bomb': [100, 30],
-			     'bunker-hill': [-50, -500],
-			     'russel': [300, 450],
+			     'bunker-hill': [150, -870],
+			     'hoisington': [-50, 700],
+			     'great-bend': [-40, 800],
+			     'russel': [-50, -900],
 			     'firehouse': [-100, -200],
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
