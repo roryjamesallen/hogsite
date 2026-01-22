@@ -110,6 +110,7 @@
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
 		<span style="top: 50px; left: 20px">Tinsel Town Tavern</span>
+		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 41px; top: -10px;">
 	    </a>
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
 	    <a class="map-item" id="russel">Russel</a>
@@ -132,10 +133,12 @@
 	    <a class="map-item" id="the-shack">
 		<span style="top: -12px">The Shack</span>
 		<img src="images/the-shack.png">
+		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 21px; top: -50px;">
 	    </a>
 	    <a class="map-item" id="the-ranch">
 		<img src="images/the-ranch.png">
 		<span style="left: 35px; top: -15px">The<br>Ranch</span>
+		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 26px; top: -50px;">
 	    </a>
 	</div>
 	<div id="controls">
