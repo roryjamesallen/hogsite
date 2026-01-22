@@ -104,6 +104,9 @@
 		<img src="images/ol-dusty.png">
 		<span style="left: -10px; top: -10px">Ol' Dusty</span>
 	    </a>
+	    <div class="map-item" id="the-cottage">
+		<img src="images/the-cottage.png">
+	    </div>
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
 		<span style="top: 50px; left: 20px">Tinsel Town Tavern</span>
@@ -113,6 +116,11 @@
 	    <a class="map-item" id="hoisington">Hoisington</a>
 	    <a class="map-item" id="great-bend">Great Bend</a>
 	    <a class="map-item" id="firehouse">Firehouse</a>
+	    <div class="map-item" id="radio-tower">
+		<span style="top: -5px; left: -15px">Radio<br>Tower</span>
+		<img src="images/radio-tower.png">
+		<img src="images/radio-wave.gif" style="width: unset; position: absolute; left: 35px; top: 0px;">
+	    </div>
 	    <a class="map-item" id="lady-garden-lake">
 		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
 		<img src="images/lady-garden-lake.png">
@@ -157,6 +165,7 @@
 
      const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
+			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
@@ -167,7 +176,8 @@
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
 			     'ol-dusty': [-110, -20],
-			     'the-ranch': [-500, -60]
+			     'the-ranch': [-500, -60],
+			     'radio-tower': [-350, -150]
      };
 
      // Mathematical Functions
