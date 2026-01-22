@@ -25,6 +25,7 @@
 	     position: fixed;
 	     width: fit-content;
 	     height: fit-content;
+	     transition: transform 0.2s;
 	 }
 	 #map-background {
 	     width: 2500px;
@@ -69,12 +70,14 @@
 	 }
 	 #controls {
 	     position: absolute;
-	     top: 5px;
-	     right: 5px;
+	     top: 0;
+	     right: 0;
+	     padding: 5px;
 	     display: flex;
 	     align-items: center;
-	     gap: 5px;
+	     gap: 20px;
 	     font-size: 30px;
+	     background: rgba(255,255,255,0.5);
 	 }
 	 input[type="checkbox"]{
 	     scale: 1.5;
@@ -122,10 +125,20 @@
 		<span style="top: -12px">The Shack</span>
 		<img src="images/the-shack.png">
 	    </a>
+	    <a class="map-item" id="the-ranch">
+		<img src="images/the-ranch.png">
+		<span style="left: 35px; top: -15px">The<br>Ranch</span>
+	    </a>
 	</div>
 	<div id="controls">
-	    <label for="checkbox-snapping">SNAP</label>
-	    <input id="checkbox-snapping" class="js-checkbox" type="checkbox" checked="true">
+	    <div>
+		<label for="checkbox-snapping">Snap</label>
+		<input id="checkbox-snapping" class="js-checkbox" type="checkbox" checked="true">
+	    </div>
+	    <div>
+		<label for="checkbox-zoom">2x</label>
+		<input id="checkbox-zoom" class="js-checkbox" type="checkbox">
+	    </div>
 	</div>
 	
     </body>
@@ -139,6 +152,8 @@
      var half_map_width; // Pixel value of half the map width
      var half_map_height; // Pixel value of half the map height
      var target; // Target (cursor) element
+     var zoom = false;
+     var zoom_scale = 1;
 
      const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
@@ -151,7 +166,8 @@
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
-			     'ol-dusty': [-110, -20]
+			     'ol-dusty': [-110, -20],
+			     'the-ranch': [-500, -60]
      };
 
      // Mathematical Functions
@@ -164,8 +180,8 @@
 	 var smallest_distance = 99999; // Set really high so that the first distance will override
 	 for (var place in map_positions){ // For each ID (key) in the map positions array
 	     if (document.getElementById(place).classList.contains('map-link')){ // If the element is a map-link (not just a map-item)
-		 x2 = parseInt(map.style.left) + half_map_width + map_positions[place][0]; // Get the location of the element
-		 y2 = parseInt(map.style.top) + half_map_height + map_positions[place][1];
+		 x2 = parseInt(map.style.left) + half_map_width + (map_positions[place][0] * zoom_scale); // Get the location of the element
+		 y2 = parseInt(map.style.top) + half_map_height + (map_positions[place][1] * zoom_scale);
 		 distance = distanceBetweenCoords(x1, y1, x2, y2); // Work out the distance from the target (middle of screen) to the element
 		 if (distance < smallest_distance){ // If it's closer than any previous element
 		     smallest_distance = distance; // Set the distance for comparison to other elements
@@ -216,9 +232,20 @@
 	 related_bool = event.target.id.replace('checkbox-',''); // Get the string of the variable name
 	 window[related_bool] = event.target.checked; // Update the actual variable
 	 updateSnappedLocation(); // Update snapped location in case snapping just turned on and needs to snap to closest
+	 updateZoom(); // Update zoom in case zoom just turned on/off
      }
 
      // Map Movement Functions
+     function updateZoom(){
+	 if (zoom){
+	     zoom_scale = 2;
+	     map.style.transform = 'scale('+zoom_scale+')';
+	 } else {
+	     zoom_scale = 1;
+	     map.style.transform = '';
+	 }
+	 updateSnappedLocation();
+     }
      function updateSnappedLocation(){
 	 if (snapping){ // Only snap to nearest if snapping is on
 	     snapToNearestLink();
@@ -234,8 +261,8 @@
 	     map.style.transition = 'top 0.2s, left 0.2s'; // Add a transition so it looks smoother
 	     setTimeout(() => { map.style.transition = ''; }, 200); // Remove the transition the instant it ends
 	 }
-	 map.style.left = ((document.body.clientWidth / 2) - half_map_width - x) + 'px'; // Move the map to the coordinates
-	 map.style.top = ((document.body.clientHeight / 2) - half_map_height - y) + 'px';
+	 map.style.left = ((document.body.clientWidth / 2) - half_map_width - (x * zoom_scale)) + 'px'; // Move the map to the coordinates
+	 map.style.top = ((document.body.clientHeight / 2) - half_map_height - (y * zoom_scale)) + 'px';
      }
      
      // Map Initialisation Functions
