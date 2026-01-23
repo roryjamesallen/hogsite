@@ -116,7 +116,10 @@
 	    <a class="map-item" id="russel">Russel</a>
 	    <a class="map-item" id="hoisington">Hoisington</a>
 	    <a class="map-item" id="great-bend">Great Bend</a>
-	    <a class="map-item" id="firehouse">Firehouse</a>
+	    <a class="map-item" id="firehouse">
+		<span style="top: -10px; left: 10px">Firehouse</span>
+		<img src="images/firehouse.png">
+	    </a>
 	    <div class="map-item" id="radio-tower">
 		<span style="top: -5px; left: -15px">Radio<br>Tower</span>
 		<img src="images/radio-tower.png">
@@ -174,7 +177,7 @@
 			     'hoisington': [-50, 700],
 			     'great-bend': [-40, 800],
 			     'russel': [-50, -900],
-			     'firehouse': [-100, -200],
+			     'firehouse': [180, -30],
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
