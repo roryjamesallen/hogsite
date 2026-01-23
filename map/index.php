@@ -100,6 +100,7 @@
 	<div id="map" draggable="false">
 	    <div id="map-background"></div>
 	    <div class="map-item" id="the-bomb"><img src="images/the-bomb.png"></div>
+	    <div class="map-item" id="cherokee-1"><img src="images/cherokee-1.png"></div>
 	    <a class="map-item" id="ol-dusty">
 		<img src="images/ol-dusty.png">
 		<span style="left: -10px; top: -10px">Ol' Dusty</span>
@@ -173,6 +174,7 @@
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
+			     'cherokee-1': [-65, -65],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
 			     'great-bend': [-40, 800],
