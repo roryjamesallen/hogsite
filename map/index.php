@@ -147,7 +147,7 @@
 	<div id="controls">
 	    <div>
 		<label for="checkbox-snapping">Snap</label>
-		<input id="checkbox-snapping" class="js-checkbox" type="checkbox" checked="true">
+		<input id="checkbox-snapping" class="js-checkbox" type="checkbox">
 	    </div>
 	    <div>
 		<label for="checkbox-zoom">2x</label>
@@ -158,7 +158,7 @@
     </body>
 
     <script>
-     var snapping = true; // If off the user can scroll freely, if on on mouseup the map will jump the target (middle) to the closest map-link element (not just map-item)
+     var snapping = false; // If off the user can scroll freely, if on on mouseup the map will jump the target (middle) to the closest map-link element (not just map-item)
      var real_mouse_position = [0,0]; // Current mouse position
      var start_drag_position = [0,0]; // Position of mouse when starting to drag the map
      var dragging = false; // Currently dragging the map?
