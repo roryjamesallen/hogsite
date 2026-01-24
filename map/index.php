@@ -39,6 +39,7 @@
 	     transform-origin: center;
 	     transition: transform 0.2s;
 	     font-size: 10px;
+	     line-height: 0.5rem;
 	     color: black;
 	     text-decoration: none;
 	 }
@@ -110,8 +111,13 @@
 	    </div>
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
-		<span style="top: 50px; left: 20px">Tinsel Town Tavern</span>
+		<span style="top: 55px; left: 20px">Tinsel Town Tavern</span>
 		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 41px; top: -10px;">
+	    </a>
+	    <a class="map-item" id="it-suite" href="https://wiki.hogwild.uk">
+		<img src="images/it-suite.png">
+		<span style="top: -10px; left: 20px">IT Suite<br>(Hogipedia)</span>
+		<img src="images/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
 	    </a>
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
 	    <a class="map-item" id="russel">Russel</a>
@@ -120,6 +126,10 @@
 	    <a class="map-item" id="firehouse">
 		<span style="top: -10px; left: 10px">Firehouse</span>
 		<img src="images/firehouse.png">
+	    </a>
+	    <a class="map-item" id="corner-shop" href="https://hogwild.uk/mealdeal">
+		<img src="images/corner-shop.png">
+		<span style="top: 0px; left: 30px">Corner Shop<br>(Meal Deal Maker)</span>
 	    </a>
 	    <div class="map-item" id="radio-tower">
 		<span style="top: -5px; left: -15px">Radio<br>Tower</span>
@@ -134,7 +144,7 @@
 		<img src="images/the-swamp.png">
 		<span style="left: 50px">The<br>Swamp</span>
 	    </a>
-	    <a class="map-item" id="the-shack">
+	    <a class="map-item" id="the-shack" href="https://wiki.hogwild.uk?page=the-swamp">
 		<span style="top: -12px">The Shack</span>
 		<img src="images/the-shack.png">
 		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 21px; top: -50px;">
@@ -172,6 +182,7 @@
 
      const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
+			     'it-suite': [30, -80],
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
 			     'cherokee-1': [-65, -65],
@@ -180,6 +191,7 @@
 			     'great-bend': [-40, 800],
 			     'russel': [-50, -900],
 			     'firehouse': [180, -30],
+			     'corner-shop': [180, 50],
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
