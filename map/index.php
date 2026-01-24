@@ -100,6 +100,7 @@
 	<div id="map" draggable="false">
 	    <div id="map-background"></div>
 	    <div class="map-item" id="the-bomb"><img src="images/the-bomb.png"></div>
+	    <div class="map-item" id="cherokee-1"><img src="images/cherokee-1.png"></div>
 	    <a class="map-item" id="ol-dusty">
 		<img src="images/ol-dusty.png">
 		<span style="left: -10px; top: -10px">Ol' Dusty</span>
@@ -116,7 +117,10 @@
 	    <a class="map-item" id="russel">Russel</a>
 	    <a class="map-item" id="hoisington">Hoisington</a>
 	    <a class="map-item" id="great-bend">Great Bend</a>
-	    <a class="map-item" id="firehouse">Firehouse</a>
+	    <a class="map-item" id="firehouse">
+		<span style="top: -10px; left: 10px">Firehouse</span>
+		<img src="images/firehouse.png">
+	    </a>
 	    <div class="map-item" id="radio-tower">
 		<span style="top: -5px; left: -15px">Radio<br>Tower</span>
 		<img src="images/radio-tower.png">
@@ -144,7 +148,7 @@
 	<div id="controls">
 	    <div>
 		<label for="checkbox-snapping">Snap</label>
-		<input id="checkbox-snapping" class="js-checkbox" type="checkbox" checked="true">
+		<input id="checkbox-snapping" class="js-checkbox" type="checkbox">
 	    </div>
 	    <div>
 		<label for="checkbox-zoom">2x</label>
@@ -155,7 +159,7 @@
     </body>
 
     <script>
-     var snapping = true; // If off the user can scroll freely, if on on mouseup the map will jump the target (middle) to the closest map-link element (not just map-item)
+     var snapping = false; // If off the user can scroll freely, if on on mouseup the map will jump the target (middle) to the closest map-link element (not just map-item)
      var real_mouse_position = [0,0]; // Current mouse position
      var start_drag_position = [0,0]; // Position of mouse when starting to drag the map
      var dragging = false; // Currently dragging the map?
@@ -170,11 +174,12 @@
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
+			     'cherokee-1': [-65, -65],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
 			     'great-bend': [-40, 800],
 			     'russel': [-50, -900],
-			     'firehouse': [-100, -200],
+			     'firehouse': [180, -30],
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
