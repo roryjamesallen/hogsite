@@ -109,6 +109,11 @@
 	    <div class="map-item" id="the-cottage">
 		<img src="images/the-cottage.png">
 	    </div>
+	    <a class="map-item" id="music-shop" href="https://notoalgorithms.hogwild.uk">
+		<img src="images/music-shop.png">
+		<span style="top: 0px; left: -65px; text-align: right">Music Shop<br>(No To Algorithms!)</span>
+		<img src="images/note.gif" style="width: unset; position: absolute; left: 20px; top: -10px;">
+	    </a>
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
 		<span style="top: 55px; left: 20px">Tinsel Town Tavern</span>
@@ -186,6 +191,7 @@
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
 			     'cherokee-1': [-65, -65],
+			     'music-shop': [-50, -110],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
 			     'great-bend': [-40, 800],
