@@ -109,20 +109,30 @@
 	    <div class="map-item" id="the-cottage">
 		<img src="images/the-cottage.png">
 	    </div>
+	    <div class="map-item" id="path-1">
+		<img src="images/path-1.png">
+	    </div>
+	    <div class="map-item" id="path-2">
+		<img src="images/path-2.png">
+	    </div>
 	    <a class="map-item" id="music-shop" href="https://notoalgorithms.hogwild.uk">
 		<img src="images/music-shop.png">
-		<span style="top: 0px; left: -65px; text-align: right">Music Shop<br>(No To Algorithms!)</span>
+		<span style="top: 38px; left: -5px; text-align: center">Music Shop<br>(No To Algorithms!)</span>
 		<img src="images/note.gif" style="width: unset; position: absolute; left: 20px; top: -10px;">
 	    </a>
 	    <a class="map-item" id="tinsel-town-tavern">
 		<img src="images/tinsel-town-tavern.png">
-		<span style="top: 55px; left: 20px">Tinsel Town Tavern</span>
+		<span style="top: 52px; left: 20px">Triple T</span>
 		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 41px; top: -10px;">
 	    </a>
 	    <a class="map-item" id="it-suite" href="https://wiki.hogwild.uk">
 		<img src="images/it-suite.png">
-		<span style="top: -10px; left: 20px">IT Suite<br>(Hogipedia)</span>
+		<span style="top: -10px; left: 20px">Internet Cafe<br>(Hogipedia)</span>
 		<img src="images/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
+	    </a>
+	    <a class="map-item" id="casino" href="https://hogwild.uk/nothingeverhappens">
+		<img src="images/casino.png">
+		<span style="top: 0px; left: -65px; text-align: right">Casino (Nothing<br>Ever Happens)</span>
 	    </a>
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
 	    <a class="map-item" id="russel">Russel</a>
@@ -137,7 +147,7 @@
 		<span style="top: 0px; left: 30px">Corner Shop<br>(Meal Deal Maker)</span>
 	    </a>
 	    <div class="map-item" id="radio-tower">
-		<span style="top: -5px; left: -15px">Radio<br>Tower</span>
+		<span style="top: -20px; left: 10px">Radio<br>Tower</span>
 		<img src="images/radio-tower.png">
 		<img src="images/radio-wave.gif" style="width: unset; position: absolute; left: 35px; top: 0px;">
 	    </div>
@@ -156,7 +166,7 @@
 	    </a>
 	    <a class="map-item" id="the-ranch">
 		<img src="images/the-ranch.png">
-		<span style="left: 35px; top: -15px">The<br>Ranch</span>
+		<span style="left: 0px; top: -15px; text-align: right">The<br>Ranch</span>
 		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 26px; top: -50px;">
 	    </a>
 	</div>
@@ -191,19 +201,22 @@
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
 			     'cherokee-1': [-65, -65],
-			     'music-shop': [-50, -110],
+			     'music-shop': [10, 195],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
 			     'great-bend': [-40, 800],
 			     'russel': [-50, -900],
 			     'firehouse': [180, -30],
-			     'corner-shop': [180, 50],
+			     'corner-shop': [-35, 135],
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
 			     'ol-dusty': [-110, -20],
-			     'the-ranch': [-500, -60],
-			     'radio-tower': [-350, -150]
+			     'the-ranch': [-480, -30],
+			     'radio-tower': [-395, -155],
+			     'casino': [-70, 190],
+			     'path-1': [-70, 120],
+			     'path-2': [-300, -50]
      };
 
      // Mathematical Functions
