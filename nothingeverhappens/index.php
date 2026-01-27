@@ -90,7 +90,6 @@ label:empty {
 h1, h1 a {
     color: black;
     text-decoration: underline;
-    text-decoration-color: white;
     margin: 1rem auto 2rem;
     width: fit-content;
     font-size: 3rem;
