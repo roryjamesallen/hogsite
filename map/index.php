@@ -11,6 +11,7 @@
 	 :root {
 	     --beige-pale: #F7F6D8;
 	     --beige-dark: #C4C19B;
+	     --blue: #069;
 	 }
 	 body {
 	     overflow: hidden;
@@ -83,6 +84,9 @@
 	 input[type="checkbox"]{
 	     scale: 1.5;
 	 }
+	 .blue {
+	     color: var(--blue);
+	 }
 	</style>
     </head>
     
@@ -117,7 +121,7 @@
 	    </div>
 	    <a class="map-item" id="music-shop" href="https://notoalgorithms.hogwild.uk">
 		<img src="images/music-shop.png">
-		<span style="top: 38px; left: -5px; text-align: center">Music Shop<br>(No To Algorithms!)</span>
+		<span style="top: 38px; left: -5px; text-align: center">Music Shop<br><span class="blue">No To Algorithms!</span></span>
 		<img src="images/note.gif" style="width: unset; position: absolute; left: 20px; top: -10px;">
 	    </a>
 	    <a class="map-item" id="tinsel-town-tavern">
@@ -127,12 +131,12 @@
 	    </a>
 	    <a class="map-item" id="it-suite" href="https://wiki.hogwild.uk">
 		<img src="images/it-suite.png">
-		<span style="top: -10px; left: 20px">Internet Cafe<br>(Hogipedia)</span>
+		<span style="top: -10px; left: 20px">Internet Cafe<br><span class="blue">Hogipedia</span></span>
 		<img src="images/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
 	    </a>
 	    <a class="map-item" id="casino" href="https://hogwild.uk/nothingeverhappens">
 		<img src="images/casino.png">
-		<span style="top: 0px; left: -65px; text-align: right">Casino (Nothing<br>Ever Happens)</span>
+		<span style="top: -5px; left: -55px; text-align: right">Casino<br><span class="blue">Nothing<br>Ever Happens</span></span>
 	    </a>
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
 	    <a class="map-item" id="russel">Russel</a>
@@ -144,7 +148,7 @@
 	    </a>
 	    <a class="map-item" id="corner-shop" href="https://hogwild.uk/mealdeal">
 		<img src="images/corner-shop.png">
-		<span style="top: 0px; left: 30px">Corner Shop<br>(Meal Deal Maker)</span>
+		<span style="top: 0px; left: 30px">Corner Shop<br><span class="blue">Meal Deal Maker</span></span>
 	    </a>
 	    <div class="map-item" id="radio-tower">
 		<span style="top: -20px; left: 10px">Radio<br>Tower</span>
