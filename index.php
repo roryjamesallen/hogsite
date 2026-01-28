@@ -139,6 +139,9 @@ recordUserVisit();
 	</div>
 	<div id="controls">
 	    <div>
+		<a href="https://hogwild.uk/what?" style="color: var(--blue); text-decoration: none">?</a>
+	    </div>
+	    <div>
 		<label for="checkbox-snapping">Snap</label>
 		<input id="checkbox-snapping" class="js-checkbox" type="checkbox">
 	    </div>
