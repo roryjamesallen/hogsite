@@ -117,11 +117,11 @@ recordUserVisit();
 		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
 		<img src="images/map/lady-garden-lake.png">
 	    </a>
-	    <div class="map-item map-link" id="valve" href="https://valve.hogwild.uk">
+	    <a class="map-item map-link" id="valve" href="https://valve.hogwild.uk">
 		<img src="images/map/valve.png">
 		<img src="images/map/valve-splash.gif" style="width: unset; position: absolute; left: -7px; top: -4px">
 		<span class="blue" style="top: -23px; left: -15px; text-align: center">The Valve<br>That Failed</span>
-	    </div>
+	    </a>
 	    <a class="map-item" id="the-swamp">
 		<img src="images/map/the-swamp.png">
 		<span style="left: 50px">The<br>Swamp</span>

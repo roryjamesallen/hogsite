@@ -40,7 +40,7 @@
    const checkbox = form.firstElementChild;
    checkbox.addEventListener('change',calculateResult);
    const result = document.getElementById('result');
-   result.addEventListener('change', updateBoxes);
+   result.addEventListener('keyup', updateBoxes);
 
    function dec2bin(dec) {
        return (dec >>> 0).toString(2).padStart(365, '0').split("").reverse().join("");
@@ -60,11 +60,16 @@
 	   }
        }
    }
+
+   function daysInMonth(month){
+       return new Date('2026', month, 0).getDate();
+   }
    
    function calculateResult(){
        let total = 0;
        let binary = '';
-       for (const box of form.children) {
+       for (let boxid=0; boxid<365; ++boxid){
+	   let box = document.getElementById('box'+boxid);
 	   bit = parseInt(box.id.replace('box',''));
 	   bit_mult = 2 ** bit;
 	   check = parseInt(box.checked ? '1' : '0')
