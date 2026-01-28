@@ -134,6 +134,10 @@
 		<span style="top: -10px; left: 20px">Internet Cafe<br><span class="blue">Hogipedia</span></span>
 		<img src="images/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
 	    </a>
+	    <a class="map-item" id="thompson-world" href="https://tw.hogwild.uk">
+		<img src="images/thompson-world.png">
+		<span class="blue" style="top: 5px; left: 30px">Thompson<br>World</span>
+	    </a>
 	    <a class="map-item" id="casino" href="https://hogwild.uk/nothingeverhappens">
 		<img src="images/casino.png">
 		<span style="top: -5px; left: -55px; text-align: right">Casino<br><span class="blue">Nothing<br>Ever Happens</span></span>
@@ -205,6 +209,7 @@
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
 			     'cherokee-1': [-65, -65],
+			     'thompson-world': [-225, -160],
 			     'music-shop': [10, 195],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
