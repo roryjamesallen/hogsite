@@ -150,6 +150,13 @@
 		<span style="top: -10px; left: 10px">Firehouse</span>
 		<img src="images/firehouse.png">
 	    </a>
+	    <a class="map-item" id="the-baths" href="https://fishing.hogwild.uk">
+		<img src="images/the-baths.png">
+		<span style="top: 0px; left: -50px; text-align: right">The Baths<br><span class="blue">Hook-A-Duck</span></span>
+		<img src="images/bubble.gif" style="width: unset; position: absolute; left: 30px; top: 10px;">
+		<img src="images/wisp.gif" style="width: unset; position: absolute; left: 25px; top: 15px;">
+		<img src="images/wisp.gif" style="width: unset; position: absolute; left: 10px; top: 0px;">		
+	    </a>
 	    <a class="map-item" id="corner-shop" href="https://hogwild.uk/mealdeal">
 		<img src="images/corner-shop.png">
 		<span style="top: 0px; left: 30px">Corner Shop<br><span class="blue">Meal Deal Maker</span></span>
@@ -225,7 +232,8 @@
 			     'radio-tower': [-395, -155],
 			     'casino': [-70, 190],
 			     'path-1': [-70, 120],
-			     'path-2': [-300, -50]
+			     'path-2': [-300, -150],
+			     'the-baths': [-200, -300]
      };
 
      // Mathematical Functions
