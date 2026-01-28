@@ -25,7 +25,10 @@
 	 width: min(90vw, 800px);
      }
      h1 {
-	 margin: 0;
+	 margin: 1rem 0;
+     }
+     h2 {
+	 margin: 0.5rem 0;
      }
      a {
 	 color: var(--blue);
@@ -34,6 +37,7 @@
 
     <body>
 	<h1>What is <a href="https://hogwild.uk">hogwild.uk</a>??</h1>
-                hogwild.uk is the home of <a href="https://wiki.hogwild.uk">The Wild Hogs</a>, as well as being a home for all the stupid other websites I (<a href="https://rory.hogwild.uk">Rory</a>) make.<br><br>The home page is a map of <a href="https://wiki.hogwild.uk?page=tinsel-town">Tinsel Town</a>, with websites linked using relevant buildings and features.<br><br>Contributions are very welcome, and if you have anything to add, or any comment to give, please email rory@hogwild.uk
+                hogwild.uk is the home of <a href="https://wiki.hogwild.uk">The Wild Hogs</a>, as well as being a home for all the stupid other websites I (<a href="https://rory.hogwild.uk">Rory</a>) make.<br><br>The home page is a map of <a href="https://wiki.hogwild.uk?page=tinsel-town">Tinsel Town</a>, with websites linked using relevant buildings and features.<br><br>
+        <h2>Contributing</h2>Contributions are very welcome, and if you have anything to add, or any comment to give, please email rory@hogwild.uk. I respond to every email that isn't spam.
     </body>
 </html>
