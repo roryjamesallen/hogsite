@@ -1,343 +1,388 @@
-<?php
-include 'lib/generic_content.php';
-ob_start(); // Begin output buffering to allow output to be rendered after html head
-
-openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
-recordUserVisit();
-
-$tristan_webpage = file_get_contents('https://www.tristandc.com/population.php');
-foreach (explode('strong>',$tristan_webpage) as $strong_element){
-if (str_contains($strong_element, 'There are') and str_contains($strong_element, 'Tristan da Cunha Islanders')){
-$tristan_inhabitants_text = htmlspecialchars(str_replace('</','',$strong_element));
-}
-}
-
-$lisboa = json_decode(file_get_contents('http://app.metrolisboa.pt/status/getLinhas.php'),true)['resposta']; 
-$amarela = $lisboa['amarela'];
-$azul = $lisboa['azul'];
-$verde = $lisboa['verde'];
-$vermelha = $lisboa['vermelha'];
-?>
-
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
     <head>
-	<link rel='canonical' href='https://hogwild.uk' />
-	<meta charset="utf-8">
-	<meta name="description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
-	<meta property="og:title" content="Join The Wild Hogs">
-	<meta property="og:description" content="Welcome to the Hog Universe. Explore the Hogipedia, walk around Thompson World, or just go hog wild in whatever way feels natural...">
-	<meta property="og:image" content="https://hogwild.uk/favicon/apple-touch-icon.png">
-	<meta property="og:url" content="https://hogwild.uk">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-	<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-	<link rel="shortcut icon" href="favicon/favicon.ico" />
-	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
-	<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
-	<link rel="manifest" href="favicon/site.webmanifest" />
-	<title>Home of The Wild Hogs</title>
-	
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
-	<script>
-	 window.dataLayer = window.dataLayer || [];
-	 function gtag(){dataLayer.push(arguments);}
-	 gtag('js', new Date());
-	</script>
-	
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+	<title>Map</title>
 	<style>
-	 :root {
-	     --wiki-grey: rgb(162, 169, 177);
-	     --link: #069;
-	 }
 	 @font-face {
-	     font-family: Chozo;
-	     src: url(fonts/OtalaHandwritten-Regular.ttf);
+	     font-family: Melodica;
+	     src: url(../fonts/Melodica.otf);
+	 }
+	 :root {
+	     --beige-pale: #F7F6D8;
+	     --beige-dark: #C4C19B;
+	     --blue: #069;
 	 }
 	 body {
-	     font-family: Arial;
-	     margin: 0;
-	     background: white;
-	     font-size: 8px;
-	 }
-	 a, a:visited {
-	     color: var(--link);
-	     text-decoration: none;
-	 }
-	 a:hover {
-	     text-decoration: underline;
-	 }
-	 h1 {
-	     font-family: Chozo;
-	     color: black;
-	     margin: 0.5rem 0;
-	     font-size: 2.5rem;
-	     text-decoration: underline;
-	 }
-	 h2 {
-	     font-size: 2rem;
-	     text-align: center;
-	     text-decoration: none;
-	     margin: 0;
-	 }
-	 #header-bar {
-	     display: flex;
-	     width: calc(100% - 1rem);
-	     padding: 0 0.5rem;
-	     height: 2rem;
-	     background-color: #f4f4f4;
-	     position: sticky;
-	     z-index: 99;
-	     top: 0;
-	     justify-content: space-between;
-	     align-items: center;
-	     font-size: 1rem;
-	 }   
-	 #home-page-message {
-	     font-size: 1rem;
-	     font-weight: unset;
-	 }
-	 #home-container {
-	     display: flex;
-	     gap: 1rem;
-	 }
-	 #drawings-container {
-	     display: flex;
-	     flex-wrap: wrap;
-	     width: 100%;
-	     height: fit-content;
-	 }
-	 .home-section {
-	     flex-basis: 25%;
-	     flex-grow: 1;
+	     overflow: hidden;
 	     position: relative;
+	     height: 100vh;
+	     margin: 0;
+	     background-image: url('images/the-wilderness.png');
+	     background-color: var(--beige-dark);
+	     font-family: Melodica;
 	 }
-	 .home-section-background {
+	 #map {
+	     position: fixed;
+	     width: fit-content;
+	     height: fit-content;
+	     transition: transform 0.2s;
+	 }
+	 #map-background {
+	     width: 2500px;
+	     height: 2500px;
+	     background-image: url('images/tile.png');
+	     background-color: var(--beige-pale);
+	 }
+	 .map-item {
+	     position: absolute;
+	     transform: scale(2) translate(-25%, -25%);
+	     transform-origin: center;
+	     transition: transform 0.2s;
+	     font-size: 10px;
+	     line-height: 0.5rem;
+	     color: black;
+	     text-decoration: none;
+	 }
+	 .map-item > span {
+	     position: absolute;
+	     white-space: nowrap;
+	 }
+	 .map-item > img {
 	     width: 100%;
+	     image-rendering: pixelated;
+	 }
+	 .map-link:hover, .map-link:hover span, .map-link:focus, .map-link:focus span {
+	     cursor: pointer;
+	     /*transform: scale(1.2) translate(-40%, -40%);*/
+	     border: none;
+	     outline: none;
+	     text-decoration: underline;
+	 }
+	 #target {
+	     position: absolute;
+	     left: 50%;
+	     top: 50%;
+	     transform: scale(2) translate(-25%, -25%);
+	     image-rendering: pixelated;
+	     z-index: 99;
+	     filter: opacity(0);
+	     transition: filter 0.2s;
 	     pointer-events: none;
 	 }
-	 .home-section-link {
+	 #controls {
 	     position: absolute;
-	 }
-	 .home-section-link img {
-	     width: 100%;
-	 }
-	 .home-section-link:hover {
-	     filter: drop-shadow(0 0 10px grey);
-	 }
-	 #im-chinese {
-	     cursor: pointer;
-	 }
-	 #footer {
+	     top: 0;
+	     right: 0;
+	     padding: 5px;
 	     display: flex;
-	     justify-content: center;
-	     width: 100%;
-	     font-size: 1rem;
-	     margin: 10rem auto 5rem auto;
-	     text-align: center;
-	 }
-	 .button-cluster {
-	     display: flex;
-	     flex-wrap: wrap;
-	     margin: 0 auto;
-	     gap: 1rem;
-	     justify-content: center;
-	     max-width: 250px;
-	     height: fit-content;
-	     position: relative;
-	     padding: 1rem;
-	     background: #f4f4f4;
-	 }
-	 .button-cluster > a {
-	     display: flex;
-	     justify-content: center;
 	     align-items: center;
-	     gap: 1rem;
-	     font-size: 1rem;
-	     text-decoration: none
+	     gap: 20px;
+	     font-size: 30px;
+	     background: rgba(255,255,255,0.5);
 	 }
-	 .button-cluster > a:hover {
-	     filter: drop-shadow(0 0 10px grey);
+	 input[type="checkbox"]{
+	     scale: 1.5;
 	 }
-	 /*
-	 .button-cluster > a:hover:after {
-	     content: '<';
-	 }
-	 .button-cluster > a:hover:before {
-	     content: '>';
-	 }
-	 */
-	 .vertical-divider {
-	     width: 2px;
-	     background: var(--wiki-grey);
-	 }
-	 @media screen and (max-width: 1200px){
-	     body {
-		 font-size: 11px;
-	     }
-             .home-section {
-		 flex-basis: 50%;
-	     }
-	 }
-	 @media screen and (max-width: 950px){
-	     body {
-		 font-size: 13px;
-	     }
-             .home-section {
-		 flex-basis: 100%;
-	     }
-	 }
-	 @media screen and (max-width: 750px){
-	     #header-bar {
-		 display: none;
-	     }
-	     #home-container {
-		 flex-wrap: wrap;
-	     }
-	     .vertical-divider {
-		 display: none;
-	     }
-	     .button-cluster {
-		 max-width: unset;
-	     }
+	 .blue {
+	     color: var(--blue);
 	 }
 	</style>
     </head>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BQYQMEP06"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
 
+     gtag('config', 'G-6BQYQMEP06');
+    </script>
+    
     <body>
-	<div id='header-bar'>
-	    <div id='mail'></div>
-	    <h2 id='home-page-message'><span>welcome to <a class='button-as-link' href='https://hogwild.uk'>hogwild.uk</a></span></h2>
-	    <div id='help'></div>
-	</div>
-
-	<div id='home-container'>
-	    <div class="button-cluster">
-		<a href="https://hogwild.uk"><h1>hogwild.uk</h1></a>
-		<a href="https://wiki.hogwild.uk"><img src="images/buttons/hogipedia.png"></a>
-		<a href="https://mosaic.hogwild.uk"><img src="images/buttons/mosaic.png"></a>
-		<a href="https://fishing.hogwild.uk"><img src="images/buttons/fishing.png"></a>
-		<a href="https://hogwild.uk/mealdeal"><img src="images/buttons/mealdeal.png"></a>
-		<a href="https://newno.hogwild.uk"><img src="images/buttons/newno.png"></a>
-		<a href="https://hogwild.uk/nothingeverhappens"><img src="images/buttons/nothingeverhappens.png"></a>
-		<a href="https://notoalgorithms.hogwild.uk"><img src="images/buttons/algorithms.png"></a>
-		<a href="https://hogwild.uk/strobe"><img src="images/buttons/strobe.png"></a>
-		<a href="https://valve.hogwild.uk"><img src="images/buttons/valve.png"></a>
-		<a href="https://tw.hogwild.uk"><img src="images/buttons/thompson.png"></a>
-		<p style='flex-basis: 100%; font-size: 1rem;'><a href='https://hogwild.uk'>hogwild.uk</a> is a <a href='https://maggieappleton.com/garden-history'>digital garden</a> of sorts. if you'd like to have something you made published here, or have any comments on what's here already, please email <a href='https://hogwild.uk/rory'>rory</a></p>
+	<img id="target" src="images/target.png">
+	<div id="map" draggable="false">
+	    <div id="map-background"></div>
+	    <div class="map-item" id="the-bomb"><img src="images/the-bomb.png"></div>
+	    <div class="map-item" id="cherokee-1"><img src="images/cherokee-1.png"></div>
+	    <a class="map-item" id="ol-dusty">
+		<img src="images/ol-dusty.png">
+		<span style="left: -10px; top: -10px">Ol' Dusty</span>
+	    </a>
+	    <div class="map-item" id="the-cottage">
+		<img src="images/the-cottage.png">
 	    </div>
-
-	    <div id='drawings-container'>
-		<div class='home-section'>
-		    <h2 style='display: none'>The Office</h2>
-		    <img class='home-section-background' src='images/home/desk.png' alt='Hand drawn desk with computer'/>
-		    <a title='browse the hogipedia' class='home-section-link' href='https://hogwild.uk/wiki' style='left: 36.6%; top: 15.8%; width: 36.2%; height: 25.4%;'>
-			<h3 style='display: none;'>Hogipedia</h3>
-			<img src='images/home/computer.gif' alt='Hand drawn 90s computer with an animated rotating hog on the screen'/>
-		    </a>
-		</div>
-		<div class='home-section'>
-		    <h2 style='display: none'>The Windows</h2>
-		    <img class='home-section-background' src='images/home/window.png' alt='Hand drawn windows with houses visible outside and a jigsaw in the foreground'/>
-		    <a title='look around thompson world' class='home-section-link' href='https://hogwild.uk/thompson-world' style='left: 8.6%; top: 7.8%; width: 35.6%; height: 58.2%;'>
-			<h3 style='display: none;'>Thompson World</h3>
-			<img src='images/home/outside.png' alt='Hand drawn houses visible through a sash window'/>
-		    </a>
-		    <a title='assemble the hog mosaic' class='home-section-link' href='https://hogwild.uk/hogdivmosaic' style='left: 0; bottom: 0.5%; width: 64%; height: 17%;'>
-			<h3 style='display: none;'>Hog Mosaic</h3>
-			<img src='images/home/jigsaw.png' alt='Hand drawn jigsaw pieces'/>
-		    </a>
-		</div>
-
-		<div class='home-section'>
-		    <h2 style='display: none'>The Playroom</h2>
-		    <img class='home-section-background' src='images/home/games.png' style='z-index: 1; position: relative;' alt='Hand drawn set of games including dice and UNO cards in front of a large bath'/>
-		    <a title='tristan de cunhas islanders' href='https://www.tristandc.com/population.php' class='home-section-link' style='left: 53%; top: 18%; width: 15%; height: 14%; overflow: hidden; font-family: Chozo; transform: rotate(-5deg)'><?php echo $tristan_inhabitants_text;?></a>
-		    <a title='lisbon metro status' href='https://www.metrolisboa.pt/en/' class='home-section-link' style='left: 17%; top: 16%; width: 15%; height: 14%; transform: rotate(-7deg); overflow: hidden; font-family: Chozo'>
-			<span style='color: yellow'><?php echo $amarela;?></span>
-			<span style='color: blue'><?php echo $azul;?></span>
-			<span style='color: green'><?php echo $verde;?></span>
-			<span style='color: red'><?php echo $vermelha;?></span>
-		    </a>
-		    <a title='hook-a-duck in the bath' class='home-section-link' href='https://hogwild.uk/hog-fishing' style='left: 24%; top: 48.8%; width: 70.8%; height: 37.2%;'>
-			<h3 style='display: none;'>Hog Fishing</h3>
-			<img src='images/home/bath.png' alt='Hand drawn bath full of water with two rubber ducks inside'/>
-		    </a>
-		    <a title='nothing ever happens - friendly betting' class='home-section-link' href='https://hogwild.uk/nothingeverhappens' style='left: 10.2%; top: 73%; width: 32.4%; height: 26.2%;'>
-			<h3 style='display: none;'>Nothing Ever Happens</h3>
-			<img src='images/home/dice.png' alt='Hand drawn dice and cup'/>
-		    </a>
-		    <a title='newno - alternative uno rules' class='home-section-link' href='https://hogwild.uk/newno' style='left: 46.4%; top: 82%; width: 47%; height: 17.4%'>
-			<h3 style='display: none;'>Newno</h3>
-			<img src='images/home/uno.png' alt='Hand drawn UNO cards'/>
-		    </a>
-		</div>
-		
-		<div class='home-section'>
-		    <h2 style='display: none'>The Listening Room</h2>
-		    <img class='home-section-background' src='images/home/music.png' alt='Hand drawn speakers, CDs, records, and CD player with headphones'/>
-		    <a title='no to algorithms! music recs' class='home-section-link' href='https://hogwild.uk/notoalgorithms' style='left: 6%; top: 64.4%; width: 32%; height: 25.8%'>
-			<h3 style='display: none;'>No To Algorithms</h3>
-			<img src='images/home/cds.png' alt='Hand drawn CDs with low resolution covers'/>
-		    </a>
-		    <a title='deliberate listening essay' class='home-section-link' href='https://roryjamesallen1.substack.com/p/deliberate-listening' style='left: 42.8%; top: 11%; width: 18.4%; height: 16%'>
-			<h3 style='display: none;'>Deliberate Listening</h3>
-			<img src='images/home/substack.png' alt='Hand drawn sign showing the Spotify logo crossed out'/>
-		    </a>
-		</div>
-
-		
-
-		<div style="margin: 0 auto; width: fit-content; font-size: 1rem; text-align: center; background: red; color: white;">
-		    <h2 id="im-chinese" style="font-size: inherit">你是中国人吗?</h2>
-		    <form id="china-form" style="display: none" action="submit_note.php" method="post" target="_blank">
-			<p>我注意到有大量來自中國的流量，對此現象深感好奇。若中國地區的訪客能分享任何關於本站內容的看法，我將不勝感激！</p>
-			<p>請原諒我的文法，我完全不會說任何形式的中文，但我對貴國充滿著驚嘆與敬佩。</p>
-			<input type="textarea" maxlength="512" name="note" style="width: 50%; min-height: 5rem"><br><br>
-			<input type="hidden" name="ip" value="<?php echo $ip_address ?>">
-			<input type="submit" value="提交">
-		    </form>
-		</div>
-
+	    <div class="map-item" id="path-1">
+		<img src="images/path-1.png">
+	    </div>
+	    <div class="map-item" id="path-2">
+		<img src="images/path-2.png">
+	    </div>
+	    <a class="map-item" id="music-shop" href="https://notoalgorithms.hogwild.uk">
+		<img src="images/music-shop.png">
+		<span style="top: 38px; left: -5px; text-align: center">Music Shop<br><span class="blue">No To Algorithms!</span></span>
+		<img src="images/note.gif" style="width: unset; position: absolute; left: 20px; top: -10px;">
+	    </a>
+	    <a class="map-item" id="tinsel-town-tavern">
+		<img src="images/tinsel-town-tavern.png">
+		<span style="top: 52px; left: 20px">Triple T</span>
+		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 41px; top: -10px;">
+	    </a>
+	    <a class="map-item" id="it-suite" href="https://wiki.hogwild.uk">
+		<img src="images/it-suite.png">
+		<span style="top: -10px; left: 20px">Internet Cafe<br><span class="blue">Hogipedia</span></span>
+		<img src="images/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
+	    </a>
+	    <a class="map-item" id="thompson-world" href="https://tw.hogwild.uk">
+		<img src="images/thompson-world.png">
+		<span class="blue" style="top: 5px; left: 30px">Thompson<br>World</span>
+	    </a>
+	    <a class="map-item" id="casino" href="https://hogwild.uk/nothingeverhappens">
+		<img src="images/casino.png">
+		<span style="top: -5px; left: -55px; text-align: right">Casino<br><span class="blue">Nothing<br>Ever Happens</span></span>
+	    </a>
+	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
+	    <a class="map-item" id="russel">Russel</a>
+	    <a class="map-item" id="hoisington">Hoisington</a>
+	    <a class="map-item" id="great-bend">Great Bend</a>
+	    <a class="map-item" id="firehouse" style="display: none">
+		<span style="top: -10px; left: 10px">Firehouse</span>
+		<img src="images/firehouse.png">
+	    </a>
+	    <a class="map-item" id="the-baths" href="https://fishing.hogwild.uk">
+		<img src="images/the-baths.png">
+		<span style="top: 0px; left: -50px; text-align: right">The Baths<br><span class="blue">Hook-A-Duck</span></span>
+		<img src="images/bubble.gif" style="width: unset; position: absolute; left: 30px; top: 10px;">
+		<img src="images/wisp.gif" style="width: unset; position: absolute; left: 25px; top: 15px;">
+		<img src="images/wisp.gif" style="width: unset; position: absolute; left: 10px; top: 0px;">		
+	    </a>
+	    <a class="map-item" id="corner-shop" href="https://hogwild.uk/mealdeal">
+		<img src="images/corner-shop.png">
+		<span style="top: 0px; left: 30px">Corner Shop<br><span class="blue">Meal Deal Maker</span></span>
+	    </a>
+	    <div class="map-item" id="radio-tower">
+		<span style="top: -20px; left: 10px">Radio<br>Tower</span>
+		<img src="images/radio-tower.png">
+		<img src="images/radio-wave.gif" style="width: unset; position: absolute; left: 35px; top: 0px;">
+	    </div>
+	    <a class="map-item" id="lady-garden-lake">
+		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
+		<img src="images/lady-garden-lake.png">
+	    </a>
+	    <div class="map-item map-link" id="valve" href="https://valve.hogwild.uk">
+		<img src="images/valve.png">
+		<img src="images/valve-splash.gif" style="width: unset; position: absolute; left: -7px; top: -4px">
+		<span class="blue" style="top: -23px; left: -15px; text-align: center">The Valve<br>That Failed</span>
+	    </div>
+	    <a class="map-item" id="the-swamp">
+		<img src="images/the-swamp.png">
+		<span style="left: 50px">The<br>Swamp</span>
+	    </a>
+	    <a class="map-item" id="the-shack" href="https://wiki.hogwild.uk?page=the-swamp">
+		<span style="top: -12px">The Shack</span>
+		<img src="images/the-shack.png">
+		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 21px; top: -50px;">
+	    </a>
+	    <a class="map-item" id="the-ranch">
+		<img src="images/the-ranch.png">
+		<span style="left: 0px; top: -15px; text-align: right">The<br>Ranch</span>
+		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 26px; top: -50px;">
+	    </a>
+	</div>
+	<div id="controls">
+	    <div>
+		<label for="checkbox-snapping">Snap</label>
+		<input id="checkbox-snapping" class="js-checkbox" type="checkbox">
+	    </div>
+	    <div>
+		<label for="checkbox-zoom">2x</label>
+		<input id="checkbox-zoom" class="js-checkbox" type="checkbox">
 	    </div>
 	</div>
 	
-	<div id='footer'>
-	    
-	</div>
     </body>
 
     <script>
-     function updatePageMessage(text){
-	 document.getElementById('home-page-message').innerHTML = text;
-     }
-     function resetPageMessage(){
-	 updatePageMessage("<span>click around and see what you can find...</span>")
-     }
-     resetPageMessage();
-     document.querySelectorAll(".home-section-link").forEach(element => {
-	 element.addEventListener("mouseover", () => { updatePageMessage(element.title) });
-	 element.addEventListener("mouseout", () => { resetPageMessage() });
-     });
+     var snapping = false; // If off the user can scroll freely, if on on mouseup the map will jump the target (middle) to the closest map-link element (not just map-item)
+     var real_mouse_position = [0,0]; // Current mouse position
+     var start_drag_position = [0,0]; // Position of mouse when starting to drag the map
+     var dragging = false; // Currently dragging the map?
+     var map; // Map element
+     var half_map_width; // Pixel value of half the map width
+     var half_map_height; // Pixel value of half the map height
+     var target; // Target (cursor) element
+     var zoom = false;
+     var zoom_scale = 1;
 
-     function callAPIs(){
+     const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
+	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
+			     'it-suite': [30, -80],
+			     'the-cottage': [80, -30],
+			     'the-bomb': [100, 30],
+			     'cherokee-1': [-65, -65],
+			     'thompson-world': [-225, -160],
+			     'music-shop': [10, 195],
+			     'bunker-hill': [150, -870],
+			     'hoisington': [-50, 700],
+			     'great-bend': [-40, 800],
+			     'russel': [-50, -900],
+			     //'firehouse': [180, -30],
+			     'corner-shop': [-35, 135],
+			     'the-swamp': [420, -400],
+			     'the-shack': [380, -460],
+			     'lady-garden-lake': [200, -350],
+			     'valve': [200, -432],
+			     'ol-dusty': [-110, -20],
+			     'the-ranch': [-480, -30],
+			     'radio-tower': [-395, -155],
+			     'casino': [-70, 190],
+			     'path-1': [-70, 120],
+			     'path-2': [-300, -150],
+			     'the-baths': [-200, -300]
+     };
+
+     // Mathematical Functions
+     function distanceBetweenCoords(x1, y1, x2, y2){
+	 return Math.abs(Math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2))); // Absolute distance to allow for easy comparison regardless of direction
+     }
+     function findNearestLink(){ // Return ID of the nearest map-link (class) element to the middle of the screen
+	 x1 = document.body.clientWidth / 2;
+	 y1 = document.body.clientHeight / 2;
+	 var smallest_distance = 99999; // Set really high so that the first distance will override
+	 for (var place in map_positions){ // For each ID (key) in the map positions array
+	     if (document.getElementById(place).classList.contains('map-link')){ // If the element is a map-link (not just a map-item)
+		 x2 = parseInt(map.style.left) + half_map_width + (map_positions[place][0] * zoom_scale); // Get the location of the element
+		 y2 = parseInt(map.style.top) + half_map_height + (map_positions[place][1] * zoom_scale);
+		 distance = distanceBetweenCoords(x1, y1, x2, y2); // Work out the distance from the target (middle of screen) to the element
+		 if (distance < smallest_distance){ // If it's closer than any previous element
+		     smallest_distance = distance; // Set the distance for comparison to other elements
+		     nearest_link = place; // Set the ID to return if it ends up being the closest
+		 }
+	     }
+	 }
+	 return nearest_link; // Return the ID of the nearest link to the middle of the screen
      }
 
-     function toggleChinaForm(){
-	 const form = document.getElementById('china-form')
-	 if (form.style.display == 'none'){
-	     form.style.display = 'block';
-	     form.style.padding = '0.5rem';
-	 } else {
-	     form.style.display = 'none';
+     // Mouse Functions
+     function startDrag(event){
+	 dragging = true; // Currently dragging
+	 target.style.filter = 'opacity(1)'; // Show the target/cursor
+	 if (event.type.startsWith('touch')) { // If on mobile use a slightly different way of getting the cursor position
+	     start_drag_position = [event.touches[0].pageX - parseInt(map.style.left), event.touches[0].pageY - parseInt(map.style.top)];
+	 } else { // On desktop get the cursor position
+	     start_drag_position = [real_mouse_position[0] - parseInt(map.style.left), real_mouse_position[1] - parseInt(map.style.top)];
+	 }
+     }
+     function endDrag(event){
+	 dragging = false; // Not dragging anymore
+	 target.style.filter = 'opacity(0)'; // Hide the target/cursor
+	 updateSnappedLocation();
+     }
+     function updateMapPosition(){ // Move the map based on the current cursor position while dragging
+	 map.style.left = (real_mouse_position[0] - start_drag_position[0]) + 'px';
+	 map.style.top = (real_mouse_position[1] - start_drag_position[1]) + 'px';
+     }
+     function updateRealMousePosition(event){
+	 if (event.type.startsWith('touch')) { // If on mobile work out the mouse position slightly differently
+	     real_mouse_position = [event.touches[0].pageX, event.touches[0].pageY];
+	 } else { // Get mouse position on desktop
+	     real_mouse_position = [event.pageX, event.pageY];
+	 }
+	 if (dragging == true){
+	     updateMapPosition(); // Move the map if currently dragging
+	 }
+     }
+     function handleLinkClick(event){
+	 if (distanceBetweenCoords(...start_drag_position, event.pageX - parseInt(map.style.left), event.pageY - parseInt(map.style.top)) > 5){
+	     return false; // Don't open the link if the mouse has moved more than 5px from the element (at the end of a drag rather than a deliberate click)
 	 }
      }
 
-     document.getElementById('im-chinese').addEventListener('click', toggleChinaForm);
+     // Control Functions
+     function updateControlVariable(event){ // Update a variable that's linked to a checkbox
+	 related_bool = event.target.id.replace('checkbox-',''); // Get the string of the variable name
+	 window[related_bool] = event.target.checked; // Update the actual variable
+	 updateSnappedLocation(); // Update snapped location in case snapping just turned on and needs to snap to closest
+	 updateZoom(); // Update zoom in case zoom just turned on/off
+     }
+
+     // Map Movement Functions
+     function updateZoom(){
+	 if (zoom){
+	     zoom_scale = 2;
+	     map.style.transform = 'scale('+zoom_scale+')';
+	 } else {
+	     zoom_scale = 1;
+	     map.style.transform = '';
+	 }
+	 updateSnappedLocation();
+     }
+     function updateSnappedLocation(){
+	 if (snapping){ // Only snap to nearest if snapping is on
+	     snapToNearestLink();
+	 }
+     }
+     function snapToNearestLink(){
+	 nearest_link = findNearestLink(); // Find the ID of the nearest map-link to the target/cursor
+	 focusMapCoordinates(...map_positions[nearest_link]); // Move the map to make the closest element in the middle of the screen
+	 window.setTimeout(() => document.getElementById(nearest_link).focus(), 0); // Focus the element
+     }
+     function focusMapCoordinates(x, y){
+	 if (snapping){ // If the map should snap to the closest map-link
+	     map.style.transition = 'top 0.2s, left 0.2s'; // Add a transition so it looks smoother
+	     setTimeout(() => { map.style.transition = ''; }, 200); // Remove the transition the instant it ends
+	 }
+	 map.style.left = ((document.body.clientWidth / 2) - half_map_width - (x * zoom_scale)) + 'px'; // Move the map to the coordinates
+	 map.style.top = ((document.body.clientHeight / 2) - half_map_height - (y * zoom_scale)) + 'px';
+     }
      
-     window.onload = function() {
-	 callAPIs();
+     // Map Initialisation Functions
+     function placeMapItem(item,x,y){ // Position a map-item according to set coordinates with origin in the middle of the screen
+	 item.style.left = (x + half_map_width) + 'px';
+	 item.style.top = (y + half_map_height) + 'px';
+     }
+     function initialiseMapItems(){
+	 for (var place in map_positions){ // For every element ID in the array
+	     const location_element = document.getElementById(place); // Get the corresponding element
+	     placeMapItem(location_element, map_positions[place][0], map_positions[place][1]); // Position the element according to its coordinates
+	 }
+     }
+     function initialiseChildren(){
+	 Array.from(map.querySelectorAll('*')).forEach(child => { // For all children including sub-children
+	     child.setAttribute('draggable', false); // Make them non-draggable to stop weird visual stuff as dragging is custom
+	 });
+	 Array.from(map.querySelectorAll('a')).forEach(child => { // Only direct children
+	     if (!child.getAttribute('href')){ // If href isn't set then it should be a default wiki link
+		 child.setAttribute('href', 'https://wiki.hogwild.uk?page='+child.id); // Add the default wiki link
+	     }
+	     child.onclick = handleLinkClick; // Override the normal click to prevent weird link clicking when dragging
+	     child.classList.add('map-link'); // Add map-link class
+	     child.setAttribute('tabindex', 0); // Allow them to be focused
+	 });
+     }
+     function initialiseControls(){
+	 Array.from(document.querySelectorAll('.js-checkbox')).forEach(child => { // Only direct children	     
+	     child.addEventListener('change', updateControlVariable)
+	 });
+     }
+     
+     // Page Initialisation
+     window.onload = function(){
+	 map = document.getElementById('map');
+	 target = document.getElementById('target');
+	 half_map_width = map.offsetWidth / 2;
+	 half_map_height = map.offsetHeight / 2;
+	 initialiseMapItems();
+	 map.addEventListener('mousedown', startDrag);
+	 map.addEventListener('touchstart', startDrag);
+	 document.addEventListener('mouseup', endDrag);
+	 document.addEventListener('touchend', endDrag);
+	 document.addEventListener('mousemove', updateRealMousePosition);
+	 document.addEventListener('touchmove', updateRealMousePosition);
+	 initialiseChildren();
+	 initialiseControls();
+	 focusMapCoordinates(0,0);
      };
     </script>
 </html>
