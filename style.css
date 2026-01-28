@@ -1,27 +1,34 @@
 :root {
     --wiki-grey: rgb(162, 169, 177);
+    --beige-pale: #F7F6D8;
+    --beige-dark: #C4C19B;
+    --blue: #069;
 }
 @font-face {
     font-family: 'Jokerman';
     src: url('fonts/Jokerman.otf');
 }
+@font-face {
+    font-family: Melodica;
+    src: url(fonts/Melodica.otf);
+}
 body {
     margin: 0;
- }
+}
 .random-joke {
-	font-size: 1.25rem;
+    font-size: 1.25rem;
 }
 .button-container {
-     display: flex;
+    display: flex;
     flex-wrap: wrap;
-     gap: 10px;
-     justify-content: center;
-     overflow: hidden;
- }
+    gap: 10px;
+    justify-content: center;
+    overflow: hidden;
+}
 .button {
-     position: relative;
-     height: fit-content;
- }
+    position: relative;
+    height: fit-content;
+}
 .button-image {
     flex-basis: 300px;
     max-width: 300px;
@@ -42,27 +49,27 @@ body {
 .toolbar-home img {
     width: 100%;
 }
- 
+
 .scene-container {
-	position: relative;
+    position: relative;
 }
 .scene-background {
-	top: 0;
-	left: 0;
+    top: 0;
+    left: 0;
 }
 .scene-image {
-	position: absolute;
+    position: absolute;
 }
 .scene-image-link {
-	position: absolute;
-	display: block;
+    position: absolute;
+    display: block;
 }
 .button:hover .button-image, .scene-image-link:hover, .standard-toolbar .button:hover {
-	filter: invert(0.4);
+    filter: invert(0.4);
 }
 .thompson-world-form {
-	position: relative;
-	height: 100%;
+    position: relative;
+    height: 100%;
 }
 .standard-toolbar {
     display: flex;
@@ -135,21 +142,81 @@ body {
     text-align: center;
 }
 .lisboa-big-container {
-	display: flex;
-	gap: 5px;
-	height: fit-content;
-	padding: 5px;
-	border: 2px solid black;
-	max-width: min(80vw, 500px);
+    display: flex;
+    gap: 5px;
+    height: fit-content;
+    padding: 5px;
+    border: 2px solid black;
+    max-width: min(80vw, 500px);
 }
 .lisboa-status {
-	/*border-radius: 50%;*/
-	/*border: 2px solid black;*/
-	padding: 5px;
+    /*border-radius: 50%;*/
+    /*border: 2px solid black;*/
+    padding: 5px;
 }
 .footer {
     flex-basis: 70%;
     font-family: Arial;
     text-align: center;
     margin: 10rem 0 1rem 0;
+}
+/* Map Home page */
+#map {
+    position: fixed;
+    width: fit-content;
+    height: fit-content;
+    transition: transform 0.2s;
+}
+#map-background {
+    width: 2500px;
+    height: 2500px;
+    background-image: url('images/map/tile.png');
+    background-color: var(--beige-pale);
+}
+.map-item {
+    position: absolute;
+    transform: scale(2) translate(-25%, -25%);
+    transform-origin: center;
+    transition: transform 0.2s;
+    font-size: 10px;
+    line-height: 0.5rem;
+    color: black;
+    text-decoration: none;
+}
+.map-item > span {
+    position: absolute;
+    white-space: nowrap;
+}
+.map-item > img {
+    width: 100%;
+    image-rendering: pixelated;
+}
+.map-link:hover, .map-link:hover span, .map-link:focus, .map-link:focus span {
+    cursor: pointer;
+    /*transform: scale(1.2) translate(-40%, -40%);*/
+    border: none;
+    outline: none;
+    text-decoration: underline;
+}
+#target {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: scale(2) translate(-25%, -25%);
+    image-rendering: pixelated;
+    z-index: 99;
+    filter: opacity(0);
+    transition: filter 0.2s;
+    pointer-events: none;
+}
+#controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 30px;
+    background: rgba(255,255,255,0.5);
 }

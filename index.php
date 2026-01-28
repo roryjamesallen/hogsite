@@ -1,13 +1,19 @@
+<?php
+include 'lib/generic_content.php';
+ob_start(); // Begin output buffering to allow output to be rendered after html head
+
+openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
+recordUserVisit();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-	<title>Map</title>
+
+	<link rel='canonical' href='https://hogwild.uk' />
+	<?php echo $standard_header_content ?>
+	<title>Home of The Wild Hogs</title>
+	
 	<style>
-	 @font-face {
-	     font-family: Melodica;
-	     src: url(../fonts/Melodica.otf);
-	 }
 	 :root {
 	     --beige-pale: #F7F6D8;
 	     --beige-dark: #C4C19B;
@@ -18,68 +24,9 @@
 	     position: relative;
 	     height: 100vh;
 	     margin: 0;
-	     background-image: url('images/the-wilderness.png');
+	     background-image: url('images/map/the-wilderness.png');
 	     background-color: var(--beige-dark);
 	     font-family: Melodica;
-	 }
-	 #map {
-	     position: fixed;
-	     width: fit-content;
-	     height: fit-content;
-	     transition: transform 0.2s;
-	 }
-	 #map-background {
-	     width: 2500px;
-	     height: 2500px;
-	     background-image: url('images/tile.png');
-	     background-color: var(--beige-pale);
-	 }
-	 .map-item {
-	     position: absolute;
-	     transform: scale(2) translate(-25%, -25%);
-	     transform-origin: center;
-	     transition: transform 0.2s;
-	     font-size: 10px;
-	     line-height: 0.5rem;
-	     color: black;
-	     text-decoration: none;
-	 }
-	 .map-item > span {
-	     position: absolute;
-	     white-space: nowrap;
-	 }
-	 .map-item > img {
-	     width: 100%;
-	     image-rendering: pixelated;
-	 }
-	 .map-link:hover, .map-link:hover span, .map-link:focus, .map-link:focus span {
-	     cursor: pointer;
-	     /*transform: scale(1.2) translate(-40%, -40%);*/
-	     border: none;
-	     outline: none;
-	     text-decoration: underline;
-	 }
-	 #target {
-	     position: absolute;
-	     left: 50%;
-	     top: 50%;
-	     transform: scale(2) translate(-25%, -25%);
-	     image-rendering: pixelated;
-	     z-index: 99;
-	     filter: opacity(0);
-	     transition: filter 0.2s;
-	     pointer-events: none;
-	 }
-	 #controls {
-	     position: absolute;
-	     top: 0;
-	     right: 0;
-	     padding: 5px;
-	     display: flex;
-	     align-items: center;
-	     gap: 20px;
-	     font-size: 30px;
-	     background: rgba(255,255,255,0.5);
 	 }
 	 input[type="checkbox"]{
 	     scale: 1.5;
@@ -101,45 +48,45 @@
     </script>
     
     <body>
-	<img id="target" src="images/target.png">
+	<img id="target" src="images/map/target.png">
 	<div id="map" draggable="false">
 	    <div id="map-background"></div>
-	    <div class="map-item" id="the-bomb"><img src="images/the-bomb.png"></div>
-	    <div class="map-item" id="cherokee-1"><img src="images/cherokee-1.png"></div>
+	    <div class="map-item" id="the-bomb"><img src="images/map/the-bomb.png"></div>
+	    <div class="map-item" id="cherokee-1"><img src="images/map/cherokee-1.png"></div>
 	    <a class="map-item" id="ol-dusty">
-		<img src="images/ol-dusty.png">
+		<img src="images/map/ol-dusty.png">
 		<span style="left: -10px; top: -10px">Ol' Dusty</span>
 	    </a>
 	    <div class="map-item" id="the-cottage">
-		<img src="images/the-cottage.png">
+		<img src="images/map/the-cottage.png">
 	    </div>
 	    <div class="map-item" id="path-1">
-		<img src="images/path-1.png">
+		<img src="images/map/path-1.png">
 	    </div>
 	    <div class="map-item" id="path-2">
-		<img src="images/path-2.png">
+		<img src="images/map/path-2.png">
 	    </div>
 	    <a class="map-item" id="music-shop" href="https://notoalgorithms.hogwild.uk">
-		<img src="images/music-shop.png">
+		<img src="images/map/music-shop.png">
 		<span style="top: 38px; left: -5px; text-align: center">Music Shop<br><span class="blue">No To Algorithms!</span></span>
-		<img src="images/note.gif" style="width: unset; position: absolute; left: 20px; top: -10px;">
+		<img src="images/map/note.gif" style="width: unset; position: absolute; left: 20px; top: -10px;">
 	    </a>
 	    <a class="map-item" id="tinsel-town-tavern">
-		<img src="images/tinsel-town-tavern.png">
+		<img src="images/map/tinsel-town-tavern.png">
 		<span style="top: 52px; left: 20px">Triple T</span>
-		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 41px; top: -10px;">
+		<img src="images/map/smoke.gif" style="width: unset; position: absolute; left: 41px; top: -10px;">
 	    </a>
 	    <a class="map-item" id="it-suite" href="https://wiki.hogwild.uk">
-		<img src="images/it-suite.png">
+		<img src="images/map/it-suite.png">
 		<span style="top: -10px; left: 20px">Internet Cafe<br><span class="blue">Hogipedia</span></span>
-		<img src="images/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
+		<img src="images/map/wifi.gif" style="width: unset; position: absolute; left: 5px; top: -8px;">
 	    </a>
 	    <a class="map-item" id="thompson-world" href="https://tw.hogwild.uk">
-		<img src="images/thompson-world.png">
+		<img src="images/map/thompson-world.png">
 		<span class="blue" style="top: 5px; left: 30px">Thompson<br>World</span>
 	    </a>
 	    <a class="map-item" id="casino" href="https://hogwild.uk/nothingeverhappens">
-		<img src="images/casino.png">
+		<img src="images/map/casino.png">
 		<span style="top: -5px; left: -55px; text-align: right">Casino<br><span class="blue">Nothing<br>Ever Happens</span></span>
 	    </a>
 	    <a class="map-item" id="bunker-hill">Bunker Hill</a>
@@ -148,46 +95,46 @@
 	    <a class="map-item" id="great-bend">Great Bend</a>
 	    <a class="map-item" id="firehouse" style="display: none">
 		<span style="top: -10px; left: 10px">Firehouse</span>
-		<img src="images/firehouse.png">
+		<img src="images/map/firehouse.png">
 	    </a>
 	    <a class="map-item" id="the-baths" href="https://fishing.hogwild.uk">
-		<img src="images/the-baths.png">
+		<img src="images/map/the-baths.png">
 		<span style="top: 0px; left: -50px; text-align: right">The Baths<br><span class="blue">Hook-A-Duck</span></span>
-		<img src="images/bubble.gif" style="width: unset; position: absolute; left: 30px; top: 10px;">
-		<img src="images/wisp.gif" style="width: unset; position: absolute; left: 25px; top: 15px;">
-		<img src="images/wisp.gif" style="width: unset; position: absolute; left: 10px; top: 0px;">		
+		<img src="images/map/bubble.gif" style="width: unset; position: absolute; left: 30px; top: 10px;">
+		<img src="images/map/wisp.gif" style="width: unset; position: absolute; left: 25px; top: 15px;">
+		<img src="images/map/wisp.gif" style="width: unset; position: absolute; left: 10px; top: 0px;">		
 	    </a>
 	    <a class="map-item" id="corner-shop" href="https://hogwild.uk/mealdeal">
-		<img src="images/corner-shop.png">
+		<img src="images/map/corner-shop.png">
 		<span style="top: 0px; left: 30px">Corner Shop<br><span class="blue">Meal Deal Maker</span></span>
 	    </a>
 	    <div class="map-item" id="radio-tower">
 		<span style="top: -20px; left: 10px">Radio<br>Tower</span>
-		<img src="images/radio-tower.png">
-		<img src="images/radio-wave.gif" style="width: unset; position: absolute; left: 35px; top: 0px;">
+		<img src="images/map/radio-tower.png">
+		<img src="images/map/radio-wave.gif" style="width: unset; position: absolute; left: 35px; top: 0px;">
 	    </div>
 	    <a class="map-item" id="lady-garden-lake">
 		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
-		<img src="images/lady-garden-lake.png">
+		<img src="images/map/lady-garden-lake.png">
 	    </a>
 	    <div class="map-item map-link" id="valve" href="https://valve.hogwild.uk">
-		<img src="images/valve.png">
-		<img src="images/valve-splash.gif" style="width: unset; position: absolute; left: -7px; top: -4px">
+		<img src="images/map/valve.png">
+		<img src="images/map/valve-splash.gif" style="width: unset; position: absolute; left: -7px; top: -4px">
 		<span class="blue" style="top: -23px; left: -15px; text-align: center">The Valve<br>That Failed</span>
 	    </div>
 	    <a class="map-item" id="the-swamp">
-		<img src="images/the-swamp.png">
+		<img src="images/map/the-swamp.png">
 		<span style="left: 50px">The<br>Swamp</span>
 	    </a>
 	    <a class="map-item" id="the-shack" href="https://wiki.hogwild.uk?page=the-swamp">
 		<span style="top: -12px">The Shack</span>
-		<img src="images/the-shack.png">
-		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 21px; top: -50px;">
+		<img src="images/map/the-shack.png">
+		<img src="images/map/smoke.gif" style="width: unset; position: absolute; left: 21px; top: -50px;">
 	    </a>
 	    <a class="map-item" id="the-ranch">
-		<img src="images/the-ranch.png">
+		<img src="images/map/the-ranch.png">
 		<span style="left: 0px; top: -15px; text-align: right">The<br>Ranch</span>
-		<img src="images/smoke.gif" style="width: unset; position: absolute; left: 26px; top: -50px;">
+		<img src="images/map/smoke.gif" style="width: unset; position: absolute; left: 26px; top: -50px;">
 	    </a>
 	</div>
 	<div id="controls">
