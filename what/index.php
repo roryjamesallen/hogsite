@@ -34,6 +34,6 @@
 
     <body>
 	<h1>What is <a href="https://hogwild.uk">hogwild.uk</a>??</h1>
-	hogwild.uk is the home of <a href="https://wiki.hogwild.uk">The Wild Hogs</a>, as well as being a home for all the stupid other websites I (<a href="https://rory.hogwild.uk">Rory</a>) make.<br><br>The home page is a map of <a href="https://wiki.hogwild.uk?page=tinsel-town">Tinsel Town</a>, with websites linked using relevant buildings and features.
+                hogwild.uk is the home of <a href="https://wiki.hogwild.uk">The Wild Hogs</a>, as well as being a home for all the stupid other websites I (<a href="https://rory.hogwild.uk">Rory</a>) make.<br><br>The home page is a map of <a href="https://wiki.hogwild.uk?page=tinsel-town">Tinsel Town</a>, with websites linked using relevant buildings and features.<br><br>Contributions are very welcome, and if you have anything to add, or any comment to give, please email rory@hogwild.uk
     </body>
 </html>
