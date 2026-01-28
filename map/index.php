@@ -146,7 +146,7 @@
 	    <a class="map-item" id="russel">Russel</a>
 	    <a class="map-item" id="hoisington">Hoisington</a>
 	    <a class="map-item" id="great-bend">Great Bend</a>
-	    <a class="map-item" id="firehouse">
+	    <a class="map-item" id="firehouse" style="display: none">
 		<span style="top: -10px; left: 10px">Firehouse</span>
 		<img src="images/firehouse.png">
 	    </a>
@@ -170,6 +170,11 @@
 		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
 		<img src="images/lady-garden-lake.png">
 	    </a>
+	    <div class="map-item map-link" id="valve" href="https://valve.hogwild.uk">
+		<img src="images/valve.png">
+		<img src="images/valve-splash.gif" style="width: unset; position: absolute; left: -7px; top: -4px">
+		<span class="blue" style="top: -23px; left: -15px; text-align: center">The Valve<br>That Failed</span>
+	    </div>
 	    <a class="map-item" id="the-swamp">
 		<img src="images/the-swamp.png">
 		<span style="left: 50px">The<br>Swamp</span>
@@ -222,11 +227,12 @@
 			     'hoisington': [-50, 700],
 			     'great-bend': [-40, 800],
 			     'russel': [-50, -900],
-			     'firehouse': [180, -30],
+			     //'firehouse': [180, -30],
 			     'corner-shop': [-35, 135],
 			     'the-swamp': [420, -400],
 			     'the-shack': [380, -460],
 			     'lady-garden-lake': [200, -350],
+			     'valve': [200, -432],
 			     'ol-dusty': [-110, -20],
 			     'the-ranch': [-480, -30],
 			     'radio-tower': [-395, -155],
