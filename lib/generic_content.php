@@ -42,7 +42,7 @@ $standard_header_content = '
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
 	<meta name="apple-mobile-web-app-title" content="hogwild.uk" />
 	<link rel="manifest" href="favicon/site.webmanifest" />
-	<link rel="stylesheet" href="style.css">';
+	<link rel="stylesheet" href="style.css?v=1">';
 
 $standard_toolbar = '<a class="button toolbar-home" href="'.$home_location.'"><img class="button-image" src="images/buttons/home.png"></a>';
 	
