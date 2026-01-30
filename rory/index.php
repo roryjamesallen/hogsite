@@ -155,16 +155,11 @@
 	    <div class="collapsible">
 		<h3>Software</h3>
 		<ul class="hide-numbers">
-		    <li class="collapsible"><h4>Blender</h4><span>I've been using Blender since I was about 14 when my friend Toby and I managed to convince the school IT department that it was educational enough to be
-			pre-installed on the school systems. Since then it's changed and modernised a ridiculous amount (I remember the switch from 2.79 to 2.8...) and is one of the most incredible outputs of the
-			<a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">FOSS</a> community in my opinion.</span>
+		    <li class="collapsible"><h4>Blender</h4><span>I've been using Blender since I was about 14 when my friend Toby and I managed to convince the school IT department that it was educational enough to be pre-installed on the school systems. Since then it's changed and modernised a ridiculous amount (I remember the switch from 2.79 to 2.8...) and is one of the most incredible outputs of the <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">FOSS</a> community in my opinion.</span>
 		    </li>
-		    <li class="collapsible"><h4>Emacs</h4><span>When I started working at ALM I used the first Mac of my life and got shown what <a href="https://www.gnu.org/software/emacs/">Emacs</a> is and why it's useful,
-			and although it's a little archaic I have learned to love it and feel accomplished when I can work on something without needing to touch a mouse.</span>
+		    <li class="collapsible"><h4>Emacs</h4><span>When I started working at ALM I used the first Mac of my life and got shown what <a href="https://www.gnu.org/software/emacs/">Emacs</a> is and why it's useful, and although it's a little archaic I have learned to love it and feel accomplished when I can work on something without needing to touch a mouse.</span>
 		    </li>
-		    <li class="collapsible"><h4>Affinity</h4><span>I only started using <a href="https://www.affinity.studio/">Affinity</a> when it became free in late 2025, but it's a great alternative to Adobe slop
-			(which I had previously pirated/used at work. Cracked CS6 was manageable, the new cloud stuff that changes every time you open it is NOT. Wish it was actually open-source but it's great for normal
-			artists that it's free and can open Adobe files!</span>
+		    <li class="collapsible"><h4>Affinity</h4><span>I only started using <a href="https://www.affinity.studio/">Affinity</a> when it became free in late 2025, but it's a great alternative to Adobe slop (which I had previously pirated/used at work. Cracked CS6 was manageable, the new cloud stuff that changes every time you open it is NOT. Wish it was actually open-source but it's great for normal artists that it's free and can open Adobe files!</span>
 		    </li>
 		</ul>
 	    </div>
@@ -174,13 +169,11 @@
 	    <div class="collapsible">
 		<h3>Concept</h3>
 		<span>I only started learning about <a href="https://maggieappleton.com/garden-history">digital gardens</a> as a concept a few months after starting to develop <a href="https://hogwild.uk">hogwild.uk</a>
-		    and realised that it was the way to describe what I wanted to do and why I wanted to do it. This page is just a splinter from the main site that's for my more personal messing around.
-		    I think it's a really cool idea and I hope more people start to use them to claw back a bit of human interaction from an internet that's increasingly becoming a conversation between LLMs that real people just look at.</span>
+		    and realised that it was the way to describe what I wanted to do and why I wanted to do it. This page is just a splinter from the main site that's for my more personal messing around. I think it's a really cool idea and I hope more people start to use them to claw back a bit of human interaction from an internet that's increasingly becoming a conversation between LLMs that real people just look at.</span>
 	    </div>
 	    <div class="collapsible">
 		<h3>Programming</h3><span>I'm using a Dell laptop (thanks Johnny) running Linux (<a href="https://www.debian.org/">Debian</a>). I'm using <a href="https://www.gnu.org/software/emacs/">Emacs</a>
-		    as my code editor (using <a href="https://web-mode.org/">web-mode</a> for styling while editing) and just checking the page content in <a href="https://www.firefox.com/en-GB/">Firefox</a> as I go.
-		    I like working without any packages when I'm developing web stuff as much as I can, just pure HTML, CSS, JavaScript, and sometimes PHP.
+		    as my code editor (using <a href="https://web-mode.org/">web-mode</a> for styling while editing) and just checking the page content in <a href="https://www.firefox.com/en-GB/">Firefox</a> as I go. I like working without any packages when I'm developing web stuff as much as I can, just pure HTML, CSS, JavaScript, and sometimes PHP.
 		    The font I'm using on this page is <a href="https://fonts.google.com/specimen/Google+Sans+Code">Google Sans Code</a>, a free to use one that I like a lot</span>
 	    </div>
 	    <div class="collapsible">
@@ -197,6 +190,9 @@
 	    <input type="checkbox" id="reverse-life-story" autocomplete="off">
 	    <label for="reverse-life-story">oldest first</label>
 	    <ol id="life-story" class="hide-numbers reversible">
+		<li><h3>Dec 2025</h3>Sold The Rig :( Gonna miss her but when it didn't start at Den xmas I realised it would just rot there forever if I didn't sell
+		    <br><img src="rig-sold.jpg" alt="Photo of the The Rig on the trailer after being sold" />
+		</li>
 		<li><h3>Oct 2025</h3> <a href="https://hogwild.uk/">hogwild.uk</a> goes live</li>
 		<li><h3>May 2025</h3>Move <i>back</i> in with Issy to our new house in Tooting. #aweomse
 		    <br><img src="tooting.jpg" alt="Photo of the kitchen of Rory's house in Tooting, London, UK" />
@@ -307,7 +303,7 @@
 	    </ol>
 	</div>
 	<div class="collapsible" id="gigs">
-	    <h2>Gigs<div class="garden">🌱 17.12.25 🌿 18.12.25</div></h2>
+	    <h2>Gigs<div class="garden">🌱 17.12.25 🌿 30.01.26</div></h2>
 	    <p>Since the start of 2025 I have been to <span id="gig-count">(loading)</span> gigs. <span id="city-count">(loading)</span> of those were in <span id="city">(loading)</span>, and <span id="venue-count">(loading)</span> were at <span id="venue">(loading)</span>.</p>
 	    <table id="gig-list" class="hide-numbers">
 		<thead>
@@ -320,6 +316,13 @@
 		    </tr>
 		</thead>
 		<tbody>
+		    <tr>
+			<td>30.01.26</td>
+			<td>Heartbreakers</td>
+			<td>Southampton</td>
+			<td>irreversible, Bailey Berrill</td>
+			<td>Playing with Otala, irreversible is Alex from Divorce Attorney's ambient project, really enjoyed it. Made me feel how I felt watching Godspeed when you're 20 mins in and realise you've been standing completely still and just thinking. Bailey Berrill was really cute, seemed like a bunch of friends playing the singers songs and having a nice time and they were catchy.</td>
+		    </tr>
 		    <tr>
 			<td>01.12.25</td>
 			<td>The Roundhouse</td>
