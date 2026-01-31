@@ -2,11 +2,14 @@
     <head>
 	<style>
 	 body {
-	     white-space-collapse: break-spaces;
 	     font-family: monospace;
+	     width: fit-content;
+	     margin: 1rem auto;
 	 }
 	 .chords {
+	     white-space-collapse: break-spaces;
 	     color: #777;
+	     display: block;
 	 }
 	 a {
 	     color: #069;
@@ -14,6 +17,14 @@
 	 }
 	 h1, h2 {
 	     margin: 0;
+	     text-align: center;
+	 }
+	 h3 {
+	     margin-bottom: 0;
+	 }
+	 footer {
+	     margin: 3rem 0;
+	     text-align: center;
 	 }
 	</style>
     </head>
@@ -59,5 +70,17 @@
 	Take this into my own hands
 	<span class="chords">Em   Am      G               C</span>
 	I am not a re-venge seeking man
+	<h3>Chorus</h3>
+        <span class="chords">          C7</span>
+	Oh Hickey Bill
+        <span class="chords">           Am</span>
+	Don't you wonder
+	<span class="chords">B7                     Em</span>
+	If you had just have stayed at home
+	<span class="chords">F                   G                                C</span>
+	Your arm could be flexin instead of cut... to the bone
     </body>
+    <footer>
+	A <a href="https://hogwild.uk">hogwild.uk</a> creation
+    </footer>
 </html>
