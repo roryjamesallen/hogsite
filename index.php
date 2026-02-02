@@ -56,7 +56,7 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 	 }
 	 #radio-message div {
 	     position: absolute;
-	     color: black;
+	     color: red;
 	     transition: color 0.25s;
 	 }
 	</style>
