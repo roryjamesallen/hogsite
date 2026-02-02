@@ -4,6 +4,26 @@ ob_start(); // Begin output buffering to allow output to be rendered after html 
 
 openSqlConnection('wildhog_analytics', 'sql_login_wildhog_analytics.php');
 recordUserVisit();
+
+// Lisbon Metro API
+$lisboa = apiCall('http://app.metrolisboa.pt/status/getLinhas.php')['resposta']; 
+$amarela = $lisboa['amarela'];
+$azul = $lisboa['azul'];
+$verde = $lisboa['verde'];
+$vermelha = $lisboa['vermelha'];
+
+// Tristan De Cunha Islanders
+$tristan_webpage = file_get_contents("https://www.tristandc.com/population.php");
+foreach (explode("strong>",$tristan_webpage) as $strong_element){
+    if (str_contains($strong_element, "There are") and str_contains($strong_element, "Tristan da Cunha Islanders")){
+        $tristan_inhabitants_text = htmlspecialchars(str_replace('"','',str_replace("</","",$strong_element)));
+    }
+}
+
+// Weather in Tinsel Town
+$weather = apiCall('https://api.open-meteo.com/v1/forecast?latitude=38.72254312092789&longitude=-98.76424091779424&current=temperature_2m,wind_speed_10m&timezone=auto&forecast_days=1');
+$temperature = $weather['current']['temperature_2m'].$weather['current_units']['temperature_2m'];
+$wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['wind_speed_10m'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +53,11 @@ recordUserVisit();
 	 }
 	 .blue {
 	     color: var(--blue);
+	 }
+	 #radio-message div {
+	     position: absolute;
+	     color: black;
+	     transition: color 0.25s;
 	 }
 	</style>
     </head>
@@ -112,6 +137,8 @@ recordUserVisit();
 		<span style="top: -20px; left: 10px">Radio<br>Tower</span>
 		<img src="images/map/radio-tower.png">
 		<img src="images/map/radio-wave.gif" style="width: unset; position: absolute; left: 35px; top: 0px;">
+		<img id="radio-light" src="images/map/radio-light.gif" style="width: unset; position: absolute; left: 27px; top: 6px; display: none">
+		<div id="radio-message" style="position: absolute; left: 35px; top: 3px"></div>
 	    </div>
 	    <a class="map-item" id="lady-garden-lake">
 		<span style="top: 80px; left: 150px">Lady Garden Lake</span>
@@ -165,13 +192,39 @@ recordUserVisit();
      var zoom = false;
      var zoom_scale = 1;
 
+     const radio_message = document.getElementById('radio-message');
+     const radio_light = document.getElementById('radio-light');
+     const radio_message_tick_ms = 2000;
+     const message_visible_ms = 1000;
+     const letter_delay_ms = 100;
+
+     
+     
+     const radio_messages = [
+	 'hellooooo',
+	 'i am your host, rockin ricky ronaldo',
+	 'you are listening to to Hog FM',
+	 'broadcasting on AM, FM, and CB frequencies',
+	 'what does the F in FCC stand for? fascist!',
+	 'welcome to tinsel town',
+	 'what a lovely day',
+	 'yellow metro line status: <?php echo $amarela; ?>',
+	 'blue metro line status: <?php echo $azul; ?>',
+	 'green metro line status: <?php echo $verde; ?>',
+	 'red metro line status: <?php echo $vermelha; ?>',
+	 '<?php echo $tristan_inhabitants_text?>',
+	 'it is <?php echo $temperature; ?> in tinsel town',
+	 'the wind is blowing at <?php echo $wind_speed ?>'
+     ]
+     var radio_broadcasting = false;
+
      const map_positions = { // Pixel positions of elements with 0,0 being the centre of the screen and positive Y values being further *down* the screen
 	 'tinsel-town-tavern': [0, 0], // Element ID: [x, y]
 			     'it-suite': [30, -80],
 			     'the-cottage': [80, -30],
 			     'the-bomb': [100, 30],
 			     'cherokee-1': [-65, -65],
-			     'thompson-world': [-225, -160],
+			     'thompson-world': [-290, 40],
 			     'music-shop': [10, 195],
 			     'bunker-hill': [150, -870],
 			     'hoisington': [-50, 700],
@@ -316,6 +369,47 @@ recordUserVisit();
 	     child.addEventListener('change', updateControlVariable)
 	 });
      }
+     function broadcastOn(){
+	 radio_broadcasting = true;
+	 radio_light.style.display = 'block';
+     }
+     function broadcastOff(){
+	 radio_broadcasting = false;
+	 radio_light.style.display = 'none';
+     }
+     function startRadioMessage(message){
+	 const letter_spacing_px = 5;
+	 const longest_letter_delay_ms = (message.length * letter_delay_ms) + message_visible_ms;
+	 const fade_out_ms = 250;
+	 const maximum_vertical_offset_px = 2;
+
+	 broadcastOn();
+	 setTimeout(() => { broadcastOff() }, longest_letter_delay_ms);
+	 
+	 for (let letter_index = 0; letter_index < message.length; ++letter_index){
+	     const id = 'radio-message-letter-'+letter_index;
+	     const letter_div = document.createElement("div");
+	     const letter_text = document.createTextNode(message[letter_index]);
+	     letter_div.style.left = (letter_spacing_px * letter_index) + 'px';
+	     letter_div.style.top = Math.floor((Math.random() - 0.5) * maximum_vertical_offset_px) + 'px';
+	     letter_div.appendChild(letter_text);
+	     const this_letter_delay_ms = letter_delay_ms*letter_index
+	     setTimeout(() => { radio_message.appendChild(letter_div) }, this_letter_delay_ms);
+	     setTimeout(() => { letter_div.style.color = 'rgba(0,0,0,0)' }, message_visible_ms+this_letter_delay_ms);
+	     setTimeout(() => { radio_message.removeChild(letter_div) }, message_visible_ms+this_letter_delay_ms+fade_out_ms);
+	 }
+     }
+     function maybeStartRadioMessage(){
+	 if (Math.random() > 0.5 && radio_messages.length != 0){ // chance of a broadcast ecah tick
+	     message = radio_messages[Math.floor(Math.random() * radio_messages.length)];
+	     radio_messages.splice(radio_messages.indexOf(message),1)
+	     message_time_ms = (message.length * letter_delay_ms) + message_visible_ms;
+	     startRadioMessage(message)
+	     setTimeout(() => { maybeStartRadioMessage() }, message_time_ms);
+	 } else {
+	     setTimeout(() => { maybeStartRadioMessage() }, radio_message_tick_ms);
+	 }
+     }
      
      // Page Initialisation
      window.onload = function(){
@@ -333,6 +427,8 @@ recordUserVisit();
 	 initialiseChildren();
 	 initialiseControls();
 	 focusMapCoordinates(0,0);
+
+	 maybeStartRadioMessage();
      };
     </script>
 </html>
