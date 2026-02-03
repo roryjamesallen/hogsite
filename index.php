@@ -216,7 +216,8 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 	 'red metro line status: <?php echo $vermelha; ?>',
 	 '<?php echo $tristan_inhabitants_text?>',
 	 'it is <?php echo $temperature; ?> in tinsel town',
-	 'the wind is blowing at <?php echo $wind_speed ?>'
+	 'the wind is blowing at <?php echo $wind_speed ?>',
+	 'mckay speaking: eight legged night is nigh'
      ]
      var radio_broadcasting = false;
 
@@ -383,7 +384,7 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 	 const letter_spacing_px = 5;
 	 const longest_letter_delay_ms = (message.length * letter_delay_ms) + message_visible_ms;
 	 const fade_out_ms = 250;
-	 const maximum_vertical_offset_px = 10;
+	 const maximum_vertical_offset_px = 5;
 
 	 broadcastOn();
 	 setTimeout(() => { broadcastOff() }, longest_letter_delay_ms);
@@ -395,17 +396,14 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 	     letter_div.style.left = (letter_spacing_px * letter_index) + 'px';
 	     letter_div.appendChild(letter_text);
 	     const this_letter_delay_ms = letter_delay_ms*letter_index;
-	     setTimeout(() => {
-		 radio_message.appendChild(letter_div);
-		 
-	     }, this_letter_delay_ms);
-	     setTimeout(() => { letter_div.style.transform = 'translate(0px, ' + Math.floor((Math.random() - 0.5) * maximum_vertical_offset_px) + 'px)'; }, this_letter_delay_ms+10);
+	     setTimeout(() => { radio_message.appendChild(letter_div); }, this_letter_delay_ms);
+	     setTimeout(() => { letter_div.style.transform = 'translate(0px, ' + Math.floor((Math.random() - 1) * maximum_vertical_offset_px) + 'px)'; }, this_letter_delay_ms+25);
 	     setTimeout(() => { letter_div.style.color = 'rgba(0,0,0,0)' }, message_visible_ms+this_letter_delay_ms);
 	     setTimeout(() => { radio_message.removeChild(letter_div) }, message_visible_ms+this_letter_delay_ms+fade_out_ms);
 	 }
      }
      function maybeStartRadioMessage(){
-	 if (Math.random() > 0.1 && radio_messages.length != 0){ // chance of a broadcast ecah tick
+	 if (Math.random() > 0.7 && radio_messages.length != 0){ // chance of a broadcast ecah tick
 	     message = radio_messages[Math.floor(Math.random() * radio_messages.length)];
 	     radio_messages.splice(radio_messages.indexOf(message),1)
 	     message_time_ms = (message.length * letter_delay_ms) + message_visible_ms;
