@@ -14,26 +14,30 @@
 	     display: flex;
 	     gap: 20px;
 	     margin: 50px auto;
+	     height: 70vh;
 	 }
 	 #booth-container > * {
 	     margin: 0 auto;
 	     flex-grow: 1;
 	 }
 	 #wardrobe {
-	     background: brown;
 	     min-width: 50px;
-	     padding: 20px;
 	     display: flex;
 	     flex-wrap: wrap;
-	     gap: 20px;
+	     gap: 2px;
 	     flex: 1;
 	 }
 	 #wardrobe > * {
-	     width: 50px;
+	     background: beige;
+	     flex-basis: 100%;
+	     overflow-x: scroll;
+	     overflow-y: hidden;
+	 }
+	 #wardrobe img {
+	     height: 100%;
 	 }
 	 #body-container {
 	     flex: 2;
-	     height: 70vh;
 	     display: flex;
 	     gap: 2px;
 	     background: #777;
@@ -42,7 +46,6 @@
 	 #body-container > * {
 	     background: #eee;
 	     flex-basis: 100%;
-	     height: 20%;
 	     display: flex;
 	     justify-content: center;
 	     align-items: center;
@@ -58,29 +61,42 @@
 	<h2>Of Tinsel Town</h2>
 	<div id="booth-container">
 	    <div id="wardrobe">
-		<img id="wrangler-hat" class="hat" src="images/wrangler-hat.png" worn-width="150px">
-		<img id="wrangler-pants" class="trousers" src="images/wrangler-pants.png" worn-width="50px">
+		<div id="hats" class="wardrobe-type" style="height: 10%">
+		    <img id="wrangler-hat" class="hat" src="images/wrangler-hat.png">
+		</div>
+		<div id="heads" class="wardrobe-type" style="height: 20%">
+		    
+		</div>
+		<div id="torsos" class="wardrobe-type" style="height: 30%">
+		    
+		</div>
+		<div id="trousers" class="wardrobe-type" style="height: 30%">
+		    <img id="wrangler-pants" class="trouser" src="images/wrangler-pants.png">
+		</div>
+		<div id="feet" class="wardrobe-type" style="height: 10%">
+		    
+		</div>
 	    </div>
 	    <div id="body-container">
-		<div id="hat-container"></div>
-		<div id="head-container"></div>
-		<div id="torso-container"></div>
-		<div id="trousers-container"></div>
-		<div id="feet-container"></div>
+		<div id="hat-container" style="height: 10%"></div>
+		<div id="head-container" style="height: 20%"></div>
+		<div id="torso-container" style="height: 30%"></div>
+		<div id="trouser-container" style="height: 30%"></div>
+		<div id="feet-container" style="height: 10%;"></div>
 	    </div>
 	</div>
     </body>
     
     <script>
      const wardrobe = document.getElementById('wardrobe');
-     const wardrobe_items = wardrobe.getElementsByTagName('*');
+     const wardrobe_items = wardrobe.getElementsByTagName('img');
      const body_container = document.getElementById('body-container');
      const body_slots = body_container.getElementsByTagName('div');
      const body_slot_reference = {
 	 'hat': 0,
 	 'head': 1,
 	 'torso': 2,
-	 'trousers': 3,
+	 'trouser': 3,
 	 'feet': 4
      }
 
@@ -89,13 +105,14 @@
 	 const body_slot = body_slots[body_slot_reference[item_type]];
 	 body_slot.removeChild(item);
 	 item.style.width = item.getAttribute('original-width');
-	 wardrobe.appendChild(item);
+	 console.log(item.classList[0]+'s');
+	 document.getElementById(item.classList[0]+'s').appendChild(item);
      }
 
      function wearItem(event){
 	 const item = event.target;
 	 const item_type = item.classList[0];
-	 if (item.parentNode.id != 'wardrobe'){ // item is already on
+	 if (!item.parentNode.classList.contains('wardrobe-type')){ // item is already on
 	     removeItem(item_type); // take it off
 	 } else {
 	     const body_slot = body_slots[body_slot_reference[item_type]];
@@ -103,7 +120,7 @@
 		 removeItem(item_type);
 	     }
 	     item.setAttribute('original-width', item.style.width);
-	     item.style.width = item.getAttribute('worn-width');
+	     item.style.height = '100%';
 	     body_slot.appendChild(item);
 	 }
      }
@@ -113,7 +130,7 @@
 	     const item = wardrobe_items[i];
 	     item.addEventListener('click',wearItem);
 	     item.style.imageRendering = 'pixelated';
-	     item.style.height = 'fit-content';
+	     //item.style.height = 'fit-content';
 	 }
      }
     </script>
