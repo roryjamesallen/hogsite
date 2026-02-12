@@ -106,6 +106,9 @@
 	 .Q:after, .Z: after {
 	     content: '10';
 	 }
+	 #error-message {
+	     color: red;
+	 }
 	</style>
     </head>
     <body>
@@ -117,6 +120,7 @@
 	    <div class="toolbar-button">ABOUT</div>
 	</div>
 	<div id="game">
+	    <div id="error-message"></div>
 	    <div id="rack"></div>
 	    <div id="board"></div>
 	</div>
@@ -125,6 +129,7 @@
 
 <script>
  // Constants
+ const error_message = document.getElementById('error-message');
  const rack = document.getElementById('rack');
  const board = document.getElementById('board');
  const score_multiplier_reference = {
@@ -185,7 +190,7 @@
      }
  }
 
- // Game Functions
+ // Tile Movement Functions
  function addToHand(new_tile){
      tile_in_hand = new_tile;
      tile_in_hand.classList.add('in-hand');
@@ -201,6 +206,7 @@
  function returnToRack(tile){
      tile.parentNode.removeChild(tile);
      rack.appendChild(tile);
+     validatePlacement();
  }
  function pickUpTile(event){ // add the clicked tile to hand
      const tile = event.target;
@@ -220,7 +226,57 @@
 	 tile_in_hand.parentNode.removeChild(tile_in_hand); // remove tile from hand
 	 slot.appendChild(tile_in_hand); // add tile to slot
 	 emptyHand();
+	 validatePlacement();
      }
+ }
+
+ // Game Scoring Functions
+ function updateErrorMessage(new_message){
+     error_message.innerHTML = new_message;
+ }
+ function validatePlacement(){
+     let new_message = '';
+     const tile_coordinates = getTileCoordinates();
+     if (!checkColinearity(tile_coordinates)){
+	 new_message += 'tiles must be in a line<br>';
+     }
+     updateErrorMessage(new_message);
+ }
+ function getTileCoordinates(){
+     let tile_coordinates = [];
+     for (slot_index=0; slot_index<board_slots.length; ++slot_index){ // for every slot
+	 slot = board.children[slot_index];
+	 if (slot.children.length != 0){ // if the slot contains a tile
+	     tile_coordinates.push([slot_index % 15, Math.floor(slot_index/15)]); // get the tile coords as [x,y]
+	 }
+     }
+     return tile_coordinates;
+ }
+ function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
+     let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
+     for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+	 if (x == null){ // not set x and y from the first tile yet
+	     x = tile_coordinates[tile_index][0]; // set them
+	     y = tile_coordinates[tile_index][1];
+	 } else if (direction == 'v'){ // direction already set to vertical
+	     if (tile_coordinates[tile_index][0] != x){ // but not on the same column
+		 return false
+	     }
+	 } else if (direction == 'h'){ // direction already set to horizontal
+	     if (tile_coordinates[tile_index][1] != y){ // but not on the same row
+		 return false
+	     }
+	 } else if (direction == null){ // direction not yet set but not the first tile being checked
+	     if (tile_coordinates[tile_index][0] == x){ // if x is the same
+		 direction = 'v'; // its a vertical word
+	     } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
+		 direction = 'h'; // its a horizontal word
+	     } else { // neither x or y is the same
+		 return false
+	     }
+	 }
+     }
+     return true // tiles colinear or no tiles placed
  }
  
  // Setup (On Window Load)
