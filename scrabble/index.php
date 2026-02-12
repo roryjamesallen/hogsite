@@ -13,8 +13,6 @@
 	     margin: 0;
 	 }
 	 #toolbar {
-	     display: flex;
-	     justify-content: center;
 	     margin: 0 auto;
 	     gap: 1rem;
 	 }
@@ -22,7 +20,6 @@
 	     text-decoration: underline;
 	 }
 	 #game {
-	     display: flex;
 	     gap: 5px;
 	     flex-wrap: wrap;
 	     width: min(calc(100vw - 10px), 600px);
@@ -31,20 +28,19 @@
 	 #rack {
 	     background: #025418;
 	     width: 100%;
-	     display: flex;
-	     justify-content: center;
 	     gap: 5px;
 	     padding: 5px;
 	 }
 	 .tile {
-	     height: 25px;
+	     height: 28px;
 	     aspect-ratio: 1 / 1;
-	     display: flex;
-	     justify-content: center;
-	     align-items: center;
+	     border: 2px solid #a9a0a4;
+	     border-radius: 3px;
+	     box-sizing: border-box;
 	     background-color: #ede4d7;
 	     font-size: 2rem;
 	     position: relative;
+	     cursor: pointer;
 	 }
 	 #board {
 	     flex-basis: 100%;
@@ -59,6 +55,15 @@
 	     aspect-ratio: 1 / 1;
 	     background-color: #f9eacd;
 	 }
+	 .slot > .tile {
+	     width: 90%;
+	     height: 90%;
+	 }
+	 .slot, .tile, #rack, #game, #toolbar {
+	     display: flex;
+	     justify-content: center;
+	     align-items: center;
+	 }
 	 .double-letter {
 	     background-color: #b4eefc;
 	 }
@@ -71,7 +76,10 @@
 	 .triple-letter {
 	     background-color: #f95f6c;
 	 }
-	 #rack > *:after {
+	 .in-hand {
+	     border: 2px solid white;
+	 }
+	 .tile:after {
 	     font-size: 1rem;
 	     position: absolute;
 	     bottom: -0.25rem;
@@ -116,7 +124,7 @@
 </html>
 
 <script>
- var rack_tiles = ['X','A','B','C','D','E','F'];
+ // Constants
  const rack = document.getElementById('rack');
  const board = document.getElementById('board');
  const score_multiplier_reference = {
@@ -144,33 +152,78 @@
      4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
  ];
 
+ // Live Variables
+ var rack_tiles = ['X','A','B','C','D','E','F'];
+ var tile_in_hand = false;
+ 
+ // Setup Functions
  function createSlot(score_multiplier){ // multiplier 0-4 (see score_multiplier_reference)
      const slot = document.createElement('div');
      slot.id = 'slot-'+slot_index; // id e.g. slot-1
      slot.classList.add('slot', score_multiplier_reference[score_multiplier]) // add class(es) e.g. slot & triple-letter
      return slot
  }
- function generateBoardSlots(){
+ function generateBoardSlots(){ // populate board with slots
      for (slot_index=0; slot_index<board_slots.length; ++slot_index){
-	 slot = createSlot(board_slots[slot_index]);
+	 const slot = createSlot(board_slots[slot_index]);
+	 slot.addEventListener('click', placeTile);
 	 board.appendChild(slot);
      }
  }
-
- function createTile(letter, id){
+ function createTile(letter, id){ // create tile element with given letter
      const tile = document.createElement('div');
      tile.id = id;
      tile.classList.add('tile', letter) // add class(es) e.g. slot & triple-letter
      tile.innerText = letter;
      return tile
  }
- function generateRackTiles(){
+ function generateRackTiles(){ // populate rack with tiles
      for (tile_index=0; tile_index<rack_tiles.length; ++tile_index){
-	 tile = createTile(rack_tiles[tile_index]);
+	 const tile = createTile(rack_tiles[tile_index], 'tile-'+tile_index);
+	 tile.addEventListener('click', pickUpTile);
 	 rack.appendChild(tile);
      }
  }
+
+ // Game Functions
+ function addToHand(new_tile){
+     tile_in_hand = new_tile;
+     tile_in_hand.classList.add('in-hand');
+ }
+ function emptyHand(){
+     tile_in_hand.classList.remove('in-hand');
+     tile_in_hand = false;
+ }
+ function swapTile(new_tile){ // swap the tile currently in hand with the new tile
+     emptyHand();
+     addToHand(new_tile);
+ }
+ function returnToRack(tile){
+     tile.parentNode.removeChild(tile);
+     rack.appendChild(tile);
+ }
+ function pickUpTile(event){ // add the clicked tile to hand
+     const tile = event.target;
+     if (!tile_in_hand){
+	 if (tile.parentNode.id == 'rack'){
+	     addToHand(tile); // just pick it up
+	 } else {
+	     returnToRack(tile); // already in slot so return to rack
+	 }
+     } else {
+	 swapTile(tile)
+     }
+ }
+ function placeTile(event){ // try to place tile in hand in clicked slot
+     const slot = event.target;
+     if (tile_in_hand && slot.children.length == 0){ // if holding a tile and clicking an empty slot
+	 tile_in_hand.parentNode.removeChild(tile_in_hand); // remove tile from hand
+	 slot.appendChild(tile_in_hand); // add tile to slot
+	 emptyHand();
+     }
+ }
  
+ // Setup (On Window Load)
  window.addEventListener("load", (event) => {
      generateBoardSlots();
      generateRackTiles();
