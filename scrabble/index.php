@@ -237,8 +237,11 @@
  function validatePlacement(){
      let new_message = '';
      const tile_coordinates = getTileCoordinates();
-     if (!checkColinearity(tile_coordinates)){
+     const direction = checkColinearity(tile_coordinates);
+     if (!direction){
 	 new_message += 'tiles must be in a line<br>';
+     } else if (!checkTilesTouch(direction[0])) {
+	 new_message += 'tiles must be touching<br>';
      }
      updateErrorMessage(new_message);
  }
@@ -252,31 +255,39 @@
      }
      return tile_coordinates;
  }
+ function checkTilesTouch(tile_coordinates, direction){
+     return true
+     //const direction = {'v':1,'h':0}[direction]; // turn letter direction into [x,y] index
+     //let lowest_value = Infinity;
+     //for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+     //if (tile_coordinates[tile_index][direction] < lowest_value){
+     //lowest_value = tile_coordinates[tile_index][direction];
+     //	 }
+     //}
+     //for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+     // add one each time etc see if theres a tile with that coord
+     //}
+ }
  function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
      let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
+     const coords = [x,y];
      for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
 	 if (x == null){ // not set x and y from the first tile yet
 	     x = tile_coordinates[tile_index][0]; // set them
 	     y = tile_coordinates[tile_index][1];
-	 } else if (direction == 'v'){ // direction already set to vertical
-	     if (tile_coordinates[tile_index][0] != x){ // but not on the same column
-		 return false
-	     }
-	 } else if (direction == 'h'){ // direction already set to horizontal
-	     if (tile_coordinates[tile_index][1] != y){ // but not on the same row
-		 return false
-	     }
-	 } else if (direction == null){ // direction not yet set but not the first tile being checked
+	 } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
 	     if (tile_coordinates[tile_index][0] == x){ // if x is the same
-		 direction = 'v'; // its a vertical word
+		 direction = 0; // its a vertical word
 	     } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
-		 direction = 'h'; // its a horizontal word
+		 direction = 1; // its a horizontal word
 	     } else { // neither x or y is the same
 		 return false
 	     }
+	 } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set
+	     return false
 	 }
      }
-     return true // tiles colinear or no tiles placed
+     return [direction] // tiles colinear or no tiles placed
  }
  
  // Setup (On Window Load)
