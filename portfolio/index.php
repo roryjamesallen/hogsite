@@ -12,6 +12,7 @@
 	<link rel="shortcut icon" href="../rory/favicon.png" />
 	<link rel="apple-touch-icon" sizes="512x512" href="../rory/favicon.png" />
 	<meta name="apple-mobile-web-app-title" content="Rory Allen's Websites" />
+	<base href="hogwild.uk/portfolio">
 	
 	<title>Rory Allen's Websites</title>
 	<style>
