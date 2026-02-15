@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+	<base href="https://hogwild.uk/portfolio">
 	<meta charset="utf-8">
 	<meta name="description" content="A list of websites created by Rory Allen.">
 	<meta property="og:title" content="Rory Allen's Websites">
@@ -12,8 +13,7 @@
 	<link rel="shortcut icon" href="../rory/favicon.png" />
 	<link rel="apple-touch-icon" sizes="512x512" href="../rory/favicon.png" />
 	<meta name="apple-mobile-web-app-title" content="Rory Allen's Websites" />
-	<base href="hogwild.uk/portfolio">
-	
+		
 	<title>Rory Allen's Websites</title>
 	<style>
 	 @font-face {
@@ -26,7 +26,7 @@
 	 body {
 	     font-family: Melodica;
 	     width: min(800px, 90vw);
-	     margin: 0 auto;
+	     margin: 0 auto 5rem;
 	 }
 	 h1 {
 	     text-align: center;
@@ -42,20 +42,20 @@
 	     display: flex;
 	     flex-wrap: wrap;
 	     gap: 1rem;
-	     margin-bottom: 5rem;
+	     margin-bottom: 2rem;
 	 }
 	 .grid-item {
 	     flex-basis: 20%;
 	     flex-grow: 1;
-	     border: 2px solid #eee;
 	     display: flex;
+	     border: 2px solid #eee;
 	     align-content: start;
 	     flex-wrap: wrap;
 	     gap: 0.5rem;
 	     transition: background 0.2s;
 	 }
 	 .grid-item:hover {
-	     background: #eee;
+	     border: 2px solid red;
 	 }
 	 @media only screen and (max-width: 900px){
 	     .grid-item {
@@ -102,11 +102,11 @@
     <body>
 	<h1>Rory Allen's Websites</h1>
 	<h2>Me</h2>
-	<p>I'm <a href="https://rory.hogwild.uk">Rory</a>, live in London, UK. I make websites for fun and for for free using <a href="https://www.gnu.org/software/emacs/">Emacs</a> on a DELL laptop that my friend gave me which is now running <a href="https://www.debian.org/">Debian</a>. Old school baby - NO AI EVER</p>
-	<p>If you have an idea for a site that you want help with or want me to make or think I could incorporate into a site I've already made, please <strong>please</strong> <i>please</i> tell me, I love making websites!!!.
+	<p>I'm <a href="https://rory.hogwild.uk">Rory</a>, live in London, UK. I make websites for fun and for for free using the programs/tools listed at the bottom of this page.</p>
+	<p>If you have an idea for a site that you want help with or want me to make or think I could incorporate into a site I've already made, please <strong>please</strong> <i>please</i> tell me, I love making websites!!! I answer every single (non spam) email sent to <a href="mailto:rory@hogwild.uk">rory@hogwild.uk</a>.
 	</p>
 	<h2>The Sites</h2>
-	<p>Every live site I have worked on (all but one are solely my work). Listed in alphabetical order.</p>
+	<p>Every live site I have worked on (all but one are solely my work). Listed in alphabetical order.</p><br>
 	<div id="main-grid">
 	    
 	    <div class="grid-item">
@@ -135,7 +135,7 @@
 		<p>A rulebook for my friends' house UNO rules</p>
 	    </div>
 	    <div class="grid-item">
-		<div class="grid-image" style="--scale-factor: 0.1"><iframe src="https://hogwild.uk/nothingeverhappens"></iframe></div>
+		<div class="grid-image" style="--scale-factor: 0.25"><iframe src="https://hogwild.uk/nothingeverhappens"></iframe></div>
 		<h3><a href="https://hogwild.uk/nothingeverhappens">Nothing Ever Happens</a></h3>
 		<p>Moneyless betting between friends</p>
 	    </div>
@@ -170,5 +170,14 @@
 		<p>A hand drawn interactive recreation of our old shared house in Sheffield</p>
 	    </div>
 	</div>
+	<h2 id="the-programs">The Tools</h2>
+	<p>I love FOSS (Free Open Source Hardware) and use it where I can. I like it old school and with NO AI EVER.</p>
+	<ol>
+	    <li>A Dell Laptop (given to me by my friend Johnny) running Linux (<a href="https://www.debian.org/">Debian</a>).</li>
+	    <li><a href="https://www.gnu.org/software/emacs/">Emacs</a> for editing all the files - I don't use an IDE or any kind of live testing editor, just refresh the files in <a href="https://en.wikipedia.org/wiki/Firefox">Firefox</a>.</li>
+	    <li>A standard <a href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)">LAMP</a> stack for testing the sites locally - all free and easy.</li>
+	    <li><a href="https://www.affinity.studio/">Affinity</a> for editing images - sadly not FOSS but free and easy for me to use after using Adobe products for so long.</li>
+	    <li><a href="https://git-scm.com/">Git</a> for managing versions and collaborations - irreplaceable and useful for working locally on a site and then making it live.</li>
+	</ol>
     </body>
 </html>
