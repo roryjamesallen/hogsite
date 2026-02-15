@@ -35,8 +35,7 @@
 	     margin: 0 0 0.5rem;
 	 }
 	 a {
-	     color: black;
-	     text-decoration: none;
+	     color: #069;
 	 }
 	 #main-grid {
 	     display: flex;
@@ -45,6 +44,8 @@
 	     margin-bottom: 2rem;
 	 }
 	 .grid-item {
+	     color: black;
+	     text-decoration: none;
 	     flex-basis: 20%;
 	     flex-grow: 1;
 	     display: flex;
