@@ -158,7 +158,7 @@
 		<p>Experimental collaborative site with Jack McInnes</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/thompson-world">
-		<img src="images/thompson.gif"
+		<img src="images/thompson.gif">
 		<h3>Thompson World</h3>
 		<p>A hand drawn interactive recreation of our old shared house in Sheffield</p>
 	    </a>
