@@ -40,6 +40,9 @@
 	     background-color: #ede4d7;
 	     font-size: 2rem;
 	     position: relative;
+	 }
+	 .tile-active {
+	     border-color: red;
 	     cursor: pointer;
 	 }
 	 #board {
@@ -139,7 +142,7 @@
      3: 'double-word',
      4: 'triple-word'
  };
- const board_slots = [
+ const board_slots = [ // score multiplier per board slot (see above reference)
      4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
      0,3,0,0,0,2,0,0,0,2,0,0,0,2,0,
      0,0,3,0,0,0,1,0,1,0,0,0,3,0,0,
@@ -158,33 +161,57 @@
  ];
 
  // Live Variables
+ var board_state = [ // actual state of the board using letters - initialised using PHP on page load
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','B','A','C','K','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+     '','','','','','','','','','','','','','','',
+ ];
  var rack_tiles = ['X','A','B','C','D','E','F'];
  var tile_in_hand = false;
  
  // Setup Functions
- function createSlot(score_multiplier){ // multiplier 0-4 (see score_multiplier_reference)
+ function createSlot(score_multiplier, letter=''){ // multiplier 0-4 (see score_multiplier_reference)
      const slot = document.createElement('div');
      slot.id = 'slot-'+slot_index; // id e.g. slot-1
      slot.classList.add('slot', score_multiplier_reference[score_multiplier]) // add class(es) e.g. slot & triple-letter
+     if (letter != ''){ // if a tile is already in that slot
+	 slot.appendChild(createTile(letter, 'slot-'+slot_index+'-letter')); // add the tile that already exists there
+     } else {
+	 slot.addEventListener('click', placeTile); // otherwise let it have a tile added to it interactively
+     }
      return slot
  }
  function generateBoardSlots(){ // populate board with slots
      for (slot_index=0; slot_index<board_slots.length; ++slot_index){
-	 const slot = createSlot(board_slots[slot_index]);
-	 slot.addEventListener('click', placeTile);
+	 const slot = createSlot(board_slots[slot_index], board_state[slot_index]);
 	 board.appendChild(slot);
      }
  }
- function createTile(letter, id){ // create tile element with given letter
+ function createTile(letter, id, active=false){ // create tile element with given letter
      const tile = document.createElement('div');
      tile.id = id;
      tile.classList.add('tile', letter) // add class(es) e.g. slot & triple-letter
+     if (active){
+	 tile.classList.add('tile-active');
+     }
      tile.innerText = letter;
      return tile
  }
  function generateRackTiles(){ // populate rack with tiles
      for (tile_index=0; tile_index<rack_tiles.length; ++tile_index){
-	 const tile = createTile(rack_tiles[tile_index], 'tile-'+tile_index);
+	 const tile = createTile(rack_tiles[tile_index], 'tile-'+tile_index, true);
 	 tile.addEventListener('click', pickUpTile);
 	 rack.appendChild(tile);
      }
@@ -236,21 +263,26 @@
  }
  function validatePlacement(){
      let new_message = '';
-     const tile_coordinates = getTileCoordinates();
+     const tile_coordinates = getTileCoordinates(true);
      const direction = checkColinearity(tile_coordinates);
      if (!direction){
 	 new_message += 'tiles must be in a line<br>';
      } else if (!checkTilesTouch(direction[0])) {
 	 new_message += 'tiles must be touching<br>';
      }
+     // check words without active
+     // check words with active and compare to get new words
+     // dictionary check all new words
      updateErrorMessage(new_message);
  }
- function getTileCoordinates(){
+ function getTileCoordinates(active_only=false){ // active only will only return a coord list of the active tiles
      let tile_coordinates = [];
      for (slot_index=0; slot_index<board_slots.length; ++slot_index){ // for every slot
 	 slot = board.children[slot_index];
 	 if (slot.children.length != 0){ // if the slot contains a tile
-	     tile_coordinates.push([slot_index % 15, Math.floor(slot_index/15)]); // get the tile coords as [x,y]
+	     if (slot.children[0].classList.contains('tile-active') || active_only == false){ // if the tile is active or active_only is off
+		 tile_coordinates.push([slot_index % 15, Math.floor(slot_index/15)]); // get the tile coords as [x,y]
+	     }
 	 }
      }
      return tile_coordinates;
@@ -258,8 +290,8 @@
  function checkTilesTouch(tile_coordinates, direction){
      return true
      //const direction = {'v':1,'h':0}[direction]; // turn letter direction into [x,y] index
-     //let lowest_value = Infinity;
-     //for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+	     //let lowest_value = Infinity;
+	     //for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
      //if (tile_coordinates[tile_index][direction] < lowest_value){
      //lowest_value = tile_coordinates[tile_index][direction];
      //	 }
