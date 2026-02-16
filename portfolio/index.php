@@ -79,6 +79,10 @@
 	 }
 	 .grid-item > p {
 	     margin: 0 0.5rem 0.5rem;
+	     color: #777;
+	 }
+	 .emoji {
+	     font-size: 0.75rem;
 	 }
 	</style>
     </head>
@@ -105,62 +109,62 @@
 	    
 	    <a class="grid-item" href="https://hogwild.uk">
 		<img src="images/hogwilduk.gif">
-		<h3>Hogwild.uk</h3>
+		<h3><span class="emoji">🐗</span> Hogwild.uk</h3>
 		<p>Scrollable map based homepage for the imaginary universe of The Wild Hogs</p>
 	    </a>
 	    <a class="grid-item" href="https://wiki.hogwild.uk">
 		<img src="images/hogipedia.png">
-		<h3>Hogipedia</h3>
+		<h3><span class="emoji">📖</span> Hogipedia</h3>
 		<p>Wikipedia style lore library for The Wild Hog universe</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/hog-fishing">
 		<img src="images/fishing.gif">
-		<h3>Hook-A-Duck</h3>
+		<h3><span class="emoji">🦆</span> Hook-A-Duck</h3>
 		<p>Fishing for ducks in the Thompson World bath</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/mealdeal">
 		<img src="images/mealdeal.gif">
-		<h3>Meal Deal Maker</h3>
+		<h3><span class="emoji">🥪</span> Meal Deal Maker</h3>
 		<p>Name your favourite Tesco meal deals</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/newno">
 		<img src="images/newno.gif">
-		<h3>Newno</h3>
+		<h3><span class="emoji">🃏</span> Newno</h3>
 		<p>A rulebook for my friends' house UNO rules</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/nothingeverhappens">
 		<img src="images/nothingeverhappens.png">
-		<h3>Nothing Ever Happens</h3>
+		<h3><span class="emoji">🎲</span> Nothing Ever Happens</h3>
 		<p>Moneyless betting between friends</p>
 	    </a>
 	    <a class="grid-item" href="https://notoalgorithms.hogwild.uk">
 		<img src="images/notoalgorithms.gif">
-		<h3>No To Algorithms!</h3>
+		<h3><span class="emoji">🎵</span> No To Algorithms!</h3>
 		<p>Humans only music recommendations</p>
 	    </a>
 	    <a class="grid-item" href="https://otalaband.com">
 		<img src="images/otala.png">
-		<h3>Otala</h3>
+		<h3><span class="emoji">🎸</span> Otala</h3>
 		<p>My band's website including automatic gig counting</p>
 	    </a>
 	    <a class="grid-item" href="https://otalaband.com/otaladle">
 		<img src="images/otaladle.gif">
-		<h3>Otaladle</h3>
+		<h3><span class="emoji">🅾</span> Otaladle</h3>
 		<p>Stupid Wordle clone, you can guess what the word is</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/strobe">
 		<img src="images/strobe.gif">
-		<h3>Strobe</h3>
+		<h3><span class="emoji">💡</span> Strobe</h3>
 		<p>Make your screen strobe with set speed and colours</p>
 	    </a>
 	    <a class="grid-item" href="https://valve.hogwild.uk">
 		<img src="images/valve.gif">
-		<h3>The Valve That Failed</h3>
+		<h3><span class="emoji">🚰</span> The Valve That Failed</h3>
 		<p>Experimental collaborative site with Jack McInnes</p>
 	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/thompson-world">
 		<img src="images/thompson.gif">
-		<h3>Thompson World</h3>
+		<h3><span class="emoji">🏠</span> Thompson World</h3>
 		<p>A hand drawn interactive recreation of our old shared house in Sheffield</p>
 	    </a>
 	</div>
