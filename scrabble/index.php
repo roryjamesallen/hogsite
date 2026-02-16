@@ -168,7 +168,7 @@
      '','','','','','','','','','','','','','','',
      '','','','','','','','','','','','','','','',
      '','','','','','','','','','','','','','','',
-     '','','','','','B','A','C','K','','','','','','',
+     '','','','','','','','','','','','','','','',
      '','','','','','','','','','','','','','','',
      '','','','','','','','','','','','','','','',
      '','','','','','','','','','','','','','','',
@@ -231,7 +231,8 @@
      addToHand(new_tile);
  }
  function returnToRack(tile){
-     tile.parentNode.removeChild(tile);
+     board_state[tile.parentNode.id.replace('slot-','')] = '';
+     tile.parentNode.removeChild(tile);     
      rack.appendChild(tile);
      validatePlacement();
  }
@@ -252,6 +253,7 @@
      if (tile_in_hand && slot.children.length == 0){ // if holding a tile and clicking an empty slot
 	 tile_in_hand.parentNode.removeChild(tile_in_hand); // remove tile from hand
 	 slot.appendChild(tile_in_hand); // add tile to slot
+	 board_state[slot.id.replace('slot-','')] = tile_in_hand.innerText;
 	 emptyHand();
 	 validatePlacement();
      }
@@ -267,7 +269,7 @@
      const direction = checkColinearity(tile_coordinates);
      if (!direction){
 	 new_message += 'tiles must be in a line<br>';
-     } else if (!checkTilesTouch(direction[0])) {
+     } else if (!checkAllTilesTouch()) {
 	 new_message += 'tiles must be touching<br>';
      }
      // check words without active
@@ -287,18 +289,49 @@
      }
      return tile_coordinates;
  }
- function checkTilesTouch(tile_coordinates, direction){
+ function getBoardState2D(border=true){ // instead of a flat board state, get in form [x1,y1] with a 1 item border of blanks to allow indexing in each direction
+     let board_state_2d = ['.'.repeat(16).split('.')];
+     for (y=0; y<15; ++y){
+	 let column = [];
+	 if (border){
+	     column.push(null);
+	 }
+	 for (x=0; x<15; ++x){
+	     column.push(board_state[(x*15)+y]);
+	 }
+	 if (border){
+	     column.push(null);
+	 }
+	 board_state_2d.push(column);
+     }
+     if (border){
+	 board_state_2d.push('.'.repeat(16).split('.'));
+     }
+     console.log(board_state_2d);
+     return board_state_2d
+ }
+ function checkAllTilesTouch(){
+     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
+     let blob_found = false; // blob of letters
+     let allowed_coords = [];
+     const coord_offsets = [[-1,0],[0,-1],[1,0],[0,1]];
+     for (x=1; x<=15; ++x){
+	 for (y=1; y<=15; ++y){
+	     if (board_state_2d[x][y] != ''){ // if there's a letter there
+		 if (!blob_found){
+		     blob_found = true; // the blob (of letters) has been found
+		 } else if (!allowed_coords.includes[x,y]){ // if this tile is in a new blob (can only fail if not the first letter of the blob)
+		     return false // fail the touching test
+		 }
+		     
+		 for (offset=0; offset<coord_offsets.length; ++offset){ // check all surrounding slots
+		     allowed_coords.push([x+coord_offsets[offset][0],y+coord_offsets[offset][1]]);
+		 }
+	     }
+	 }
+     }
+     console.log(allowed_coords);
      return true
-     //const direction = {'v':1,'h':0}[direction]; // turn letter direction into [x,y] index
-	     //let lowest_value = Infinity;
-	     //for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
-     //if (tile_coordinates[tile_index][direction] < lowest_value){
-     //lowest_value = tile_coordinates[tile_index][direction];
-     //	 }
-     //}
-     //for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
-     // add one each time etc see if theres a tile with that coord
-     //}
  }
  function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
      let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
