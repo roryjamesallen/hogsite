@@ -269,13 +269,18 @@
      const direction = checkColinearity(tile_coordinates);
      if (!direction){
 	 new_message += 'tiles must be in a line<br>';
-     } else if (!checkAllTilesTouch()) {
+     } else if (!checkAllTilesTouch()){
 	 new_message += 'tiles must be touching<br>';
+     } else {
+	 const invalid_word = findFirstInvalidWord();
+	 if (invalid_word != false){
+	     new_message += invalid_word+' is not a valid word<br>';
+	 }
      }
-     // check words without active
-     // check words with active and compare to get new words
-     // dictionary check all new words
      updateErrorMessage(new_message);
+ }
+ function findFirstInvalidWord(){
+     return false
  }
  function getTileCoordinates(active_only=false){ // active only will only return a coord list of the active tiles
      let tile_coordinates = [];
@@ -310,14 +315,14 @@
      console.log(board_state_2d);
      return board_state_2d
  }
- function removeSurroundingLetters(board_state_2d, x, y){ // remove letter and recursively remove surrounding letters if present
+ function removeAdjacentLetters(board_state_2d, x, y){ // remove letter and recursively remove adjacent letters if present
      board_state_2d[x][y] = ''; // at the very least remove the letter itself
      const coord_offsets = [[-1,0],[0,-1],[1,0],[0,1]]; // list of [x,y] offsets to check for letters (adjacent but not diagonal)
-     for (offset=0; offset<coord_offsets.length; ++offset){ // check all surrounding slots
-	 let surrounding_tile_x = x+coord_offsets[offset][0]; // coord of the adjacent tile
-	 let surrounding_tile_y = y+coord_offsets[offset][1];
-	 if (board_state_2d[surrounding_tile_x][surrounding_tile_y] != ''){
-	     board_state_2d = removeSurroundingLetters(board_state_2d, surrounding_tile_x, surrounding_tile_y); // rescursively remove surrounding letters
+     for (offset=0; offset<coord_offsets.length; ++offset){ // check all adjacent slots
+	 let adjacent_tile_x = x+coord_offsets[offset][0]; // coord of the adjacent tile
+	 let adjacent_tile_y = y+coord_offsets[offset][1];
+	 if (board_state_2d[adjacent_tile_x][adjacent_tile_y] != ''){
+	     board_state_2d = removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y); // rescursively remove adjacent letters
 	 }
      }
      return board_state_2d
@@ -336,7 +341,7 @@
  function checkAllTilesTouch(){
      let board_state_2d = getBoardState2D(); // board state as 2D array of letters
      first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board
-     board_state_2d = removeSurroundingLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+     board_state_2d = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
      if (findFirstLetterCoords(board_state_2d) != false){ // if any letters still on board
 	 return false // not all touching
      } else {
