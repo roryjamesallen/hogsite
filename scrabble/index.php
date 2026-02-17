@@ -289,7 +289,7 @@
      }
      return tile_coordinates;
  }
- function getBoardState2D(border=true){ // instead of a flat board state, get in form [x1,y1] with a 1 item border of blanks to allow indexing in each direction
+ function getBoardState2D(border=true){ // instead of a flat board state, get in form [x1,y1] with optional 1 item border of blanks to allow indexing of adjacent tiles
      let board_state_2d = ['.'.repeat(16).split('.')];
      for (y=0; y<15; ++y){
 	 let column = [];
@@ -310,28 +310,38 @@
      console.log(board_state_2d);
      return board_state_2d
  }
- function checkAllTilesTouch(){
-     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
-     let blob_found = false; // blob of letters
-     let allowed_coords = [];
-     const coord_offsets = [[-1,0],[0,-1],[1,0],[0,1]];
+ function removeSurroundingLetters(board_state_2d, x, y){ // remove letter and recursively remove surrounding letters if present
+     board_state_2d[x][y] = ''; // at the very least remove the letter itself
+     const coord_offsets = [[-1,0],[0,-1],[1,0],[0,1]]; // list of [x,y] offsets to check for letters (adjacent but not diagonal)
+     for (offset=0; offset<coord_offsets.length; ++offset){ // check all surrounding slots
+	 let surrounding_tile_x = x+coord_offsets[offset][0]; // coord of the adjacent tile
+	 let surrounding_tile_y = y+coord_offsets[offset][1];
+	 if (board_state_2d[surrounding_tile_x][surrounding_tile_y] != ''){
+	     board_state_2d = removeSurroundingLetters(board_state_2d, surrounding_tile_x, surrounding_tile_y); // rescursively remove surrounding letters
+	 }
+     }
+     return board_state_2d
+ }
+ function findFirstLetterCoords(board_state_2d){
      for (x=1; x<=15; ++x){
 	 for (y=1; y<=15; ++y){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-		 if (!blob_found){
-		     blob_found = true; // the blob (of letters) has been found
-		 } else if (!allowed_coords.includes[x,y]){ // if this tile is in a new blob (can only fail if not the first letter of the blob)
-		     return false // fail the touching test
-		 }
-		     
-		 for (offset=0; offset<coord_offsets.length; ++offset){ // check all surrounding slots
-		     allowed_coords.push([x+coord_offsets[offset][0],y+coord_offsets[offset][1]]);
-		 }
+		 letter_found = [x,y]
+		 return letter_found
 	     }
 	 }
      }
-     console.log(allowed_coords);
-     return true
+     return false // no letters on board
+ }
+ function checkAllTilesTouch(){
+     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
+     first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board
+     board_state_2d = removeSurroundingLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+     if (findFirstLetterCoords(board_state_2d) != false){ // if any letters still on board
+	 return false // not all touching
+     } else {
+	 return true // must all be touching
+     }
  }
  function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
      let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
@@ -340,15 +350,18 @@
 	 if (x == null){ // not set x and y from the first tile yet
 	     x = tile_coordinates[tile_index][0]; // set them
 	     y = tile_coordinates[tile_index][1];
+	     console.log('set x,y '+x+','+y);
 	 } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
 	     if (tile_coordinates[tile_index][0] == x){ // if x is the same
 		 direction = 0; // its a vertical word
+		 coords[0] = x; // set the required x for the word
 	     } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
 		 direction = 1; // its a horizontal word
+		 coords[1] = y; // set the required y for the word
 	     } else { // neither x or y is the same
 		 return false
 	     }
-	 } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set
+	 } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
 	     return false
 	 }
      }
