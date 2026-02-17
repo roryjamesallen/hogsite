@@ -137,6 +137,23 @@ if (isset($_GET['game'])){
 	 #error-message {
 	     color: red;
 	 }
+	 #play-button {
+	     padding: 5px;
+	     width: fit-content;
+	     margin: 0 auto;
+	 }
+	 .play-true {
+	     border: 2px solid red;
+	     color: black;
+	     background: #eee;
+	     cursor: pointer;
+	 }
+	 .play-false {
+	     border: 2px solid #eee;
+	     color: #777;
+	     background: white;
+	     cursor: unset;
+	 }
 	</style>
     </head>
     <body>
@@ -153,6 +170,7 @@ if (isset($_GET['game'])){
 	    <div id="rack"></div>
 	    <div id="board"></div>
 	</div>
+	<div id="play-button" class="play-false">PLAY</div>
     </body>
 </html>
 
@@ -162,6 +180,7 @@ if (isset($_GET['game'])){
  const nickname_playing = '<?php echo $nickname_playing;?>'; // nickname of playing player
  
  // JS Constants
+ const play_button = document.getElementById('play-button');
  const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
  const rack = document.getElementById('rack');
@@ -294,16 +313,17 @@ if (isset($_GET['game'])){
  }
 
  // Game Scoring Functions
- function updateErrorMessage(new_message){
-     error_message.innerHTML = new_message;
- }
  function validatePlacement(){
      let new_message = '';
      const tile_coordinates = getTileCoordinates(true);
      const direction = checkColinearity(tile_coordinates);
-     if (!direction){
+     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
+     const first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board
+     if (!first_letter_coords){
+	 new_message += 'you must place at least one tile<br>';
+     } else if (!direction){
 	 new_message += 'tiles must be in a line<br>';
-     } else if (!checkAllTilesTouch()){
+     } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
 	 new_message += 'tiles must be touching<br>';
      } else {
 	 const invalid_word = findFirstInvalidWord();
@@ -355,7 +375,7 @@ if (isset($_GET['game'])){
 	 let adjacent_tile_x = x+coord_offsets[offset][0]; // coord of the adjacent tile
 	 let adjacent_tile_y = y+coord_offsets[offset][1];
 	 if (board_state_2d[adjacent_tile_x][adjacent_tile_y] != ''){
-	     board_state_2d = removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y); // rescursively remove adjacent letters
+	     board_state_2d = removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y); // recursively remove adjacent letters
 	 }
      }
      return board_state_2d
@@ -364,17 +384,17 @@ if (isset($_GET['game'])){
      for (x=1; x<=15; ++x){
 	 for (y=1; y<=15; ++y){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-		 letter_found = [x,y]
-		 return letter_found
-	     }
-	 }
+	 letter_found = [x,y]
+	 return letter_found
+     }
+ }
      }
      return false // no letters on board
  }
- function checkAllTilesTouch(){
-     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
-     first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board
-     board_state_2d = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+ function checkAllTilesTouch(board_state_2d, first_letter_coords){
+     if (first_letter_coords != false){ // if there are any letters on the board
+	 board_state_2d = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+     }
      if (findFirstLetterCoords(board_state_2d) != false){ // if any letters still on board
 	 return false // not all touching
      } else {
@@ -403,6 +423,22 @@ if (isset($_GET['game'])){
 	 }
      }
      return [direction] // tiles colinear or no tiles placed
+ }
+
+ // Other Live Functions (Text etc)
+  function setPlayButton(value){
+     if (play_button.classList.contains('play-'+(!value).toString())){ // only swap if its not already that value
+	 play_button.classList.remove('play-'+(!value).toString()); // remove opposite value class
+	 play_button.classList.add('play-'+value.toString());
+     }
+ }
+ function updateErrorMessage(new_message){
+     error_message.innerHTML = new_message;
+     if (error_message.innerText != ''){
+	 setPlayButton(false); // disable play button if there's an error
+     } else {
+	 setPlayButton(true); // make play button active if there's not an error
+     }
  }
  
  // Setup (On Window Load)
