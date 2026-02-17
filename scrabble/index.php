@@ -1,11 +1,22 @@
 <?php
-// get game id GET
-// get user id POST
-// retrieve game state SQL
-// retrieve tilebag SQL
-// retrieve users rack SQL
-// repopulate users rack if possible, update tilebag and rack SQL
-// encode variables for JS
+$_SESSION['nickname'] = 'rory';
+
+$playable = false; // read by JS
+if (isset($_GET['game'])){
+    $game_path = 'games/'.$_GET['game'].'.json';
+    if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
+	// show error page
+    } else if (!isset($_SESSION['nickname'])){ // game exists but php doesn't know who is playing
+	// show choose user page
+    } else { // playin time
+	$game_data = json_decode(file_get_contents($game_path),true);
+	$user_playing = $game_data['turn']; // e.g. user_1 not nickname
+	$nickname_playing = $game_data[$user_playing]['nickname'];
+	if ($nickname_playing == $_SESSION['nickname']){ // this user's go
+	    $playable = true;
+	}
+    }
+}
 ?>
 
 <html>
@@ -119,6 +130,10 @@
 	 .Q:after, .Z: after {
 	     content: '10';
 	 }
+	 #error-message, #user-turn-text {
+	     flex-basis: 100%;
+	     text-align: center;
+	 }
 	 #error-message {
 	     color: red;
 	 }
@@ -133,6 +148,7 @@
 	    <div class="toolbar-button">ABOUT</div>
 	</div>
 	<div id="game">
+	    <div id="user-turn-text"></div>
 	    <div id="error-message"></div>
 	    <div id="rack"></div>
 	    <div id="board"></div>
@@ -141,7 +157,12 @@
 </html>
 
 <script>
- // Constants
+ // Variables From PHP
+ const playable = <?php echo json_encode($playable);?>; // bool of if this user can play
+ const nickname_playing = '<?php echo $nickname_playing;?>'; // nickname of playing player
+ 
+ // JS Constants
+ const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
  const rack = document.getElementById('rack');
  const board = document.getElementById('board');
@@ -153,45 +174,48 @@
      4: 'triple-word'
  };
  const board_slots = [ // score multiplier per board slot (see above reference)
-     4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
-     0,3,0,0,0,2,0,0,0,2,0,0,0,2,0,
-     0,0,3,0,0,0,1,0,1,0,0,0,3,0,0,
-     1,0,0,3,0,0,0,1,0,0,0,3,0,0,1,
-     0,0,0,0,3,0,0,0,0,0,3,0,0,0,0,
-     0,2,0,0,0,2,0,0,0,2,0,0,0,2,0,
-     0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,
-     4,0,0,1,0,0,0,3,0,0,0,1,0,0,4,
-     0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,
-     0,2,0,0,0,2,0,0,0,2,0,0,0,2,0,
-     0,0,0,0,3,0,0,0,0,0,3,0,0,0,0,
-     1,0,0,3,0,0,0,1,0,0,0,3,0,0,1,
-     0,0,3,0,0,0,1,0,1,0,0,0,3,0,0,
-     0,3,0,0,0,2,0,0,0,2,0,0,0,2,0,
-     4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
+		       4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
+		       0,3,0,0,0,2,0,0,0,2,0,0,0,2,0,
+		       0,0,3,0,0,0,1,0,1,0,0,0,3,0,0,
+		       1,0,0,3,0,0,0,1,0,0,0,3,0,0,1,
+		       0,0,0,0,3,0,0,0,0,0,3,0,0,0,0,
+		       0,2,0,0,0,2,0,0,0,2,0,0,0,2,0,
+		       0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,
+		       4,0,0,1,0,0,0,3,0,0,0,1,0,0,4,
+		       0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,
+		       0,2,0,0,0,2,0,0,0,2,0,0,0,2,0,
+		       0,0,0,0,3,0,0,0,0,0,3,0,0,0,0,
+		       1,0,0,3,0,0,0,1,0,0,0,3,0,0,1,
+		       0,0,3,0,0,0,1,0,1,0,0,0,3,0,0,
+		       0,3,0,0,0,2,0,0,0,2,0,0,0,2,0,
+		       4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
  ];
 
  // Live Variables
  var board_state = [ // actual state of the board using letters - initialised using PHP on page load
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
-     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
+		     '','','','','','','','','','','','','','','',
  ];
  var rack_tiles = ['X','A','B','C','D','E','F'];
  var tile_in_hand = false;
  
  // Setup Functions
+ function updateUserTurnText(){
+     user_turn_text.innerText = 'It is '+nickname_playing+'\'s turn';
+ }
  function createSlot(score_multiplier, letter=''){ // multiplier 0-4 (see score_multiplier_reference)
      const slot = document.createElement('div');
      slot.id = 'slot-'+slot_index; // id e.g. slot-1
@@ -215,14 +239,14 @@
      tile.classList.add('tile', letter) // add class(es) e.g. slot & triple-letter
      if (active){
 	 tile.classList.add('tile-active');
+	 tile.addEventListener('click', pickUpTile);
      }
      tile.innerText = letter;
      return tile
  }
  function generateRackTiles(){ // populate rack with tiles
      for (tile_index=0; tile_index<rack_tiles.length; ++tile_index){
-	 const tile = createTile(rack_tiles[tile_index], 'tile-'+tile_index, true);
-	 tile.addEventListener('click', pickUpTile);
+	 const tile = createTile(rack_tiles[tile_index], 'tile-'+tile_index, playable); // pass playable as active so if not playable rack tiles arent active
 	 rack.appendChild(tile);
      }
  }
@@ -322,7 +346,6 @@
      if (border){
 	 board_state_2d.push('.'.repeat(16).split('.'));
      }
-     console.log(board_state_2d);
      return board_state_2d
  }
  function removeAdjacentLetters(board_state_2d, x, y){ // remove letter and recursively remove adjacent letters if present
@@ -365,7 +388,6 @@
 	 if (x == null){ // not set x and y from the first tile yet
 	     x = tile_coordinates[tile_index][0]; // set them
 	     y = tile_coordinates[tile_index][1];
-	     console.log('set x,y '+x+','+y);
 	 } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
 	     if (tile_coordinates[tile_index][0] == x){ // if x is the same
 		 direction = 0; // its a vertical word
@@ -387,5 +409,6 @@
  window.addEventListener("load", (event) => {
      generateBoardSlots();
      generateRackTiles();
+     updateUserTurnText();
  });
 </script>

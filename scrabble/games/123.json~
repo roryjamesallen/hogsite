@@ -1,0 +1,12 @@
+{
+    users: 2,
+    turn: 'user_1',
+    user_1: {
+	nickname: 'rory',
+	rack: ['A','B','C','D']
+    },
+    user_2: {
+	nickname: 'jack',
+	rack: ['E','F','G','H']
+    }
+}
