@@ -1,3 +1,13 @@
+<?php
+// get game id GET
+// get user id POST
+// retrieve game state SQL
+// retrieve tilebag SQL
+// retrieve users rack SQL
+// repopulate users rack if possible, update tilebag and rack SQL
+// encode variables for JS
+?>
+
 <html>
     <head>
 	<style>
