@@ -269,6 +269,24 @@ if (isset($_GET['game'])){
 	 rack.appendChild(tile);
      }
  }
+ function attemptPlay(){
+     if ([...play_button.classList].includes('play-true')){
+	 var dataToSend = "board_state=" + JSON.stringify(board_state);
+	 var xhr = new XMLHttpRequest();
+	 xhr.open("POST", "make_play.php", false);
+	 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	 xhr.onreadystatechange = function () {
+	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
+		 if (xhr.status === 200) { // request successful
+		     console.log(xhr.responseText);
+		 } else {
+		     console.error("Error:", xhr.status);
+		 }
+	     }
+	 };
+	 xhr.send(dataToSend);
+     }
+ }
 
  // Tile Movement Functions
  function addToHand(new_tile){
@@ -384,10 +402,10 @@ if (isset($_GET['game'])){
      for (x=1; x<=15; ++x){
 	 for (y=1; y<=15; ++y){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-	 letter_found = [x,y]
-	 return letter_found
-     }
- }
+		 letter_found = [x,y]
+		 return letter_found
+	     }
+	 }
      }
      return false // no letters on board
  }
@@ -426,7 +444,7 @@ if (isset($_GET['game'])){
  }
 
  // Other Live Functions (Text etc)
-  function setPlayButton(value){
+ function setPlayButton(value){
      if (play_button.classList.contains('play-'+(!value).toString())){ // only swap if its not already that value
 	 play_button.classList.remove('play-'+(!value).toString()); // remove opposite value class
 	 play_button.classList.add('play-'+value.toString());
@@ -446,5 +464,6 @@ if (isset($_GET['game'])){
      generateBoardSlots();
      generateRackTiles();
      updateUserTurnText();
+     play_button.addEventListener('click', attemptPlay);
  });
 </script>
