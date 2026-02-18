@@ -1,5 +1,5 @@
 <?php
-$_SESSION['nickname'] = 'jack';
+$_SESSION['nickname'] = 'rory';
 
 $playable = false; // read by JS
 if (isset($_GET['game'])){
@@ -279,9 +279,9 @@ if (isset($_GET['game'])){
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
 		     location.reload();
-		     //console.log(xhr.responseText);
+		     console.log(xhr.responseText);
 		 } else {
-		     //console.error("Error:", xhr.status);
+		     console.error("Error:", xhr.status);
 		 }
 	     }
 	 };
@@ -367,43 +367,37 @@ if (isset($_GET['game'])){
      }
      return tile_coordinates;
  }
- function getBoardState2D(border=true){ // instead of a flat board state, get in form [x1,y1] with optional 1 item border of blanks to allow indexing of adjacent tiles
+ function getBoardState2D(){ // instead of a flat board state, get in form [x1,y1] with 1 item border of blanks to allow indexing of adjacent tiles
      let board_state_2d = ['.'.repeat(16).split('.')];
      for (y=0; y<15; ++y){
 	 let column = [];
-	 if (border){
-	     column.push(null);
-	 }
+	 column.push('');
 	 for (x=0; x<15; ++x){
 	     column.push(board_state[(x*15)+y]);
 	 }
-	 if (border){
-	     column.push(null);
-	 }
+	 column.push('');
 	 board_state_2d.push(column);
      }
-     if (border){
-	 board_state_2d.push('.'.repeat(16).split('.'));
-     }
+     board_state_2d.push('.'.repeat(16).split('.'));
      return board_state_2d
  }
- function removeAdjacentLetters(board_state_2d, x, y){ // remove letter and recursively remove adjacent letters if present
-     board_state_2d[x][y] = ''; // at the very least remove the letter itself
+ function removeAdjacentLetters(board_state_2d, x, y, tiles_to_remove=[]){ // remove letter and recursively remove adjacent letters if present
+     tiles_to_remove.push((x+':'+y)); // at the very least remove the letter itself
      const coord_offsets = [[-1,0],[0,-1],[1,0],[0,1]]; // list of [x,y] offsets to check for letters (adjacent but not diagonal)
      for (offset=0; offset<coord_offsets.length; ++offset){ // check all adjacent slots
 	 let adjacent_tile_x = x+coord_offsets[offset][0]; // coord of the adjacent tile
 	 let adjacent_tile_y = y+coord_offsets[offset][1];
-	 if (board_state_2d[adjacent_tile_x][adjacent_tile_y] != ''){
-	     board_state_2d = removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y); // recursively remove adjacent letters
+	 if (board_state_2d[adjacent_tile_x][adjacent_tile_y] != '' && !tiles_to_remove.includes((adjacent_tile_x+':'+adjacent_tile_y))){
+	     tiles_to_remove = tiles_to_remove.concat(removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y, tiles_to_remove)); // recursively remove adjacent letters
 	 }
      }
-     return board_state_2d
+     return tiles_to_remove
  }
  function findFirstLetterCoords(board_state_2d){
-     for (x=1; x<=15; ++x){
-	 for (y=1; y<=15; ++y){
+     for (y=1; y<=15; ++y){
+	 for (x=1; x<=15; ++x){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-		 letter_found = [x,y]
+		 letter_found = [x,y];
 		 return letter_found
 	     }
 	 }
@@ -412,7 +406,12 @@ if (isset($_GET['game'])){
  }
  function checkAllTilesTouch(board_state_2d, first_letter_coords){
      if (first_letter_coords != false){ // if there are any letters on the board
-	 board_state_2d = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+	 tiles_to_remove = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+	 for (coords=0; coords<tiles_to_remove.length; ++coords){
+	     board_state_2d[tiles_to_remove[coords].split(':')[0],tiles_to_remove[coords].split(':')[1]];
+	 }
+     } else {
+	 return true // just true if there aren't any letters down
      }
      if (findFirstLetterCoords(board_state_2d) != false){ // if any letters still on board
 	 return false // not all touching
