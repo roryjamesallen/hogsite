@@ -1,5 +1,5 @@
 <?php
-$_SESSION['nickname'] = 'rory';
+$_SESSION['nickname'] = 'jack';
 
 $playable = false; // read by JS
 if (isset($_GET['game'])){
@@ -12,6 +12,8 @@ if (isset($_GET['game'])){
 	$game_data = json_decode(file_get_contents($game_path),true);
 	$user_playing = $game_data['turn']; // e.g. user_1 not nickname
 	$nickname_playing = $game_data[$user_playing]['nickname'];
+	$board_state = $game_data['board_state'];
+	$rack_tiles = $game_data[$_SESSION['nickname']]['rack'];
 	if ($nickname_playing == $_SESSION['nickname']){ // this user's go
 	    $playable = true;
 	}
@@ -178,6 +180,8 @@ if (isset($_GET['game'])){
  // Variables From PHP
  const playable = <?php echo json_encode($playable);?>; // bool of if this user can play
  const nickname_playing = '<?php echo $nickname_playing;?>'; // nickname of playing player
+ var board_state = <?php echo json_encode($board_state);?>;
+ var rack_tiles = <?php echo json_encode($rack_tiles);?>;
  
  // JS Constants
  const play_button = document.getElementById('play-button');
@@ -211,24 +215,6 @@ if (isset($_GET['game'])){
  ];
 
  // Live Variables
- var board_state = [ // actual state of the board using letters - initialised using PHP on page load
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
-		     '','','','','','','','','','','','','','','',
- ];
- var rack_tiles = ['X','A','B','C','D','E','F'];
  var tile_in_hand = false;
  
  // Setup Functions
