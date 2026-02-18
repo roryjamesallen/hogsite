@@ -1,5 +1,5 @@
 <?php
-$_SESSION['nickname'] = 'rory';
+$_SESSION['nickname'] = 'jack';
 
 $playable = false; // read by JS
 if (isset($_GET['game'])){
@@ -54,9 +54,11 @@ if (isset($_GET['game'])){
 	 }
 	 #rack {
 	     background: #025418;
+	     border-bottom: 5px solid #003206;
+	     box-sizing: border-box;
 	     width: 100%;
 	     gap: 5px;
-	     padding: 5px;
+	     padding: 5px 5px 0 5px;
 	 }
 	 .tile {
 	     height: 28px;
@@ -71,6 +73,9 @@ if (isset($_GET['game'])){
 	 .tile-active {
 	     border-color: red;
 	     cursor: pointer;
+	 }
+	 .tile:not(.tile-active){
+	     cursor: no-drop;
 	 }
 	 #board {
 	     flex-basis: 100%;
@@ -224,7 +229,11 @@ if (isset($_GET['game'])){
  
  // Setup Functions
  function updateUserTurnText(){
-     user_turn_text.innerText = 'It is '+nickname_playing+'\'s turn';
+     let subject = nickname_playing + '\'s';
+     if (nickname_playing == '<?php echo $_SESSION['nickname'];?>'){
+	 subject = 'your';
+     }
+     user_turn_text.innerText = 'It is '+subject+' turn';
  }
  function createSlot(score_multiplier, letter=''){ // multiplier 0-4 (see score_multiplier_reference)
      const slot = document.createElement('div');
@@ -269,9 +278,10 @@ if (isset($_GET['game'])){
 	 xhr.onreadystatechange = function () {
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
-		     console.log(xhr.responseText);
+		     location.reload();
+		     //console.log(xhr.responseText);
 		 } else {
-		     console.error("Error:", xhr.status);
+		     //console.error("Error:", xhr.status);
 		 }
 	     }
 	 };
