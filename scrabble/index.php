@@ -136,7 +136,7 @@ if (isset($_GET['game'])){
 	 .Q:after, .Z: after {
 	     content: '10';
 	 }
-	 #error-message, #user-turn-text {
+	 #error-message, #user-turn-text, #this-user {
 	     flex-basis: 100%;
 	     text-align: center;
 	 }
@@ -171,6 +171,7 @@ if (isset($_GET['game'])){
 	    <div class="toolbar-button">ABOUT</div>
 	</div>
 	<div id="game">
+	    <div id="this-user">You are <?php echo $_SESSION['nickname'];?></div>
 	    <div id="user-turn-text"></div>
 	    <div id="error-message"></div>
 	    <div id="rack"></div>
@@ -261,7 +262,7 @@ if (isset($_GET['game'])){
  }
  function attemptPlay(){
      if ([...play_button.classList].includes('play-true')){
-	 var dataToSend = "board_state=" + JSON.stringify(board_state);
+	 var dataToSend = "board_state=" + JSON.stringify(board_state) + "&game_path=" + "<?php echo $game_path;?>";
 	 var xhr = new XMLHttpRequest();
 	 xhr.open("POST", "make_play.php", false);
 	 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
