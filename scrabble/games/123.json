@@ -1,13 +1,12 @@
 {
-    "status": "1",
-    "users": 2,
-    "turn": "user_1",
-    "user_1": {
-	"nickname": "rory",
+    "status": 1,
+    "playesr": 2,
+    "users": ["rory","jack"],
+    "turn": 1,
+    "rory": {
 	"rack": ["A","B","C","D"]
     },
-    "user_2": {
-	"nickname": "jack",
+    "jack": {
 	"rack": ["E","F","G","H"]
     },
     "board_state": [
