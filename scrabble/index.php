@@ -407,8 +407,9 @@ if (isset($_GET['game'])){
  function checkAllTilesTouch(board_state_2d, first_letter_coords){
      if (first_letter_coords != false){ // if there are any letters on the board
 	 tiles_to_remove = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
-	 for (coords=0; coords<tiles_to_remove.length; ++coords){
-	     board_state_2d[tiles_to_remove[coords].split(':')[0],tiles_to_remove[coords].split(':')[1]];
+	 for (coord_index=0; coord_index<tiles_to_remove.length; ++coord_index){
+	     coords = tiles_to_remove[coord_index].split(':');
+	     board_state_2d[coords[0]][coords[1]] = '';
 	 }
      } else {
 	 return true // just true if there aren't any letters down
