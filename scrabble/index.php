@@ -33,7 +33,7 @@ if (isset($_GET['game'])){
 	     src: url('../fonts/Melodica.otf');
 	 }
 	 body {
-	     font-family: Melodica
+	     font-family: Melodica;
 	 }
 	 h1, h2 {
 	     text-align: center;
