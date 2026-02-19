@@ -1,19 +1,22 @@
 <?php
-$_SESSION['nickname'] = 'rory';
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_destroy();
 
 $playable = false; // read by JS
 if (isset($_GET['game'])){
     $game_path = 'games/'.$_GET['game'].'.json';
     if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
-        // show error page or maybe just redirect to home
+	echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
+	die();
     } else if (!isset($_SESSION['nickname'])){ // game exists but php doesn't know who is playing
-        if (count($game_data['users']) < $game_data['players']){ // not all players 'signed up' yet
-            // show choose new user nickname page
-        } else { // all players signed up but this player on new device or something
-            // show which user are you page (be honest...)
-        }
+	$game_id = str_replace('.json','',str_replace('games/','',$game_path));
+	echo '<a href="select-player?game='.$game_id.'">set your nickname</a>';
+	die();
     } else { // playin time
-        $game_data = json_decode(file_get_contents($game_path),true);
+	$game_data = json_decode(file_get_contents($game_path),true);
         $turn = $game_data['turn']; // e.g. index of currently playing user
         $nickname_playing = $game_data['users'][$turn];
         $board_state = $game_data['board_state'];
@@ -22,6 +25,9 @@ if (isset($_GET['game'])){
             $playable = true;
         }
     }
+} else {
+    echo 'home page';
+    die();
 }
 ?>
 
