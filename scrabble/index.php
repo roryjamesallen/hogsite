@@ -3,7 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-session_destroy();
+//session_destroy();
 
 $playable = false; // read by JS
 if (isset($_GET['game'])){
@@ -18,7 +18,11 @@ if (isset($_GET['game'])){
     } else { // playin time
 	$game_data = json_decode(file_get_contents($game_path),true);
         $turn = $game_data['turn']; // e.g. index of currently playing user
-        $nickname_playing = $game_data['users'][$turn];
+	if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
+	    $nickname_playing = 'someone who is yet to join the game';
+	} else {
+            $nickname_playing = $game_data['users'][$turn];
+	}
         $board_state = $game_data['board_state'];
         $rack_tiles = $game_data[$_SESSION['nickname']]['rack'];
         if ($nickname_playing == $_SESSION['nickname']){ // this user's go

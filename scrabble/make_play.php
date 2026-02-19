@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['board_state']) && isse
     $board_state = json_decode($_POST['board_state']);
     $game_data = json_decode(file_get_contents($game_path),true);
     $user_played = $game_data['turn'];
+
     $user_next = ($user_played + 1) % $game_data['players']; // increment user and wrap around
 
     $user_object_key = $game_data['users'][$user_played]; // e.g. 0 (first user)
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['board_state']) && isse
     //update actual json
     $game_data['turn'] = $user_next;
     $game_data['board_state'] = $board_state;
-    $game_data[$user_object_key]['rack'] = $users_new_rack;
+    $game_data[$user_object_key]['rack'] = json_encode($users_new_rack);
     file_put_contents($game_path, json_encode($game_data));
     return true;
 } else {
