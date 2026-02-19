@@ -381,14 +381,15 @@ if (isset($_GET['game'])){
      board_state_2d.push('.'.repeat(16).split('.'));
      return board_state_2d
  }
- function removeAdjacentLetters(board_state_2d, x, y, tiles_to_remove=[]){ // remove letter and recursively remove adjacent letters if present
+ function removeAdjacentLetters(board_state_2d, x, y, tiles_to_remove=[], level=0){ // remove letter and recursively remove adjacent letters if present
      tiles_to_remove.push((x+':'+y)); // at the very least remove the letter itself
      const coord_offsets = [[-1,0],[0,-1],[1,0],[0,1]]; // list of [x,y] offsets to check for letters (adjacent but not diagonal)
-     for (offset=0; offset<coord_offsets.length; ++offset){ // check all adjacent slots
+     for (let offset=0; offset<coord_offsets.length; ++offset){ // check all adjacent slots
 	 let adjacent_tile_x = x+coord_offsets[offset][0]; // coord of the adjacent tile
 	 let adjacent_tile_y = y+coord_offsets[offset][1];
 	 if (board_state_2d[adjacent_tile_x][adjacent_tile_y] != '' && !tiles_to_remove.includes((adjacent_tile_x+':'+adjacent_tile_y))){
-	     tiles_to_remove = tiles_to_remove.concat(removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y, tiles_to_remove)); // recursively remove adjacent letters
+	     extra_tiles_to_remove = removeAdjacentLetters(board_state_2d, adjacent_tile_x, adjacent_tile_y, tiles_to_remove, level+1);
+	     tiles_to_remove = tiles_to_remove.concat(extra_tiles_to_remove); // recursively remove adjacent letters
 	 }
      }
      return tiles_to_remove
