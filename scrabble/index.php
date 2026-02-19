@@ -279,13 +279,13 @@ if (isset($_GET['game'])){
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
 		     location.reload();
-		     console.log(xhr.responseText);
 		 } else {
 		     console.error("Error:", xhr.status);
 		 }
 	     }
 	 };
 	 xhr.send(dataToSend);
+	 
      }
  }
 
