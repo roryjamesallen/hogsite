@@ -1,17 +1,19 @@
 <?php
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// $_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['players']) && isset($_POST['nickname']) or true
-if (true){
+include 'lib.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['players']) && isset($_POST['nickname'])){
     $game_id = uniqid();
-    $game_path = 'games/'.$game_id.'.json';
+    $game_path = gamePathFromId($game_id);
     $game_data = '{
 	"status": 0,
 	"players": '.$_POST['players'].',
-	"users": ['.$_POST['nickname'].'],
+	"users": ["'.$_POST['nickname'].'"],
 	"turn": 0,
-	'.$_POST['nickname'].': {
+	"'.$_POST['nickname'].'": {
 	    "rack": []
 	},
 	"tilebag":[
@@ -35,9 +37,13 @@ if (true){
 	    "V","V",
 	    "W","W",
 	    "Y","Y",
-	    "K","J","X","Q","Z"]
-    }';
+	    "K","J","X","Q","Z"],
+"board_state":["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+}';
+    $game_data = json_encode(refillRack(json_decode($game_data,true), $_POST['nickname']));
     file_put_contents($game_path, $game_data);
-    echo 'send this link to your pals: <a href="../scrabble?game='.$game_id.'">Copy Join Link</a>';
+    
+    $_SESSION['nickname'] = $_POST['nickname'];
+    echo 'send this link to your pals: <a href="https://scrabble.hogwild.uk?game='.$game_id.'">https://scrabble.hogwild.uk?game='.$game_id.'</a>';
 }
 ?>

@@ -1,36 +1,46 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE){
+    session_start();
+}
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-//session_destroy();
+include 'lib.php';
 
 $playable = false; // read by JS
 if (isset($_GET['game'])){
-    $game_path = 'games/'.$_GET['game'].'.json';
+    $game_path = gamePathFromId($_GET['game']);
+    $game_id = gameIdFromPath($game_path);
     if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
-	echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
-	die();
+        echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
+        die();
     } else if (!isset($_SESSION['nickname'])){ // game exists but php doesn't know who is playing
-	$game_id = str_replace('.json','',str_replace('games/','',$game_path));
-	echo '<a href="select-player?game='.$game_id.'">set your nickname</a>';
-	die();
+        header('Location: ./select-player?game='.$game_id);
     } else { // playin time
-	$game_data = json_decode(file_get_contents($game_path),true);
+        $game_data = json_decode(file_get_contents($game_path),true);
         $turn = $game_data['turn']; // e.g. index of currently playing user
-	if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
-	    $nickname_playing = 'someone who is yet to join the game';
-	} else {
+        if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
+            $nickname_playing = 'someone who is yet to join the game';
+        } else {
             $nickname_playing = $game_data['users'][$turn];
-	}
+        }
         $board_state = $game_data['board_state'];
-        $rack_tiles = $game_data[$_SESSION['nickname']]['rack'];
-        if ($nickname_playing == $_SESSION['nickname']){ // this user's go
-            $playable = true;
+        if (array_key_exists($_SESSION['nickname'],$game_data)){
+            $rack_tiles = $game_data[$_SESSION['nickname']]['rack'];
+            if ($nickname_playing == $_SESSION['nickname']){ // this user's go
+                $playable = true;
+            }
+        } else {
+            header('Location: ./select-player?game='.$game_id);
         }
     }
 } else {
-    echo 'home page';
+    echo '<h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
+    for ($players=2; $players<=8; $players++){
+        echo '<label for="players-'.$players.'">'.$players.'</label>';
+        echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'"><br>';
+    }
+    echo '<br><label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><br><input type="submit" value="Create Game"></form>';
     die();
 }
 ?>
@@ -288,6 +298,7 @@ if (isset($_GET['game'])){
 	 xhr.onreadystatechange = function () {
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
+             //console.log("Status:", xhr.responseText);
 		     location.reload();
 		 } else {
 		     console.error("Error:", xhr.status);

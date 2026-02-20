@@ -1,9 +1,9 @@
 <?php
-if (session_status() == PHP_SESSION_NONE){
-    session_start();
-}
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+include 'lib.php';
 
 function getTileDifference($old_state, $new_state){
     $tiles_different = [];
@@ -25,15 +25,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['board_state']) && isse
     $user_played = $game_data['turn'];
 
     $user_next = ($user_played + 1) % $game_data['players']; // increment user and wrap around
-
     $user_object_key = $game_data['users'][$user_played]; // e.g. 0 (first user)
     $users_old_rack = $game_data[$user_object_key]['rack']; // array of the users old rack letters
     $users_new_rack = removeTiles($users_old_rack, getTileDifference($game_data['board_state'], $board_state));
-
-    //update actual json
+    $game_data[$user_object_key]['rack'] = $users_new_rack;
+    $game_data = refillRack($game_data, $game_data['users'][$user_played]);
+    
     $game_data['turn'] = $user_next;
     $game_data['board_state'] = $board_state;
-    $game_data[$user_object_key]['rack'] = json_encode($users_new_rack);
+    
     file_put_contents($game_path, json_encode($game_data));
     return true;
 } else {
