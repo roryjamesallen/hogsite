@@ -9,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['players']) && isset($_
     $game_id = uniqid();
     $game_path = gamePathFromId($game_id);
     $game_data = '{
-	"status": 0,
 	"players": '.$_POST['players'].',
 	"users": ["'.$_POST['nickname'].'"],
 	"turn": 0,

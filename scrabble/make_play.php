@@ -31,7 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['board_state']) && isse
     $game_data[$user_object_key]['rack'] = $users_new_rack;
     $game_data = refillRack($game_data, $game_data['users'][$user_played]);
     
-    $game_data['turn'] = $user_next;
+    if (count($game_data[$user_object_key]['rack']) == 0){
+        $game_data['turn'] = -1; // game over, one user used all their tiles
+    } else {
+        $game_data['turn'] = $user_next;
+    }
+    
     $game_data['board_state'] = $board_state;
     
     file_put_contents($game_path, json_encode($game_data));

@@ -8,10 +8,12 @@ ini_set('display_errors', 1);
 include 'lib.php';
 
 $playable = false; // read by JS
+$game_over = false;
 if (isset($_GET['game'])){
     $game_path = gamePathFromId($_GET['game']);
     $game_id = gameIdFromPath($game_path);
     if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
+        renderHeading();
         echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
         die();
     } else if (!isset($_SESSION['nickname'])){ // game exists but php doesn't know who is playing
@@ -27,7 +29,9 @@ if (isset($_GET['game'])){
         $board_state = $game_data['board_state'];
         if (array_key_exists($_SESSION['nickname'],$game_data)){
             $rack_tiles = $game_data[$_SESSION['nickname']]['rack'];
-            if ($nickname_playing == $_SESSION['nickname']){ // this user's go
+            if ($game_data['turn'] == -1){ // game is over
+                $game_over = true;
+            } else if ($nickname_playing == $_SESSION['nickname']){ // this user's go
                 $playable = true;
             }
         } else {
@@ -35,168 +39,26 @@ if (isset($_GET['game'])){
         }
     }
 } else {
-    echo '<h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
+    renderHeading();
+    echo '<br><br><h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
     for ($players=2; $players<=8; $players++){
+        echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
         echo '<label for="players-'.$players.'">'.$players.'</label>';
-        echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'"><br>';
     }
-    echo '<br><label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><br><input type="submit" value="Create Game"></form>';
+    echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><input type="submit" value="Create Game"></form>';
     die();
+}
+$game_over_text = '';
+if ($game_over){
+    $game_over_text = '<br>GAME OVER';
 }
 ?>
 
 <html>
-    <head>
-	<style>
-	 @font-face {
-	     font-family: Melodica;
-	     src: url('../fonts/Melodica.otf');
-	 }
-	 body {
-	     font-family: Melodica;
-	 }
-	 h1, h2 {
-	     text-align: center;
-	     margin: 0;
-	 }
-	 #toolbar {
-	     margin: 0 auto;
-	     gap: 1rem;
-	 }
-	 .toolbar-button {
-	     text-decoration: underline;
-	 }
-	 #game {
-	     gap: 5px;
-	     flex-wrap: wrap;
-	     width: min(calc(100vw - 10px), 600px);
-	     margin: 2rem auto;
-	 }
-	 #rack {
-	     background: #025418;
-	     border-bottom: 5px solid #003206;
-	     box-sizing: border-box;
-	     width: 100%;
-	     gap: 5px;
-	     padding: 5px 5px 0 5px;
-	 }
-	 .tile {
-	     height: 28px;
-	     aspect-ratio: 1 / 1;
-	     border: 2px solid #a9a0a4;
-	     border-radius: 3px;
-	     box-sizing: border-box;
-	     background-color: #ede4d7;
-	     font-size: 2rem;
-	     position: relative;
-	 }
-	 .tile-active {
-	     border-color: red;
-	     cursor: pointer;
-	 }
-	 .tile:not(.tile-active){
-	     cursor: no-drop;
-	 }
-	 #board {
-	     flex-basis: 100%;
-	     display: flex;
-	     flex-wrap: wrap;
-	     gap: 2px;
-	     background-color: grey;
-	 }
-	 .slot {
-	     flex-basis: calc(calc(100% / 15) - 2px);
-	     flex-grow: 1;
-	     aspect-ratio: 1 / 1;
-	     background-color: #f9eacd;
-	 }
-	 .slot > .tile {
-	     width: 90%;
-	     height: 90%;
-	 }
-	 .slot, .tile, #rack, #game, #toolbar {
-	     display: flex;
-	     justify-content: center;
-	     align-items: center;
-	 }
-	 .double-letter {
-	     background-color: #b4eefc;
-	 }
-	 .triple-letter {
-	     background-color: #1daee0;
-	 }
-	 .double-word {
-	     background-color: #fbb8c3;
-	 }
-	 .triple-letter {
-	     background-color: #f95f6c;
-	 }
-	 .in-hand {
-	     border: 2px solid white;
-	 }
-	 .tile:after {
-	     font-size: 1rem;
-	     position: absolute;
-	     bottom: -0.25rem;
-	     right: 0rem;
-	 }
-	 .A:after, .E:after, .I:after, .L:after, .N:after, .O:after, .R:after, .S:after, .T:after, .U:after {
-	     content: '1';
-	 }
-	 .D:after, .G:after {
-	     content: '2';
-	 }
-	 .B:after, .C:after, .G:after {
-	     content: '3';
-	 }
-	 .F:after, .H:after, .V:after, .W:after, .Y:after {
-	     content: '4';
-	 }
-	 .K:after {
-	     content: '5';
-	 }
-	 .J:After, .X:After {
-	     content: '8';
-	 }
-	 .Q:after, .Z: after {
-	     content: '10';
-	 }
-	 #error-message, #user-turn-text, #this-user {
-	     flex-basis: 100%;
-	     text-align: center;
-	 }
-	 #error-message {
-	     color: red;
-	 }
-	 #play-button {
-	     padding: 5px;
-	     width: fit-content;
-	     margin: 0 auto;
-	 }
-	 .play-true {
-	     border: 2px solid red;
-	     color: black;
-	     background: #eee;
-	     cursor: pointer;
-	 }
-	 .play-false {
-	     border: 2px solid #eee;
-	     color: #777;
-	     background: white;
-	     cursor: unset;
-	 }
-	</style>
-    </head>
     <body>
-	<h1>hog scrabble</h1>
-	<h2>free and multiplayer</h2>
-	<div id="toolbar">
-	    <div class="toolbar-button">HOME</div>
-	    <div class="toolbar-button">PLAY</div>
-	    <div class="toolbar-button">ABOUT</div>
-	</div>
+<?php renderHeading();?>
 	<div id="game">
-	    <div id="this-user">You are <?php echo $_SESSION['nickname'];?></div>
+	    <div id="this-user">You are <?php echo $_SESSION['nickname'].$game_over_text;?></div>
 	    <div id="user-turn-text"></div>
 	    <div id="error-message"></div>
 	    <div id="rack"></div>
@@ -306,7 +168,6 @@ if (isset($_GET['game'])){
 	     }
 	 };
 	 xhr.send(dataToSend);
-	 
      }
  }
 
@@ -442,29 +303,29 @@ if (isset($_GET['game'])){
 	 return true // must all be touching
      }
  }
- function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
-     let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
-     const coords = [x,y];
-     for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
-	 if (x == null){ // not set x and y from the first tile yet
-	     x = tile_coordinates[tile_index][0]; // set them
-	     y = tile_coordinates[tile_index][1];
-	 } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
-	     if (tile_coordinates[tile_index][0] == x){ // if x is the same
-		 direction = 0; // its a vertical word
-		 coords[0] = x; // set the required x for the word
-	     } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
-		 direction = 1; // its a horizontal word
-		 coords[1] = y; // set the required y for the word
-	     } else { // neither x or y is the same
-		 return false
-	     }
-	 } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
-	     return false
-	 }
-     }
-     return [direction] // tiles colinear or no tiles placed
- }
+function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
+    let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
+    const coords = [x,y];
+    for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+        if (x == null){ // not set x and y from the first tile yet
+            x = tile_coordinates[tile_index][0]; // set them
+            y = tile_coordinates[tile_index][1];
+        } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
+            if (tile_coordinates[tile_index][0] == x){ // if x is the same
+                direction = 0; // its a vertical word
+                coords[0] = x; // set the required x for the word
+            } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
+                direction = 1; // its a horizontal word
+                coords[1] = y; // set the required y for the word
+            } else { // neither x or y is the same
+                return false
+                    }
+        } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
+            return false
+                }
+    }
+    return [direction] // tiles colinear or no tiles placed
+        }
 
  // Other Live Functions (Text etc)
  function setPlayButton(value){
@@ -488,5 +349,9 @@ if (isset($_GET['game'])){
      generateRackTiles();
      updateUserTurnText();
      play_button.addEventListener('click', attemptPlay);
+     if (!playable){
+         //longpoll
+         //setTimeout(() => { location.reload();}, 1000);
+     }
  });
 </script>

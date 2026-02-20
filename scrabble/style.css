@@ -1,0 +1,163 @@
+@font-face {
+    font-family: Melodica;
+    src: url('../fonts/Melodica.otf');
+}
+body {
+    font-family: Melodica;
+    margin-bottom: 5rem;
+}
+h1, h2 {
+    text-align: center;
+    margin: 0;
+}
+a {
+    text-decoration: none;
+    color: #069;
+}
+a:hover {
+    text-decoration: underline;
+}
+#toolbar {
+    margin: 0 auto;
+    gap: 1rem;
+}
+#game {
+    gap: 5px;
+    flex-wrap: wrap;
+    width: min(calc(100vw - 10px), 600px);
+    margin: 2rem auto;
+}
+#rack {
+    background: #025418;
+    border-bottom: 5px solid #003206;
+    box-sizing: border-box;
+    width: 100%;
+    gap: 5px;
+    padding: 5px 5px 0 5px;
+}
+.tile {
+    height: 28px;
+    aspect-ratio: 1 / 1;
+    border: 2px solid #a9a0a4;
+    border-radius: 3px;
+    box-sizing: border-box;
+    background-color: #ede4d7;
+    font-size: 2rem;
+    position: relative;
+}
+.tile-active {
+    border-color: red;
+    cursor: pointer;
+}
+.tile:not(.tile-active){
+    cursor: no-drop;
+}
+#board {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    background-color: grey;
+}
+.slot {
+    flex-basis: calc(calc(100% / 15) - 2px);
+    flex-grow: 1;
+    aspect-ratio: 1 / 1;
+    background-color: #f9eacd;
+}
+.slot > .tile {
+    width: 90%;
+    height: 90%;
+}
+.slot, .tile, #rack, #game, #toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.double-letter {
+    background-color: #b4eefc;
+}
+.triple-letter {
+    background-color: #1daee0;
+}
+.double-word {
+    background-color: #fbb8c3;
+}
+.triple-letter {
+    background-color: #f95f6c;
+}
+.in-hand {
+    border: 2px solid white;
+}
+.tile:after {
+    font-size: 1rem;
+    position: absolute;
+    bottom: -0.25rem;
+    right: 0rem;
+}
+.A:after, .E:after, .I:after, .L:after, .N:after, .O:after, .R:after, .S:after, .T:after, .U:after {
+    content: '1';
+}
+.D:after, .G:after {
+    content: '2';
+}
+.B:after, .C:after, .G:after {
+    content: '3';
+}
+.F:after, .H:after, .V:after, .W:after, .Y:after {
+    content: '4';
+}
+.K:after {
+    content: '5';
+}
+.J:After, .X:After {
+    content: '8';
+}
+.Q:after, .Z: after {
+    content: '10';
+}
+#error-message, #user-turn-text, #this-user {
+    flex-basis: 100%;
+    text-align: center;
+}
+#error-message {
+    color: red;
+}
+#play-button {
+    padding: 5px;
+    width: fit-content;
+    margin: 0 auto;
+}
+.play-true {
+    border: 2px solid red;
+    color: black;
+    background: #eee;
+    cursor: pointer;
+}
+.play-false {
+    border: 2px solid #eee;
+    color: #777;
+    background: white;
+    cursor: unset;
+}
+form {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.5rem auto;
+    flex-wrap: wrap;
+    width: 150px;
+}
+form > label, form > input {
+    flex-basis: 70%;
+    flex-grow: 1;
+}
+form > input[type=radio]{
+    flex-basis: 20%;
+    flex-grow: 1;
+    margin: 0;
+}
+form > input[type=button], form > p {
+    flex-basis: 100%;
+    margin: 0;
+}
