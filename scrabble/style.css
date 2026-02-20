@@ -1,6 +1,6 @@
 @font-face {
     font-family: Melodica;
-    src: url('../fonts/Melodica.otf');
+    src: url('https://hogwild.uk/fonts/Melodica.otf');
 }
 body {
     font-family: Melodica;
