@@ -83,6 +83,9 @@ if ($game_over){
  const playable = <?php echo json_encode($playable);?>; // bool of if this user can play
  const nickname_playing = '<?php echo $nickname_playing;?>'; // nickname of playing player
  var board_state = <?php echo json_encode($board_state);?>;
+ const original_board_state = JSON.parse(JSON.stringify(board_state));
+ const original_board_state_2d = getBoardState2D(original_board_state);
+ const original_words = findWords(original_board_state_2d);
  var rack_tiles = <?php echo json_encode($rack_tiles);?>;
  
  // JS Constants
@@ -214,7 +217,7 @@ if ($game_over){
  }
  function placeTile(event){ // try to place tile in hand in clicked slot
      const slot = event.target;
-     if (tile_in_hand && slot.children.length == 0){ // if holding a tile and clicking an empty slot
+     if (tile_in_hand && slot.id.includes('slot-') && slot.children.length == 0){ // if holding a tile and clicking an empty slot
 	 tile_in_hand.parentNode.removeChild(tile_in_hand); // remove tile from hand
 	 slot.appendChild(tile_in_hand); // add tile to slot
 	 board_state[slot.id.replace('slot-','')] = tile_in_hand.innerText;
@@ -237,15 +240,42 @@ if ($game_over){
      } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 const invalid_word = findFirstInvalidWord();
-	 if (invalid_word != false){
-	     new_message += invalid_word+' is not a valid word<br>';
-	 }
+	 console.log(arrayDifference(findWords(getBoardState2D()),original_words));
      }
      updateErrorMessage(new_message);
  }
- function findFirstInvalidWord(){
-     return false
+ function arrayDifference(arr1, arr2){
+     return arr1.filter(x => !arr2.includes(x));
+ }
+ function removeBlanks(arr, min_length=1){
+     new_arr = [];
+     for(i=0; i<arr.length; ++i){
+	 if (arr[i].length >= min_length){
+	     new_arr.push(arr[i]);
+	 }
+     }
+     return new_arr;
+ }
+ function getRowAsArray(row, board_state_2d){
+     let row_arr = [];
+     for (let column=0; column<board_state_2d.length; ++column){
+	 row_arr.push(board_state_2d[column][row]);
+     }
+     return row_arr;
+ }
+ function findWords(board_state_2d){
+     let words = [];
+     for (let column=0; column<board_state_2d.length; ++column){
+	 let column_words = removeBlanks(board_state_2d[column].join('').split(' '),2);
+	 let row_words = removeBlanks(getRowAsArray(column, board_state_2d).join('').split(' '),2);
+	 if (column_words != []){
+	     words = words.concat(column_words);
+	 }
+	 if (row_words != []){
+	     words = words.concat(row_words);
+	 }
+     }
+     return words;
  }
  function getTileCoordinates(active_only=false){ // active only will only return a coord list of the active tiles
      let tile_coordinates = [];
@@ -259,13 +289,13 @@ if ($game_over){
      }
      return tile_coordinates;
  }
- function getBoardState2D(){ // instead of a flat board state, get in form [x1,y1] with 1 item border of blanks to allow indexing of adjacent tiles
+ function getBoardState2D(board_state_1d=board_state){ // instead of a flat board state, get in form [x1,y1] with 1 item border of blanks to allow indexing of adjacent tiles
      let board_state_2d = ['.'.repeat(16).split('.')];
      for (y=0; y<15; ++y){
 	 let column = [];
 	 column.push('');
 	 for (x=0; x<15; ++x){
-	     column.push(board_state[(x*15)+y]);
+	     column.push(board_state_1d[(x*15)+y]);
 	 }
 	 column.push('');
 	 board_state_2d.push(column);
