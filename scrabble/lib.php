@@ -17,4 +17,17 @@ function refillRack($game_data, $nickname){
 function renderHeading($level=''){
     echo '<head><link rel="stylesheet" href="'.$level.'style.css"></head><h1>hog scrabble</h1><h2>free and multiplayer</h2><div id="toolbar"><a href="https://scrabble.hogwild.uk" class="toolbar-button">HOME</a><a href="https://hogwild.uk" class="toolbar-button">ABOUT</a></div>';
 }
+function getGameUsersString($game_id){
+    $game_path = gamePathFromId($game_id);
+    $game_data = json_decode(file_get_contents($game_path),true);
+    $users = $game_data['users'];
+    if (isset($_SESSION[$game_id])){
+	unset($users[array_search($_SESSION[$game_id],$users)]); // remove the user looking at the list
+    }
+    if (count($users) > 0){
+	return ' (with '.implode(', ',$users).')';
+    } else {
+	return ' (waiting for users)';
+    }
+}
 ?>

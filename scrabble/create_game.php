@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['players']) && isset($_
     $game_data = json_encode(refillRack(json_decode($game_data,true), $_POST['nickname']));
     file_put_contents($game_path, $game_data);
     
-    $_SESSION['nickname'] = $_POST['nickname'];
+    $_SESSION[$game_id] = $_POST['nickname'];
     echo 'send this link to your pals: <a href="https://scrabble.hogwild.uk?game='.$game_id.'">https://scrabble.hogwild.uk?game='.$game_id.'</a>';
 }
 ?>

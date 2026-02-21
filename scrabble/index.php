@@ -16,7 +16,7 @@ if (isset($_GET['game'])){
         renderHeading();
         echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
         die();
-    } else if (!isset($_SESSION['nickname'])){ // game exists but php doesn't know who is playing
+    } else if (!isset($_SESSION[$game_id])){ // game exists but php doesn't know who is playing
         header('Location: ./select-player?game='.$game_id);
     } else { // playin time
         $game_data = json_decode(file_get_contents($game_path),true);
@@ -27,11 +27,12 @@ if (isset($_GET['game'])){
             $nickname_playing = $game_data['users'][$turn];
         }
         $board_state = $game_data['board_state'];
-        if (array_key_exists($_SESSION['nickname'],$game_data)){
-            $rack_tiles = $game_data[$_SESSION['nickname']]['rack'];
+	$session_nickname = $_SESSION[$game_id];
+        if (array_key_exists($session_nickname,$game_data)){
+            $rack_tiles = $game_data[$session_nickname]['rack'];
             if ($game_data['turn'] == -1){ // game is over
                 $game_over = true;
-            } else if ($nickname_playing == $_SESSION['nickname']){ // this user's go
+            } else if ($nickname_playing == $session_nickname){ // this user's go
                 $playable = true;
             }
         } else {
@@ -40,10 +41,19 @@ if (isset($_GET['game'])){
     }
 } else {
     renderHeading();
+    if (count($_SESSION) > 0){
+	echo '<br><br><h2>Rejoin Game</h2><form>';
+	for ($game_index=0; $game_index<count($_SESSION); $game_index++){
+	    $game_id = array_keys($_SESSION)[$game_index];
+	    $game_users_string = getGameUsersString($game_id);
+	    echo '<span><a href="./?game='.$game_id.'">'.$game_id.'</a>'.$game_users_string.'</span>';
+	}
+	echo '</form>';
+    }
     echo '<br><br><h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
     for ($players=2; $players<=8; $players++){
-        echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
-        echo '<label for="players-'.$players.'">'.$players.'</label>';
+	echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
+	echo '<label for="players-'.$players.'">'.$players.'</label>';
     }
     echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><input type="submit" value="Create Game"></form>';
     die();
@@ -58,7 +68,7 @@ if ($game_over){
     <body>
 <?php renderHeading();?>
 	<div id="game">
-	    <div id="this-user">You are <?php echo $_SESSION['nickname'].$game_over_text;?></div>
+	    <div id="this-user">You are <?php echo $session_nickname.$game_over_text;?></div>
 	    <div id="user-turn-text"></div>
 	    <div id="error-message"></div>
 	    <div id="rack"></div>
@@ -112,7 +122,7 @@ if ($game_over){
  // Setup Functions
  function updateUserTurnText(){
      let subject = nickname_playing + '\'s';
-     if (nickname_playing == '<?php echo $_SESSION['nickname'];?>'){
+     if (nickname_playing == '<?php echo $session_nickname;?>'){
 	 subject = 'your';
      }
      user_turn_text.innerText = 'It is '+subject+' turn';
