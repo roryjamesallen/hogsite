@@ -101,6 +101,15 @@ if ($game_over){
      3: 'double-word',
      4: 'triple-word'
  };
+ const letter_points = {
+     'A': 1, 'E': 1, 'I': 1, 'L': 1, 'N': 1, 'O': 1, 'R': 1, 'S': 1, 'T': 1, 'U': 1,
+     'D': 2, 'G': 2,
+     'B': 3, 'C': 3, 'G': 3, 'P': 3,
+     'F': 4, 'H': 4, 'V': 4, 'W': 4, 'Y': 4,
+     'K': 5,
+     'J': 8, 'X': 8,
+     'Q': 10, 'Z': 10
+ };
  const board_slots = [ // score multiplier per board slot (see above reference)
 		       4,0,0,1,0,0,0,4,0,0,0,1,0,0,4,
 		       0,3,0,0,0,2,0,0,0,2,0,0,0,2,0,
@@ -240,8 +249,28 @@ if ($game_over){
      } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 findWords(getBoardState2D());
-	 //console.log(arrayDifference(findWords(getBoardState2D()),original_words));
+	 const words = findWords(getBoardState2D());
+	 const word_keys = Object.keys(words);
+	 let max_word_points = 0;
+	 let max_word = null;
+	 for (let i=0; i<word_keys.length; ++i){ // get max values of each word
+	     const word_string = word_keys[i];
+	     const word_coords = words[word_string];
+	     const word_points = getWordPoints(word_string, word_coords);
+	     if (word_points[0] > max_word_points){
+		 max_word_points = word_points[0];
+		 max_word = word_points;
+	     }
+	 }
+	 // get points of biggest word and remove from list then subsequently get other word points using used multipliers
+	 const used_multipliers = max_word[1]; // array of used multiplier slots
+	 let total_points = max_word_points; // minimum score is max word with mults
+	 for (let i=0; i<words.length; ++i){ // for any other words
+	     if (words[i] != max_word){ // as long as its not the max word
+		 total_points = total_points + getWordPoints(word_keys[i], words[word_string]);
+	     }
+	 }
+	 console.log('total: '+total_points);
      }
      updateErrorMessage(new_message);
  }
@@ -293,6 +322,36 @@ if ($game_over){
      }
      return words;
  }
+ function getWordPoints(word, word_coords, used_multipliers=[]){ // WORD: [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
+     let word_score = 0;
+     let word_multipliers = [];
+     for (let coord_index=0; coord_index<word_coords.length; ++coord_index){ // for each letter in the word
+	 const letter_coords = word_coords[coord_index]; // get its coords [x,y]
+	 const x = letter_coords[0] - 1; // -1 to remove blank border
+	 const y = letter_coords[1] - 1;
+	 const flat_coordinate = x + (y * 15); // to access flat array instead of 2d
+	 const letter_multiplier = board_slots[flat_coordinate]; // board slot multiplier
+	 let letter_score = letter_points[word[coord_index]]; // letter score with no multiplier
+	 console.log('word '+word+' letter '+word[coord_index]+' points '+letter_score);
+	 if (!used_multipliers.includes([x,y])){
+	     if (letter_multiplier == 1){
+		 letter_score = letter_score * 2;
+	     } else if (letter_multiplier == 2){
+		 letter_score = letter_score * 3;
+	     } else if (letter_multiplier == 3){
+		 word_multipliers.push(2);
+	     } else if (letter_multiplier == 4){
+		 word_multipliers.push(3);
+	     }
+	     used_multipliers.push([x,y]);
+	 }
+	 word_score = word_score + letter_score;
+     }
+     for (word_multiplier=0; word_multiplier<word_multipliers.length; ++word_multiplier){
+	 word_score = word_score * word_multipliers[word_multiplier];
+     }
+     return [word_score, used_multipliers];
+ }
  function findWords(board_state_2d){
      let words = {};
      for (let roc=0; roc<board_state_2d.length; ++roc){ // roc = row or column (index)
@@ -303,11 +362,11 @@ if ($game_over){
 	 const column_words = findWordsWithCoords(column_array, roc, 1);
 
 	 words = Object.assign({}, words, column_words, row_words);
-	 
+
 	 //let column_words = removeBlanks(board_state_2d[column].join('').split(' '),2);
 	 //let row_words = removeBlanks(getRowAsArray(column, board_state_2d).join('').split(' '),2);
      }
-     console.log(words);
+     return words;
  }
  function getTileCoordinates(active_only=false){ // active only will only return a coord list of the active tiles
      let tile_coordinates = [];

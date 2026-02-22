@@ -101,7 +101,7 @@ a:hover {
 .D:after, .G:after {
     content: '2';
 }
-.B:after, .C:after, .G:after {
+.B:after, .C:after, .G:after, .P:after {
     content: '3';
 }
 .F:after, .H:after, .V:after, .W:after, .Y:after {
