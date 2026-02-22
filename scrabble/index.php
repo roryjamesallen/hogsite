@@ -240,7 +240,8 @@ if ($game_over){
      } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 console.log(arrayDifference(findWords(getBoardState2D()),original_words));
+	 findWords(getBoardState2D());
+	 //console.log(arrayDifference(findWords(getBoardState2D()),original_words));
      }
      updateErrorMessage(new_message);
  }
@@ -249,7 +250,7 @@ if ($game_over){
  }
  function removeBlanks(arr, min_length=1){
      new_arr = [];
-     for(i=0; i<arr.length; ++i){
+     for(let i=0; i<arr.length; ++i){
 	 if (arr[i].length >= min_length){
 	     new_arr.push(arr[i]);
 	 }
@@ -263,23 +264,54 @@ if ($game_over){
      }
      return row_arr;
  }
- function findWords(board_state_2d){
-     let words = [];
-     for (let column=0; column<board_state_2d.length; ++column){
-	 let column_words = removeBlanks(board_state_2d[column].join('').split(' '),2);
-	 let row_words = removeBlanks(getRowAsArray(column, board_state_2d).join('').split(' '),2);
-	 if (column_words != []){
-	     words = words.concat(column_words);
-	 }
-	 if (row_words != []){
-	     words = words.concat(row_words);
+ function findWordsWithCoords(arr, other_coord, direction,  min_length=1){
+     let words = {};
+     let reading_word = false;
+     let word_coords = [];
+     arr.push(''); // add a blank on the end in case a word goes up to the last index
+     for (let i=0; i<arr.length; ++i){
+	 if (arr[i] != ''){
+	     if (reading_word == false){
+		 reading_word = arr[i];
+	     } else {
+		 reading_word = reading_word + arr[i];
+	     }
+	     if (direction == 0){ // its a row
+		 word_coords.push([i, other_coord]);
+	     } else { // its a column
+		 word_coords.push([other_coord, i]);
+	     }
+	 } else {
+	     if (reading_word != false){ // end of a word
+		 if (word_coords.length > min_length){
+		     words[reading_word] = word_coords;
+		 }
+		 word_coords = [];
+		 reading_word = false;
+	     }
 	 }
      }
      return words;
  }
+ function findWords(board_state_2d){
+     let words = {};
+     for (let roc=0; roc<board_state_2d.length; ++roc){ // roc = row or column (index)
+	 const row_array = getRowAsArray(roc, board_state_2d);
+	 const row_words = findWordsWithCoords(row_array, roc, 0);
+	 
+	 const column_array = board_state_2d[roc];
+	 const column_words = findWordsWithCoords(column_array, roc, 1);
+
+	 words = Object.assign({}, words, column_words, row_words);
+	 
+	 //let column_words = removeBlanks(board_state_2d[column].join('').split(' '),2);
+	 //let row_words = removeBlanks(getRowAsArray(column, board_state_2d).join('').split(' '),2);
+     }
+     console.log(words);
+ }
  function getTileCoordinates(active_only=false){ // active only will only return a coord list of the active tiles
      let tile_coordinates = [];
-     for (slot_index=0; slot_index<board_slots.length; ++slot_index){ // for every slot
+     for (let slot_index=0; slot_index<board_slots.length; ++slot_index){ // for every slot
 	 slot = board.children[slot_index];
 	 if (slot.children.length != 0){ // if the slot contains a tile
 	     if (slot.children[0].classList.contains('tile-active') || active_only == false){ // if the tile is active or active_only is off
