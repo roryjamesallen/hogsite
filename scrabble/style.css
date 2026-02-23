@@ -4,11 +4,23 @@
 }
 body {
     font-family: Melodica;
-    margin-bottom: 5rem;
+    margin: 0;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
 }
 h1, h2 {
     text-align: center;
     margin: 0;
+}
+h1 {
+    font-size: 4rem;
+}
+h2 {
+    font-size: 2.25rem;
 }
 a {
     text-decoration: none;
@@ -20,34 +32,44 @@ a:hover {
 #toolbar {
     margin: 0 auto;
     gap: 1rem;
+    font-size: 2rem;
 }
-#game {
-    gap: 5px;
+#game, #info-block {
+    flex-basis: 40%;
+    flex-grow: 1;
+    margin: 2rem;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 1rem;
     flex-wrap: wrap;
-    width: min(calc(100vw - 10px), 600px);
-    margin: 2rem auto;
+}
+#info-block > *:not(#play-button, #rack) {
+    flex-basis: 100%;
 }
 #rack {
     background: #025418;
     border-bottom: 5px solid #003206;
     box-sizing: border-box;
-    width: 100%;
+    min-width: 450px;
     gap: 5px;
     padding: 5px 5px 0 5px;
 }
 .tile {
-    height: 28px;
+    height: 50px;
     aspect-ratio: 1 / 1;
     border: 2px solid #a9a0a4;
     border-radius: 3px;
     box-sizing: border-box;
     background-color: #ede4d7;
-    font-size: 2rem;
+    font-size: 3rem;
     position: relative;
 }
 .tile-active {
-    border-color: red;
     cursor: pointer;
+}
+#board .tile-active {
+    border-color: red;
 }
 .tile:not(.tile-active){
     cursor: no-drop;
@@ -68,8 +90,12 @@ a:hover {
 .slot > .tile {
     width: 90%;
     height: 90%;
+    font-size: 2rem;
 }
-.slot, .tile, #rack, #game, #toolbar {
+.slot > .tile:after {
+    font-size: 1rem;
+}
+.slot, .tile, #rack, #toolbar {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,7 +116,7 @@ a:hover {
     border: 2px solid white;
 }
 .tile:after {
-    font-size: 1rem;
+    font-size: 1.5rem;
     position: absolute;
     bottom: -0.25rem;
     right: 0rem;
@@ -119,12 +145,14 @@ a:hover {
 #error-message, #user-turn-text, #this-user {
     flex-basis: 100%;
     text-align: center;
+    font-size: 2rem;
 }
 #error-message {
     color: red;
 }
 #play-button {
-    padding: 5px;
+    padding: 1rem;
+    font-size: 2rem;
     width: fit-content;
     margin: 0 auto;
 }
@@ -138,7 +166,7 @@ a:hover {
     border: 2px solid #eee;
     color: #777;
     background: white;
-    cursor: unset;
+    cursor: no-drop;
 }
 form {
     display: flex;
@@ -160,4 +188,16 @@ form > input[type=radio]{
 form > input[type=button], form > p {
     flex-basis: 100%;
     margin: 0;
+}
+@media screen and (max-width: 1000px){
+    html {
+	font-size: 25px;
+    }
+    body {
+	align-content: start;
+	margin-top: 2rem;
+    }
+    #game, #info-block {
+	flex-basis: 100%;
+    }
 }
