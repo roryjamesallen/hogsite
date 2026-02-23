@@ -249,33 +249,45 @@ if ($game_over){
      } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 const words = findWords(getBoardState2D());
-	 const word_keys = Object.keys(words);
-	 let max_word_points = 0;
-	 let max_word = null;
-	 for (let i=0; i<word_keys.length; ++i){ // get max values of each word
-	     const word_string = word_keys[i];
-	     const word_coords = words[word_string];
-	     const word_points = getWordPoints(word_string, word_coords);
-	     if (word_points[0] > max_word_points){
-		 max_word_points = word_points[0];
-		 max_word = word_points;
+	 const original_words = findWords(getBoardState2D(original_board_state));
+	 const total_words = findWords(getBoardState2D());
+	 const new_words = arrayDifference(total_words, original_words);
+	 const word_keys = Object.keys(new_words);
+	 if (word_keys.length > 0){
+	     let max_word_points = 0;
+	     let max_word = null;
+	     for (let i=0; i<word_keys.length; ++i){ // get max values of each word
+		 const word_string = word_keys[i];
+		 const word_coords = new_words[word_string];
+		 const word_points = getWordPoints(word_string, word_coords);
+		 if (word_points[0] > max_word_points){
+		     max_word_points = word_points[0];
+		     max_word = word_points;
+		 }
 	     }
-	 }
-	 // get points of biggest word and remove from list then subsequently get other word points using used multipliers
-	 const used_multipliers = max_word[1]; // array of used multiplier slots
-	 let total_points = max_word_points; // minimum score is max word with mults
-	 for (let i=0; i<words.length; ++i){ // for any other words
-	     if (words[i] != max_word){ // as long as its not the max word
-		 total_points = total_points + getWordPoints(word_keys[i], words[word_string]);
+	     // get points of biggest word and remove from list then subsequently get other word points using used multipliers
+	     const used_multipliers = max_word[1]; // array of used multiplier slots
+	     let total_points = max_word_points; // minimum score is max word with mults
+	     for (let i=0; i<new_words.length; ++i){ // for any other words
+		 if (new_words[i] != max_word){ // as long as its not the max word
+		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]);
+		 }
 	     }
+	     new_message += 'making words '+word_keys.join(' & ')+' ('+total_points+'pts)';
 	 }
-	 console.log('total: '+total_points);
      }
      updateErrorMessage(new_message);
  }
  function arrayDifference(arr1, arr2){
-     return arr1.filter(x => !arr2.includes(x));
+     const arr1_keys = Object.keys(arr1);
+     const arr2_keys = Object.keys(arr2);
+     let arr3 = {};
+     for (let i=0; i<arr1_keys.length; ++i){
+	 if (!arr2_keys.includes(arr1_keys[i])){
+	     arr3[arr1_keys[i]] = arr1[arr1_keys[i]];
+	 }
+     }
+     return arr3;
  }
  function removeBlanks(arr, min_length=1){
      new_arr = [];
@@ -411,9 +423,9 @@ if ($game_over){
      for (y=1; y<=15; ++y){
 	 for (x=1; x<=15; ++x){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-		 letter_found = [x,y];
-		 return letter_found
-	     }
+	 letter_found = [x,y];
+	 return letter_found
+     }
 	 }
      }
      return false // no letters on board
