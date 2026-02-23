@@ -66,10 +66,9 @@ if ($game_over){
 
 <html>
     <body>
-<?php renderHeading();?>
+	<?php renderHeading();?>
 	<div id="game">
-	    <div id="this-user">You are <?php echo $session_nickname.$game_over_text;?></div>
-	    <div id="user-turn-text"></div>
+	    <div id="this-user">You are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><?php echo $game_over_text;?></div>
 	    <div id="error-message"></div>
 	    <div id="rack"></div>
 	    <div id="board"></div>
@@ -273,7 +272,7 @@ if ($game_over){
 		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]);
 		 }
 	     }
-	     new_message += 'making words '+word_keys.join(' & ')+' ('+total_points+'pts)';
+	     new_message += 'Making words '+word_keys.join(' & ')+' ('+total_points+'pts)';
 	 }
      }
      updateErrorMessage(new_message);

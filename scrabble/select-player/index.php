@@ -19,7 +19,7 @@ if (isset($_POST['new-nickname'])){ // new nickname posted from select-player
         echo 'someone in this game already has that username!!';
     } else {
         $game_data['users'][] = $_POST['new-nickname'];
-        $game_data[$_POST['new-nickname']] = json_decode('{"rack":[]}',true);
+        $game_data[$_POST['new-nickname']] = json_decode('{"rack":[],"points":0}',true);
         $game_data = refillRack($game_data, $_POST['new-nickname']);
         $_SESSION[$game_id] = $_POST['new-nickname'];
         file_put_contents($game_path, json_encode($game_data));

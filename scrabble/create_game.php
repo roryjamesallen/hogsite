@@ -13,7 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['players']) && isset($_
 	"users": ["'.$_POST['nickname'].'"],
 	"turn": 0,
 	"'.$_POST['nickname'].'": {
-	    "rack": []
+	    "rack": [],
+"points": 0
 	},
 	"tilebag":[
 	    "E","E","E","E","E","E","E","E","E","E","E","E",
