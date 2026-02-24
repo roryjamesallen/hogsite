@@ -2,6 +2,17 @@
     font-family: Melodica;
     src: url('https://hogwild.uk/fonts/Melodica.otf');
 }
+:root {
+    --green: #025418;
+    --dark-green:  #003206;
+    --beige: #ede4d7;
+    --dark-beige: #a9a0a4;
+
+    --double-letter: #b4eefc;
+    --triple-letter: #1daee0;
+    --double-word: #fbb8c3;
+    --triple-word: #f95f6c;
+}
 body {
     font-family: Melodica;
     margin: 0;
@@ -24,15 +35,10 @@ h2 {
 }
 a {
     text-decoration: none;
-    color: #069;
+    color: var(--triple-word);
 }
 a:hover {
     text-decoration: underline;
-}
-#toolbar {
-    margin: 0 auto;
-    gap: 1rem;
-    font-size: 2rem;
 }
 #game, #info-block {
     flex-basis: 40%;
@@ -48,8 +54,8 @@ a:hover {
     flex-basis: 100%;
 }
 #rack {
-    background: #025418;
-    border-bottom: 5px solid #003206;
+    background: var(--green);
+    border-bottom: 5px solid var(--dark-green);
     box-sizing: border-box;
     min-width: 450px;
     gap: 5px;
@@ -58,10 +64,10 @@ a:hover {
 .tile {
     height: 50px;
     aspect-ratio: 1 / 1;
-    border: 2px solid #a9a0a4;
+    border: 2px solid var(--dark-beige);
     border-radius: 3px;
     box-sizing: border-box;
-    background-color: #ede4d7;
+    background-color: var(--beige);
     font-size: 3rem;
     position: relative;
 }
@@ -69,7 +75,7 @@ a:hover {
     cursor: pointer;
 }
 #board .tile-active {
-    border-color: red;
+    border-color: black;
 }
 .tile:not(.tile-active){
     cursor: no-drop;
@@ -79,13 +85,12 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 2px;
-    background-color: grey;
 }
 .slot {
     flex-basis: calc(calc(100% / 15) - 2px);
     flex-grow: 1;
     aspect-ratio: 1 / 1;
-    background-color: #f9eacd;
+    background-color: white;
 }
 .slot > .tile {
     width: 90%;
@@ -94,23 +99,25 @@ a:hover {
 }
 .slot > .tile:after {
     font-size: 1rem;
+    right: 0.05rem;
+    bottom: 0.05rem;
 }
-.slot, .tile, #rack, #toolbar {
+.slot, .tile, #rack {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .double-letter {
-    background-color: #b4eefc;
+    background-color: var(--double-letter);
 }
 .triple-letter {
-    background-color: #1daee0;
+    background-color: var(--triple-letter);
 }
 .double-word {
-    background-color: #fbb8c3;
+    background-color: var(--double-word);
 }
 .triple-word {
-    background-color: #f95f6c;
+    background-color: var(--triple-word);
 }
 .in-hand {
     border: 2px solid white;
@@ -148,24 +155,27 @@ a:hover {
     font-size: 2rem;
 }
 #error-message {
-    color: red;
+    color: var(--triple-word);
+}
+#play-points-text {
+    color: var(--triple-letter);
 }
 #play-button {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     font-size: 2rem;
     width: fit-content;
     margin: 0 auto;
+    background: var(--beige);
+    border-radius: 3px;
 }
 .play-true {
-    border: 2px solid red;
+    border: 2px solid black;
     color: black;
     background: #eee;
     cursor: pointer;
 }
 .play-false {
-    border: 2px solid #eee;
-    color: #777;
-    background: white;
+    filter: opacity(0.25);
     cursor: no-drop;
 }
 form {

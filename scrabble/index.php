@@ -68,7 +68,7 @@ if ($game_over){
     <body>
 	<div id="info-block">
 	    <?php renderHeading();?>
-	    <div id="this-user">You are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><?php echo $game_over_text;?></div>
+	    <div id="this-user">you are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><span id="play-points-text"></span><?php echo $game_over_text;?></div>
 	    <div id="error-message"></div>
 	    <div id="play-button" class="play-false">PLAY</div>
 	    
@@ -85,15 +85,16 @@ if ($game_over){
  const playable = <?php echo json_encode($playable);?>; // bool of if this user can play
  const nickname_playing = '<?php echo $nickname_playing;?>'; // nickname of playing player
  var board_state = <?php echo json_encode($board_state);?>;
- const original_board_state = JSON.parse(JSON.stringify(board_state));
- const original_board_state_2d = getBoardState2D(original_board_state);
- const original_words = findWords(original_board_state_2d);
  var rack_tiles = <?php echo json_encode($rack_tiles);?>;
  
  // JS Constants
+ const original_board_state = JSON.parse(JSON.stringify(board_state));
+ const original_board_state_2d = getBoardState2D(original_board_state);
+ const original_words = findWords(original_board_state_2d);
  const play_button = document.getElementById('play-button');
  const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
+ const play_points_text = document.getElementById('play-points-text');
  const rack = document.getElementById('rack');
  const board = document.getElementById('board');
  const score_multiplier_reference = {
@@ -132,6 +133,7 @@ if ($game_over){
 
  // Live Variables
  var tile_in_hand = false;
+ var play_points = null;
  
  // Setup Functions
  function updateUserTurnText(){
@@ -177,7 +179,7 @@ if ($game_over){
  }
  function attemptPlay(){
      if ([...play_button.classList].includes('play-true')){
-	 var dataToSend = "board_state=" + JSON.stringify(board_state) + "&game_path=" + "<?php echo $game_path;?>";
+	 var dataToSend = "board_state=" + JSON.stringify(board_state) + "&game_path=<?php echo $game_path;?>&points=" + play_points;
 	 var xhr = new XMLHttpRequest();
 	 xhr.open("POST", "make_play.php", false);
 	 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -240,6 +242,7 @@ if ($game_over){
  // Game Scoring Functions
  function validatePlacement(){
      let new_message = '';
+     play_points_text.innerHTML = '';
      const tile_coordinates = getTileCoordinates(true);
      const direction = checkColinearity(tile_coordinates);
      let board_state_2d = getBoardState2D(); // board state as 2D array of letters
@@ -275,7 +278,8 @@ if ($game_over){
 		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]);
 		 }
 	     }
-	     new_message += word_keys.join(' & ')+' ('+total_points+'pts)';
+	     play_points = total_points;
+	     play_points_text.innerHTML = '<br>' + word_keys.join(' & ') + ' ('+total_points+'pts)';
 	 }
      }
      updateErrorMessage(new_message);
