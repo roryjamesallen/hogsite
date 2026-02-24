@@ -186,8 +186,8 @@ if ($game_over){
 	 xhr.onreadystatechange = function () {
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
-             //console.log("Status:", xhr.responseText);
-		     location.reload();
+		     console.log("Status:", xhr.responseText);
+		     //location.reload();
 		 } else {
 		     console.error("Error:", xhr.status);
 		 }
@@ -284,13 +284,15 @@ if ($game_over){
      }
      updateErrorMessage(new_message);
  }
- function arrayDifference(arr1, arr2){
-     const arr1_keys = Object.keys(arr1);
-     const arr2_keys = Object.keys(arr2);
+ function arrayDifference(arr1, arr2){ // return arr1 with arr2 values excluded
+     const arr1_keys = Object.keys(arr1); // array to copy values from
+     let arr2_keys = Object.keys(arr2); // array of values to exclude from copying
      let arr3 = {};
      for (let i=0; i<arr1_keys.length; ++i){
 	 if (!arr2_keys.includes(arr1_keys[i])){
 	     arr3[arr1_keys[i]] = arr1[arr1_keys[i]];
+	 } else {
+	     arr2_keys.splice(arr2_keys.indexOf(arr1_keys[i]),1); // remove it to allow for the same word being played twice
 	 }
      }
      return arr3;
@@ -340,6 +342,9 @@ if ($game_over){
      }
      return words;
  }
+ function flattenCoords(x,y){
+     return x + (y * 15);
+ }
  function getWordPoints(word, word_coords, used_multipliers=[]){ // WORD: [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
      let word_score = 0;
      let word_multipliers = [];
@@ -351,7 +356,7 @@ if ($game_over){
 	 const letter_multiplier = board_slots[flat_coordinate]; // board slot multiplier
 	 let letter_score = letter_points[word[coord_index]]; // letter score with no multiplier
 	 console.log('word '+word+' letter '+word[coord_index]+' points '+letter_score);
-	 if (!used_multipliers.includes([x,y])){
+	 if (!used_multipliers.includes([x,y]) && document.getElementById('slot-'+flattenCoords(x,y)).firstChild.classList.contains('tile-active')){
 	     if (letter_multiplier == 1){
 		 letter_score = letter_score * 2;
 	     } else if (letter_multiplier == 2){
