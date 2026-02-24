@@ -254,7 +254,6 @@ if ($game_over){
      } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 const original_words = findWords(getBoardState2D(original_board_state));
 	 const total_words = findWords(getBoardState2D());
 	 const new_words = arrayDifference(total_words, original_words);
 	 const word_keys = Object.keys(new_words);
@@ -262,8 +261,8 @@ if ($game_over){
 	     let max_word_points = 0;
 	     let max_word = null;
 	     for (let i=0; i<word_keys.length; ++i){ // get max values of each word
-		 const word_string = word_keys[i];
-		 const word_coords = new_words[word_string];
+		 const word_string = new_words[word_keys[i]]['word'];
+		 const word_coords = new_words[word_keys[i]]['coords'];
 		 const word_points = getWordPoints(word_string, word_coords);
 		 if (word_points[0] > max_word_points){
 		     max_word_points = word_points[0];
@@ -289,10 +288,14 @@ if ($game_over){
      let arr2_keys = Object.keys(arr2); // array of values to exclude from copying
      let arr3 = {};
      for (let i=0; i<arr1_keys.length; ++i){
-	 if (!arr2_keys.includes(arr1_keys[i])){
-	     arr3[arr1_keys[i]] = arr1[arr1_keys[i]];
-	 } else {
-	     arr2_keys.splice(arr2_keys.indexOf(arr1_keys[i]),1); // remove it to allow for the same word being played twice
+	 const word = arr1[arr1_keys[i]]['word'];
+	 for (let j=0; j<arr2_keys.length; ++j){
+	     if (arr2[arr2_keys[j]]['word'] == word){
+		 delete arr2[arr2_keys[j]];
+		 break; // only remove for first instance
+	     } else {
+		 arr3[arr1_keys[i]] = arr1[arr1_keys[i]]; // copy the word to array 3
+	     }
 	 }
      }
      return arr3;
@@ -317,13 +320,14 @@ if ($game_over){
      let words = {};
      let reading_word = false;
      let word_coords = [];
+     let word_count = other_coord + (direction*9999); // unique starting point to avoid duplicate keys
      arr.push(''); // add a blank on the end in case a word goes up to the last index
      for (let i=0; i<arr.length; ++i){
 	 if (arr[i] != ''){
-	     if (reading_word == false){
+	     if (reading_word == false){ // start of a word		 
 		 reading_word = arr[i];
 	     } else {
-		 reading_word = reading_word + arr[i];
+		 reading_word = reading_word + arr[i]; // during a word
 	     }
 	     if (direction == 0){ // its a row
 		 word_coords.push([i, other_coord]);
@@ -333,7 +337,9 @@ if ($game_over){
 	 } else {
 	     if (reading_word != false){ // end of a word
 		 if (word_coords.length > min_length){
-		     words[reading_word] = word_coords;
+		     words[word_count] = {};
+		     words[word_count]['word'] = reading_word;
+		     words[word_count]['coords'] = word_coords;
 		 }
 		 word_coords = [];
 		 reading_word = false;
@@ -384,10 +390,7 @@ if ($game_over){
 	 const column_array = board_state_2d[roc];
 	 const column_words = findWordsWithCoords(column_array, roc, 1);
 
-	 words = Object.assign({}, words, column_words, row_words);
-
-	 //let column_words = removeBlanks(board_state_2d[column].join('').split(' '),2);
-	 //let row_words = removeBlanks(getRowAsArray(column, board_state_2d).join('').split(' '),2);
+	 words = Object.assign({}, words, column_words, row_words);	 
      }
      return words;
  }
