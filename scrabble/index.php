@@ -68,12 +68,13 @@ if ($game_over){
     <body>
 	<div id="info-block">
 	    <?php renderHeading();?>
-	    <div id="rack"></div>
 	    <div id="this-user">You are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><?php echo $game_over_text;?></div>
 	    <div id="error-message"></div>
 	    <div id="play-button" class="play-false">PLAY</div>
+	    
 	</div>
 	<div id="game">
+	    <div id="rack"></div>
 	    <div id="board"></div>
 	</div>
     </body>
