@@ -170,6 +170,9 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 	    <div>
 		<a href="https://hogwild.uk/what?" style="color: var(--blue); text-decoration: none">?</a>
 	    </div>
+	    <a href="https://discord.gg/jJvZjNqjsp">
+		<img style="height: 1rem" src="images/buttons/discord-icon.png">
+	    </a>
 	    <div>
 		<label for="checkbox-snapping">Snap</label>
 		<input id="checkbox-snapping" class="js-checkbox" type="checkbox">
