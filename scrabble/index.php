@@ -289,9 +289,8 @@ if ($game_over){
      let arr2_keys = Object.keys(arr2); // array of values to exclude from copying
      let arr3 = {};
      for (let i=0; i<arr1_keys.length; ++i){
-	 const word = arr1[arr1_keys[i]]['word'];
 	 for (let j=0; j<arr2_keys.length; ++j){
-	     if (arr2[arr2_keys[j]]['word'] == word){
+	     if (arr2_keys[j] == arr1_keys[i]){
 		 delete arr2[arr2_keys[j]];
 		 break; // only remove for first instance
 	     } else {
@@ -321,7 +320,6 @@ if ($game_over){
      let words = {};
      let reading_word = false;
      let word_coords = [];
-     let word_count = other_coord + (direction*9999); // unique starting point to avoid duplicate keys
      arr.push(''); // add a blank on the end in case a word goes up to the last index
      for (let i=0; i<arr.length; ++i){
 	 if (arr[i] != ''){
@@ -338,9 +336,10 @@ if ($game_over){
 	 } else {
 	     if (reading_word != false){ // end of a word
 		 if (word_coords.length > min_length){
-		     words[word_count] = {};
-		     words[word_count]['word'] = reading_word;
-		     words[word_count]['coords'] = word_coords;
+		     const key = (word_coords[0] + word_coords[word_coords.length - 1]).replaceAll(',',''); // no other word will have the same start and end coords so this is a unique key
+		     words[key] = {};
+		     words[key]['word'] = reading_word;
+		     words[key]['coords'] = word_coords;
 		 }
 		 word_coords = [];
 		 reading_word = false;
