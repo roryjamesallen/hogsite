@@ -15,7 +15,7 @@ function refillRack($game_data, $nickname){
     return $game_data;
 }
 function renderHeading($level=''){
-    echo '<head><link rel="stylesheet" href="'.$level.'style.css"></head><h1>hog scrabble</h1><h2>free and multiplayer</h2>';
+    echo '<head><link rel="stylesheet" href="'.$level.'style.css"></head><div id="title-container"><h1>hog scrabble</h1><h2>free and multiplayer</h2><a href="?">home</a></div>';
 }
 function getGameUsersString($game_id){
     $game_path = gamePathFromId($game_id);

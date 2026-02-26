@@ -12,52 +12,79 @@
     --triple-letter: #1daee0;
     --double-word: #fbb8c3;
     --triple-word: #f95f6c;
+
+    --padding: 2rem;
 }
 body {
     font-family: Melodica;
     margin: 0;
     display: flex;
-    align-content: center;
-    flex-wrap: wrap;
-    max-width: 100vw;
-    max-height: 100vh;
-    overflow: hidden;
+}
+#info-block, #game-block {
+    flex-basis: 50%;
+    height: fit-content;
+    padding: 2rem;
+}
+@media screen and (max-width: 1000px){
+    body {
+	flex-wrap: wrap;
+	align-content: start;
+    }
+    #info-block, #game-block {
+	flex-basis: 50%;
+	flex-grow: 1;
+    }
+}
+#info-block {
+    background: white;
+}
+#title-container {
 }
 h1, h2 {
-    text-align: center;
     margin: 0;
 }
 h1 {
-    font-size: 4rem;
+    font-size: 3rem;
 }
 h2 {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
 }
 a {
     text-decoration: none;
     color: var(--triple-word);
+    font-size: 2rem;
 }
 a:hover {
     text-decoration: underline;
 }
-#game, #info-block {
-    flex-basis: 40%;
-    flex-grow: 1;
-    margin: 2rem;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+#note {
+    border-top: 2px solid var(--triple-letter);
+    margin-top: calc(var(--padding) / 2);
+    font-size: 2rem;
 }
-#info-block > *:not(#play-button, #rack) {
-    flex-basis: 100%;
+#error-message {
+    color: var(--triple-word);
+}
+#play-points-text {
+    color: var(--triple-letter);
+}
+#title-container, #note {
+    padding: calc(var(--padding) / 2);
+    text-align: center;
+}
+
+#game-block {
+    background: white;
+}
+#rack-container {
+    display: flex;
+    gap: var(--padding);
 }
 #rack {
+    flex-grow: 1;
     background: var(--green);
     border-bottom: 5px solid var(--dark-green);
     box-sizing: border-box;
-    min-width: 450px;
     gap: 5px;
     padding: 5px 5px 0 5px;
 }
@@ -70,17 +97,40 @@ a:hover {
     background-color: var(--beige);
     font-size: 3rem;
     position: relative;
+    cursor: no-drop;
 }
 .tile-active {
     cursor: pointer;
 }
-#board .tile-active {
+.slot > .tile-active {
     border-color: black;
 }
-.tile:not(.tile-active){
+.slot, .tile, #rack, #note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#play-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    font-size: 2rem;
+    background: var(--beige);
+    border-radius: 3px;
+}
+.play-true {
+    border: 2px solid black;
+    color: black;
+    background: #eee;
+    cursor: pointer;
+}
+.play-false {
+    filter: opacity(0.25);
     cursor: no-drop;
 }
 #board {
+    margin-bottom: var(--padding);
     flex-basis: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -101,11 +151,6 @@ a:hover {
     font-size: 1rem;
     right: 0.05rem;
     bottom: 0.05rem;
-}
-.slot, .tile, #rack {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .double-letter {
     background-color: var(--double-letter);
@@ -148,66 +193,4 @@ a:hover {
 }
 .Q:after, .Z: after {
     content: '10';
-}
-#error-message, #user-turn-text, #this-user {
-    flex-basis: 100%;
-    text-align: center;
-    font-size: 2rem;
-}
-#error-message {
-    color: var(--triple-word);
-}
-#play-points-text {
-    color: var(--triple-letter);
-}
-#play-button {
-    padding: 0.5rem 1rem;
-    font-size: 2rem;
-    width: fit-content;
-    margin: 0 auto;
-    background: var(--beige);
-    border-radius: 3px;
-}
-.play-true {
-    border: 2px solid black;
-    color: black;
-    background: #eee;
-    cursor: pointer;
-}
-.play-false {
-    filter: opacity(0.25);
-    cursor: no-drop;
-}
-form {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0.5rem auto;
-    flex-wrap: wrap;
-    width: 150px;
-}
-form > label, form > input {
-    flex-basis: 70%;
-    flex-grow: 1;
-}
-form > input[type=radio]{
-    flex-basis: 20%;
-    flex-grow: 1;
-    margin: 0;
-}
-form > input[type=button], form > p {
-    flex-basis: 100%;
-    margin: 0;
-}
-@media screen and (max-width: 1000px){
-    html {
-	font-size: 25px;
-    }
-    body {
-	align-content: start;
-	margin-top: 2rem;
-    }
-    #game, #info-block {
-	flex-basis: 100%;
-    }
 }

@@ -68,14 +68,17 @@ if ($game_over){
     <body>
 	<div id="info-block">
 	    <?php renderHeading();?>
-	    <div id="this-user">you are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><span id="play-points-text"></span><?php echo $game_over_text;?></div>
-	    <div id="error-message"></div>
-	    <div id="play-button" class="play-false">PLAY</div>
-	    
+	    <div id="note">
+		<div id="this-user">you are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><span id="play-points-text"></span><?php echo $game_over_text;?></div>
+		<div id="error-message"></div>
+	    </div>
 	</div>
-	<div id="game">
-	    <div id="rack"></div>
+	
+	<div id="game-block">
 	    <div id="board"></div>
+	    <div id="rack-container">
+		<div id="rack"></div><div id="play-button" class="play-false">PLAY</div>
+	    </div>
 	</div>
     </body>
 </html>
@@ -186,8 +189,8 @@ if ($game_over){
 	 xhr.onreadystatechange = function () {
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
-		     console.log("Status:", xhr.responseText);
-		     //location.reload();
+		     //console.log("Status:", xhr.responseText);
+		     location.reload();
 		 } else {
 		     console.error("Error:", xhr.status);
 		 }
@@ -241,6 +244,7 @@ if ($game_over){
 
  // Game Scoring Functions
  function validatePlacement(){
+     console.log(original_words);
      let new_message = '';
      play_points_text.innerHTML = '';
      const tile_coordinates = getTileCoordinates(true); // get array of coordinates for slots filled with tiles [[x1,y1],[x2,y2]] (active tiles only)
@@ -260,22 +264,28 @@ if ($game_over){
 	 if (word_keys.length > 0){ // if there are any words made
 	     let max_word_points = 0; // points earned by the highest scoring word (using all possible multipliers)
 	     let max_word = null; // string of the word that earns the highest score
-	     let word_strings = []
-	     for (let i=0; i<word_keys.length; ++i){ // for each word made on the board
+	     let max_word_key = null;
+	     let word_strings = [];
+	     let used_multipliers = null;
+	     for (let i=0; i<word_keys.length; ++i){ // for each NEW word made on the board
 		 const word_string = new_words[word_keys[i]]['word']; // get the word as a string
-		 word_strings.push(word_string);
+		 word_strings.push(word_string); // add the string to an array to be used in the note shown to the user
 		 const word_coords = new_words[word_keys[i]]['coords']; // get the coords of each letter of the word
 		 const word_points = getWordPoints(word_string, word_coords); // get the points of the whole word using any multipliers
 		 if (word_points[0] > max_word_points){ // if the word's points are the new highest
 		     max_word_points = word_points[0]; // set the new highest points int
+		     console.log('maxpoints '+max_word_points);
 		     max_word = word_points; // set the new highest scoring word string
+		     used_multipliers = word_points[1]; // set the multipliers used by the highest scoring word
+		     max_word_key = word_keys[i]; // set the key of the max word in the word_keys array
 		 }
 	     }
-	     const used_multipliers = max_word[1]; // array of used multiplier slots (highest scoring word uses them first then others can't reuse)
 	     let total_points = max_word_points; // minimum score is max word with multipliers
-	     for (let i=0; i<new_words.length; ++i){ // for any other words made
-		 if (new_words[i] != max_word){ // as long as its not the max word
-		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]); // add the extra word's points to the total score
+	     for (let j=0; j<word_keys.length; ++j){ // for any other words made
+		 if (word_keys[j] != max_word_key){ // as long as its not the max word
+		     const word = new_words[word_keys[j]];
+		     const additional_points = getWordPoints(word['word'], word['coords'])[0]; // add the extra word's points to the total score
+		     total_points = total_points + additional_points;
 		 }
 	     }
 	     play_points = total_points;
@@ -288,14 +298,17 @@ if ($game_over){
      const arr1_keys = Object.keys(arr1); // array to copy values from
      let arr2_keys = Object.keys(arr2); // array of values to exclude from copying
      let arr3 = {};
-     for (let i=0; i<arr1_keys.length; ++i){
-	 for (let j=0; j<arr2_keys.length; ++j){
-	     if (arr2_keys[j] == arr1_keys[i]){
-		 delete arr2[arr2_keys[j]];
-		 break; // only remove for first instance
-	     } else {
-		 arr3[arr1_keys[i]] = arr1[arr1_keys[i]]; // copy the word to array 3
+     for (let i=0; i<arr1_keys.length; ++i){ // for every arr1 key
+	 let exists = false;
+	 for (let j=0; j<arr2_keys.length; ++j){ // for every possible matching arr2 key
+	     if (arr2_keys[j] == arr1_keys[i]){ // if the arr2 key is also in arr1
+		 exists = true;
+		 arr2_keys[j] = null; // delete it (the first time its found)
+		 break; // only remove for first instance		 
 	     }
+	 }
+	 if (!exists){
+	     arr3[arr1_keys[i]] = arr1[arr1_keys[i]]; // copy the word to array 3
 	 }
      }
      return arr3;
@@ -351,7 +364,7 @@ if ($game_over){
  function flattenCoords(x,y){
      return x + (y * 15);
  }
- function getWordPoints(word, word_coords, used_multipliers=[]){ // WORD: [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
+ function getWordPoints(word, word_coords, used_multipliers=[]){
      let word_score = 0;
      let word_multipliers = [];
      for (let coord_index=0; coord_index<word_coords.length; ++coord_index){ // for each letter in the word
@@ -361,7 +374,7 @@ if ($game_over){
 	 const flat_coordinate = x + (y * 15); // to access flat array instead of 2d
 	 const letter_multiplier = board_slots[flat_coordinate]; // board slot multiplier
 	 let letter_score = letter_points[word[coord_index]]; // letter score with no multiplier
-	 console.log('word '+word+' letter '+word[coord_index]+' points '+letter_score);
+	 
 	 if (!used_multipliers.includes([x,y]) && document.getElementById('slot-'+flattenCoords(x,y)).firstChild.classList.contains('tile-active')){
 	     if (letter_multiplier == 1){
 		 letter_score = letter_score * 2;
@@ -374,10 +387,11 @@ if ($game_over){
 	     }
 	     used_multipliers.push([x,y]);
 	 }
+	 console.log('word '+word+' letter '+word[coord_index]+' points '+letter_score);
 	 word_score = word_score + letter_score;
      }
-     for (word_multiplier=0; word_multiplier<word_multipliers.length; ++word_multiplier){
-	 word_score = word_score * word_multipliers[word_multiplier];
+     for (word_multiplier=0; word_multiplier<word_multipliers.length; ++word_multiplier){ // in case there are multiple word multipliers
+	 word_score = word_score * word_multipliers[word_multiplier]; // apply each word multiplier
      }
      return [word_score, used_multipliers];
  }
