@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE){
-    session_start();
+session_start();
 }
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -10,52 +10,52 @@ include 'lib.php';
 $playable = false; // read by JS
 $game_over = false;
 if (isset($_GET['game'])){
-    $game_path = gamePathFromId($_GET['game']);
-    $game_id = gameIdFromPath($game_path);
-    if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
-        renderHeading();
-        echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
-        die();
-    } else if (!isset($_SESSION[$game_id])){ // game exists but php doesn't know who is playing
-        header('Location: ./select-player?game='.$game_id);
-    } else { // playin time
-        $game_data = json_decode(file_get_contents($game_path),true);
-        $turn = $game_data['turn']; // e.g. index of currently playing user
-        if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
-            $nickname_playing = 'someone who is yet to join the game';
-        } else {
-            $nickname_playing = $game_data['users'][$turn];
-        }
-        $board_state = $game_data['board_state'];
-	$session_nickname = $_SESSION[$game_id];
-        if (array_key_exists($session_nickname,$game_data)){
-            $rack_tiles = $game_data[$session_nickname]['rack'];
-            if ($game_data['turn'] == -1){ // game is over
-                $game_over = true;
-            } else if ($nickname_playing == $session_nickname){ // this user's go
-                $playable = true;
-            }
-        } else {
-            header('Location: ./select-player?game='.$game_id);
-        }
-    }
+$game_path = gamePathFromId($_GET['game']);
+$game_id = gameIdFromPath($game_path);
+if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
+renderHeading();
+echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
+die();
+} else if (!isset($_SESSION[$game_id])){ // game exists but php doesn't know who is playing
+header('Location: ./select-player?game='.$game_id);
+} else { // playin time
+$game_data = json_decode(file_get_contents($game_path),true);
+$turn = $game_data['turn']; // e.g. index of currently playing user
+if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
+$nickname_playing = 'someone who is yet to join the game';
 } else {
-    renderHeading();
-    if (count($_SESSION) > 0){
-	echo '<br><br><h2>Rejoin Game</h2><form>';
-	for ($game_index=0; $game_index<count($_SESSION); $game_index++){
-	    $game_id = array_keys($_SESSION)[$game_index];
-	    $game_users_string = getGameUsersString($game_id);
-	    echo '<span><a href="./?game='.$game_id.'">'.$game_id.'</a>'.$game_users_string.'</span>';
-	}
-	echo '</form>';
+$nickname_playing = $game_data['users'][$turn];
+}
+$board_state = $game_data['board_state'];
+$session_nickname = $_SESSION[$game_id];
+if (array_key_exists($session_nickname,$game_data)){
+$rack_tiles = $game_data[$session_nickname]['rack'];
+if ($game_data['turn'] == -1){ // game is over
+$game_over = true;
+} else if ($nickname_playing == $session_nickname){ // this user's go
+$playable = true;
+}
+} else {
+header('Location: ./select-player?game='.$game_id);
+}
+}
+} else {
+renderHeading();
+if (count($_SESSION) > 0){
+echo '<br><br><h2>Rejoin Game</h2><form>';
+    for ($game_index=0; $game_index<count($_SESSION); $game_index++){
+						      $game_id = array_keys($_SESSION)[$game_index];
+						      $game_users_string = getGameUsersString($game_id);
+						      echo '<span><a href="./?game='.$game_id.'">'.$game_id.'</a>'.$game_users_string.'</span>';
+    }
+    echo '</form>';
     }
     echo '<br><br><h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
     for ($players=2; $players<=8; $players++){
-	echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
-	echo '<label for="players-'.$players.'">'.$players.'</label>';
+    echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
+    echo '<label for="players-'.$players.'">'.$players.'</label>';
     }
-    echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><input type="submit" value="Create Game"></form>';
+    echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" maxlength="16" name="nickname"><input type="submit" value="Create Game"></form>';
     die();
 }
 $game_over_text = '';
