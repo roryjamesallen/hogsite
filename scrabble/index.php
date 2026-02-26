@@ -90,7 +90,7 @@ if ($game_over){
  // JS Constants
  const original_board_state = JSON.parse(JSON.stringify(board_state));
  const original_board_state_2d = getBoardState2D(original_board_state);
- const original_words = findWords(original_board_state_2d);
+ const original_words = Object.freeze(findWords(original_board_state_2d));
  const play_button = document.getElementById('play-button');
  const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
@@ -243,42 +243,43 @@ if ($game_over){
  function validatePlacement(){
      let new_message = '';
      play_points_text.innerHTML = '';
-     const tile_coordinates = getTileCoordinates(true);
-     const direction = checkColinearity(tile_coordinates);
-     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
-     const first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board
-     if (!first_letter_coords){
+     const tile_coordinates = getTileCoordinates(true); // get array of coordinates for slots filled with tiles [[x1,y1],[x2,y2]] (active tiles only)
+     const direction = checkColinearity(tile_coordinates); // check all placed tiles are colinear
+     let board_state_2d = getBoardState2D(); // get board state as 2D array of letters (indexable as board_state_2d[x][y])
+     const first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board (doesn't really matter which one the first is)
+     if (!first_letter_coords){ // if no tiles have been placed
 	 new_message += 'you must place at least one tile<br>';
-     } else if (!direction){
+     } else if (!direction){ // if the colinear check returned false
 	 new_message += 'tiles must be in a line<br>';
-     } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
+     } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){ // check all the tiles touch
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 const total_words = findWords(getBoardState2D());
-	 const new_words = arrayDifference(total_words, original_words);
+	 const total_words = findWords(getBoardState2D()); // get an array of all words on the board (including ones placed in previous turns)
+	 const new_words = arrayDifference(total_words, original_words); // remove the words that were already there to get only the new words
 	 const word_keys = Object.keys(new_words);
-	 if (word_keys.length > 0){
-	     let max_word_points = 0;
-	     let max_word = null;
-	     for (let i=0; i<word_keys.length; ++i){ // get max values of each word
-		 const word_string = new_words[word_keys[i]]['word'];
-		 const word_coords = new_words[word_keys[i]]['coords'];
-		 const word_points = getWordPoints(word_string, word_coords);
-		 if (word_points[0] > max_word_points){
-		     max_word_points = word_points[0];
-		     max_word = word_points;
+	 if (word_keys.length > 0){ // if there are any words made
+	     let max_word_points = 0; // points earned by the highest scoring word (using all possible multipliers)
+	     let max_word = null; // string of the word that earns the highest score
+	     let word_strings = []
+	     for (let i=0; i<word_keys.length; ++i){ // for each word made on the board
+		 const word_string = new_words[word_keys[i]]['word']; // get the word as a string
+		 word_strings.push(word_string);
+		 const word_coords = new_words[word_keys[i]]['coords']; // get the coords of each letter of the word
+		 const word_points = getWordPoints(word_string, word_coords); // get the points of the whole word using any multipliers
+		 if (word_points[0] > max_word_points){ // if the word's points are the new highest
+		     max_word_points = word_points[0]; // set the new highest points int
+		     max_word = word_points; // set the new highest scoring word string
 		 }
 	     }
-	     // get points of biggest word and remove from list then subsequently get other word points using used multipliers
-	     const used_multipliers = max_word[1]; // array of used multiplier slots
-	     let total_points = max_word_points; // minimum score is max word with mults
-	     for (let i=0; i<new_words.length; ++i){ // for any other words
+	     const used_multipliers = max_word[1]; // array of used multiplier slots (highest scoring word uses them first then others can't reuse)
+	     let total_points = max_word_points; // minimum score is max word with multipliers
+	     for (let i=0; i<new_words.length; ++i){ // for any other words made
 		 if (new_words[i] != max_word){ // as long as its not the max word
-		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]);
+		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]); // add the extra word's points to the total score
 		 }
 	     }
 	     play_points = total_points;
-	     play_points_text.innerHTML = '<br>' + word_keys.join(' & ') + ' ('+total_points+'pts)';
+	     play_points_text.innerHTML = '<br>' + word_strings.join(' & ') + ' ('+total_points+'pts)';
 	 }
      }
      updateErrorMessage(new_message);
@@ -437,52 +438,53 @@ if ($game_over){
      for (y=1; y<=15; ++y){
 	 for (x=1; x<=15; ++x){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-	 letter_found = [x,y];
-	 return letter_found
-     }
+		 letter_found = [x,y];
+		 return letter_found
+	     }
 	 }
      }
      return false // no letters on board
  }
  function checkAllTilesTouch(board_state_2d, first_letter_coords){
+     board_state_2d_copy = JSON.parse(JSON.stringify(board_state_2d));
      if (first_letter_coords != false){ // if there are any letters on the board
-	 tiles_to_remove = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+	 tiles_to_remove = removeAdjacentLetters(board_state_2d_copy, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
 	 for (coord_index=0; coord_index<tiles_to_remove.length; ++coord_index){
 	     coords = tiles_to_remove[coord_index].split(':');
-	     board_state_2d[coords[0]][coords[1]] = '';
+	     board_state_2d_copy[coords[0]][coords[1]] = '';
 	 }
      } else {
 	 return true // just true if there aren't any letters down
      }
-     if (findFirstLetterCoords(board_state_2d) != false){ // if any letters still on board
+     if (findFirstLetterCoords(board_state_2d_copy) != false){ // if any letters still on board
 	 return false // not all touching
      } else {
 	 return true // must all be touching
      }
  }
-function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
-    let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
-    const coords = [x,y];
-    for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
-        if (x == null){ // not set x and y from the first tile yet
-            x = tile_coordinates[tile_index][0]; // set them
-            y = tile_coordinates[tile_index][1];
-        } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
-            if (tile_coordinates[tile_index][0] == x){ // if x is the same
-                direction = 0; // its a vertical word
-                coords[0] = x; // set the required x for the word
-            } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
-                direction = 1; // its a horizontal word
-                coords[1] = y; // set the required y for the word
-            } else { // neither x or y is the same
-                return false
-                    }
-        } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
-            return false
-                }
-    }
-    return [direction] // tiles colinear or no tiles placed
-        }
+ function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
+     let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
+     const coords = [x,y];
+     for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+         if (x == null){ // not set x and y from the first tile yet
+             x = tile_coordinates[tile_index][0]; // set them
+             y = tile_coordinates[tile_index][1];
+         } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
+             if (tile_coordinates[tile_index][0] == x){ // if x is the same
+                 direction = 0; // its a vertical word
+                 coords[0] = x; // set the required x for the word
+             } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
+                 direction = 1; // its a horizontal word
+                 coords[1] = y; // set the required y for the word
+             } else { // neither x or y is the same
+                 return false
+             }
+         } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
+             return false
+         }
+     }
+     return [direction] // tiles colinear or no tiles placed
+ }
 
  // Other Live Functions (Text etc)
  function setPlayButton(value){
