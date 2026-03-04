@@ -131,6 +131,10 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 		<img src="images/map/wisp.gif" style="width: unset; position: absolute; left: 25px; top: 15px;">
 		<img src="images/map/wisp.gif" style="width: unset; position: absolute; left: 10px; top: 0px;">		
 	    </a>
+	    <a class="map-item" id="the-studio" href="https://seasoning.live">
+		<img src="images/map/the-studio.png">
+		<span style="top: -5px; left: 50px">The Studio<br><span class="blue">Seasoning.live</span></span>
+	    </a>
 	    <a class="map-item" id="corner-shop" href="https://hogwild.uk/mealdeal">
 		<img src="images/map/corner-shop.png">
 		<span style="top: 0px; left: 30px">Corner Shop<br><span class="blue">Meal Deal Maker</span></span>
@@ -248,7 +252,8 @@ $wind_speed = $weather['current']['wind_speed_10m'].$weather['current_units']['w
 			     'casino': [-70, 190],
 			     'path-1': [-70, 120],
 			     'path-2': [-300, -150],
-			     'the-baths': [-200, -300]
+			     'the-baths': [-200, -300],
+			     'the-studio': [-190, -370]
      };
 
      // Mathematical Functions
