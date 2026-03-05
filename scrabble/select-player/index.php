@@ -30,6 +30,7 @@ if (isset($_POST['new-nickname'])){ // new nickname posted from select-player
     header('Location: ../?game='.$game_id);
 }
 
+echo '<div id="info-block" style="flex-basis: 100%; text-align: center">';
 renderHeading('../');
 echo '<br><br><h2>Who are you..?</h2>';
 echo '<form action="index.php" method="POST"><p>If you\'ve already set your nickname, choose it below and then click Rejoin Game.</p>';
@@ -39,6 +40,6 @@ for ($user=0; $user<count($game_data['users']); ++$user){
 echo '<input type="hidden" name="game" value="'.$game_id.'"><input type="submit" value="Rejoin Game"></form>';
 
 if (count($game_data['users']) < $game_data['players']){
-    echo '<form action="index.php" method="POST"><p>If you are trying to join this game for the first time, please enter the nickname you\'d like and then click Join Game</p><label for="nickname-input"></label><input id="nickname-input" maxlength="16" name="new-nickname"><input type="hidden" name="game" value="'.$game_id.'"><input type="submit" value="Join Game"></form>';
+    echo '<form action="index.php" method="POST"><p>If you are trying to join this game for the first time, please enter the nickname you\'d like and then click Join Game</p><label for="nickname-input"></label><input id="nickname-input" maxlength="16" name="new-nickname"><input type="hidden" name="game" value="'.$game_id.'"><input type="submit" value="Join Game"></form></div>';
 }
 ?>
