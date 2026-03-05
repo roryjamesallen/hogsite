@@ -4,41 +4,20 @@
 }
 :root {
     --green: #025418;
-    --dark-green:  #003206;
+    --dark-green: #003206;
     --beige: #ede4d7;
     --dark-beige: #a9a0a4;
 
-    --double-letter: #b4eefc;
-    --triple-letter: #1daee0;
-    --double-word: #fbb8c3;
-    --triple-word: #f95f6c;
-
-    --padding: 2rem;
+    --link: #069;
 }
 body {
     font-family: Melodica;
     margin: 0;
     display: flex;
-}
-#info-block, #game-block {
-    flex-basis: 50%;
-    height: fit-content;
-    padding: 2rem;
-}
-@media screen and (max-width: 1000px){
-    body {
-	flex-wrap: wrap;
-	align-content: start;
-    }
-    #info-block, #game-block {
-	flex-basis: 50%;
-	flex-grow: 1;
-    }
-}
-#info-block {
-    background: white;
-}
-#title-container {
+    align-content: start;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100vh;
 }
 h1, h2 {
     margin: 0;
@@ -51,8 +30,7 @@ h2 {
 }
 a {
     text-decoration: none;
-    color: var(--triple-word);
-    font-size: 2rem;
+    color: var(--link);
 }
 a:hover {
     text-decoration: underline;
@@ -62,26 +40,27 @@ a:hover {
     margin-top: calc(var(--padding) / 2);
     font-size: 2rem;
 }
-#error-message {
-    color: var(--triple-word);
+#game {
+    background: var(--dark-green);
+    height: 100%;
 }
-#play-points-text {
-    color: var(--triple-letter);
-}
-#title-container, #note {
-    padding: calc(var(--padding) / 2);
-    text-align: center;
-}
-
-#game-block {
-    background: white;
-}
-#rack-container {
+#game, #info-block {
+    flex-basis: 40%;
+    flex-grow: 1;
     display: flex;
-    gap: var(--padding);
+    align-content: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    max-height: 100vh;
+}
+#info-block {
+    align-content: start;
+}
+#info-block > *:not(#play-button, #rack, form) {
+    flex-basis: 100%;
 }
 #rack {
-    flex-grow: 1;
     background: var(--green);
     border-bottom: 5px solid var(--dark-green);
     box-sizing: border-box;
@@ -91,7 +70,6 @@ a:hover {
 .tile {
     height: 50px;
     aspect-ratio: 1 / 1;
-    border: 2px solid var(--dark-beige);
     border-radius: 3px;
     box-sizing: border-box;
     background-color: var(--beige);
@@ -102,22 +80,8 @@ a:hover {
 .tile-active {
     cursor: pointer;
 }
-.slot > .tile-active {
-    border-color: black;
-}
-.slot, .tile, #rack, #note {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#play-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    font-size: 2rem;
-    background: var(--beige);
-    border-radius: 3px;
+#board .tile-active {
+    border: 3px solid red;
 }
 .play-true {
     border: 2px solid black;
@@ -130,8 +94,8 @@ a:hover {
     cursor: no-drop;
 }
 #board {
-    margin-bottom: var(--padding);
-    flex-basis: 100%;
+    flex-basis: 50%;
+    flex-grow: 1;
     display: flex;
     flex-wrap: wrap;
     gap: 2px;
@@ -193,4 +157,63 @@ a:hover {
 }
 .Q:after, .Z: after {
     content: '10';
+}
+#error-message, #user-turn-text, #this-user, #points {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 2rem;
+}
+#error-message {
+    color: red;
+}
+#play-button {
+    padding: 1rem;
+    font-size: 2rem;
+    width: fit-content;
+    margin: 0 auto;
+}
+.play-true {
+    border: 2px solid red;
+    color: black;
+    background: #eee;
+    cursor: pointer;
+}
+.play-false {
+    border: 2px solid #eee;
+    color: #777;
+    background: white;
+    cursor: no-drop;
+}
+form {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.5rem auto;
+    flex-wrap: wrap;
+    width: 150px;
+}
+form > label, form > input {
+    flex-basis: 70%;
+    flex-grow: 1;
+}
+form > input[type=radio]{
+    flex-basis: 20%;
+    flex-grow: 1;
+    margin: 0;
+}
+form > input[type=button], form > p {
+    flex-basis: 100%;
+    margin: 0;
+}
+@media screen and (max-width: 1000px){
+    html {
+	font-size: 25px;
+    }
+    body {
+	align-content: start;
+    }
+    #game, #info-block {
+	flex-basis: 100%;
+	height: fit-content;
+    }
 }
