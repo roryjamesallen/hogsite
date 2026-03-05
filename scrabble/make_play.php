@@ -18,19 +18,28 @@ function removeTiles($rack, $tiles_to_remove){
     return array_diff($rack, $tiles_to_remove);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['board_state']) && isset($_POST['game_path'])){
-    $game_path = $_POST['game_path'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['board_state']) && isset($_POST['game_path']) && isset($_POST['points'])){
+    // Get POST values and game data from file
     $board_state = json_decode($_POST['board_state']);
+    $game_path = $_POST['game_path'];
+    $points = $_POST['points'];
     $game_data = json_decode(file_get_contents($game_path),true);
-    $user_played = $game_data['turn'];
 
-    $user_next = ($user_played + 1) % $game_data['players']; // increment user and wrap around
+    // Increment which user's turn it is
+    $user_played = $game_data['turn'];
+    $user_next = ($user_played + 1) % $game_data['players'];
+    
+    // Refill rack & update tilebag
     $user_object_key = $game_data['users'][$user_played]; // e.g. 0 (first user)
     $users_old_rack = $game_data[$user_object_key]['rack']; // array of the users old rack letters
     $users_new_rack = removeTiles($users_old_rack, getTileDifference($game_data['board_state'], $board_state));
     $game_data[$user_object_key]['rack'] = $users_new_rack;
     $game_data = refillRack($game_data, $game_data['users'][$user_played]);
+
+    // Add the turn's points to the user's points array
+    $game_data[$user_object_key]['points'][] = $points;
     
+    // Check if game is over
     if (count($game_data[$user_object_key]['rack']) == 0){
         $game_data['turn'] = -1; // game over, one user used all their tiles
     } else {

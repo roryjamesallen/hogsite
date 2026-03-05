@@ -20,14 +20,13 @@ body {
     height: 100vh;
 }
 h1, h2 {
-    text-align: center;
     margin: 0;
 }
 h1 {
-    font-size: 4rem;
+    font-size: 3rem;
 }
 h2 {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
 }
 a {
     text-decoration: none;
@@ -36,9 +35,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
-#toolbar {
-    margin: 0 auto;
-    gap: 1rem;
+#note {
+    border-top: 2px solid var(--triple-letter);
+    margin-top: calc(var(--padding) / 2);
     font-size: 2rem;
 }
 #game {
@@ -65,7 +64,6 @@ a:hover {
     background: var(--green);
     border-bottom: 5px solid var(--dark-green);
     box-sizing: border-box;
-    min-width: 450px;
     gap: 5px;
     padding: 5px 5px 0 5px;
 }
@@ -77,6 +75,7 @@ a:hover {
     background-color: var(--beige);
     font-size: 3rem;
     position: relative;
+    cursor: no-drop;
 }
 .tile-active {
     cursor: pointer;
@@ -84,7 +83,14 @@ a:hover {
 #board .tile-active {
     border: 3px solid red;
 }
-.tile:not(.tile-active){
+.play-true {
+    border: 2px solid black;
+    color: black;
+    background: #eee;
+    cursor: pointer;
+}
+.play-false {
+    filter: opacity(0.25);
     cursor: no-drop;
 }
 #board {
@@ -107,23 +113,20 @@ a:hover {
 }
 .slot > .tile:after {
     font-size: 1rem;
-}
-.slot, .tile, #rack, #toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    right: 0.05rem;
+    bottom: 0.05rem;
 }
 .double-letter {
-    background-color: #b4eefc;
+    background-color: var(--double-letter);
 }
 .triple-letter {
-    background-color: #1daee0;
+    background-color: var(--triple-letter);
 }
 .double-word {
-    background-color: #fbb8c3;
+    background-color: var(--double-word);
 }
 .triple-word {
-    background-color: #f95f6c;
+    background-color: var(--triple-word);
 }
 .in-hand {
     border: 2px solid white;

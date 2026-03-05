@@ -152,6 +152,11 @@
 		<h3><span class="emoji">🅾</span> Otaladle</h3>
 		<p>Stupid Wordle clone, you can guess what the word is</p>
 	    </a>
+	    <a class="grid-item" href="https://seasoning.live">
+		<img src="images/seasoning.gif">
+		<h3><span class="emoji">🔊</span> Seasoning</h3>
+		<p>Website for live events promoter</p>
+	    </a>
 	    <a class="grid-item" href="https://hogwild.uk/strobe">
 		<img src="images/strobe.gif">
 		<h3><span class="emoji">💡</span> Strobe</h3>

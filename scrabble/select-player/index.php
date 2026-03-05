@@ -39,6 +39,6 @@ for ($user=0; $user<count($game_data['users']); ++$user){
 echo '<input type="hidden" name="game" value="'.$game_id.'"><input type="submit" value="Rejoin Game"></form>';
 
 if (count($game_data['users']) < $game_data['players']){
-    echo '<form action="index.php" method="POST"><p>If you are trying to join this game for the first time, please enter the nickname you\'d like and then click Join Game</p><label for="nickname-input"></label><input id="nickname-input" name="new-nickname"><input type="hidden" name="game" value="'.$game_id.'"><input type="submit" value="Join Game"></form>';
+    echo '<form action="index.php" method="POST"><p>If you are trying to join this game for the first time, please enter the nickname you\'d like and then click Join Game</p><label for="nickname-input"></label><input id="nickname-input" maxlength="16" name="new-nickname"><input type="hidden" name="game" value="'.$game_id.'"><input type="submit" value="Join Game"></form>';
 }
 ?>

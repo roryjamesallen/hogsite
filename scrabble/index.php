@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE){
-    session_start();
+session_start();
 }
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -10,35 +10,35 @@ include 'lib.php';
 $playable = false; // read by JS
 $game_over = false;
 if (isset($_GET['game'])){
-    $game_path = gamePathFromId($_GET['game']);
-    $game_id = gameIdFromPath($game_path);
-    if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
-        renderHeading();
-        echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
-        die();
-    } else if (!isset($_SESSION[$game_id])){ // game exists but php doesn't know who is playing
-        header('Location: ./select-player?game='.$game_id);
-    } else { // playin time
-        $game_data = json_decode(file_get_contents($game_path),true);
-        $turn = $game_data['turn']; // e.g. index of currently playing user
-        if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
-            $nickname_playing = 'someone who is yet to join the game';
-        } else {
-            $nickname_playing = $game_data['users'][$turn];
-        }
-        $board_state = $game_data['board_state'];
-	$session_nickname = $_SESSION[$game_id];
-        if (array_key_exists($session_nickname,$game_data)){
-            $rack_tiles = $game_data[$session_nickname]['rack'];
-            if ($game_data['turn'] == -1){ // game is over
-                $game_over = true;
-            } else if ($nickname_playing == $session_nickname){ // this user's go
-                $playable = true;
-            }
-        } else {
-            header('Location: ./select-player?game='.$game_id);
-        }
-    }
+$game_path = gamePathFromId($_GET['game']);
+$game_id = gameIdFromPath($game_path);
+if (!file_exists($game_path)){ // if game file doesn't exist (gets made as soon as game set up)
+renderHeading();
+echo 'that game doesn\'t exist :( <a href="index.php">go home</a>';
+die();
+} else if (!isset($_SESSION[$game_id])){ // game exists but php doesn't know who is playing
+header('Location: ./select-player?game='.$game_id);
+} else { // playin time
+$game_data = json_decode(file_get_contents($game_path),true);
+$turn = $game_data['turn']; // e.g. index of currently playing user
+if ($turn >= count($game_data['users'])){ // waiting for a player who hasn't joined yet
+$nickname_playing = 'someone who is yet to join the game';
+} else {
+$nickname_playing = $game_data['users'][$turn];
+}
+$board_state = $game_data['board_state'];
+$session_nickname = $_SESSION[$game_id];
+if (array_key_exists($session_nickname,$game_data)){
+$rack_tiles = $game_data[$session_nickname]['rack'];
+if ($game_data['turn'] == -1){ // game is over
+$game_over = true;
+} else if ($nickname_playing == $session_nickname){ // this user's go
+$playable = true;
+}
+} else {
+header('Location: ./select-player?game='.$game_id);
+}
+}
 } else {
     echo '<div id="info-block">';
     renderHeading();
@@ -65,9 +65,12 @@ if ($game_over){
 	    <div id="play-button" class="play-false">PLAY</div>
 	    
 	</div>
-	<div id="game">
-	    <div id="rack"></div>
+	
+	<div id="game-block">
 	    <div id="board"></div>
+	    <div id="rack-container">
+		<div id="rack"></div><div id="play-button" class="play-false">PLAY</div>
+	    </div>
 	</div>
     </body>
 </html>
@@ -77,12 +80,12 @@ if ($game_over){
  const playable = <?php echo json_encode($playable);?>; // bool of if this user can play
  const nickname_playing = '<?php echo $nickname_playing;?>'; // nickname of playing player
  var board_state = <?php echo json_encode($board_state);?>;
- const original_board_state = JSON.parse(JSON.stringify(board_state));
- const original_board_state_2d = getBoardState2D(original_board_state);
- const original_words = findWords(original_board_state_2d);
  var rack_tiles = <?php echo json_encode($rack_tiles);?>;
  
  // JS Constants
+ const original_board_state = JSON.parse(JSON.stringify(board_state));
+ const original_board_state_2d = getBoardState2D(original_board_state);
+ const original_words = Object.freeze(findWords(original_board_state_2d));
  const play_button = document.getElementById('play-button');
  const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
@@ -125,6 +128,7 @@ if ($game_over){
 
  // Live Variables
  var tile_in_hand = false;
+ var play_points = null;
  
  // Setup Functions
  function updateUserTurnText(){
@@ -170,14 +174,14 @@ if ($game_over){
  }
  function attemptPlay(){
      if ([...play_button.classList].includes('play-true')){
-	 var dataToSend = "board_state=" + JSON.stringify(board_state) + "&game_path=" + "<?php echo $game_path;?>";
+	 var dataToSend = "board_state=" + JSON.stringify(board_state) + "&game_path=<?php echo $game_path;?>&points=" + play_points;
 	 var xhr = new XMLHttpRequest();
 	 xhr.open("POST", "make_play.php", false);
 	 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	 xhr.onreadystatechange = function () {
 	     if (xhr.readyState === XMLHttpRequest.DONE) { // request done
 		 if (xhr.status === 200) { // request successful
-             //console.log("Status:", xhr.responseText);
+		     //console.log("Status:", xhr.responseText);
 		     location.reload();
 		 } else {
 		     console.error("Error:", xhr.status);
@@ -232,21 +236,22 @@ if ($game_over){
 
  // Game Scoring Functions
  function validatePlacement(){
+     console.log(original_words);
      let new_message = '';
-     const tile_coordinates = getTileCoordinates(true);
-     const direction = checkColinearity(tile_coordinates);
-     let board_state_2d = getBoardState2D(); // board state as 2D array of letters
-     const first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board
-     if (!first_letter_coords){
+     play_points_text.innerHTML = '';
+     const tile_coordinates = getTileCoordinates(true); // get array of coordinates for slots filled with tiles [[x1,y1],[x2,y2]] (active tiles only)
+     const direction = checkColinearity(tile_coordinates); // check all placed tiles are colinear
+     let board_state_2d = getBoardState2D(); // get board state as 2D array of letters (indexable as board_state_2d[x][y])
+     const first_letter_coords = findFirstLetterCoords(board_state_2d); // get x,y of first letter on board (doesn't really matter which one the first is)
+     if (!first_letter_coords){ // if no tiles have been placed
 	 new_message += 'you must place at least one tile<br>';
-     } else if (!direction){
+     } else if (!direction){ // if the colinear check returned false
 	 new_message += 'tiles must be in a line<br>';
-     } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){
+     } else if (!checkAllTilesTouch(board_state_2d, first_letter_coords)){ // check all the tiles touch
 	 new_message += 'tiles must be touching<br>';
      } else {
-	 const original_words = findWords(getBoardState2D(original_board_state));
-	 const total_words = findWords(getBoardState2D());
-	 const new_words = arrayDifference(total_words, original_words);
+	 const total_words = findWords(getBoardState2D()); // get an array of all words on the board (including ones placed in previous turns)
+	 const new_words = arrayDifference(total_words, original_words); // remove the words that were already there to get only the new words
 	 const word_keys = Object.keys(new_words);
 	 let points_text = '';
 	 if (word_keys.length > 0){
@@ -261,12 +266,12 @@ if ($game_over){
 		     max_word = word_points;
 		 }
 	     }
-	     // get points of biggest word and remove from list then subsequently get other word points using used multipliers
-	     const used_multipliers = max_word[1]; // array of used multiplier slots
-	     let total_points = max_word_points; // minimum score is max word with mults
-	     for (let i=0; i<new_words.length; ++i){ // for any other words
-		 if (new_words[i] != max_word){ // as long as its not the max word
-		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]);
+	     let total_points = max_word_points; // minimum score is max word with multipliers
+	     for (let j=0; j<word_keys.length; ++j){ // for any other words made
+		 if (word_keys[j] != max_word_key){ // as long as its not the max word
+		     const word = new_words[word_keys[j]];
+		     const additional_points = getWordPoints(word['word'], word['coords'])[0]; // add the extra word's points to the total score
+		     total_points = total_points + additional_points;
 		 }
 	     }
 	     points_text = word_keys.join(' & ')+' ('+total_points+'pts)';
@@ -275,13 +280,21 @@ if ($game_over){
      }
      updateErrorMessage(new_message);
  }
- function arrayDifference(arr1, arr2){
-     const arr1_keys = Object.keys(arr1);
-     const arr2_keys = Object.keys(arr2);
+ function arrayDifference(arr1, arr2){ // return arr1 with arr2 values excluded
+     const arr1_keys = Object.keys(arr1); // array to copy values from
+     let arr2_keys = Object.keys(arr2); // array of values to exclude from copying
      let arr3 = {};
-     for (let i=0; i<arr1_keys.length; ++i){
-	 if (!arr2_keys.includes(arr1_keys[i])){
-	     arr3[arr1_keys[i]] = arr1[arr1_keys[i]];
+     for (let i=0; i<arr1_keys.length; ++i){ // for every arr1 key
+	 let exists = false;
+	 for (let j=0; j<arr2_keys.length; ++j){ // for every possible matching arr2 key
+	     if (arr2_keys[j] == arr1_keys[i]){ // if the arr2 key is also in arr1
+		 exists = true;
+		 arr2_keys[j] = null; // delete it (the first time its found)
+		 break; // only remove for first instance		 
+	     }
+	 }
+	 if (!exists){
+	     arr3[arr1_keys[i]] = arr1[arr1_keys[i]]; // copy the word to array 3
 	 }
      }
      return arr3;
@@ -309,10 +322,10 @@ if ($game_over){
      arr.push(''); // add a blank on the end in case a word goes up to the last index
      for (let i=0; i<arr.length; ++i){
 	 if (arr[i] != ''){
-	     if (reading_word == false){
+	     if (reading_word == false){ // start of a word		 
 		 reading_word = arr[i];
 	     } else {
-		 reading_word = reading_word + arr[i];
+		 reading_word = reading_word + arr[i]; // during a word
 	     }
 	     if (direction == 0){ // its a row
 		 word_coords.push([i, other_coord]);
@@ -322,7 +335,10 @@ if ($game_over){
 	 } else {
 	     if (reading_word != false){ // end of a word
 		 if (word_coords.length > min_length){
-		     words[reading_word] = word_coords;
+		     const key = (word_coords[0] + word_coords[word_coords.length - 1]).replaceAll(',',''); // no other word will have the same start and end coords so this is a unique key
+		     words[key] = {};
+		     words[key]['word'] = reading_word;
+		     words[key]['coords'] = word_coords;
 		 }
 		 word_coords = [];
 		 reading_word = false;
@@ -331,7 +347,10 @@ if ($game_over){
      }
      return words;
  }
- function getWordPoints(word, word_coords, used_multipliers=[]){ // WORD: [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
+ function flattenCoords(x,y){
+     return x + (y * 15);
+ }
+ function getWordPoints(word, word_coords, used_multipliers=[]){
      let word_score = 0;
      let word_multipliers = [];
      for (let coord_index=0; coord_index<word_coords.length; ++coord_index){ // for each letter in the word
@@ -341,8 +360,8 @@ if ($game_over){
 	 const flat_coordinate = x + (y * 15); // to access flat array instead of 2d
 	 const letter_multiplier = board_slots[flat_coordinate]; // board slot multiplier
 	 let letter_score = letter_points[word[coord_index]]; // letter score with no multiplier
-	 console.log('word '+word+' letter '+word[coord_index]+' points '+letter_score);
-	 if (!used_multipliers.includes([x,y])){
+	 
+	 if (!used_multipliers.includes([x,y]) && document.getElementById('slot-'+flattenCoords(x,y)).firstChild.classList.contains('tile-active')){
 	     if (letter_multiplier == 1){
 		 letter_score = letter_score * 2;
 	     } else if (letter_multiplier == 2){
@@ -354,10 +373,11 @@ if ($game_over){
 	     }
 	     used_multipliers.push([x,y]);
 	 }
+	 console.log('word '+word+' letter '+word[coord_index]+' points '+letter_score);
 	 word_score = word_score + letter_score;
      }
-     for (word_multiplier=0; word_multiplier<word_multipliers.length; ++word_multiplier){
-	 word_score = word_score * word_multipliers[word_multiplier];
+     for (word_multiplier=0; word_multiplier<word_multipliers.length; ++word_multiplier){ // in case there are multiple word multipliers
+	 word_score = word_score * word_multipliers[word_multiplier]; // apply each word multiplier
      }
      return [word_score, used_multipliers];
  }
@@ -370,10 +390,7 @@ if ($game_over){
 	 const column_array = board_state_2d[roc];
 	 const column_words = findWordsWithCoords(column_array, roc, 1);
 
-	 words = Object.assign({}, words, column_words, row_words);
-
-	 //let column_words = removeBlanks(board_state_2d[column].join('').split(' '),2);
-	 //let row_words = removeBlanks(getRowAsArray(column, board_state_2d).join('').split(' '),2);
+	 words = Object.assign({}, words, column_words, row_words);	 
      }
      return words;
  }
@@ -420,52 +437,53 @@ if ($game_over){
      for (y=1; y<=15; ++y){
 	 for (x=1; x<=15; ++x){
 	     if (board_state_2d[x][y] != ''){ // if there's a letter there
-	 letter_found = [x,y];
-	 return letter_found
-     }
+		 letter_found = [x,y];
+		 return letter_found
+	     }
 	 }
      }
      return false // no letters on board
  }
  function checkAllTilesTouch(board_state_2d, first_letter_coords){
+     board_state_2d_copy = JSON.parse(JSON.stringify(board_state_2d));
      if (first_letter_coords != false){ // if there are any letters on the board
-	 tiles_to_remove = removeAdjacentLetters(board_state_2d, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
+	 tiles_to_remove = removeAdjacentLetters(board_state_2d_copy, first_letter_coords[0], first_letter_coords[1]); // recursively remove all touching letters
 	 for (coord_index=0; coord_index<tiles_to_remove.length; ++coord_index){
 	     coords = tiles_to_remove[coord_index].split(':');
-	     board_state_2d[coords[0]][coords[1]] = '';
+	     board_state_2d_copy[coords[0]][coords[1]] = '';
 	 }
      } else {
 	 return true // just true if there aren't any letters down
      }
-     if (findFirstLetterCoords(board_state_2d) != false){ // if any letters still on board
+     if (findFirstLetterCoords(board_state_2d_copy) != false){ // if any letters still on board
 	 return false // not all touching
      } else {
 	 return true // must all be touching
      }
  }
-function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
-    let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
-    const coords = [x,y];
-    for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
-        if (x == null){ // not set x and y from the first tile yet
-            x = tile_coordinates[tile_index][0]; // set them
-            y = tile_coordinates[tile_index][1];
-        } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
-            if (tile_coordinates[tile_index][0] == x){ // if x is the same
-                direction = 0; // its a vertical word
-                coords[0] = x; // set the required x for the word
-            } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
-                direction = 1; // its a horizontal word
-                coords[1] = y; // set the required y for the word
-            } else { // neither x or y is the same
-                return false
-                    }
-        } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
-            return false
-                }
-    }
-    return [direction] // tiles colinear or no tiles placed
-        }
+ function checkColinearity(tile_coordinates){ // check all placed tiles are colinear
+     let x = y = direction = null; // will contain the row/column value (0-15 each) of the placed word
+     const coords = [x,y];
+     for (tile_index=0; tile_index<tile_coordinates.length; ++tile_index){
+         if (x == null){ // not set x and y from the first tile yet
+             x = tile_coordinates[tile_index][0]; // set them
+             y = tile_coordinates[tile_index][1];
+         } else if (direction == null){ // direction not yet set but not the first tile being checked (second tile being checked)
+             if (tile_coordinates[tile_index][0] == x){ // if x is the same
+                 direction = 0; // its a vertical word
+                 coords[0] = x; // set the required x for the word
+             } else if (tile_coordinates[tile_index][1] == y){ // or if y is the same
+                 direction = 1; // its a horizontal word
+                 coords[1] = y; // set the required y for the word
+             } else { // neither x or y is the same
+                 return false
+             }
+         } else if (tile_coordinates[tile_index][direction] != coords[direction]){ // if direction set but this letter not in the line
+             return false
+         }
+     }
+     return [direction] // tiles colinear or no tiles placed
+ }
 
  // Other Live Functions (Text etc)
  function setPlayButton(value){
