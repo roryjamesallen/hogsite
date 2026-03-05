@@ -40,22 +40,13 @@ if (isset($_GET['game'])){
         }
     }
 } else {
+    echo '<div id="info-block">';
     renderHeading();
     if (count($_SESSION) > 0){
-	echo '<br><br><h2>Rejoin Game</h2><form>';
-	for ($game_index=0; $game_index<count($_SESSION); $game_index++){
-	    $game_id = array_keys($_SESSION)[$game_index];
-	    $game_users_string = getGameUsersString($game_id);
-	    echo '<span><a href="./?game='.$game_id.'">'.$game_id.'</a>'.$game_users_string.'</span>';
-	}
-	echo '</form>';
+	renderSessionGames();
     }
-    echo '<br><br><h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
-    for ($players=2; $players<=8; $players++){
-	echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
-	echo '<label for="players-'.$players.'">'.$players.'</label>';
-    }
-    echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><input type="submit" value="Create Game"></form>';
+    renderCreateGameForm();
+    echo '</div>';
     die();
 }
 $game_over_text = '';
@@ -70,6 +61,7 @@ if ($game_over){
 	    <?php renderHeading();?>
 	    <div id="this-user">You are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><?php echo $game_over_text;?></div>
 	    <div id="error-message"></div>
+	    <div id="points"></div>
 	    <div id="play-button" class="play-false">PLAY</div>
 	    
 	</div>
@@ -94,6 +86,7 @@ if ($game_over){
  const play_button = document.getElementById('play-button');
  const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
+ const points_message = document.getElementById('points');
  const rack = document.getElementById('rack');
  const board = document.getElementById('board');
  const score_multiplier_reference = {
@@ -255,6 +248,7 @@ if ($game_over){
 	 const total_words = findWords(getBoardState2D());
 	 const new_words = arrayDifference(total_words, original_words);
 	 const word_keys = Object.keys(new_words);
+	 let points_text = '';
 	 if (word_keys.length > 0){
 	     let max_word_points = 0;
 	     let max_word = null;
@@ -275,7 +269,8 @@ if ($game_over){
 		     total_points = total_points + getWordPoints(word_keys[i], new_words[word_string]);
 		 }
 	     }
-	     new_message += word_keys.join(' & ')+' ('+total_points+'pts)';
+	     points_text = word_keys.join(' & ')+' ('+total_points+'pts)';
+	     updatePointsText(points_text);
 	 }
      }
      updateErrorMessage(new_message);
@@ -487,9 +482,12 @@ function checkColinearity(tile_coordinates){ // check all placed tiles are colin
 	 setPlayButton(true); // make play button active if there's not an error
      }
  }
- 
- // Setup (On Window Load)
- window.addEventListener("load", (event) => {
+ function updatePointsText(text){
+     points_message.innerText = text;
+ }
+     
+     // Setup (On Window Load)
+     window.addEventListener("load", (event) => {
      generateBoardSlots();
      generateRackTiles();
      updateUserTurnText();
