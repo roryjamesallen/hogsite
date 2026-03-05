@@ -44,8 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['players']) && isset($_
     file_put_contents($game_path, $game_data);
     
     $_SESSION[$game_id] = $_POST['nickname'];
-    echo '<div id="info-block">';
-    renderHeading();
-    echo '</div><h3 style="flex-basis: 100%; text-align: center; font-size: 2rem;">Send this link to your pals: <a href="https://scrabble.hogwild.uk?game='.$game_id.'">https://scrabble.hogwild.uk?game='.$game_id.'</a></h3>';
+    echo 'send this link to your pals: <a href="https://scrabble.hogwild.uk?game='.$game_id.'">https://scrabble.hogwild.uk?game='.$game_id.'</a>';
 }
 ?>

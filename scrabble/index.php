@@ -40,13 +40,22 @@ header('Location: ./select-player?game='.$game_id);
 }
 }
 } else {
-    echo '<div id="info-block">';
-    renderHeading();
-    if (count($_SESSION) > 0){
-	renderSessionGames();
+renderHeading();
+if (count($_SESSION) > 0){
+echo '<br><br><h2>Rejoin Game</h2><form>';
+    for ($game_index=0; $game_index<count($_SESSION); $game_index++){
+						      $game_id = array_keys($_SESSION)[$game_index];
+						      $game_users_string = getGameUsersString($game_id);
+						      echo '<span><a href="./?game='.$game_id.'">'.$game_id.'</a>'.$game_users_string.'</span>';
     }
-    renderCreateGameForm();
-    echo '</div>';
+    echo '</form>';
+    }
+    echo '<br><br><h2>Create Game</h2><form action="create_game.php" method="POST"><p>Number of Players:</p>';
+    for ($players=2; $players<=8; $players++){
+    echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
+    echo '<label for="players-'.$players.'">'.$players.'</label>';
+    }
+    echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" maxlength="16" name="nickname"><input type="submit" value="Create Game"></form>';
     die();
 }
 $game_over_text = '';
@@ -59,11 +68,10 @@ if ($game_over){
     <body>
 	<div id="info-block">
 	    <?php renderHeading();?>
-	    <div id="this-user">You are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><?php echo $game_over_text;?></div>
-	    <div id="error-message"></div>
-	    <div id="points"></div>
-	    <div id="play-button" class="play-false">PLAY</div>
-	    
+	    <div id="note">
+		<div id="this-user">you are <?php echo $session_nickname;?>. <span id="user-turn-text"></span><span id="play-points-text"></span><?php echo $game_over_text;?></div>
+		<div id="error-message"></div>
+	    </div>
 	</div>
 	
 	<div id="game-block">
@@ -89,7 +97,7 @@ if ($game_over){
  const play_button = document.getElementById('play-button');
  const user_turn_text = document.getElementById('user-turn-text');
  const error_message = document.getElementById('error-message');
- const points_message = document.getElementById('points');
+ const play_points_text = document.getElementById('play-points-text');
  const rack = document.getElementById('rack');
  const board = document.getElementById('board');
  const score_multiplier_reference = {
@@ -253,17 +261,23 @@ if ($game_over){
 	 const total_words = findWords(getBoardState2D()); // get an array of all words on the board (including ones placed in previous turns)
 	 const new_words = arrayDifference(total_words, original_words); // remove the words that were already there to get only the new words
 	 const word_keys = Object.keys(new_words);
-	 let points_text = '';
-	 if (word_keys.length > 0){
-	     let max_word_points = 0;
-	     let max_word = null;
-	     for (let i=0; i<word_keys.length; ++i){ // get max values of each word
-		 const word_string = word_keys[i];
-		 const word_coords = new_words[word_string];
-		 const word_points = getWordPoints(word_string, word_coords);
-		 if (word_points[0] > max_word_points){
-		     max_word_points = word_points[0];
-		     max_word = word_points;
+	 if (word_keys.length > 0){ // if there are any words made
+	     let max_word_points = 0; // points earned by the highest scoring word (using all possible multipliers)
+	     let max_word = null; // string of the word that earns the highest score
+	     let max_word_key = null;
+	     let word_strings = [];
+	     let used_multipliers = null;
+	     for (let i=0; i<word_keys.length; ++i){ // for each NEW word made on the board
+		 const word_string = new_words[word_keys[i]]['word']; // get the word as a string
+		 word_strings.push(word_string); // add the string to an array to be used in the note shown to the user
+		 const word_coords = new_words[word_keys[i]]['coords']; // get the coords of each letter of the word
+		 const word_points = getWordPoints(word_string, word_coords); // get the points of the whole word using any multipliers
+		 if (word_points[0] > max_word_points){ // if the word's points are the new highest
+		     max_word_points = word_points[0]; // set the new highest points int
+		     console.log('maxpoints '+max_word_points);
+		     max_word = word_points; // set the new highest scoring word string
+		     used_multipliers = word_points[1]; // set the multipliers used by the highest scoring word
+		     max_word_key = word_keys[i]; // set the key of the max word in the word_keys array
 		 }
 	     }
 	     let total_points = max_word_points; // minimum score is max word with multipliers
@@ -274,8 +288,8 @@ if ($game_over){
 		     total_points = total_points + additional_points;
 		 }
 	     }
-	     points_text = word_keys.join(' & ')+' ('+total_points+'pts)';
-	     updatePointsText(points_text);
+	     play_points = total_points;
+	     play_points_text.innerHTML = '<br>' + word_strings.join(' & ') + ' ('+total_points+'pts)';
 	 }
      }
      updateErrorMessage(new_message);
@@ -500,12 +514,9 @@ if ($game_over){
 	 setPlayButton(true); // make play button active if there's not an error
      }
  }
- function updatePointsText(text){
-     points_message.innerText = text;
- }
-     
-     // Setup (On Window Load)
-     window.addEventListener("load", (event) => {
+ 
+ // Setup (On Window Load)
+ window.addEventListener("load", (event) => {
      generateBoardSlots();
      generateRackTiles();
      updateUserTurnText();

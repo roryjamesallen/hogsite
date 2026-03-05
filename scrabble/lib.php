@@ -30,21 +30,4 @@ function getGameUsersString($game_id){
 	return ' (waiting for users)';
     }
 }
-function renderSessionGames(){
-    echo '<br><br><h2>Rejoin Game</h2><form>';
-    for ($game_index=0; $game_index<count($_SESSION); $game_index++){
-	$game_id = array_keys($_SESSION)[$game_index];
-	$game_users_string = getGameUsersString($game_id);
-	echo '<span><a href="./?game='.$game_id.'">'.$game_id.'</a>'.$game_users_string.'</span>';
-    }
-    echo '</form>';
-}
-function renderCreateGameForm(){
-    echo '<br><br><h2>Create Game</h2><form action="create_game.php" method="POST" style="margin-bottom: 5rem;"><p>Number of Players:</p>';
-    for ($players=2; $players<=8; $players++){
-	echo '<input type="radio" name="players" value="'.$players.'" id="players-'.$players.'">';
-	echo '<label for="players-'.$players.'">'.$players.'</label>';
-    }
-    echo '<label for="nickname-input">Your Nickname</label><input id="nickname-input" name="nickname"><input type="submit" value="Create Game"></form>';
-}
 ?>
